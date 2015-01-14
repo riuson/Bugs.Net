@@ -2,6 +2,8 @@
 using AppCore.Menus;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,13 +15,17 @@ namespace AppCore.Plugins
 {
     internal class Plugins : IPlugins, IDisposable
     {
-        private List<IPlugin> mPlugins;
+        private CompositionContainer mContainer;
+        [ImportMany]
+        private IEnumerable<Lazy<IPlugin>> mLazyPlugins;
+        private IEnumerable<IPlugin> mPlugins;
+
         private IApplication mApp;
 
         public Plugins(IApplication app)
         {
             this.mApp = app;
-            this.mPlugins = this.ScanPlugins(this.mApp);
+            this.mPlugins = this.ScanPluginsMEF(this.mApp);
         }
 
         public void Dispose()
@@ -48,10 +54,12 @@ namespace AppCore.Plugins
         {
             List<IPlugin> result = new List<IPlugin>();
 
-            var files = this.GetLibraries();
-
             try
             {
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                var files = this.GetLibraries();
+
                 var plugins = from filename in files.AsParallel()
                               let assembly = Assembly.LoadFile(filename)
                               from attribute in assembly.GetCustomAttributes(typeof(AssemblyPluginTypeAttribute), false).AsParallel()
@@ -63,10 +71,10 @@ namespace AppCore.Plugins
 
                 result = plugins.ToList();
 
-                Parallel.ForEach(result, (plugin) =>
-                    {
-                        plugin.Initialize(app);
-                    });
+                this.InitializeAll(app, result);
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
             }
             catch (Exception exc)
             {
@@ -74,6 +82,48 @@ namespace AppCore.Plugins
             }
 
             return result;
+        }
+
+        private List<IPlugin> ScanPluginsMEF(IApplication app)
+        {
+            List<IPlugin> result = new List<IPlugin>();
+            try
+            {
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                var catalog = new AggregateCatalog();
+
+                foreach (var dir in this.GetDirectories())
+                {
+                    catalog.Catalogs.Add(new DirectoryCatalog(dir));
+                }
+
+                this.mContainer = new CompositionContainer(catalog);
+                this.mContainer.ComposeParts(this);
+                result = this.mLazyPlugins.Select(x => x.Value).ToList();
+                this.InitializeAll(app, result);
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+            }
+            catch (CompositionException exc)
+            {
+                System.Diagnostics.Debug.WriteLine(exc.Message);
+            }
+            catch (Exception exc)
+            {
+                System.Diagnostics.Debug.WriteLine(exc.Message);
+            }
+
+            return result;
+        }
+
+        private void InitializeAll(IApplication app, IEnumerable<IPlugin> plugins)
+        {
+            Parallel.ForEach(plugins, (plugin) =>
+            {
+                plugin.Initialize(app);
+            });
         }
 
         private void StartAll(IEnumerable<IPlugin> plugins)
@@ -112,6 +162,16 @@ namespace AppCore.Plugins
                         select file;
 
             return files;
+        }
+
+        private IEnumerable<String> GetDirectories()
+        {
+            // List of files
+            var files = from file in Directory.EnumerateFiles(this.GetExeDirectory(), "*.*", SearchOption.AllDirectories)
+                        let dir = Path.GetDirectoryName(file)
+                        where !dir.EndsWith("x86") && !dir.EndsWith("x64") // Remove x86/x64
+                        select dir;
+            return files.Distinct();
         }
     }
 }

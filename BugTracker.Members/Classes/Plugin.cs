@@ -11,12 +11,14 @@ using BugTracker.Members.Controls;
 using BugTracker.Members.Events;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BugTracker.Members.Classes
 {
+    [Export(typeof(IPlugin))]
     internal class Plugin : IPlugin
     {
         private IApplication mApp;

@@ -10,6 +10,7 @@ using BugTracker.DB.Events;
 using BugTracker.Vocabulary.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -18,6 +19,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Vocabulary.Classes
 {
+    [Export(typeof(IPlugin))]
     internal class Plugin : IPlugin
     {
         private IApplication mApp;

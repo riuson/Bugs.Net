@@ -6,6 +6,7 @@ using AppCore.Messages;
 using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using Updater.FileSystem.Setup;
 
 namespace Updater.FileSystem.Classes
 {
+    [Export(typeof(IPlugin))]
     internal class Plugin : IPlugin
     {
         private IApplication mApp;

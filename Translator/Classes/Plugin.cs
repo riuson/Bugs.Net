@@ -5,6 +5,7 @@ using AppCore.Menus;
 using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ using Translator.Controls;
 
 namespace Translator.Classes
 {
+    [Export(typeof(IPlugin))]
     internal class Plugin : IPlugin
     {
         private IApplication mApp;

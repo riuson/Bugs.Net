@@ -6,6 +6,7 @@ using AppCore.Menus;
 using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Forms;
 
 namespace About.Classes
 {
+    [Export(typeof(IPlugin))]
     internal class Plugin : IPlugin
     {
         private IApplication mApp;

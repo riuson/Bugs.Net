@@ -7,12 +7,14 @@ using BugTracker.DB.Events;
 using BugTracker.TicketEditor.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BugTracker.TicketEditor.Classes
 {
+    [Export(typeof(IPlugin))]
     internal class Plugin : IPlugin
     {
         private IApplication mApp;
