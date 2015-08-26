@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_GisEkEwREeWgSrY1lZyrrQ" name="NewModel"/>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_GisEkEwREeWgSrY1lZyrrQ" name="Database">
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_ctLJwEwREeWgSrY1lZyrrQ" name="Integer"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_eGLkEEwREeWgSrY1lZyrrQ" name="String"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_fEJBIEwREeWgSrY1lZyrrQ" name="DateTime"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_gDgzcEwREeWgSrY1lZyrrQ" name="Text"/>
+</uml:Model>
