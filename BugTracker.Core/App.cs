@@ -14,6 +14,7 @@ namespace BugTracker.Core
     {
         private ControlContainer mContainer;
         private MainWindow mWindow;
+        private Plugins mPlugins;
 
         public App()
         {
@@ -22,7 +23,7 @@ namespace BugTracker.Core
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            this.Plugins = new Plugins();
+            this.mPlugins = new Plugins();
 
             this.mWindow = new MainWindow(this);
             this.mWindow.FormClosed += this.mWindow_FormClosed;
@@ -51,6 +52,6 @@ namespace BugTracker.Core
             this.Exit();
         }
 
-        public Plugins Plugins { get; private set; }
+        public IPlugins Plugins { get { return this.mPlugins; } }
     }
 }

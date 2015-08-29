@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Classes
 {
-    public class Plugins
+    public class Plugins : IPlugins
     {
         private List<IPluginInfo> mPlugins;
 
