@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core
 {
-    public class App : IDisposable
+    public class App : MarshalByRefObject, IDisposable
     {
         private ControlContainer mContainer;
         private MainWindow mWindow;
@@ -28,6 +28,11 @@ namespace BugTracker.Core
             this.mWindow.Close();
             this.mWindow.Dispose();
             this.mContainer.Dispose();
+        }
+
+        public void Run()
+        {
+            Application.Run();
         }
 
         public void Exit()

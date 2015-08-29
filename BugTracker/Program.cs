@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using BugTracker.Core;
+using BugTracker.Classes;
 
 namespace BugTracker
 {
@@ -17,9 +18,9 @@ namespace BugTracker
 
             try
             {
-                using (App app = new App())
+                using (Domain<App> appInDomain = new Domain<App>())
                 {
-                    Application.Run();
+                    appInDomain.Object.Run();
                 }
             }
             catch (Exception e)
