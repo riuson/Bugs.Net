@@ -44,6 +44,10 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
+    <Compile Include="Classes\MenuButton.cs" />
+    <Compile Include="Controls\CommandLinkButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
