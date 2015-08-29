@@ -48,6 +48,9 @@
     <Compile Include="Controls\CommandLinkButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\MenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
