@@ -52,6 +52,9 @@
     <Compile Include="Controls\MenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\StartMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

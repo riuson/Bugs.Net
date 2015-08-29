@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BugTracker.Core.Classes;
+using BugTracker.Core.Controls;
+using BugTracker.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +21,10 @@ namespace BugTracker.Core.Forms
             InitializeComponent();
 
             this.mApp = app;
+
+            StartMenu menu = new StartMenu(this.mApp);
+            this.Controls.Add(menu);
+            menu.Dock = DockStyle.Fill;
         }
     }
 }
