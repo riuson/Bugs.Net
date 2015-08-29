@@ -1,6 +1,4 @@
-﻿using BugTracker.DB;
-using NHibernate;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,19 +15,6 @@ namespace BugTracker
         public Form1()
         {
             InitializeComponent();
-
-            try
-            {
-                using (ISession session = Database.Instance.SessionFactory.OpenSession())
-                {
-                    using (ITransaction transaction = session.BeginTransaction())
-                    {
-                    }
-                }
-            }
-            catch(Exception exc)
-            {
-            }
         }
     }
 }
