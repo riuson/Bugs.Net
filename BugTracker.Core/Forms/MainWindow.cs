@@ -11,9 +11,13 @@ namespace BugTracker.Core.Forms
 {
     public partial class MainWindow : Form
     {
-        public MainWindow()
+        private IApplication mApp;
+
+        public MainWindow(IApplication app)
         {
             InitializeComponent();
+
+            this.mApp = app;
         }
     }
 }
