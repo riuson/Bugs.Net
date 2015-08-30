@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
+    <Compile Include="Classes\ControlManager.cs" />
     <Compile Include="Classes\MenuButton.cs" />
     <Compile Include="Classes\Plugins.cs" />
     <Compile Include="Controls\CommandLinkButton.cs">
@@ -62,11 +63,16 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IApplication.cs" />
+    <Compile Include="Interfaces\IControlManager.cs" />
     <Compile Include="Interfaces\IPluginInfo.cs" />
     <Compile Include="Interfaces\IPlugins.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

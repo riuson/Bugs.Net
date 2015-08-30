@@ -9,6 +9,7 @@ namespace BugTracker.Core.Interfaces
     public interface IApplication
     {
         IPlugins Plugins { get; }
+        IControlManager Controls { get; }
 
         void Exit();
     }

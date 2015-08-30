@@ -15,16 +15,37 @@ namespace BugTracker.Core.Forms
     public partial class MainWindow : Form
     {
         private IApplication mApp;
+        private ControlManager mControls;
 
         public MainWindow(IApplication app)
         {
             InitializeComponent();
 
             this.mApp = app;
+            this.mControls = new ControlManager();
+            this.mControls.ControlShow += this.mControls_ControlShow;
+            this.mControls.ControlHide += this.mControls_ControlHide;
 
             StartMenu menu = new StartMenu(this.mApp);
-            this.Controls.Add(menu);
-            menu.Dock = DockStyle.Fill;
+            this.mControls.Show(menu);
+        }
+
+        public IControlManager ControlManager
+        {
+            get { return this.mControls; }
+        }
+
+        private void mControls_ControlHide(object sender, ControlManager.ControlChangeEventArgs e)
+        {
+            e.Control.Hide();
+            this.panelControls.Controls.Remove(e.Control);
+        }
+
+        private void mControls_ControlShow(object sender, ControlManager.ControlChangeEventArgs e)
+        {
+            this.panelControls.Controls.Add(e.Control);
+            e.Control.Show();
+            e.Control.Dock = DockStyle.Fill;
         }
     }
 }

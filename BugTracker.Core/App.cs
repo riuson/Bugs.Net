@@ -53,5 +53,7 @@ namespace BugTracker.Core
         }
 
         public IPlugins Plugins { get { return this.mPlugins; } }
+
+        public IControlManager Controls { get { return this.mWindow.ControlManager; } }
     }
 }
