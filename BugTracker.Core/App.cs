@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Forms;
+using BugTracker.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,22 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core
 {
-    public class App : MarshalByRefObject, IDisposable
+    public class App : MarshalByRefObject, IDisposable, IApplication
     {
         private ControlContainer mContainer;
         private MainWindow mWindow;
+        private Plugins mPlugins;
 
         public App()
         {
             this.mContainer = new ControlContainer();
 
-            this.mWindow = new MainWindow();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            this.mPlugins = new Plugins();
+
+            this.mWindow = new MainWindow(this);
             this.mWindow.FormClosed += this.mWindow_FormClosed;
             this.mWindow.Show();
         }
@@ -44,5 +51,9 @@ namespace BugTracker.Core
         {
             this.Exit();
         }
+
+        public IPlugins Plugins { get { return this.mPlugins; } }
+
+        public IControlManager Controls { get { return this.mWindow.ControlManager; } }
     }
 }

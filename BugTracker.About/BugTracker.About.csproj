@@ -4,20 +4,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88B80997-3B6A-4D74-B0AF-50A397F69D99}</ProjectGuid>
+    <ProjectGuid>{5C9BCA76-89DD-418D-95E0-9570EA76804E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BugTracker.Core</RootNamespace>
-    <AssemblyName>BugTracker.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>BugTracker.About</RootNamespace>
+    <AssemblyName>BugTracker.About</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\_Debug\</OutputPath>
+    <OutputPath>..\_Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\_Release\</OutputPath>
+    <OutputPath>..\_Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,39 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
-    <Compile Include="Classes\ControlContainer.cs" />
-    <Compile Include="Classes\ControlManager.cs" />
-    <Compile Include="Classes\MenuButton.cs" />
-    <Compile Include="Classes\Plugins.cs" />
-    <Compile Include="Controls\CommandLinkButton.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Classes\PluginInfo.cs" />
+    <Compile Include="Controls\ControlAbout.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\MenuPanel.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Controls\ControlAbout.Designer.cs">
+      <DependentUpon>ControlAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NavigationBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\StartMenu.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\MainWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Interfaces\IApplication.cs" />
-    <Compile Include="Interfaces\IControlManager.cs" />
-    <Compile Include="Interfaces\IPluginInfo.cs" />
-    <Compile Include="Interfaces\IPlugins.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\ControlAbout.resx">
+      <DependentUpon>ControlAbout.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
+      <Project>{88b80997-3b6a-4d74-b0af-50a397f69d99}</Project>
+      <Name>BugTracker.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
