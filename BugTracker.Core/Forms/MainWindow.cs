@@ -54,5 +54,15 @@ namespace BugTracker.Core.Forms
         {
             this.mControls.Hide(e.Steps);
         }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            int count = this.mControls.Titles.Count();
+
+            if (count > 1)
+            {
+                this.mControls.Hide(count - 1);
+            }
+        }
     }
 }
