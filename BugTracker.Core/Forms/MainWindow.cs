@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Forms
 {
-    public partial class MainWindow : Form
+    internal partial class MainWindow : Form
     {
         private IApplication mApp;
         private ControlManager mControls;
@@ -53,6 +53,16 @@ namespace BugTracker.Core.Forms
         private void navigationBar_Navigate(object sender, NavigationBar.NavigateEventArgs e)
         {
             this.mControls.Hide(e.Steps);
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            int count = this.mControls.Titles.Count();
+
+            if (count > 1)
+            {
+                this.mControls.Hide(count - 1);
+            }
         }
     }
 }

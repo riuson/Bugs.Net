@@ -11,7 +11,7 @@ using BugTracker.Core.Interfaces;
 
 namespace BugTracker.About.Controls
 {
-    public partial class ControlAbout : UserControl
+    internal partial class ControlAbout : UserControl
     {
         public ControlAbout(IApplication app)
         {

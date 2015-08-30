@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("BugTracker.Core")]
-[assembly: AssemblyDescription("Application core classes")]
+[assembly: AssemblyTitle("BugTracker.Settings")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -17,4 +17,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("242708d0-b5e4-4848-83fb-b9aebf8ce8b9")]
+[assembly: Guid("1cf027b3-7ea4-4f72-ad2e-7153e90f3272")]

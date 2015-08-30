@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BugTracker.Core.Classes
 {
-    public class ControlContainer : IContainer
+    internal class ControlContainer : IContainer
     {
         private ComponentCollection mComponents;
 

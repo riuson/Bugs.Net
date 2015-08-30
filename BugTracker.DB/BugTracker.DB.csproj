@@ -76,7 +76,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\PluginInfo.cs" />
+    <Compile Include="Controls\ControlSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlSettings.Designer.cs">
+      <DependentUpon>ControlSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database.cs" />
     <Compile Include="Interfaces\IVocabulary.cs" />
     <Compile Include="Models\Enitities\Attachment.cs" />
@@ -95,7 +103,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlSettings.resx">
+      <DependentUpon>ControlSettings.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
       <Project>{88b80997-3b6a-4d74-b0af-50a397f69d99}</Project>

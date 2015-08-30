@@ -62,6 +62,7 @@
             this.Name = "MainWindow";
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "MainWindow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

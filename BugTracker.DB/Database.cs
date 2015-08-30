@@ -1,4 +1,6 @@
-﻿using FluentNHibernate.Automapping;
+﻿using BugTracker.Core.Classes;
+using BugTracker.DB.Classes;
+using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -39,7 +41,7 @@ namespace BugTracker.DB
         /// </summary>
         private Database()
         {
-            this.mDatabaseFile = this.DefaultDatabaseFilename;
+            this.mDatabaseFile = Saved<Options>.Instance.FileName;
             this.SessionFactory = this.BuildSessionFactory();
         }
 
@@ -54,18 +56,6 @@ namespace BugTracker.DB
         public ISessionFactory SessionFactory { get; private set; }
 
         private string mDatabaseFile;
-
-        private string DefaultDatabaseFilename
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                path = Path.GetDirectoryName(path);
-                return Path.Combine(path, "database.sqlite");
-            }
-        }
 
         private ISessionFactory BuildSessionFactory()
         {
