@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
+using BugTracker.DB.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,14 @@ namespace BugTracker.DB.Classes
             {
                 case "settings":
                     {
-                        Button btn = MenuButton.Create("Database", "Configure database");
-                        return new Button[] { btn };
+                        Button buttonSettings = MenuButton.Create("Database", "Configure database");
+                        buttonSettings.Click += delegate(object sender, EventArgs ea)
+                        {
+                            ControlSettings controlSettings = new ControlSettings(app);
+                            app.Controls.Show(controlSettings);
+                        };
+
+                        return new Button[] { buttonSettings };
                     }
                 default:
                     return new Button[] { };
