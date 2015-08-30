@@ -16,6 +16,7 @@ namespace BugTracker.About.Controls
         public ControlAbout(IApplication app)
         {
             InitializeComponent();
+            this.Text = "About";
         }
     }
 }

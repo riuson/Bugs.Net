@@ -13,6 +13,7 @@ namespace BugTracker.Core.Controls
 
         public StartMenu(IApplication app)
         {
+            this.Text = "Start";
             this.mApp = app;
 
             Button[] btns = this.mApp.Plugins.CollectCommandLinks(this.mApp, "startpage");

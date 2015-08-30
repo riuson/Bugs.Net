@@ -39,6 +39,7 @@ namespace BugTracker.Core.Forms
         {
             e.Control.Hide();
             this.panelControls.Controls.Remove(e.Control);
+            this.navigationBar.UpdateTitles(this.mControls.Titles);
         }
 
         private void mControls_ControlShow(object sender, ControlManager.ControlChangeEventArgs e)
@@ -46,6 +47,12 @@ namespace BugTracker.Core.Forms
             this.panelControls.Controls.Add(e.Control);
             e.Control.Show();
             e.Control.Dock = DockStyle.Fill;
+            this.navigationBar.UpdateTitles(this.mControls.Titles);
+        }
+
+        private void navigationBar_Navigate(object sender, NavigationBar.NavigateEventArgs e)
+        {
+            this.mControls.Hide(e.Steps);
         }
     }
 }

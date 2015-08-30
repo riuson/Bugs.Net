@@ -10,6 +10,8 @@ namespace BugTracker.Core.Interfaces
     {
         void Show(Control ctrl);
         void Hide(Control ctrl);
+        void Hide(int steps);
         void Hide();
+        IEnumerable<string> Titles { get; }
     }
 }

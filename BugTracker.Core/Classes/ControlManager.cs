@@ -20,11 +20,14 @@ namespace BugTracker.Core.Classes
 
         public void Show(Control ctrl)
         {
-            this.mControlStack.Push(ctrl);
-
-            if (this.ControlHide != null && this.mCurrentControl != null)
+            if (this.mCurrentControl != null)
             {
-                this.ControlHide(this, new ControlChangeEventArgs(this.mCurrentControl));
+                this.mControlStack.Push(this.mCurrentControl);
+
+                if (this.ControlHide != null)
+                {
+                    this.ControlHide(this, new ControlChangeEventArgs(this.mCurrentControl));
+                }
             }
 
             this.mCurrentControl = ctrl;
@@ -51,6 +54,14 @@ namespace BugTracker.Core.Classes
             }
         }
 
+        public void Hide(int steps)
+        {
+            for (int i = 0; i < steps; i++)
+            {
+                this.Hide();
+            }
+        }
+
         public void Hide()
         {
             this.Hide(this.mCurrentControl);
@@ -66,6 +77,24 @@ namespace BugTracker.Core.Classes
             public ControlChangeEventArgs(Control ctrl)
             {
                 this.Control = ctrl;
+            }
+        }
+
+        public IEnumerable<string> Titles
+        {
+            get
+            {
+                IEnumerable<String> list = this.mControlStack.Select<Control, string>(delegate(Control ctrl)
+                {
+                    return ctrl.Text;
+                });
+
+                list = list.Reverse();
+
+                List<string> result = new List<string>(list);
+                result.Add(this.mCurrentControl.Text);
+
+                return result;
             }
         }
     }

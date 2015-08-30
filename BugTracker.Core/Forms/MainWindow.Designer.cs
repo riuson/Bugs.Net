@@ -29,15 +29,28 @@
         private void InitializeComponent()
         {
             this.panelControls = new System.Windows.Forms.Panel();
+            this.navigationBar = new BugTracker.Core.Controls.NavigationBar();
             this.SuspendLayout();
             // 
             // panelControls
             // 
             this.panelControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControls.Location = new System.Drawing.Point(0, 0);
+            this.panelControls.Location = new System.Drawing.Point(5, 10);
             this.panelControls.Name = "panelControls";
-            this.panelControls.Size = new System.Drawing.Size(284, 262);
+            this.panelControls.Size = new System.Drawing.Size(274, 247);
             this.panelControls.TabIndex = 0;
+            // 
+            // navigationBar
+            // 
+            this.navigationBar.AutoSize = true;
+            this.navigationBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.navigationBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.navigationBar.Location = new System.Drawing.Point(5, 5);
+            this.navigationBar.Name = "navigationBar";
+            this.navigationBar.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.navigationBar.Size = new System.Drawing.Size(274, 5);
+            this.navigationBar.TabIndex = 1;
+            this.navigationBar.Navigate += new System.EventHandler<BugTracker.Core.Controls.NavigationBar.NavigateEventArgs>(this.navigationBar_Navigate);
             // 
             // MainWindow
             // 
@@ -45,14 +58,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.panelControls);
+            this.Controls.Add(this.navigationBar);
             this.Name = "MainWindow";
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "MainWindow";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel panelControls;
+        private Controls.NavigationBar navigationBar;
     }
 }
