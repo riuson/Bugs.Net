@@ -51,6 +51,11 @@ namespace BugTracker.Core.Classes
             }
         }
 
+        public void Hide()
+        {
+            this.Hide(this.mCurrentControl);
+        }
+
         public event EventHandler<ControlChangeEventArgs> ControlHide;
         public event EventHandler<ControlChangeEventArgs> ControlShow;
 
