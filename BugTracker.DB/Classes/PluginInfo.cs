@@ -13,13 +13,16 @@ namespace BugTracker.DB.Classes
     {
         public System.Windows.Forms.Button[] GetCommandLinks(IApplication app, string tag)
         {
-            if (tag == "startpage")
+            switch (tag)
             {
-                Button btn = MenuButton.Create("Database", "Configure database");
-                return new Button[] { btn };
+                case "settings":
+                    {
+                        Button btn = MenuButton.Create("Database", "Configure database");
+                        return new Button[] { btn };
+                    }
+                default:
+                    return new Button[] { };
             }
-
-            return new Button[] { };
         }
     }
 }

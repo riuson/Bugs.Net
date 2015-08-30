@@ -14,19 +14,22 @@ namespace BugTracker.About.Classes
     {
         public System.Windows.Forms.Button[] GetCommandLinks(IApplication app, string tag)
         {
-            if (tag == "startpage")
+            switch (tag)
             {
-                Button buttonAbout = MenuButton.Create("About", "About application");
-                buttonAbout.Click += delegate(object sender, EventArgs ea)
-                {
-                    ControlAbout controlAbout = new ControlAbout(app);
-                    app.Controls.Show(controlAbout);
-                };
+                case "startpage":
+                    {
+                        Button buttonAbout = MenuButton.Create("About", "About application");
+                        buttonAbout.Click += delegate(object sender, EventArgs ea)
+                        {
+                            ControlAbout controlAbout = new ControlAbout(app);
+                            app.Controls.Show(controlAbout);
+                        };
 
-                return new Button[] { buttonAbout };
+                        return new Button[] { buttonAbout };
+                    }
+                default:
+                    return new Button[] { };
             }
-
-            return new Button[] { };
         }
     }
 }
