@@ -56,7 +56,7 @@ namespace BugTracker.Core.Classes
                 }
                 catch (Exception exc)
                 {
-
+                    System.Diagnostics.Debug.WriteLine(exc.Message);
                 }
             }
 

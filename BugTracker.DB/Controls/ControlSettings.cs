@@ -26,7 +26,7 @@ namespace BugTracker.DB.Controls
             this.LoadSettings();
         }
 
-        private void Disposing()
+        private void BeforeDisposing()
         {
             this.SaveSettings();
         }
