@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\PluginInfo.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Interfaces\IVocabulary.cs" />
