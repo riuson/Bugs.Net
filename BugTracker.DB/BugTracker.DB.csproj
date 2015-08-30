@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\PluginInfo.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Interfaces\IVocabulary.cs" />
