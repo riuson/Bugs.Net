@@ -16,13 +16,7 @@ namespace BugTracker.Core.Controls
             this.Text = "Start";
             this.mApp = app;
 
-            Button[] btns = this.mApp.Plugins.CollectCommandLinks(this.mApp, "startpage");
-
-            foreach (var btn in btns)
-            {
-                this.Add(btn);
-            }
-
+            this.Add(this.mApp, "startpage");
         }
     }
 }
