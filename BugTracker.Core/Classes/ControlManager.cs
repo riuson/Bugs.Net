@@ -45,6 +45,8 @@ namespace BugTracker.Core.Classes
                 this.ControlHide(this, new ControlChangeEventArgs(ctrl));
             }
 
+            ctrl.Dispose();
+
             Control previous = this.mControlStack.Pop();
             this.mCurrentControl = previous;
 
