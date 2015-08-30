@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Classes
 {
-    public class Domain<T> : IDisposable where T : MarshalByRefObject
+    internal class Domain<T> : IDisposable where T : MarshalByRefObject
     {
         private AppDomain mDomain;
 

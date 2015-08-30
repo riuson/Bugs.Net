@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Settings
 {
-    public class PluginInfo : IPluginInfo
+    internal class PluginInfo : IPluginInfo
     {
         public Button[] GetCommandLinks(IApplication app, string tag)
         {

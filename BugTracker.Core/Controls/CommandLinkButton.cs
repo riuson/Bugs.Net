@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Controls
 {
-    public class CommandLinkButton : Button
+    internal class CommandLinkButton : Button
     {
         public CommandLinkButton()
         {

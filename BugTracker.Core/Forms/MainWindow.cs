@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Forms
 {
-    public partial class MainWindow : Form
+    internal partial class MainWindow : Form
     {
         private IApplication mApp;
         private ControlManager mControls;

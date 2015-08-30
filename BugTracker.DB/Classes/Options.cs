@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BugTracker.DB.Classes
 {
-    public class Options
+    internal class Options
     {
         public string FileName { get; set; }
 

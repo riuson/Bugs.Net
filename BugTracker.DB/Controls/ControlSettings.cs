@@ -13,7 +13,7 @@ using System.IO;
 
 namespace BugTracker.DB.Controls
 {
-    public partial class ControlSettings : UserControl
+    internal partial class ControlSettings : UserControl
     {
         IApplication mApp;
 
