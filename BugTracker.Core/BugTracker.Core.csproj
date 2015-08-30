@@ -48,6 +48,7 @@
     <Compile Include="Classes\ControlManager.cs" />
     <Compile Include="Classes\MenuButton.cs" />
     <Compile Include="Classes\Plugins.cs" />
+    <Compile Include="Classes\Saved.cs" />
     <Compile Include="Controls\CommandLinkButton.cs">
       <SubType>Component</SubType>
     </Compile>
