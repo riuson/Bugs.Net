@@ -1,4 +1,5 @@
-﻿using BugTracker.Core.Classes;
+﻿using BugTracker.About.Controls;
+using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,14 @@ namespace BugTracker.About.Classes
         {
             if (tag == "startpage")
             {
-                Button btn = MenuButton.Create("About", "About application");
-                return new Button[] { btn };
+                Button buttonAbout = MenuButton.Create("About", "About application");
+                buttonAbout.Click += delegate(object sender, EventArgs ea)
+                {
+                    ControlAbout controlAbout = new ControlAbout(app);
+                    app.Controls.Show(controlAbout);
+                };
+
+                return new Button[] { buttonAbout };
             }
 
             return new Button[] { };
