@@ -55,7 +55,8 @@ namespace BugTracker.DB.Classes
         {
             return AutoMap
                 .AssemblyOf<BugTracker.DB.Entities.IVocabulary>()
-                .IgnoreBase<BugTracker.DB.Entities.IVocabulary>();
+                .IgnoreBase<BugTracker.DB.Entities.IVocabulary>()
+                .IgnoreBase<BugTracker.DB.Entities.Entity>();
         }
 
         private void BuildSchema(Configuration config)
