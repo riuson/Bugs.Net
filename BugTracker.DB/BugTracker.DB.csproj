@@ -88,6 +88,7 @@
     <Compile Include="Controls\ControlSettings.Designer.cs">
       <DependentUpon>ControlSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Enums\SolutionRepository.cs" />
     <Compile Include="Repositories\Enums\StatusRepository.cs" />
     <Compile Include="Repositories\Enums\ProblemTypeRepository.cs" />

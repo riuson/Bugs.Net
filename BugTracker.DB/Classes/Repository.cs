@@ -1,11 +1,12 @@
-﻿using System;
+﻿using BugTracker.DB.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace BugTracker.DB.Classes
 {
-    public abstract class Repository<T> where T : new()
+    public abstract class Repository<T> : IRepository<T> where T : new()
     {
         protected NHibernate.ISession Session { get; set; }
 
