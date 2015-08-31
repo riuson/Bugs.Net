@@ -18,6 +18,7 @@ namespace BugTracker.DB.Classes
     {
         private ISessionFactory mSessionFactory;
         private string mDatabaseFile;
+        private Exception mConfigurationException;
 
         public SessionManagerInternal()
         {
@@ -32,8 +33,9 @@ namespace BugTracker.DB.Classes
                 this.mSessionFactory = this.BuildSessionFactory();
                 this.IsConfigured = true;
             }
-            catch// (Exception exc)
+            catch (Exception exc)
             {
+                this.mConfigurationException = exc;
                 this.IsConfigured = false;
             }
 
@@ -78,7 +80,7 @@ namespace BugTracker.DB.Classes
             {
                 if (!this.Configure())
                 {
-                    throw new Exception("Session factory not configured");
+                    throw new Exception("Session factory not configured", this.mConfigurationException);
                 }
             }
 
