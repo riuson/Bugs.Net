@@ -8,9 +8,10 @@ using System.Text;
 
 namespace BugTracker.DB.Repositories
 {
-    public class PriorityRepository : Repository<Priority>
+    public class ProjectRepository : Repository<Project>
     {
-        public PriorityRepository(ISession session) : base(session)
+        public ProjectRepository(ISession session)
+            : base(session)
         {
 
         }
