@@ -1,5 +1,5 @@
 ﻿using BugTracker.Core.Classes;
-using BugTracker.DB.Classes;
+using BugTracker.DB.Interfaces;
 using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -10,52 +10,35 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace BugTracker.DB
+namespace BugTracker.DB.Classes
 {
-    /// <summary>
-    /// Database class
-    /// </summary>
-    public class Database
+    internal sealed class SessionManagerInternal : ISessionManager
     {
-        /// <summary>
-        /// Creator
-        /// </summary>
-        private sealed class DatabaseCreator
-        {
-            /// <summary>
-            /// Lazy initializer
-            /// </summary>
-            public static Database Instance
-            {
-                get { return mInstance; }
-            }
-            static readonly Database mInstance = new Database();
-        }
+        private ISessionFactory mSessionFactory;
+        private string mDatabaseFile;
 
-        /// <summary>
-        /// Private constructor
-        /// </summary>
-        private Database()
+        public SessionManagerInternal()
         {
             this.mDatabaseFile = Saved<Options>.Instance.FileName;
-            this.SessionFactory = this.BuildSessionFactory();
+            this.Configure();
         }
 
-        /// <summary>
-        /// Singletone instance of Database object
-        /// </summary>
-        public static Database Instance
+        private bool Configure()
         {
-            get { return DatabaseCreator.Instance; }
+            try
+            {
+                this.mSessionFactory = this.BuildSessionFactory();
+                this.IsConfigured = true;
+            }
+            catch// (Exception exc)
+            {
+                this.IsConfigured = false;
+            }
+
+            return this.IsConfigured;
         }
-
-        public ISessionFactory SessionFactory { get; private set; }
-
-        private string mDatabaseFile;
 
         private ISessionFactory BuildSessionFactory()
         {
@@ -71,8 +54,8 @@ namespace BugTracker.DB
         private AutoPersistenceModel CreateMappings()
         {
             return AutoMap
-                .Assembly(System.Reflection.Assembly.GetCallingAssembly())
-                .Where(t => t.Namespace == "BugTracker.DB.Models");
+                .AssemblyOf<BugTracker.DB.Entities.IVocabulary>()
+                .IgnoreBase<BugTracker.DB.Entities.IVocabulary>();
         }
 
         private void BuildSchema(Configuration config)
@@ -87,5 +70,22 @@ namespace BugTracker.DB
                 new SchemaExport(config).Create(false, true);
             }
         }
+
+        public BugTracker.DB.Interfaces.ISession OpenSession()
+        {
+            if (!this.IsConfigured)
+            {
+                if (!this.Configure())
+                {
+                    throw new Exception("Session factory not configured");
+                }
+            }
+
+            NHibernate.ISession nhSession = this.mSessionFactory.OpenSession();
+            Session session = new Session(nhSession);
+            return session;
+        }
+
+        public bool IsConfigured { get; private set; }
     }
 }

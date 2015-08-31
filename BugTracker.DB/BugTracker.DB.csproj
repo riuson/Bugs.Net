@@ -79,24 +79,17 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\PluginInfo.cs" />
+    <Compile Include="Classes\Session.cs" />
+    <Compile Include="Classes\SessionManagerInternal.cs" />
     <Compile Include="Controls\ControlSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ControlSettings.Designer.cs">
       <DependentUpon>ControlSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database.cs" />
-    <Compile Include="Interfaces\IVocabulary.cs" />
-    <Compile Include="Models\Enitities\Attachment.cs" />
-    <Compile Include="Models\Enitities\BlobContent.cs" />
-    <Compile Include="Models\Enitities\Change.cs" />
-    <Compile Include="Models\Enitities\Member.cs" />
-    <Compile Include="Models\Enitities\Ticket.cs" />
-    <Compile Include="Models\Enums\Priority.cs" />
-    <Compile Include="Models\Enums\ProblemType.cs" />
-    <Compile Include="Models\Enitities\Project.cs" />
-    <Compile Include="Models\Enums\Solution.cs" />
-    <Compile Include="Models\Enums\Status.cs" />
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="Interfaces\ISession.cs" />
+    <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +105,11 @@
     <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
       <Project>{88b80997-3b6a-4d74-b0af-50a397f69d99}</Project>
       <Name>BugTracker.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\BugTracker.DB.Entities\BugTracker.DB.Entities.csproj">
+      <Project>{968136e6-1382-485e-98fe-caabddb1cad5}</Project>
+      <Name>BugTracker.DB.Entities</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

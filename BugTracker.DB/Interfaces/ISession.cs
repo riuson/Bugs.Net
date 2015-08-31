@@ -5,8 +5,7 @@ using System.Text;
 
 namespace BugTracker.DB.Interfaces
 {
-    public interface IVocabulary
+    public interface ISession : IDisposable
     {
-        string Value { get; set; }
     }
 }
