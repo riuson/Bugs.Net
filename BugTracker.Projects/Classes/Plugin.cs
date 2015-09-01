@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
+using BugTracker.Projects.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace BugTracker.Projects.Classes
         public void Initialize(IApplication app)
         {
             this.mApp = app;
+
+            this.mApp.Messages.Subscribe(typeof(ShowProjectListEventArgs), this.ShowProjectsList);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -27,6 +30,7 @@ namespace BugTracker.Projects.Classes
                         IButton menuItemProjects = MenuPanelFabric.CreateMenuItem("Projects", "Manage projects");
                         menuItemProjects.Click += delegate(object sender, EventArgs ea)
                         {
+                            this.mApp.Messages.Send(this, new ShowProjectListEventArgs());
                         };
 
                         return new IButton[] { menuItemProjects };
@@ -34,6 +38,10 @@ namespace BugTracker.Projects.Classes
                 default:
                     return new IButton[] { };
             }
+        }
+
+        private void ShowProjectsList(object sender, MessageEventArgs ea)
+        {
         }
     }
 }
