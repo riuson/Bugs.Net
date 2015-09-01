@@ -12,25 +12,27 @@ namespace BugTracker.Core.Classes
     internal class Plugins : IPlugins
     {
         private List<IPluginInfo> mPlugins;
+        private IApplication mApp;
 
-        public Plugins()
+        public Plugins(IApplication app)
         {
-            this.mPlugins = this.ScanPlugins();
+            this.mApp = app;
+            this.mPlugins = this.ScanPlugins(this.mApp);
         }
 
-        public Button[] CollectCommandLinks(IApplication app, string tag)
+        public Button[] CollectCommandLinks(string tag)
         {
             List<Button> list = new List<Button>();
 
             foreach (var plugin in this.mPlugins)
             {
-                list.AddRange(plugin.GetCommandLinks(app, tag));
+                list.AddRange(plugin.GetCommandLinks(tag));
             }
 
             return list.ToArray();
         }
 
-        private List<IPluginInfo> ScanPlugins()
+        private List<IPluginInfo> ScanPlugins(IApplication app)
         {
             List<IPluginInfo> result = new List<IPluginInfo>();
 
@@ -50,6 +52,7 @@ namespace BugTracker.Core.Classes
                         if (t != null && !type.IsAbstract)
                         {
                             IPluginInfo pluginInfo = (IPluginInfo)Activator.CreateInstance(type);
+                            pluginInfo.Initialize(app);
                             result.Add(pluginInfo);
                         }
                     }

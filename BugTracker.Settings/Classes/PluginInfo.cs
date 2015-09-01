@@ -12,7 +12,14 @@ namespace BugTracker.Settings
 {
     internal class PluginInfo : IPluginInfo
     {
-        public Button[] GetCommandLinks(IApplication app, string tag)
+        private IApplication mApp;
+
+        public void Initialize(IApplication app)
+        {
+            this.mApp = app;
+        }
+
+        public Button[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
@@ -21,8 +28,8 @@ namespace BugTracker.Settings
                         Button buttonSettings = MenuButton.Create("Settings");
                         buttonSettings.Click += delegate(object sender, EventArgs ea)
                         {
-                            ControlSettings controlSettings = new ControlSettings(app);
-                            app.Controls.Show(controlSettings);
+                            ControlSettings controlSettings = new ControlSettings(this.mApp);
+                            this.mApp.Controls.Show(controlSettings);
                         };
 
                         return new Button[] { buttonSettings };

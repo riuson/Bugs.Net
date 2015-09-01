@@ -12,7 +12,14 @@ namespace BugTracker.DB.Classes
 {
     internal class PluginInfo : IPluginInfo
     {
-        public System.Windows.Forms.Button[] GetCommandLinks(IApplication app, string tag)
+        private IApplication mApp;
+
+        public void Initialize(IApplication app)
+        {
+            this.mApp = app;
+        }
+
+        public System.Windows.Forms.Button[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
@@ -21,8 +28,8 @@ namespace BugTracker.DB.Classes
                         Button buttonSettings = MenuButton.Create("Database", "Configure database");
                         buttonSettings.Click += delegate(object sender, EventArgs ea)
                         {
-                            ControlSettings controlSettings = new ControlSettings(app);
-                            app.Controls.Show(controlSettings);
+                            ControlSettings controlSettings = new ControlSettings(this.mApp);
+                            this.mApp.Controls.Show(controlSettings);
                         };
 
                         return new Button[] { buttonSettings };

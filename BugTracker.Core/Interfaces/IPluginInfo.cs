@@ -8,6 +8,7 @@ namespace BugTracker.Core.Interfaces
 {
     public interface IPluginInfo
     {
-        Button[] GetCommandLinks(IApplication app, string tag);
+        void Initialize(IApplication app);
+        Button[] GetCommandLinks(string tag);
     }
 }

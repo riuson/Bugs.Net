@@ -21,7 +21,7 @@ namespace BugTracker.Core.Controls
 
         public void Add(IApplication app, string tag)
         {
-            Button[] btns = app.Plugins.CollectCommandLinks(app, tag);
+            Button[] btns = app.Plugins.CollectCommandLinks(tag);
 
             foreach (var btn in btns)
             {
