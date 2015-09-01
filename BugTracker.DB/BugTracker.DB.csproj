@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\Options.cs" />
-    <Compile Include="Classes\PluginInfo.cs" />
+    <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\Repository.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\SessionManagerInternal.cs" />

@@ -1,6 +1,6 @@
-﻿using BugTracker.Core.Classes;
+﻿using BugTracker.About.Controls;
+using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
-using BugTracker.Settings.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BugTracker.Settings
+namespace BugTracker.About.Classes
 {
-    internal class PluginInfo : IPlugin
+    internal class Plugin : IPlugin
     {
         private IApplication mApp;
 
@@ -19,20 +19,20 @@ namespace BugTracker.Settings
             this.mApp = app;
         }
 
-        public Button[] GetCommandLinks(string tag)
+        public System.Windows.Forms.Button[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
                 case "startpage":
                     {
-                        Button buttonSettings = MenuButton.Create("Settings");
-                        buttonSettings.Click += delegate(object sender, EventArgs ea)
+                        Button buttonAbout = MenuButton.Create("About", "About application");
+                        buttonAbout.Click += delegate(object sender, EventArgs ea)
                         {
-                            ControlSettings controlSettings = new ControlSettings(this.mApp);
-                            this.mApp.Controls.Show(controlSettings);
+                            ControlAbout controlAbout = new ControlAbout(this.mApp);
+                            this.mApp.Controls.Show(controlAbout);
                         };
 
-                        return new Button[] { buttonSettings };
+                        return new Button[] { buttonAbout };
                     }
                 default:
                     return new Button[] { };

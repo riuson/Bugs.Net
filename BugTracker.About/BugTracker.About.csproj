@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
-    <Compile Include="Classes\PluginInfo.cs" />
+    <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Controls\ControlAbout.cs">
       <SubType>UserControl</SubType>
     </Compile>
