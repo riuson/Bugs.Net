@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
+using BugTracker.Projects.Controls;
 using BugTracker.Projects.Events;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,8 @@ namespace BugTracker.Projects.Classes
 
         private void ShowProjectsList(object sender, MessageEventArgs ea)
         {
+            ControlProjectsList controlList = new ControlProjectsList(this.mApp);
+            this.mApp.Controls.Show(controlList);
         }
     }
 }

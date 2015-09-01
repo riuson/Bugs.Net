@@ -44,6 +44,16 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Classes\ProjectsListData.cs" />
+    <Compile Include="Controls\ControlProjectsList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlProjectsList.Designer.cs">
+      <DependentUpon>ControlProjectsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\RemoveProjectEventArgs.cs" />
+    <Compile Include="Events\EditProjectEventArgs.cs" />
+    <Compile Include="Events\AddProjectEventArgs.cs" />
     <Compile Include="Events\ShowProjectListEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +75,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlProjectsList.resx">
+      <DependentUpon>ControlProjectsList.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
