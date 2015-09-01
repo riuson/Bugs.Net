@@ -10,6 +10,7 @@ namespace BugTracker.Core.Interfaces
     {
         IPlugins Plugins { get; }
         IControlManager Controls { get; }
+        IMessageCenter Messages { get; }
 
         void Exit();
     }

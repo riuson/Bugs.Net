@@ -46,7 +46,9 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
+    <Compile Include="Interfaces\IMessageCenter.cs" />
     <Compile Include="Classes\MenuButton.cs" />
+    <Compile Include="Classes\MessageCenter.cs" />
     <Compile Include="Classes\Plugins.cs" />
     <Compile Include="Classes\Saved.cs" />
     <Compile Include="Controls\CommandLinkButton.cs">
