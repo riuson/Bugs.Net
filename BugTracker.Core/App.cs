@@ -15,6 +15,7 @@ namespace BugTracker.Core
         private ControlContainer mContainer;
         private MainWindow mWindow;
         private Plugins mPlugins;
+        private MessageCenter mMessages;
 
         public App()
         {
@@ -24,6 +25,7 @@ namespace BugTracker.Core
             Application.SetCompatibleTextRenderingDefault(false);
 
             this.mPlugins = new Plugins();
+            this.mMessages = new MessageCenter();
 
             this.mWindow = new MainWindow(this);
             this.mWindow.FormClosed += this.mWindow_FormClosed;
@@ -55,5 +57,7 @@ namespace BugTracker.Core
         public IPlugins Plugins { get { return this.mPlugins; } }
 
         public IControlManager Controls { get { return this.mWindow.ControlManager; } }
+
+        public IMessageCenter Messages { get { return this.mMessages; } }
     }
 }
