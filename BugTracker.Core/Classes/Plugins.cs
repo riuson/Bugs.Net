@@ -11,28 +11,30 @@ namespace BugTracker.Core.Classes
 {
     internal class Plugins : IPlugins
     {
-        private List<IPluginInfo> mPlugins;
+        private List<IPlugin> mPlugins;
+        private IApplication mApp;
 
-        public Plugins()
+        public Plugins(IApplication app)
         {
-            this.mPlugins = this.ScanPlugins();
+            this.mApp = app;
+            this.mPlugins = this.ScanPlugins(this.mApp);
         }
 
-        public Button[] CollectCommandLinks(IApplication app, string tag)
+        public Button[] CollectCommandLinks(string tag)
         {
             List<Button> list = new List<Button>();
 
             foreach (var plugin in this.mPlugins)
             {
-                list.AddRange(plugin.GetCommandLinks(app, tag));
+                list.AddRange(plugin.GetCommandLinks(tag));
             }
 
             return list.ToArray();
         }
 
-        private List<IPluginInfo> ScanPlugins()
+        private List<IPlugin> ScanPlugins(IApplication app)
         {
-            List<IPluginInfo> result = new List<IPluginInfo>();
+            List<IPlugin> result = new List<IPlugin>();
 
             string[] files = this.GetLibraries();
 
@@ -45,11 +47,12 @@ namespace BugTracker.Core.Classes
 
                     foreach (var type in types)
                     {
-                        Type t = type.GetInterface("BugTracker.Core.Interfaces.IPluginInfo");
+                        Type t = type.GetInterface(typeof(IPlugin).FullName);
 
                         if (t != null && !type.IsAbstract)
                         {
-                            IPluginInfo pluginInfo = (IPluginInfo)Activator.CreateInstance(type);
+                            IPlugin pluginInfo = (IPlugin)Activator.CreateInstance(type);
+                            pluginInfo.Initialize(app);
                             result.Add(pluginInfo);
                         }
                     }

@@ -1,6 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
-using BugTracker.Settings.Controls;
+using BugTracker.DB.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BugTracker.Settings
+namespace BugTracker.DB.Classes
 {
-    internal class PluginInfo : IPluginInfo
+    internal class Plugin : IPlugin
     {
-        public Button[] GetCommandLinks(IApplication app, string tag)
+        private IApplication mApp;
+
+        public void Initialize(IApplication app)
+        {
+            this.mApp = app;
+        }
+
+        public System.Windows.Forms.Button[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
-                case "startpage":
+                case "settings":
                     {
-                        Button buttonSettings = MenuButton.Create("Settings");
+                        Button buttonSettings = MenuButton.Create("Database", "Configure database");
                         buttonSettings.Click += delegate(object sender, EventArgs ea)
                         {
-                            ControlSettings controlSettings = new ControlSettings(app);
-                            app.Controls.Show(controlSettings);
+                            ControlSettings controlSettings = new ControlSettings(this.mApp);
+                            this.mApp.Controls.Show(controlSettings);
                         };
 
                         return new Button[] { buttonSettings };

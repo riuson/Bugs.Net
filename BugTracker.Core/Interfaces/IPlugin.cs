@@ -6,8 +6,9 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Interfaces
 {
-    public interface IPluginInfo
+    public interface IPlugin
     {
-        Button[] GetCommandLinks(IApplication app, string tag);
+        void Initialize(IApplication app);
+        Button[] GetCommandLinks(string tag);
     }
 }

@@ -71,7 +71,7 @@
     </Compile>
     <Compile Include="Interfaces\IApplication.cs" />
     <Compile Include="Interfaces\IControlManager.cs" />
-    <Compile Include="Interfaces\IPluginInfo.cs" />
+    <Compile Include="Interfaces\IPlugin.cs" />
     <Compile Include="Interfaces\IPlugins.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

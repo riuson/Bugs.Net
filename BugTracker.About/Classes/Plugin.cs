@@ -10,9 +10,16 @@ using System.Windows.Forms;
 
 namespace BugTracker.About.Classes
 {
-    internal class PluginInfo : IPluginInfo
+    internal class Plugin : IPlugin
     {
-        public System.Windows.Forms.Button[] GetCommandLinks(IApplication app, string tag)
+        private IApplication mApp;
+
+        public void Initialize(IApplication app)
+        {
+            this.mApp = app;
+        }
+
+        public System.Windows.Forms.Button[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
@@ -21,8 +28,8 @@ namespace BugTracker.About.Classes
                         Button buttonAbout = MenuButton.Create("About", "About application");
                         buttonAbout.Click += delegate(object sender, EventArgs ea)
                         {
-                            ControlAbout controlAbout = new ControlAbout(app);
-                            app.Controls.Show(controlAbout);
+                            ControlAbout controlAbout = new ControlAbout(this.mApp);
+                            this.mApp.Controls.Show(controlAbout);
                         };
 
                         return new Button[] { buttonAbout };
