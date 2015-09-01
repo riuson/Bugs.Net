@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Settings
 {
-    internal class PluginInfo : IPluginInfo
+    internal class PluginInfo : IPlugin
     {
         private IApplication mApp;
 
