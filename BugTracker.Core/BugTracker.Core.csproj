@@ -47,6 +47,9 @@
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
     <Compile Include="Classes\InputBox.cs" />
+    <Compile Include="Controls\CommandLink.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\FormInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
