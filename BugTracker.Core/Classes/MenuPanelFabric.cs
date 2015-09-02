@@ -12,12 +12,12 @@ namespace BugTracker.Core.Classes
     {
         public static IMenuPanel CreateMenuPanel()
         {
-            return new MenuPanel();
+            return new MenuCommandLink();
         }
 
         public static IButton CreateMenuItem(string text, string note = "", Image image = null)
         {
-            return MenuPanel.CreateMenuItem(text, note, image);
+            return MenuCommandLink.CreateMenuItem(text, note, image);
         }
     }
 }

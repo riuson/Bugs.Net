@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Controls
 {
-    internal class MenuPanel : FlowLayoutPanel, IMenuPanel
+    internal class MenuCommandLink : FlowLayoutPanel, IMenuPanel
     {
-        public MenuPanel()
+        public MenuCommandLink()
         {
         }
 
