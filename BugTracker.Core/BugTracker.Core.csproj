@@ -46,7 +46,9 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
+    <Compile Include="Interfaces\IMenuPanel.cs" />
     <Compile Include="Classes\InputBox.cs" />
+    <Compile Include="Classes\MenuPanelFabric.cs" />
     <Compile Include="Controls\CommandLink.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -72,7 +74,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\StartMenu.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>

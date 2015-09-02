@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Controls
 {
-    public class MenuPanel : FlowLayoutPanel
+    internal class MenuPanel : FlowLayoutPanel, IMenuPanel
     {
         public MenuPanel()
         {
@@ -27,6 +27,11 @@ namespace BugTracker.Core.Controls
             {
                 this.Add(btn);
             }
+        }
+
+        public Control AsControl
+        {
+            get { return this; }
         }
     }
 }
