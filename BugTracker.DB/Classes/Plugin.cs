@@ -25,14 +25,14 @@ namespace BugTracker.DB.Classes
             {
                 case "settings":
                     {
-                        IButton buttonSettings = MenuButton.Create("Database", "Configure database");
-                        buttonSettings.Click += delegate(object sender, EventArgs ea)
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Database", "Configure database");
+                        menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);
                             this.mApp.Controls.Show(controlSettings);
                         };
 
-                        return new IButton[] { buttonSettings };
+                        return new IButton[] { menuItemSettings };
                     }
                 default:
                     return new IButton[] { };

@@ -25,14 +25,14 @@ namespace BugTracker.About.Classes
             {
                 case "startpage":
                     {
-                        IButton buttonAbout = MenuButton.Create("About", "About application");
-                        buttonAbout.Click += delegate(object sender, EventArgs ea)
+                        IButton menuItemAbout = MenuPanelFabric.CreateMenuItem("About", "About application");
+                        menuItemAbout.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlAbout controlAbout = new ControlAbout(this.mApp);
                             this.mApp.Controls.Show(controlAbout);
                         };
 
-                        return new IButton[] { buttonAbout };
+                        return new IButton[] { menuItemAbout };
                     }
                 default:
                     return new IButton[] { };

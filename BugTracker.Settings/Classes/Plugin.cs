@@ -25,14 +25,14 @@ namespace BugTracker.Settings
             {
                 case "startpage":
                     {
-                        IButton buttonSettings = MenuButton.Create("Settings");
-                        buttonSettings.Click += delegate(object sender, EventArgs ea)
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings");
+                        menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);
                             this.mApp.Controls.Show(controlSettings);
                         };
 
-                        return new IButton[] { buttonSettings };
+                        return new IButton[] { menuItemSettings };
                     }
                 default:
                     return new IButton[] { };
