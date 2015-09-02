@@ -25,7 +25,7 @@ namespace BugTracker.About.Classes
             {
                 case "startpage":
                     {
-                        IButton menuItemAbout = MenuPanelFabric.CreateMenuItem("About", "About application");
+                        IButton menuItemAbout = MenuPanelFabric.CreateMenuItem("About", "About application", System.Drawing.SystemIcons.Information.ToBitmap());
                         menuItemAbout.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlAbout controlAbout = new ControlAbout(this.mApp);

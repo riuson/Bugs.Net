@@ -46,6 +46,9 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
+    <Compile Include="Controls\MenuListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Interfaces\IMenuPanel.cs" />
     <Compile Include="Classes\InputBox.cs" />
     <Compile Include="Classes\MenuPanelFabric.cs" />
