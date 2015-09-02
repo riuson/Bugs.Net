@@ -46,6 +46,13 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
+    <Compile Include="Classes\InputBox.cs" />
+    <Compile Include="Forms\FormInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormInputBox.Designer.cs">
+      <DependentUpon>FormInputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IMessageCenter.cs" />
     <Compile Include="Classes\MenuButton.cs" />
     <Compile Include="Classes\MessageCenter.cs" />
@@ -76,6 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\FormInputBox.resx">
+      <DependentUpon>FormInputBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
