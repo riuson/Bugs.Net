@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BugTracker.Core.Controls;
+using BugTracker.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -23,33 +25,25 @@ namespace BugTracker.Core.Classes
 
     public static class MenuButton
     {
-        public static Button Create(string text, string note = "", Image image = null)
+        public static IButton Create(string text, string note = "", Image image = null)
         {
-            Button result;
+            CommandLink result = new CommandLink();
+            result.Text = text;
+            result.NoteText = note;
 
-            if (System.Environment.OSVersion.Version.Major >= 6)
+            if (image != null)
             {
-                result = new BugTracker.Core.Controls.CommandLinkButton(text, note, false);
+                result.Image = new Bitmap(image);
             }
             else
             {
-                result = new Button();
-                result.Text = text;
-                result.TextImageRelation = TextImageRelation.ImageBeforeText;
-                result.ImageAlign = ContentAlignment.MiddleLeft;
-
-                if (image != null)
-                {
-                    result.Image = image;
-                }
+                result.Image = SystemIcons.Information.ToBitmap();
             }
-
-            result.Size = MenuButton.DefaultSize;
 
             return result;
         }
 
-        public static Button Create(MenuButtonData data)
+        public static IButton Create(MenuButtonData data)
         {
             return MenuButton.Create(data.Text, data.Note, data.Image);
         }

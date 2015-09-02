@@ -19,23 +19,23 @@ namespace BugTracker.DB.Classes
             this.mApp = app;
         }
 
-        public System.Windows.Forms.Button[] GetCommandLinks(string tag)
+        public IButton[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
                 case "settings":
                     {
-                        Button buttonSettings = MenuButton.Create("Database", "Configure database");
+                        IButton buttonSettings = MenuButton.Create("Database", "Configure database");
                         buttonSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);
                             this.mApp.Controls.Show(controlSettings);
                         };
 
-                        return new Button[] { buttonSettings };
+                        return new IButton[] { buttonSettings };
                     }
                 default:
-                    return new Button[] { };
+                    return new IButton[] { };
             }
         }
     }

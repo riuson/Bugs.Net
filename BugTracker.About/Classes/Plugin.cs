@@ -19,23 +19,23 @@ namespace BugTracker.About.Classes
             this.mApp = app;
         }
 
-        public System.Windows.Forms.Button[] GetCommandLinks(string tag)
+        public IButton[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
                 case "startpage":
                     {
-                        Button buttonAbout = MenuButton.Create("About", "About application");
+                        IButton buttonAbout = MenuButton.Create("About", "About application");
                         buttonAbout.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlAbout controlAbout = new ControlAbout(this.mApp);
                             this.mApp.Controls.Show(controlAbout);
                         };
 
-                        return new Button[] { buttonAbout };
+                        return new IButton[] { buttonAbout };
                     }
                 default:
-                    return new Button[] { };
+                    return new IButton[] { };
             }
         }
     }

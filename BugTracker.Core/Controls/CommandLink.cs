@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Core.Controls
 {
-    public class CommandLink : Button
+    public class CommandLink : Button, IButton
     {
         private enum State
         {

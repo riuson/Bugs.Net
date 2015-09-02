@@ -14,14 +14,14 @@ namespace BugTracker.Core.Controls
         {
         }
 
-        public void Add(Button button)
+        public void Add(IButton button)
         {
-            this.Controls.Add(button);
+            this.Controls.Add(button as Control);
         }
 
         public void Add(IApplication app, string tag)
         {
-            Button[] btns = app.Plugins.CollectCommandLinks(tag);
+            IButton[] btns = app.Plugins.CollectCommandLinks(tag);
 
             foreach (var btn in btns)
             {

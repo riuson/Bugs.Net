@@ -56,6 +56,7 @@
     <Compile Include="Forms\FormInputBox.Designer.cs">
       <DependentUpon>FormInputBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IButton.cs" />
     <Compile Include="Interfaces\IMessageCenter.cs" />
     <Compile Include="Classes\MenuButton.cs" />
     <Compile Include="Classes\MessageCenter.cs" />

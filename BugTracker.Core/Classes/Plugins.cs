@@ -20,9 +20,9 @@ namespace BugTracker.Core.Classes
             this.mPlugins = this.ScanPlugins(this.mApp);
         }
 
-        public Button[] CollectCommandLinks(string tag)
+        public IButton[] CollectCommandLinks(string tag)
         {
-            List<Button> list = new List<Button>();
+            List<IButton> list = new List<IButton>();
 
             foreach (var plugin in this.mPlugins)
             {

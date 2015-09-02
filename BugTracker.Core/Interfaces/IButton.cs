@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 
 namespace BugTracker.Core.Interfaces
 {
-    public interface IPlugins
+    public interface IButton
     {
-        IButton[] CollectCommandLinks(string tag);
+        event EventHandler Click;
     }
 }
