@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="Classes\DataGridViewColumnFabric.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\Repository.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Controls\ControlSettings.Designer.cs">
       <DependentUpon>ControlSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataGridViewSubColumn.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Enums\SolutionRepository.cs" />
     <Compile Include="Repositories\Enums\StatusRepository.cs" />
