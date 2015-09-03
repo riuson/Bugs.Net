@@ -24,8 +24,8 @@ namespace BugTracker.Core
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            this.mPlugins = new Plugins(this);
             this.mMessages = new MessageCenter();
+            this.mPlugins = new Plugins(this);
 
             this.mWindow = new MainWindow(this);
             this.mWindow.FormClosed += this.mWindow_FormClosed;
