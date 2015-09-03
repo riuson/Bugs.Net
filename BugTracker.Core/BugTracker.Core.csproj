@@ -46,22 +46,37 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
+    <Compile Include="Controls\MenuListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IMenuPanel.cs" />
+    <Compile Include="Classes\InputBox.cs" />
+    <Compile Include="Classes\MenuPanelFabric.cs" />
+    <Compile Include="Controls\CommandLink.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\FormInputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormInputBox.Designer.cs">
+      <DependentUpon>FormInputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IButton.cs" />
     <Compile Include="Interfaces\IMessageCenter.cs" />
-    <Compile Include="Classes\MenuButton.cs" />
     <Compile Include="Classes\MessageCenter.cs" />
     <Compile Include="Classes\Plugins.cs" />
     <Compile Include="Classes\Saved.cs" />
     <Compile Include="Controls\CommandLinkButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\MenuPanel.cs">
+    <Compile Include="Controls\MenuCommandLink.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\NavigationBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\StartMenu.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
@@ -76,6 +91,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\FormInputBox.resx">
+      <DependentUpon>FormInputBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>

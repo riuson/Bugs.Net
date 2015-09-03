@@ -19,23 +19,23 @@ namespace BugTracker.Settings
             this.mApp = app;
         }
 
-        public Button[] GetCommandLinks(string tag)
+        public IButton[] GetCommandLinks(string tag)
         {
             switch (tag)
             {
                 case "startpage":
                     {
-                        Button buttonSettings = MenuButton.Create("Settings");
-                        buttonSettings.Click += delegate(object sender, EventArgs ea)
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings");
+                        menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);
                             this.mApp.Controls.Show(controlSettings);
                         };
 
-                        return new Button[] { buttonSettings };
+                        return new IButton[] { menuItemSettings };
                     }
                 default:
-                    return new Button[] { };
+                    return new IButton[] { };
             }
         }
     }
