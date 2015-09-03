@@ -27,6 +27,8 @@ namespace BugTracker.Projects.Controls
 
             this.dgvList.AutoGenerateColumns = false;
             this.dgvList.DataSource = this.mProjectsList.Data;
+
+            this.UpdateButtons();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -52,6 +54,25 @@ namespace BugTracker.Projects.Controls
                 Project item = this.dgvList.Rows[rowIndex].DataBoundItem as Project;
                 this.mProjectsList.Remove(item);
             }
+        }
+
+        private void UpdateButtons()
+        {
+            if (this.dgvList.SelectedCells.Count > 0)
+            {
+                this.buttonEdit.Enabled = true;
+                this.buttonRemove.Enabled = true;
+            }
+            else
+            {
+                this.buttonEdit.Enabled = false;
+                this.buttonRemove.Enabled = false;
+            }
+        }
+
+        private void dgvList_SelectionChanged(object sender, EventArgs e)
+        {
+            this.UpdateButtons();
         }
     }
 }

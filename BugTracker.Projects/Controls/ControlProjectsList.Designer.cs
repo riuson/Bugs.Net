@@ -53,6 +53,7 @@
             this.tableLayoutPanel1.SetRowSpan(this.dgvList, 4);
             this.dgvList.Size = new System.Drawing.Size(455, 284);
             this.dgvList.TabIndex = 0;
+            this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
             // 
             // columnName
             // 
