@@ -1,4 +1,5 @@
-﻿using BugTracker.Core.Interfaces;
+﻿using BugTracker.Core.Classes;
+using BugTracker.Core.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
@@ -48,6 +49,23 @@ namespace BugTracker.Projects.Classes
             AddProjectEventArgs ea = new AddProjectEventArgs();
             this.mApp.Messages.Send(this, ea);
 
+            if (!ea.Processed)
+            {
+                string newName;
+
+                if (InputBox.Show("New project name:", "Add project", String.Empty, out newName) == DialogResult.OK)
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession())
+                    {
+                        ProjectRepository repository = new ProjectRepository(session);
+                        Project item = new Project();
+                        item.Name = newName;
+                        repository.Save(item);
+                    }
+                    ea.Processed = true;
+                }
+            }
+
             if (ea.Processed)
             {
                 this.UpdateList();
@@ -58,6 +76,22 @@ namespace BugTracker.Projects.Classes
         {
             EditProjectEventArgs ea = new EditProjectEventArgs(item);
             this.mApp.Messages.Send(this, ea);
+
+            if (!ea.Processed)
+            {
+                string newName;
+
+                if (InputBox.Show("Change project name:", "Edit project", item.Name, out newName) == DialogResult.OK)
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession())
+                    {
+                        ProjectRepository repository = new ProjectRepository(session);
+                        item.Name = newName;
+                        repository.SaveOrUpdate(item);
+                    }
+                    ea.Processed = true;
+                }
+            }
 
             if (ea.Processed)
             {
@@ -73,7 +107,11 @@ namespace BugTracker.Projects.Classes
             if (!ea.Processed)
             {
                 if (MessageBox.Show(
-                    String.Format("Remove project '{0}'?", item.Name)) == DialogResult.OK)
+                    String.Format(
+                        "Do you really want remove project '{0}'?",
+                        item.Name),
+                    "Remove project",
+                    MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     using (ISession session = SessionManager.Instance.OpenSession())
                     {
