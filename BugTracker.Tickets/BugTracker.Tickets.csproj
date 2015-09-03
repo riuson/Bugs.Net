@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +44,17 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Classes\TickectsListData.cs" />
+    <Compile Include="Controls\ControlTicketsList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlTicketsList.Designer.cs">
+      <DependentUpon>ControlTicketsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\AddTicketEventArgs.cs" />
+    <Compile Include="Events\EditTicketEventArgs.cs" />
+    <Compile Include="Events\RemoveTicketEventArgs.cs" />
+    <Compile Include="Events\ShowTicketEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +78,11 @@
       <Name>BugTracker.Projects</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlTicketsList.resx">
+      <DependentUpon>ControlTicketsList.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

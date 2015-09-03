@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Interfaces;
 using BugTracker.Projects.Events;
+using BugTracker.Tickets.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace BugTracker.Tickets.Classes
 
             if (ea != null)
             {
+                ControlTicketsList controlList = new ControlTicketsList(this.mApp);
+                this.mApp.Controls.Show(controlList);
             }
         }
     }
