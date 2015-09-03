@@ -15,5 +15,13 @@ namespace BugTracker.DB.Repositories
         {
 
         }
+
+        public override ICollection<Ticket> List()
+        {
+            return this.Session.CreateCriteria(typeof(Ticket))
+                .SetFetchMode("Author", NHibernate.FetchMode.Eager)
+                .SetFetchMode("Status", NHibernate.FetchMode.Eager)
+                .List<Ticket>();
+        }
     }
 }

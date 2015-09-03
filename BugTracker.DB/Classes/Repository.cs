@@ -16,32 +16,32 @@ namespace BugTracker.DB.Classes
             this.Session = s.NHSession;
         }
 
-        public T Load(object id)
+        public virtual T Load(object id)
         {
             return this.Session.Load<T>(id);
         }
 
-        public T GetById(object id)
+        public virtual T GetById(object id)
         {
             return this.Session.Get<T>(id);
         }
 
-        public ICollection<T> List()
+        public virtual ICollection<T> List()
         {
             return this.Session.CreateCriteria(typeof(T)).List<T>();
         }
 
-        public void Save(T entity)
+        public virtual void Save(T entity)
         {
             this.Session.Save(entity);
         }
 
-        public void SaveOrUpdate(T entity)
+        public virtual void SaveOrUpdate(T entity)
         {
             this.Session.SaveOrUpdate(entity);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             this.Session.Delete(entity);
         }
