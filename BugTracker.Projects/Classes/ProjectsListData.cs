@@ -16,20 +16,21 @@ namespace BugTracker.Projects.Classes
     internal class ProjectsListData : IDisposable
     {
         private IApplication mApp;
-        private ICollection<Project> mData;
-        private BindingSource mBS;
+        private ICollection<Project> mInternalData;
+
+        public BindingSource Data { get; private set; }
 
         public ProjectsListData(IApplication app)
         {
             this.mApp = app;
-            this.mBS = new BindingSource();
-            this.mBS.AllowNew = false;
+            this.Data = new BindingSource();
+            this.Data.AllowNew = false;
             this.UpdateList();
         }
 
         public void Dispose()
         {
-            this.mBS.Dispose();
+            this.Data.Dispose();
         }
 
         public void UpdateList()
@@ -38,9 +39,9 @@ namespace BugTracker.Projects.Classes
             {
                 ProjectRepository repository = new ProjectRepository(session);
 
-                this.mBS.DataSource = null;
-                this.mData = repository.List();
-                this.mBS.DataSource = this.mData;
+                this.Data.DataSource = null;
+                this.mInternalData = repository.List();
+                this.Data.DataSource = this.mInternalData;
             }
         }
 
@@ -128,7 +129,5 @@ namespace BugTracker.Projects.Classes
                 this.UpdateList();
             }
         }
-
-        public BindingSource Data { get { return this.mBS; } }
     }
 }
