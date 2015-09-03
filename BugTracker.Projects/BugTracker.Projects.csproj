@@ -54,6 +54,7 @@
     <Compile Include="Events\RemoveProjectEventArgs.cs" />
     <Compile Include="Events\EditProjectEventArgs.cs" />
     <Compile Include="Events\AddProjectEventArgs.cs" />
+    <Compile Include="Events\ShowProjectTicketsEventArgs.cs" />
     <Compile Include="Events\ShowProjectListEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

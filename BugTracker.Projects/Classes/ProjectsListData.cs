@@ -129,5 +129,16 @@ namespace BugTracker.Projects.Classes
                 this.UpdateList();
             }
         }
+
+        public void ShowTickets(Project item)
+        {
+            ShowProjectTicketsEventArgs ea = new ShowProjectTicketsEventArgs(item);
+            this.mApp.Messages.Send(this, ea);
+
+            if (ea.Processed)
+            {
+                this.UpdateList();
+            }
+        }
     }
 }

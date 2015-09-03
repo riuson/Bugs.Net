@@ -34,6 +34,7 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
+            this.buttonTickets = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +51,7 @@
             this.dgvList.Location = new System.Drawing.Point(3, 3);
             this.dgvList.Name = "dgvList";
             this.dgvList.ReadOnly = true;
-            this.tableLayoutPanel1.SetRowSpan(this.dgvList, 4);
+            this.tableLayoutPanel1.SetRowSpan(this.dgvList, 6);
             this.dgvList.Size = new System.Drawing.Size(455, 284);
             this.dgvList.TabIndex = 0;
             this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
@@ -71,12 +72,15 @@
             this.tableLayoutPanel1.Controls.Add(this.buttonAdd, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonEdit, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonRemove, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.buttonTickets, 1, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 6;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(542, 290);
@@ -112,6 +116,16 @@
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
+            // buttonTickets
+            // 
+            this.buttonTickets.Location = new System.Drawing.Point(464, 110);
+            this.buttonTickets.Name = "buttonTickets";
+            this.buttonTickets.Size = new System.Drawing.Size(75, 23);
+            this.buttonTickets.TabIndex = 1;
+            this.buttonTickets.Text = "Tickets";
+            this.buttonTickets.UseVisualStyleBackColor = true;
+            this.buttonTickets.Click += new System.EventHandler(this.buttonTickets_Click);
+            // 
             // ControlProjectsList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -133,5 +147,6 @@
         private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnName;
+        private System.Windows.Forms.Button buttonTickets;
     }
 }

@@ -62,17 +62,29 @@ namespace BugTracker.Projects.Controls
             {
                 this.buttonEdit.Enabled = true;
                 this.buttonRemove.Enabled = true;
+                this.buttonTickets.Enabled = true;
             }
             else
             {
                 this.buttonEdit.Enabled = false;
                 this.buttonRemove.Enabled = false;
+                this.buttonTickets.Enabled = false;
             }
         }
 
         private void dgvList_SelectionChanged(object sender, EventArgs e)
         {
             this.UpdateButtons();
+        }
+
+        private void buttonTickets_Click(object sender, EventArgs e)
+        {
+            if (this.dgvList.SelectedCells.Count > 0)
+            {
+                int rowIndex = this.dgvList.SelectedCells[0].RowIndex;
+                Project item = this.dgvList.Rows[rowIndex].DataBoundItem as Project;
+                this.mProjectsList.ShowTickets(item);
+            }
         }
     }
 }
