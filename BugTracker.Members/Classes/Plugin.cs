@@ -24,7 +24,7 @@ namespace BugTracker.Members.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemMembers = MenuPanelFabric.CreateMenuItem("Members", "Manage member's list");
+                        IButton menuItemMembers = MenuPanelFabric.CreateMenuItem("Members", "Manage member's list", BugTracker.Members.Properties.Resources.icon_users_07572d_48);
                         menuItemMembers.Click += delegate(object sender, EventArgs ea)
                         {
                             this.ShowMembersList();

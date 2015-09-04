@@ -59,5 +59,7 @@ namespace BugTracker.Core
         public IControlManager Controls { get { return this.mWindow.ControlManager; } }
 
         public IMessageCenter Messages { get { return this.mMessages; } }
+
+        public IWin32Window OwnerWindow { get { return this.mWindow; } }
     }
 }

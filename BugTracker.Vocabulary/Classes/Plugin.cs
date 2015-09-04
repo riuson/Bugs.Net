@@ -38,7 +38,10 @@ namespace BugTracker.Vocabulary.Classes
 
                             if (ti != null && !type.IsAbstract && !type.IsInterface)
                             {
-                                IButton menuItemTypeList = MenuPanelFabric.CreateMenuItem(String.Format("{0} list", type.Name), "Vocabulary editor");
+                                IButton menuItemTypeList = MenuPanelFabric.CreateMenuItem(
+                                    String.Format("{0} list", type.Name),
+                                    "Vocabulary editor",
+                                    BugTracker.Vocabulary.Properties.Resources.icon_list_ul_a41e35_48);
                                 menuItemTypeList.Click += delegate(object sender, EventArgs ea)
                                 {
                                     this.ShowList(type);

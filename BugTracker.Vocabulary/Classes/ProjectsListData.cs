@@ -113,6 +113,7 @@ namespace BugTracker.Vocabulary.Classes
                 IVocabulary v = item as IVocabulary;
 
                 if (MessageBox.Show(
+                    this.mApp.OwnerWindow,
                     String.Format(
                         "Do you really want remove item '{0}'?",
                         v.Value),

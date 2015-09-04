@@ -102,6 +102,7 @@ namespace BugTracker.Members.Classes
             if (!ea.Processed)
             {
                 if (MessageBox.Show(
+                    this.mApp.OwnerWindow,
                     String.Format(
                         "Do you really want remove Member '{0} {1}, {2}'?",
                         item.FirstName, item.LastName, item.EMail),
