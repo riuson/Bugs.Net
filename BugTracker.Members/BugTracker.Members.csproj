@@ -51,6 +51,12 @@
     <Compile Include="Controls\ControlMembersList.Designer.cs">
       <DependentUpon>ControlMembersList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ControlMemberEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlMemberEdit.Designer.cs">
+      <DependentUpon>ControlMemberEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Events\AddMemberEventArgs.cs" />
     <Compile Include="Events\EditMemberEventArgs.cs" />
     <Compile Include="Events\RemoveMemberEventArgs.cs" />
@@ -75,6 +81,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlMemberEdit.resx">
+      <DependentUpon>ControlMemberEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlMembersList.resx">
       <DependentUpon>ControlMembersList.cs</DependentUpon>
     </EmbeddedResource>

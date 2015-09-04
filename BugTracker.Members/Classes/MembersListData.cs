@@ -4,6 +4,7 @@ using BugTracker.DB;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB.Repositories;
+using BugTracker.Members.Controls;
 using BugTracker.Members.Events;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace BugTracker.Members.Classes
     {
         private IApplication mApp;
         private ICollection<Member> mInternalData;
+        private ControlMemberEdit mEditor;
 
         public BindingSource Data { get; private set; }
 
@@ -25,6 +27,7 @@ namespace BugTracker.Members.Classes
             this.mApp = app;
             this.Data = new BindingSource();
             this.Data.AllowNew = false;
+            this.mEditor = null;
             this.UpdateList();
         }
 
@@ -50,6 +53,16 @@ namespace BugTracker.Members.Classes
             AddMemberEventArgs ea = new AddMemberEventArgs();
             this.mApp.Messages.Send(this, ea);
 
+            if (!ea.Processed)
+            {
+                this.mEditor = new ControlMemberEdit();
+                this.mEditor.ClickOK += this.mEditorAdd_ClickOK;
+                this.mEditor.ClickCancel += this.mEditor_ClickCancel;
+                this.mEditor.Entity = null;
+                this.mApp.Controls.Show(this.mEditor);
+                ea.Processed = true;
+            }
+
             if (ea.Processed)
             {
                 this.UpdateList();
@@ -60,6 +73,16 @@ namespace BugTracker.Members.Classes
         {
             EditMemberEventArgs ea = new EditMemberEventArgs(item);
             this.mApp.Messages.Send(this, ea);
+
+            if (!ea.Processed)
+            {
+                this.mEditor = new ControlMemberEdit(item.FirstName, item.LastName, item.EMail);
+                this.mEditor.ClickOK += this.mEditorEdit_ClickOK;
+                this.mEditor.ClickCancel += this.mEditor_ClickCancel;
+                this.mEditor.Entity = item;
+                this.mApp.Controls.Show(this.mEditor);
+                ea.Processed = true;
+            }
 
             if (ea.Processed)
             {
@@ -95,6 +118,48 @@ namespace BugTracker.Members.Classes
             {
                 this.UpdateList();
             }
+        }
+
+        private void mEditorAdd_ClickOK(object sender, EventArgs e)
+        {
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                MemberRepository repository = new MemberRepository(session);
+                Member item = new Member();
+                item.FirstName = this.mEditor.FirstName;
+                item.LastName = this.mEditor.LastName;
+                item.EMail = this.mEditor.Email;
+                repository.Save(item);
+            }
+
+            this.mApp.Controls.Hide(this.mEditor);
+            this.mEditor = null;
+
+            this.UpdateList();
+        }
+
+        private void mEditorEdit_ClickOK(object sender, EventArgs e)
+        {
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                MemberRepository repository = new MemberRepository(session);
+                Member item = this.mEditor.Entity;
+                item.FirstName = this.mEditor.FirstName;
+                item.LastName = this.mEditor.LastName;
+                item.EMail = this.mEditor.Email;
+                repository.SaveOrUpdate(item);
+            }
+
+            this.mApp.Controls.Hide(this.mEditor);
+            this.mEditor = null;
+
+            this.UpdateList();
+        }
+
+        private void mEditor_ClickCancel(object sender, EventArgs e)
+        {
+            this.mApp.Controls.Hide(this.mEditor);
+            this.mEditor = null;
         }
     }
 }
