@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C94188CB-D7EB-4DB5-955D-F7A98D3F5109}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BugTracker.Tickets</RootNamespace>
+    <AssemblyName>BugTracker.Tickets</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\_Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\_Release\Plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Classes\TickectsListData.cs" />
+    <Compile Include="Controls\ControlTicketsList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlTicketsList.Designer.cs">
+      <DependentUpon>ControlTicketsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\AddTicketEventArgs.cs" />
+    <Compile Include="Events\EditTicketEventArgs.cs" />
+    <Compile Include="Events\RemoveTicketEventArgs.cs" />
+    <Compile Include="Events\ShowTicketEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
+      <Project>{88b80997-3b6a-4d74-b0af-50a397f69d99}</Project>
+      <Name>BugTracker.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\BugTracker.DB.Entities\BugTracker.DB.Entities.csproj">
+      <Project>{968136e6-1382-485e-98fe-caabddb1cad5}</Project>
+      <Name>BugTracker.DB.Entities</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\BugTracker.DB\BugTracker.DB.csproj">
+      <Project>{5da8e098-cf39-4b13-88cd-056e3021c0b6}</Project>
+      <Name>BugTracker.DB</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\BugTracker.Projects\BugTracker.Projects.csproj">
+      <Project>{d231f858-8cde-4488-a625-e87e1f483bc2}</Project>
+      <Name>BugTracker.Projects</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlTicketsList.resx">
+      <DependentUpon>ControlTicketsList.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
