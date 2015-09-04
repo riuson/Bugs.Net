@@ -43,6 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Classes\ProjectsListData.cs" />
+    <Compile Include="Controls\ControlVocabularyList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlVocabularyList.Designer.cs">
+      <DependentUpon>ControlVocabularyList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\AddVocabularyEventArgs.cs" />
+    <Compile Include="Events\EditVocabularyEventArgs.cs" />
+    <Compile Include="Events\RemoveVocabularyEventArgs.cs" />
+    <Compile Include="Events\ShowProjectTicketsEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +72,11 @@
       <Name>BugTracker.DB</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlVocabularyList.resx">
+      <DependentUpon>ControlVocabularyList.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
