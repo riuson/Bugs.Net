@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\Entity.cs" />
     <Compile Include="Enitities\Attachment.cs" />
     <Compile Include="Enitities\BlobContent.cs" />

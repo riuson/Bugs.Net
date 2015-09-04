@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\ProjectsListData.cs" />
     <Compile Include="Controls\ControlProjectsList.cs">
