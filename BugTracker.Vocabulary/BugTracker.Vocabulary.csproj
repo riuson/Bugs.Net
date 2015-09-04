@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\ProjectsListData.cs" />
     <Compile Include="Controls\ControlVocabularyList.cs">
