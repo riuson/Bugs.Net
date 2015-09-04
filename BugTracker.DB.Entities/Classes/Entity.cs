@@ -9,6 +9,16 @@ namespace BugTracker.DB.Entities
     {
         public virtual long Id { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Entity)
+            {
+                return this.Equals(obj as Entity);
+            }
+
+            return false;
+        }
+
         public virtual bool Equals(Entity other)
         {
             if (ReferenceEquals(null, other))

@@ -33,6 +33,10 @@ namespace BugTracker.Members.Classes
 
         public void Dispose()
         {
+            if (this.mEditor != null)
+            {
+                this.mEditor.Dispose();
+            }
             this.Data.Dispose();
         }
 

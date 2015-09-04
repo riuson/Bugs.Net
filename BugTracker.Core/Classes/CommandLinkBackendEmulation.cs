@@ -116,42 +116,35 @@ namespace BugTracker.Core.Classes
 
         public bool OnPaint(PaintEventArgs e)
         {
-            try
+            // Clean background
+            using (Brush brush = new SolidBrush(this.mButton.BackColor))
             {
-                // Clean background
-                using (Brush brush = new SolidBrush(this.mButton.BackColor))
-                {
-                    e.Graphics.FillRectangle(brush, this.mButton.ClientRectangle);
-                }
-
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-                if (this.mButton.Focused && this.mState == State.Normal)
-                {
-                    this.DrawHighlighted(e.Graphics);
-                }
-
-                switch (this.mState)
-                {
-                    case State.Normal:
-                    case State.Disabled:
-                        this.DrawForeground(e.Graphics);
-                        break;
-                    case State.Hover:
-                        this.DrawHoveredBackground(e.Graphics);
-                        this.DrawForeground(e.Graphics);
-                        break;
-                    case State.Pushed:
-                        this.DrawPushedBackground(e.Graphics);
-                        this.DrawForeground(e.Graphics);
-                        break;
-                    default:
-                        break;
-                }
+                e.Graphics.FillRectangle(brush, this.mButton.ClientRectangle);
             }
-            catch (Exception exc)
-            {
 
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+            if (this.mButton.Focused && this.mState == State.Normal)
+            {
+                this.DrawHighlighted(e.Graphics);
+            }
+
+            switch (this.mState)
+            {
+                case State.Normal:
+                case State.Disabled:
+                    this.DrawForeground(e.Graphics);
+                    break;
+                case State.Hover:
+                    this.DrawHoveredBackground(e.Graphics);
+                    this.DrawForeground(e.Graphics);
+                    break;
+                case State.Pushed:
+                    this.DrawPushedBackground(e.Graphics);
+                    this.DrawForeground(e.Graphics);
+                    break;
+                default:
+                    break;
             }
 
             return true;
