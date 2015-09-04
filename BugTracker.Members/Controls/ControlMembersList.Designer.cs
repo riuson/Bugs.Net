@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.dgvList = new System.Windows.Forms.DataGridView();
+            this.columnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
-            this.columnFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +58,27 @@
             this.dgvList.Size = new System.Drawing.Size(455, 284);
             this.dgvList.TabIndex = 0;
             this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
+            // 
+            // columnFirstName
+            // 
+            this.columnFirstName.DataPropertyName = "FirstName";
+            this.columnFirstName.HeaderText = "First Name";
+            this.columnFirstName.Name = "columnFirstName";
+            this.columnFirstName.ReadOnly = true;
+            // 
+            // columnLastName
+            // 
+            this.columnLastName.DataPropertyName = "LastName";
+            this.columnLastName.HeaderText = "Last Name";
+            this.columnLastName.Name = "columnLastName";
+            this.columnLastName.ReadOnly = true;
+            // 
+            // columnEmail
+            // 
+            this.columnEmail.DataPropertyName = "Email";
+            this.columnEmail.HeaderText = "Email";
+            this.columnEmail.Name = "columnEmail";
+            this.columnEmail.ReadOnly = true;
             // 
             // tableLayoutPanel1
             // 
@@ -94,7 +115,7 @@
             this.buttonEdit.Location = new System.Drawing.Point(464, 32);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(75, 23);
-            this.buttonEdit.TabIndex = 1;
+            this.buttonEdit.TabIndex = 2;
             this.buttonEdit.Text = "Edit";
             this.buttonEdit.UseVisualStyleBackColor = true;
             this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
@@ -104,31 +125,10 @@
             this.buttonRemove.Location = new System.Drawing.Point(464, 61);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(75, 23);
-            this.buttonRemove.TabIndex = 1;
+            this.buttonRemove.TabIndex = 3;
             this.buttonRemove.Text = "Remove";
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
-            // 
-            // columnFirstName
-            // 
-            this.columnFirstName.DataPropertyName = "FirstName";
-            this.columnFirstName.HeaderText = "First Name";
-            this.columnFirstName.Name = "columnFirstName";
-            this.columnFirstName.ReadOnly = true;
-            // 
-            // columnLastName
-            // 
-            this.columnLastName.DataPropertyName = "LastName";
-            this.columnLastName.HeaderText = "Last Name";
-            this.columnLastName.Name = "columnLastName";
-            this.columnLastName.ReadOnly = true;
-            // 
-            // columnEmail
-            // 
-            this.columnEmail.DataPropertyName = "Email";
-            this.columnEmail.HeaderText = "Email";
-            this.columnEmail.Name = "columnEmail";
-            this.columnEmail.ReadOnly = true;
             // 
             // ControlMembersList
             // 

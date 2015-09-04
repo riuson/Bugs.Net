@@ -63,7 +63,7 @@
             tableLayoutPanel1.Controls.Add(buttonOk, 4, 0);
             tableLayoutPanel1.Controls.Add(buttonCancel, 4, 1);
             tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
+            tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 7;
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -73,14 +73,14 @@
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(796, 314);
+            tableLayoutPanel1.Size = new System.Drawing.Size(806, 324);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // label1
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(198, 84);
+            label1.Location = new System.Drawing.Point(201, 84);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(60, 13);
             label1.TabIndex = 0;
@@ -90,7 +90,7 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(197, 110);
+            label2.Location = new System.Drawing.Point(200, 110);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(61, 13);
             label2.TabIndex = 0;
@@ -100,7 +100,7 @@
             // 
             label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(223, 136);
+            label3.Location = new System.Drawing.Point(226, 136);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(35, 13);
             label3.TabIndex = 0;
@@ -109,43 +109,43 @@
             // textBoxFirstName
             // 
             this.textBoxFirstName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxFirstName.Location = new System.Drawing.Point(264, 81);
+            this.textBoxFirstName.Location = new System.Drawing.Point(267, 81);
             this.textBoxFirstName.Name = "textBoxFirstName";
-            this.textBoxFirstName.Size = new System.Drawing.Size(318, 20);
-            this.textBoxFirstName.TabIndex = 1;
+            this.textBoxFirstName.Size = new System.Drawing.Size(323, 20);
+            this.textBoxFirstName.TabIndex = 0;
             // 
             // textBoxLastName
             // 
             this.textBoxLastName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxLastName.Location = new System.Drawing.Point(264, 107);
+            this.textBoxLastName.Location = new System.Drawing.Point(267, 107);
             this.textBoxLastName.Name = "textBoxLastName";
-            this.textBoxLastName.Size = new System.Drawing.Size(318, 20);
-            this.textBoxLastName.TabIndex = 2;
+            this.textBoxLastName.Size = new System.Drawing.Size(323, 20);
+            this.textBoxLastName.TabIndex = 1;
             // 
             // textBoxEmail
             // 
             this.textBoxEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxEmail.Location = new System.Drawing.Point(264, 133);
+            this.textBoxEmail.Location = new System.Drawing.Point(267, 133);
             this.textBoxEmail.Name = "textBoxEmail";
-            this.textBoxEmail.Size = new System.Drawing.Size(318, 20);
+            this.textBoxEmail.Size = new System.Drawing.Size(323, 20);
             this.textBoxEmail.TabIndex = 2;
             // 
             // buttonOk
             // 
-            buttonOk.Location = new System.Drawing.Point(717, 3);
+            buttonOk.Location = new System.Drawing.Point(727, 3);
             buttonOk.Name = "buttonOk";
             buttonOk.Size = new System.Drawing.Size(75, 23);
-            buttonOk.TabIndex = 1;
+            buttonOk.TabIndex = 3;
             buttonOk.Text = "OK";
             buttonOk.UseVisualStyleBackColor = true;
             buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new System.Drawing.Point(717, 32);
+            buttonCancel.Location = new System.Drawing.Point(727, 32);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new System.Drawing.Size(75, 23);
-            buttonCancel.TabIndex = 1;
+            buttonCancel.TabIndex = 4;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
             buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
