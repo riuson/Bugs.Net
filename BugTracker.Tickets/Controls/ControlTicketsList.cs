@@ -36,6 +36,8 @@ namespace BugTracker.Tickets.Controls
             this.dgvList.DataSource = this.mTicketsList.Data;
 
             this.UpdateButtons();
+
+            this.VisibleChanged += this.ControlTicketsList_VisibleChanged;
         }
 
         private void CreateColumns()
@@ -122,6 +124,15 @@ namespace BugTracker.Tickets.Controls
         private void dgvList_SelectionChanged(object sender, EventArgs e)
         {
             this.UpdateButtons();
+        }
+
+        private void ControlTicketsList_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                this.UpdateButtons();
+                this.mTicketsList.UpdateList();
+            }
         }
     }
 }
