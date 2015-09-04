@@ -29,6 +29,8 @@ namespace BugTracker.Members.Controls
             this.dgvList.DataSource = this.mMembersList.Data;
 
             this.UpdateButtons();
+
+            this.VisibleChanged += this.ControlMembersList_VisibleChanged;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -73,6 +75,15 @@ namespace BugTracker.Members.Controls
         private void dgvList_SelectionChanged(object sender, EventArgs e)
         {
             this.UpdateButtons();
+        }
+
+        private void ControlMembersList_VisibleChanged(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                this.UpdateButtons();
+                this.mMembersList.UpdateList();
+            }
         }
     }
 }
