@@ -33,11 +33,6 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
-            this.buttonView = new System.Windows.Forms.Button();
-            this.columnTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnAuthor = BugTracker.DB.Classes.DataGridViewColumnFabric.CreateSubColumn(BugTracker.DB.Classes.DataGridViewColumnFabric.ColumnType.SubColumn);
-            this.columnCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnStatus = BugTracker.DB.Classes.DataGridViewColumnFabric.CreateSubColumn(BugTracker.DB.Classes.DataGridViewColumnFabric.ColumnType.SubColumn);
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -48,16 +43,11 @@
             this.dgvList.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.columnTitle,
-            this.columnAuthor,
-            this.columnCreated,
-            this.columnStatus});
             this.dgvList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvList.Location = new System.Drawing.Point(3, 3);
             this.dgvList.Name = "dgvList";
             this.dgvList.ReadOnly = true;
-            this.tableLayoutPanel1.SetRowSpan(this.dgvList, 6);
+            this.tableLayoutPanel1.SetRowSpan(this.dgvList, 4);
             this.dgvList.Size = new System.Drawing.Size(455, 284);
             this.dgvList.TabIndex = 0;
             this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
@@ -71,15 +61,12 @@
             this.tableLayoutPanel1.Controls.Add(this.buttonAdd, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonEdit, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonRemove, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.buttonView, 1, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(542, 290);
@@ -115,44 +102,6 @@
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
-            // buttonView
-            // 
-            this.buttonView.Location = new System.Drawing.Point(464, 110);
-            this.buttonView.Name = "buttonView";
-            this.buttonView.Size = new System.Drawing.Size(75, 23);
-            this.buttonView.TabIndex = 1;
-            this.buttonView.Text = "View";
-            this.buttonView.UseVisualStyleBackColor = true;
-            this.buttonView.Click += new System.EventHandler(this.buttonTickets_Click);
-            // 
-            // columnTitle
-            // 
-            this.columnTitle.DataPropertyName = "Title";
-            this.columnTitle.HeaderText = "Title";
-            this.columnTitle.Name = "columnTitle";
-            this.columnTitle.ReadOnly = true;
-            // 
-            // columnAuthor
-            // 
-            this.columnAuthor.DataPropertyName = "Author.LastName";
-            this.columnAuthor.HeaderText = "Author";
-            this.columnAuthor.Name = "columnAuthor";
-            this.columnAuthor.ReadOnly = true;
-            // 
-            // columnCreated
-            // 
-            this.columnCreated.DataPropertyName = "Created";
-            this.columnCreated.HeaderText = "Created";
-            this.columnCreated.Name = "columnCreated";
-            this.columnCreated.ReadOnly = true;
-            // 
-            // columnStatus
-            // 
-            this.columnStatus.DataPropertyName = "Status.Value";
-            this.columnStatus.HeaderText = "Status";
-            this.columnStatus.Name = "columnStatus";
-            this.columnStatus.ReadOnly = true;
-            // 
             // ControlTicketsList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -173,10 +122,5 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.Button buttonRemove;
-        private System.Windows.Forms.Button buttonView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnTitle;
-        private System.Windows.Forms.DataGridViewColumn columnAuthor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnCreated;
-        private System.Windows.Forms.DataGridViewColumn columnStatus;
     }
 }
