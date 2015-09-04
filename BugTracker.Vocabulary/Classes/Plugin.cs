@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BugTracker.Vocabulary.Classes
 {
@@ -28,25 +29,25 @@ namespace BugTracker.Vocabulary.Classes
                         IButton menuItemPriorityList = MenuPanelFabric.CreateMenuItem("Priority list", "Vocabulary editor");
                         menuItemPriorityList.Click += delegate(object sender, EventArgs ea)
                         {
-                            this.ShowPriorityList();
+                            this.ShowList(typeof(Priority));
                         };
 
                         IButton menuItemProblemTypeList = MenuPanelFabric.CreateMenuItem("Problem Type list", "Vocabulary editor");
                         menuItemProblemTypeList.Click += delegate(object sender, EventArgs ea)
                         {
-                            this.ShowProblemTypeList();
+                            this.ShowList(typeof(ProblemType));
                         };
 
                         IButton menuItemSolutionList = MenuPanelFabric.CreateMenuItem("Solution list", "Vocabulary editor");
                         menuItemSolutionList.Click += delegate(object sender, EventArgs ea)
                         {
-                            this.ShowSolutionList();
+                            this.ShowList(typeof(Solution));
                         };
 
                         IButton menuItemStatusList = MenuPanelFabric.CreateMenuItem("Status list", "Vocabulary editor");
                         menuItemStatusList.Click += delegate(object sender, EventArgs ea)
                         {
-                            this.ShowStatusList();
+                            this.ShowList(typeof(Status));
                         };
 
                         return new IButton[] { menuItemPriorityList, menuItemProblemTypeList, menuItemSolutionList, menuItemStatusList };
@@ -56,28 +57,19 @@ namespace BugTracker.Vocabulary.Classes
             }
         }
 
-        private void ShowPriorityList()
+        private void ShowList(Type type)
         {
-            ControlVocabularyList<Priority> controlEditor = new ControlVocabularyList<Priority>(this.mApp);
-            this.mApp.Controls.Show(controlEditor);
-        }
+            Type generic = typeof(ControlVocabularyList<>);
+            Type[] typeArgs = { type };
+            Type constructed = generic.MakeGenericType(typeArgs);
 
-        private void ShowProblemTypeList()
-        {
-            ControlVocabularyList<ProblemType> controlEditor = new ControlVocabularyList<ProblemType>(this.mApp);
-            this.mApp.Controls.Show(controlEditor);
-        }
+            object o = Activator.CreateInstance(constructed, new object[] { this.mApp });
+            Control control = o as Control;
 
-        private void ShowSolutionList()
-        {
-            ControlVocabularyList<Solution> controlEditor = new ControlVocabularyList<Solution>(this.mApp);
-            this.mApp.Controls.Show(controlEditor);
-        }
-
-        private void ShowStatusList()
-        {
-            ControlVocabularyList<Status> controlEditor = new ControlVocabularyList<Status>(this.mApp);
-            this.mApp.Controls.Show(controlEditor);
+            if (control != null)
+            {
+                this.mApp.Controls.Show(control);
+            }
         }
     }
 }
