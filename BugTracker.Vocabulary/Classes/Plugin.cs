@@ -5,6 +5,7 @@ using BugTracker.Vocabulary.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,31 +27,27 @@ namespace BugTracker.Vocabulary.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemPriorityList = MenuPanelFabric.CreateMenuItem("Priority list", "Vocabulary editor");
-                        menuItemPriorityList.Click += delegate(object sender, EventArgs ea)
-                        {
-                            this.ShowList(typeof(Priority));
-                        };
+                        List<IButton> result = new List<IButton>();
 
-                        IButton menuItemProblemTypeList = MenuPanelFabric.CreateMenuItem("Problem Type list", "Vocabulary editor");
-                        menuItemProblemTypeList.Click += delegate(object sender, EventArgs ea)
-                        {
-                            this.ShowList(typeof(ProblemType));
-                        };
+                        Assembly assembly = typeof(IVocabulary).Assembly;
+                        Type[] types = assembly.GetTypes();
 
-                        IButton menuItemSolutionList = MenuPanelFabric.CreateMenuItem("Solution list", "Vocabulary editor");
-                        menuItemSolutionList.Click += delegate(object sender, EventArgs ea)
+                        foreach (var type in types)
                         {
-                            this.ShowList(typeof(Solution));
-                        };
+                            Type ti = type.GetInterface(typeof(IVocabulary).FullName);
 
-                        IButton menuItemStatusList = MenuPanelFabric.CreateMenuItem("Status list", "Vocabulary editor");
-                        menuItemStatusList.Click += delegate(object sender, EventArgs ea)
-                        {
-                            this.ShowList(typeof(Status));
-                        };
+                            if (ti != null && !type.IsAbstract && !type.IsInterface)
+                            {
+                                IButton menuItemTypeList = MenuPanelFabric.CreateMenuItem(String.Format("{0} list", type.Name), "Vocabulary editor");
+                                menuItemTypeList.Click += delegate(object sender, EventArgs ea)
+                                {
+                                    this.ShowList(type);
+                                };
+                                result.Add(menuItemTypeList);
+                            }
+                        }
 
-                        return new IButton[] { menuItemPriorityList, menuItemProblemTypeList, menuItemSolutionList, menuItemStatusList };
+                        return result.ToArray();
                     }
                 default:
                     return new IButton[] { };
