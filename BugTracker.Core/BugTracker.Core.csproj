@@ -44,11 +44,14 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="Classes\CommandLinkBackendEmulation.cs" />
+    <Compile Include="Classes\CommandLinkBackendNative.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
     <Compile Include="Controls\MenuListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Interfaces\ICommandLinkBackend.cs" />
     <Compile Include="Interfaces\IMenuPanel.cs" />
     <Compile Include="Classes\InputBox.cs" />
     <Compile Include="Classes\MenuPanelFabric.cs" />
@@ -66,9 +69,6 @@
     <Compile Include="Classes\MessageCenter.cs" />
     <Compile Include="Classes\Plugins.cs" />
     <Compile Include="Classes\Saved.cs" />
-    <Compile Include="Controls\CommandLinkButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\MenuCommandLink.cs">
       <SubType>Component</SubType>
     </Compile>

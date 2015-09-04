@@ -47,7 +47,7 @@ namespace BugTracker.Core.Controls
             }
             else
             {
-                result.Image = SystemIcons.Information.ToBitmap();
+                result.Image = null;
             }
 
             return result;
