@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\ProjectsListData.cs" />
     <Compile Include="Controls\ControlVocabularyList.cs">
@@ -55,6 +56,11 @@
     <Compile Include="Events\RemoveVocabularyEventArgs.cs" />
     <Compile Include="Events\ShowProjectTicketsEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
@@ -77,6 +83,13 @@
     <EmbeddedResource Include="Controls\ControlVocabularyList.resx">
       <DependentUpon>ControlVocabularyList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\list-ul_a41e35_48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

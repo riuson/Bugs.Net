@@ -28,7 +28,7 @@ namespace BugTracker.Projects.Classes
             {
                 case "startpage":
                     {
-                        IButton menuItemProjects = MenuPanelFabric.CreateMenuItem("Projects", "Manage projects");
+                        IButton menuItemProjects = MenuPanelFabric.CreateMenuItem("Projects", "Manage projects", BugTracker.Projects.Properties.Resources.icon_files_o_2c3699_48);
                         menuItemProjects.Click += delegate(object sender, EventArgs ea)
                         {
                             this.mApp.Messages.Send(this, new ShowProjectListEventArgs());

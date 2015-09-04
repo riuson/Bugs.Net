@@ -25,7 +25,7 @@ namespace BugTracker.DB.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Database", "Configure database");
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Database", "Configure database", BugTracker.DB.Properties.Resources.icon_database_1d257b_48);
                         menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);

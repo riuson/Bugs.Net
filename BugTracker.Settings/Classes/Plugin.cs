@@ -25,7 +25,7 @@ namespace BugTracker.Settings
             {
                 case "startpage":
                     {
-                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings");
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings", "Application options", BugTracker.Settings.Properties.Resources.icon_gears_920000_48);
                         menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);

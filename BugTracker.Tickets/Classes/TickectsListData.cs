@@ -77,6 +77,7 @@ namespace BugTracker.Tickets.Classes
             if (!ea.Processed)
             {
                 if (MessageBox.Show(
+                    this.mApp.OwnerWindow,
                     String.Format(
                         "Do you really want remove ticket '{0}'?",
                         item.Title),
