@@ -37,5 +37,17 @@ internal class AssemblyGitCommitAuthorDateAttribute : Attribute
     public DateTime CommitAuthorDate { get; private set; }
 
     public AssemblyGitCommitAuthorDateAttribute() : this(string.Empty) { }
-    public AssemblyGitCommitAuthorDateAttribute(string value) { this.CommitAuthorDate = DateTime.Parse(value); }
+    public AssemblyGitCommitAuthorDateAttribute(string value)
+    {
+        DateTime dt;
+
+        if (DateTime.TryParse(value, out dt))
+        {
+            this.CommitAuthorDate = dt;
+        }
+        else
+        {
+            this.CommitAuthorDate = new DateTime(1970, 1, 1, 0, 0, 0);
+        }
+    }
 }
