@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.DB.Entities", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.Projects", "BugTracker.Projects\BugTracker.Projects.csproj", "{D231F858-8CDE-4488-A625-E87E1F483BC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.Members", "BugTracker.Members\BugTracker.Members.csproj", "{FCE5A79A-E443-4283-AC8A-0E215A373A3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D231F858-8CDE-4488-A625-E87E1F483BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D231F858-8CDE-4488-A625-E87E1F483BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D231F858-8CDE-4488-A625-E87E1F483BC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCE5A79A-E443-4283-AC8A-0E215A373A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCE5A79A-E443-4283-AC8A-0E215A373A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCE5A79A-E443-4283-AC8A-0E215A373A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCE5A79A-E443-4283-AC8A-0E215A373A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
