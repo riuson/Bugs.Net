@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BugTracker.DB.Classes
 {
-    public abstract class Repository<T> : IRepository<T> where T : new()
+    public class Repository<T> : IRepository<T> where T : new()
     {
         protected NHibernate.ISession Session { get; set; }
 
