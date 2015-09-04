@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
+using BugTracker.Members.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,8 @@ namespace BugTracker.Members.Classes
 
         private void ShowMembersList()
         {
-            //ControlSettings controlSettings = new ControlSettings(this.mApp);
-            //this.mApp.Controls.Show(controlSettings);
+            ControlMembersList controlMembers = new ControlMembersList(this.mApp);
+            this.mApp.Controls.Show(controlMembers);
         }
     }
 }
