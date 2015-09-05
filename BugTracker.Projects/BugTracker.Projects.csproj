@@ -52,6 +52,7 @@
     <Compile Include="Controls\ControlProjectsList.Designer.cs">
       <DependentUpon>ControlProjectsList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Events\LoginAnswerEventArgs.cs" />
     <Compile Include="Events\LoginRequestEventArgs.cs" />
     <Compile Include="Events\RemoveProjectEventArgs.cs" />
     <Compile Include="Events\EditProjectEventArgs.cs" />

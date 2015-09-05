@@ -15,10 +15,13 @@ namespace BugTracker.Projects.Classes
     internal class Plugin : IPlugin
     {
         private IApplication mApp;
+        private bool mLoginRequested;
 
         public void Initialize(IApplication app)
         {
             this.mApp = app;
+            this.mApp.Messages.Subscribe(typeof(LoginAnswerEventArgs), this.LoginAnswer);
+            this.mLoginRequested = false;
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -41,12 +44,30 @@ namespace BugTracker.Projects.Classes
             LoginRequestEventArgs loginRequestEventArgs = new LoginRequestEventArgs();
             this.mApp.Messages.Send(this, loginRequestEventArgs);
 
-            if (!loginRequestEventArgs.Processed)
+            if (loginRequestEventArgs.Processed)
+            {
+                this.mLoginRequested = true;
+            }
+            else
             {
                 MessageBox.Show(this.mApp.OwnerWindow, "Login handler not installed!", "Login required", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
-            //ControlProjectsList controlList = new ControlProjectsList(this.mApp, loggedMember);
-            //this.mApp.Controls.Show(controlList);
+        }
+
+        private void LoginAnswer(object sender, MessageEventArgs e)
+        {
+            LoginAnswerEventArgs ea = e as LoginAnswerEventArgs;
+
+            if (this.mLoginRequested)
+            {
+                this.mLoginRequested = false;
+
+                if (ea.LoggedMember != null)
+                {
+                    ControlProjectsList controlList = new ControlProjectsList(this.mApp, ea.LoggedMember);
+                    this.mApp.Controls.Show(controlList);
+                }
+            }
         }
     }
 }
