@@ -19,12 +19,14 @@ namespace BugTracker.Tickets.Classes
     {
         private IApplication mApp;
         private ICollection<Ticket> mInternalData;
+        private Member mLoggedMember;
 
         public BindingSource Data { get; private set; }
 
-        public TicketsListData(IApplication app)
+        public TicketsListData(IApplication app, Member loggedMember)
         {
             this.mApp = app;
+            this.mLoggedMember = loggedMember;
             this.Data = new BindingSource();
             this.Data.AllowNew = false;
             this.UpdateList();
@@ -49,7 +51,7 @@ namespace BugTracker.Tickets.Classes
 
         public void Add()
         {
-            AddTicketEventArgs ea = new AddTicketEventArgs();
+            AddTicketEventArgs ea = new AddTicketEventArgs(this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)
@@ -60,7 +62,7 @@ namespace BugTracker.Tickets.Classes
 
         public void Edit(Ticket item)
         {
-            EditTicketEventArgs ea = new EditTicketEventArgs(item);
+            EditTicketEventArgs ea = new EditTicketEventArgs(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)
@@ -71,7 +73,7 @@ namespace BugTracker.Tickets.Classes
 
         public void Remove(Ticket item)
         {
-            RemoveTicketEventArgs ea = new RemoveTicketEventArgs(item);
+            RemoveTicketEventArgs ea = new RemoveTicketEventArgs(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -93,17 +95,6 @@ namespace BugTracker.Tickets.Classes
                     ea.Processed = true;
                 }
             }
-
-            if (ea.Processed)
-            {
-                this.UpdateList();
-            }
-        }
-
-        public void ShowTicket(Ticket item)
-        {
-            ShowTicketEventArgs ea = new ShowTicketEventArgs(item);
-            this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)
             {
