@@ -51,12 +51,3 @@ internal class AssemblyGitCommitAuthorDateAttribute : Attribute
         }
     }
 }
-
-[AttributeUsage(AttributeTargets.Assembly)]
-internal class AssemblyPluginTypeAttribute : Attribute
-{
-    public Type PluginType { get; private set; }
-
-    public AssemblyPluginTypeAttribute() : this(typeof(Object)) { }
-    public AssemblyPluginTypeAttribute(Type value) { this.PluginType = value; }
-}

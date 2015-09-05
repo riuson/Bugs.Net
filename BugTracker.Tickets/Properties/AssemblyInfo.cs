@@ -19,4 +19,4 @@ using System.Runtime.InteropServices;
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
 [assembly: Guid("9bd94604-3092-4271-bd0c-1f653ced6d75")]
 
-[assembly: AssemblyPluginTypeAttribute(typeof(BugTracker.Tickets.Classes.Plugin))]
+[assembly: BugTracker.Core.Classes.AssemblyPluginType(typeof(BugTracker.Tickets.Classes.Plugin))]
