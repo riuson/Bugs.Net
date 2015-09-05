@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
+using BugTracker.DB.Entities;
 using BugTracker.Projects.Controls;
 using BugTracker.Projects.Events;
 using System;
@@ -37,8 +38,37 @@ namespace BugTracker.Projects.Classes
 
         private void ShowProjectsList(object sender, EventArgs ea)
         {
-            ControlProjectsList controlList = new ControlProjectsList(this.mApp);
-            this.mApp.Controls.Show(controlList);
+            bool retry = false;
+            Member loggedMember = null;
+
+            do
+            {
+                LoginRequiredEventArgs loginEventArgs = new LoginRequiredEventArgs();
+                this.mApp.Messages.Send(this, loginEventArgs);
+
+                if (!loginEventArgs.Processed || loginEventArgs.LoggedMember != null)
+                {
+                    if (MessageBox.Show(this.mApp.OwnerWindow, "Please log in first", "Login required", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry)
+                    {
+                        retry = true;
+                    }
+                    else
+                    {
+                        retry = false;
+                    }
+                }
+                else
+                {
+                    loggedMember = loginEventArgs.LoggedMember;
+                    retry = false;
+                }
+            } while (retry);
+
+            if (loggedMember != null)
+            {
+                ControlProjectsList controlList = new ControlProjectsList(this.mApp, loggedMember);
+                this.mApp.Controls.Show(controlList);
+            }
         }
     }
 }
