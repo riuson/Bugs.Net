@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="..\AssemblyInfoCommon.cs" />
+    <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\CommandLinkBackendEmulation.cs" />
     <Compile Include="Classes\CommandLinkBackendNative.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
@@ -99,6 +100,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)pre-build.bat $(SolutionDir)</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

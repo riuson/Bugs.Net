@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -20,3 +21,33 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyFileVersion("1.0.*")]
+
+[AttributeUsage(AttributeTargets.Assembly)]
+internal class AssemblyGitRevisionAttribute : Attribute
+{
+    public string RevisionHash { get; private set; }
+
+    public AssemblyGitRevisionAttribute() : this(string.Empty) { }
+    public AssemblyGitRevisionAttribute(string value) { this.RevisionHash = value; }
+}
+
+[AttributeUsage(AttributeTargets.Assembly)]
+internal class AssemblyGitCommitAuthorDateAttribute : Attribute
+{
+    public DateTime CommitAuthorDate { get; private set; }
+
+    public AssemblyGitCommitAuthorDateAttribute() : this(string.Empty) { }
+    public AssemblyGitCommitAuthorDateAttribute(string value)
+    {
+        DateTime dt;
+
+        if (DateTime.TryParse(value, out dt))
+        {
+            this.CommitAuthorDate = dt;
+        }
+        else
+        {
+            this.CommitAuthorDate = new DateTime(1970, 1, 1, 0, 0, 0);
+        }
+    }
+}
