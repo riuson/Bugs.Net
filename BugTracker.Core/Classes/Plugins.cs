@@ -43,15 +43,16 @@ namespace BugTracker.Core.Classes
                 try
                 {
                     Assembly assembly = Assembly.LoadFile(filename);
-                    Type[] types = assembly.GetTypes();
+                    object[] attributesPlugin = assembly.GetCustomAttributes(typeof(AssemblyPluginTypeAttribute), false);
 
-                    foreach (var type in types)
+                    foreach (var attributePlugin in attributesPlugin)
                     {
-                        Type t = type.GetInterface(typeof(IPlugin).FullName);
+                        Type pluginType = (attributePlugin as AssemblyPluginTypeAttribute).PluginType;
+                        Type t = pluginType.GetInterface(typeof(IPlugin).FullName);
 
-                        if (t != null && !type.IsAbstract)
+                        if (t != null && !pluginType.IsAbstract)
                         {
-                            IPlugin pluginInfo = (IPlugin)Activator.CreateInstance(type);
+                            IPlugin pluginInfo = (IPlugin)Activator.CreateInstance(pluginType);
                             pluginInfo.Initialize(app);
                             result.Add(pluginInfo);
                         }

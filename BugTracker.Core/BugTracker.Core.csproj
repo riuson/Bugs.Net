@@ -45,6 +45,7 @@
     <Compile Include="App.cs" />
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\AssemblyPluginTypeAttribute.cs" />
     <Compile Include="Classes\CommandLinkBackendEmulation.cs" />
     <Compile Include="Classes\CommandLinkBackendNative.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
