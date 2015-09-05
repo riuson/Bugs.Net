@@ -19,11 +19,11 @@ namespace BugTracker.About.Controls
             InitializeComponent();
             this.Text = "About";
 
-            var attributeRevision = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyGitRevisionAttribute>();
-            var attributeAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyGitCommitAuthorDateAttribute>();
+            object[] attributesRevision = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitRevisionAttribute), false);
+            object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
 
-            this.labelRevision.Text = attributeRevision.RevisionHash;
-            this.labelCommitAuthorDate.Text = attributeAuthorDate.CommitAuthorDate.ToLongDateString();
+            this.labelRevision.Text = (attributesRevision[0] as AssemblyGitRevisionAttribute).RevisionHash;
+            this.labelCommitAuthorDate.Text = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate.ToLongDateString();
         }
     }
 }
