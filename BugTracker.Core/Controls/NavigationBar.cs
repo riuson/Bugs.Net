@@ -56,7 +56,7 @@ namespace BugTracker.Core.Controls
         {
             if (this.Navigate != null)
             {
-                int steps = Convert.ToInt32((sender as LinkLabel).Tag);
+                int steps = Convert.ToInt32((sender as Label).Tag);
 
                 this.Navigate(this, new NavigateEventArgs(steps));
             }
