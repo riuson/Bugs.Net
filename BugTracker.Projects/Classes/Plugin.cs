@@ -38,37 +38,15 @@ namespace BugTracker.Projects.Classes
 
         private void ShowProjectsList(object sender, EventArgs ea)
         {
-            bool retry = false;
-            Member loggedMember = null;
+            LoginRequiredEventArgs loginRequestEventArgs = new LoginRequiredEventArgs();
+            this.mApp.Messages.Send(this, loginRequestEventArgs);
 
-            do
+            if (!loginRequestEventArgs.Processed)
             {
-                LoginRequiredEventArgs loginEventArgs = new LoginRequiredEventArgs();
-                this.mApp.Messages.Send(this, loginEventArgs);
-
-                if (!loginEventArgs.Processed || loginEventArgs.LoggedMember != null)
-                {
-                    if (MessageBox.Show(this.mApp.OwnerWindow, "Please log in first", "Login required", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.Retry)
-                    {
-                        retry = true;
-                    }
-                    else
-                    {
-                        retry = false;
-                    }
-                }
-                else
-                {
-                    loggedMember = loginEventArgs.LoggedMember;
-                    retry = false;
-                }
-            } while (retry);
-
-            if (loggedMember != null)
-            {
-                ControlProjectsList controlList = new ControlProjectsList(this.mApp, loggedMember);
-                this.mApp.Controls.Show(controlList);
+                MessageBox.Show(this.mApp.OwnerWindow, "Login handler not installed!", "Login required", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
+            //ControlProjectsList controlList = new ControlProjectsList(this.mApp, loggedMember);
+            //this.mApp.Controls.Show(controlList);
         }
     }
 }
