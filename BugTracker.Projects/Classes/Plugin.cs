@@ -18,8 +18,6 @@ namespace BugTracker.Projects.Classes
         public void Initialize(IApplication app)
         {
             this.mApp = app;
-
-            this.mApp.Messages.Subscribe(typeof(ShowProjectListEventArgs), this.ShowProjectsList);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -29,11 +27,7 @@ namespace BugTracker.Projects.Classes
                 case "startpage":
                     {
                         IButton menuItemProjects = MenuPanelFabric.CreateMenuItem("Projects", "Manage projects", BugTracker.Projects.Properties.Resources.icon_files_o_2c3699_48);
-                        menuItemProjects.Click += delegate(object sender, EventArgs ea)
-                        {
-                            this.mApp.Messages.Send(this, new ShowProjectListEventArgs());
-                        };
-
+                        menuItemProjects.Click += this.ShowProjectsList;
                         return new IButton[] { menuItemProjects };
                     }
                 default:
@@ -41,7 +35,7 @@ namespace BugTracker.Projects.Classes
             }
         }
 
-        private void ShowProjectsList(object sender, MessageEventArgs ea)
+        private void ShowProjectsList(object sender, EventArgs ea)
         {
             ControlProjectsList controlList = new ControlProjectsList(this.mApp);
             this.mApp.Controls.Show(controlList);
