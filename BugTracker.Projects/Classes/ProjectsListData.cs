@@ -17,12 +17,14 @@ namespace BugTracker.Projects.Classes
     {
         private IApplication mApp;
         private ICollection<Project> mInternalData;
+        private Member mLoggedMember;
 
         public BindingSource Data { get; private set; }
 
-        public ProjectsListData(IApplication app)
+        public ProjectsListData(IApplication app, Member loggedMember)
         {
             this.mApp = app;
+            this.mLoggedMember = loggedMember;
             this.Data = new BindingSource();
             this.Data.AllowNew = false;
             this.UpdateList();
@@ -47,7 +49,7 @@ namespace BugTracker.Projects.Classes
 
         public void Add()
         {
-            AddProjectEventArgs ea = new AddProjectEventArgs();
+            AddProjectEventArgs ea = new AddProjectEventArgs(this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -75,7 +77,7 @@ namespace BugTracker.Projects.Classes
 
         public void Edit(Project item)
         {
-            EditProjectEventArgs ea = new EditProjectEventArgs(item);
+            EditProjectEventArgs ea = new EditProjectEventArgs(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -102,7 +104,7 @@ namespace BugTracker.Projects.Classes
 
         public void Remove(Project item)
         {
-            RemoveProjectEventArgs ea = new RemoveProjectEventArgs(item);
+            RemoveProjectEventArgs ea = new RemoveProjectEventArgs(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -133,7 +135,7 @@ namespace BugTracker.Projects.Classes
 
         public void ShowTickets(Project item)
         {
-            ShowProjectTicketsEventArgs ea = new ShowProjectTicketsEventArgs(item);
+            ShowProjectTicketsEventArgs ea = new ShowProjectTicketsEventArgs(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)

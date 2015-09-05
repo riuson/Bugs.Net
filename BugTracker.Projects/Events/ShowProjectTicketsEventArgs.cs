@@ -10,10 +10,12 @@ namespace BugTracker.Projects.Events
     public class ShowProjectTicketsEventArgs : MessageEventArgs
     {
         public Project Item { get; private set; }
+        public Member LoggedMember { get; private set; }
 
-        public ShowProjectTicketsEventArgs(Project item)
+        public ShowProjectTicketsEventArgs(Project item, Member loggedMember)
         {
             this.Item = item;
+            this.LoggedMember = loggedMember;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BugTracker.Projects.Controls
             this.mApp = app;
             this.mLoggedMember = loggedMember;
 
-            this.mProjectsList = new ProjectsListData(this.mApp);
+            this.mProjectsList = new ProjectsListData(this.mApp, this.mLoggedMember);
 
             this.dgvList.AutoGenerateColumns = false;
             this.dgvList.DataSource = this.mProjectsList.Data;
