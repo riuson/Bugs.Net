@@ -75,9 +75,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="info-circle_005719_48.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\info-circle_005719_48.png" />
   </ItemGroup>
   <ItemGroup>
