@@ -16,14 +16,16 @@ namespace BugTracker.Projects.Controls
     {
         private IApplication mApp;
         private ProjectsListData mProjectsList;
+        private Member mLoggedMember;
 
-        public ControlProjectsList(IApplication app)
+        public ControlProjectsList(IApplication app, Member loggedMember)
         {
             InitializeComponent();
             this.Text = "Projects list";
             this.mApp = app;
+            this.mLoggedMember = loggedMember;
 
-            this.mProjectsList = new ProjectsListData(this.mApp);
+            this.mProjectsList = new ProjectsListData(this.mApp, this.mLoggedMember);
 
             this.dgvList.AutoGenerateColumns = false;
             this.dgvList.DataSource = this.mProjectsList.Data;

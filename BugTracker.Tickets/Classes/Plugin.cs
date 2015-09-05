@@ -31,7 +31,7 @@ namespace BugTracker.Tickets.Classes
 
             if (ea != null)
             {
-                ControlTicketsList controlList = new ControlTicketsList(this.mApp);
+                ControlTicketsList controlList = new ControlTicketsList(this.mApp, ea.LoggedMember);
                 this.mApp.Controls.Show(controlList);
             }
         }

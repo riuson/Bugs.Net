@@ -7,14 +7,17 @@ using System.Text;
 
 namespace BugTracker.Projects.Events
 {
-    public class EditProjectEventArgs : MessageEventArgs
+    public class LoginAnswerEventArgs : MessageEventArgs
     {
-        public Project Item { get; private set; }
         public Member LoggedMember { get; private set; }
 
-        public EditProjectEventArgs(Project item, Member loggedMember)
+        public LoginAnswerEventArgs()
         {
-            this.Item = item;
+            this.LoggedMember = null;
+        }
+
+        public LoginAnswerEventArgs(Member loggedMember)
+        {
             this.LoggedMember = loggedMember;
         }
     }

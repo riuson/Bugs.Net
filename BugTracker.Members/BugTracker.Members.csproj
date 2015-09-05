@@ -46,6 +46,12 @@
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\MembersListData.cs" />
+    <Compile Include="Controls\ControlLogin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlLogin.Designer.cs">
+      <DependentUpon>ControlLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ControlMembersList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -85,8 +91,16 @@
       <Name>BugTracker.DB</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\BugTracker.Projects\BugTracker.Projects.csproj">
+      <Project>{d231f858-8cde-4488-a625-e87e1f483bc2}</Project>
+      <Name>BugTracker.Projects</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlLogin.resx">
+      <DependentUpon>ControlLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlMemberEdit.resx">
       <DependentUpon>ControlMemberEdit.cs</DependentUpon>
     </EmbeddedResource>
