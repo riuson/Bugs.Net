@@ -38,7 +38,7 @@ namespace BugTracker.Projects.Classes
 
         private void ShowProjectsList(object sender, EventArgs ea)
         {
-            LoginRequiredEventArgs loginRequestEventArgs = new LoginRequiredEventArgs();
+            LoginRequestEventArgs loginRequestEventArgs = new LoginRequestEventArgs();
             this.mApp.Messages.Send(this, loginRequestEventArgs);
 
             if (!loginRequestEventArgs.Processed)

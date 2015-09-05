@@ -7,13 +7,7 @@ using System.Text;
 
 namespace BugTracker.Projects.Events
 {
-    public class LoginRequiredEventArgs : MessageEventArgs
+    public class LoginRequestEventArgs : MessageEventArgs
     {
-        public Member LoggedMember { get; set; }
-
-        public LoginRequiredEventArgs()
-        {
-            this.LoggedMember = null;
-        }
     }
 }
