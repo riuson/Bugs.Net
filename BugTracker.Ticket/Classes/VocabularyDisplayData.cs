@@ -23,9 +23,9 @@ namespace BugTracker.Ticket.Classes
 
         public override bool Equals(object obj)
         {
-            if (obj is Entity)
+            if (obj is VocabularyDisplayData<T>)
             {
-                return this.Equals(obj as Entity);
+                return this.Equals(obj as VocabularyDisplayData<T>);
             }
 
             return false;
