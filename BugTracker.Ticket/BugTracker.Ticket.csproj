@@ -51,6 +51,12 @@
     <Compile Include="Controls\ControlTicketEdit.Designer.cs">
       <DependentUpon>ControlTicketEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\VocabularyBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\VocabularyBox.Designer.cs">
+      <DependentUpon>VocabularyBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +80,19 @@
       <Name>BugTracker.Tickets</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\BugTracker.Vocabulary\BugTracker.Vocabulary.csproj">
+      <Project>{7937ecc3-052c-482c-afaa-c516c76af9ec}</Project>
+      <Name>BugTracker.Vocabulary</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Controls\ControlTicketEdit.resx">
       <DependentUpon>ControlTicketEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\VocabularyBox.resx">
+      <DependentUpon>VocabularyBox.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
