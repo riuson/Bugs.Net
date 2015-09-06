@@ -29,7 +29,7 @@ namespace BugTracker.Ticket.Classes
         private void AddTicketList(object sender, MessageEventArgs e)
         {
             AddTicketEventArgs ea = e as AddTicketEventArgs;
-            ControlTicketEdit controlEdit = new ControlTicketEdit(ea.LoggedMember);
+            ControlTicketEdit controlEdit = new ControlTicketEdit(this.mApp, ea.LoggedMember);
             controlEdit.ClickOK += controlEdit_ClickOK;
             controlEdit.ClickCancel += controlEdit_ClickCancel;
             this.mApp.Controls.Show(controlEdit);
