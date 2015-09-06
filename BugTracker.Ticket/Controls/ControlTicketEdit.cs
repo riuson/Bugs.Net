@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using BugTracker.DB.Entities;
 using BugTracker.Ticket.Controls;
 using BugTracker.Core.Interfaces;
+using BugTracker.DB.Interfaces;
+using BugTracker.DB;
+using BugTracker.DB.Repositories;
 
 namespace BugTracker.Members.Controls
 {
@@ -31,6 +34,7 @@ namespace BugTracker.Members.Controls
             this.Text = "Add ticket";
             this.mApp = app;
             this.LoggedMember = loggedMember;
+            this.Ticket = null;
 
             this.mProblemTypeBox = new VocabularyBox<ProblemType>(this.mApp);
             this.mPriorityBox = new VocabularyBox<Priority>(this.mApp);
@@ -57,6 +61,26 @@ namespace BugTracker.Members.Controls
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                TicketRepository ticketRepository = new TicketRepository(session);
+
+                if (this.Ticket == null)
+                {
+                    this.Ticket = new DB.Entities.Ticket();
+                }
+
+                this.Ticket.Title = this.textBoxTitle.Text;
+                this.Ticket.Created = DateTime.Now;
+                this.Ticket.Author = this.LoggedMember;
+                this.Ticket.Type = this.mProblemTypeBox.SelectedValue;
+                this.Ticket.Priority = this.mPriorityBox.SelectedValue;
+                this.Ticket.Status = this.mStatusBox.SelectedValue;
+                this.Ticket.Solution = this.mSolutionBox.SelectedValue;
+
+                ticketRepository.SaveOrUpdate(this.Ticket);
+            }
+
             if (this.ClickOK != null)
             {
                 this.ClickOK(this, EventArgs.Empty);
