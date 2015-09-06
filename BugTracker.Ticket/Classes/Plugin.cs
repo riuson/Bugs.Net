@@ -38,6 +38,12 @@ namespace BugTracker.Ticket.Classes
 
         private void EditTicketList(object sender, MessageEventArgs e)
         {
+            EditTicketEventArgs ea = e as EditTicketEventArgs;
+            ControlTicketEdit controlEdit = new ControlTicketEdit(this.mApp, ea.LoggedMember, ea.Item);
+            controlEdit.ClickOK += controlEdit_ClickOK;
+            controlEdit.ClickCancel += controlEdit_ClickCancel;
+            this.mApp.Controls.Show(controlEdit);
+            e.Processed = true;
         }
 
         private void controlEdit_ClickOK(object sender, EventArgs e)

@@ -37,8 +37,8 @@
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label7;
-            System.Windows.Forms.Label labelLoggedMember;
-            System.Windows.Forms.Label labelCreated;
+            this.labelLoggedMember = new System.Windows.Forms.Label();
+            this.labelCreated = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -51,45 +51,8 @@
             label5 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
-            labelLoggedMember = new System.Windows.Forms.Label();
-            labelCreated = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(buttonOk, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(buttonCancel, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(label4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(label5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(label6, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxTitle, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(label7, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(labelLoggedMember, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(labelCreated, 1, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 8;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(806, 324);
-            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // buttonOk
             // 
@@ -171,15 +134,6 @@
             label6.TabIndex = 0;
             label6.Text = "Status:";
             // 
-            // textBoxTitle
-            // 
-            this.textBoxTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.SetColumnSpan(this.textBoxTitle, 2);
-            this.textBoxTitle.Location = new System.Drawing.Point(57, 4);
-            this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(664, 20);
-            this.textBoxTitle.TabIndex = 0;
-            // 
             // label7
             // 
             label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -190,6 +144,70 @@
             label7.TabIndex = 0;
             label7.Text = "Solution:";
             // 
+            // labelLoggedMember
+            // 
+            this.labelLoggedMember.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelLoggedMember.AutoSize = true;
+            this.labelLoggedMember.Location = new System.Drawing.Point(57, 37);
+            this.labelLoggedMember.Name = "labelLoggedMember";
+            this.labelLoggedMember.Size = new System.Drawing.Size(161, 13);
+            this.labelLoggedMember.TabIndex = 0;
+            this.labelLoggedMember.Text = "Member";
+            // 
+            // labelCreated
+            // 
+            this.labelCreated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCreated.AutoSize = true;
+            this.labelCreated.Location = new System.Drawing.Point(57, 58);
+            this.labelCreated.Name = "labelCreated";
+            this.labelCreated.Size = new System.Drawing.Size(161, 13);
+            this.labelCreated.TabIndex = 0;
+            this.labelCreated.Text = "Date";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(buttonOk, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(buttonCancel, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(label2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(label3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(label4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(label5, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(label6, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxTitle, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(label7, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelLoggedMember, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelCreated, 1, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(806, 324);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // textBoxTitle
+            // 
+            this.textBoxTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.SetColumnSpan(this.textBoxTitle, 2);
+            this.textBoxTitle.Location = new System.Drawing.Point(57, 4);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.Size = new System.Drawing.Size(664, 20);
+            this.textBoxTitle.TabIndex = 0;
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -198,26 +216,6 @@
             this.tableLayoutPanel1.SetRowSpan(this.flowLayoutPanel1, 7);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(497, 289);
             this.flowLayoutPanel1.TabIndex = 6;
-            // 
-            // labelLoggedMember
-            // 
-            labelLoggedMember.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            labelLoggedMember.AutoSize = true;
-            labelLoggedMember.Location = new System.Drawing.Point(57, 37);
-            labelLoggedMember.Name = "labelLoggedMember";
-            labelLoggedMember.Size = new System.Drawing.Size(161, 13);
-            labelLoggedMember.TabIndex = 0;
-            labelLoggedMember.Text = "Member";
-            // 
-            // labelCreated
-            // 
-            labelCreated.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            labelCreated.AutoSize = true;
-            labelCreated.Location = new System.Drawing.Point(57, 58);
-            labelCreated.Name = "labelCreated";
-            labelCreated.Size = new System.Drawing.Size(161, 13);
-            labelCreated.TabIndex = 0;
-            labelCreated.Text = "Date";
             // 
             // ControlTicketEdit
             // 
@@ -237,6 +235,8 @@
         private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label labelLoggedMember;
+        private System.Windows.Forms.Label labelCreated;
 
     }
 }

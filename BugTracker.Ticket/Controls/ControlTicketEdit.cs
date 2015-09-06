@@ -36,6 +36,9 @@ namespace BugTracker.Members.Controls
             this.LoggedMember = loggedMember;
             this.Ticket = null;
 
+            this.labelLoggedMember.Text = String.Format("{0} {1}", this.LoggedMember.FirstName, this.LoggedMember.LastName);
+            this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
+
             this.mProblemTypeBox = new VocabularyBox<ProblemType>(this.mApp);
             this.mPriorityBox = new VocabularyBox<Priority>(this.mApp);
             this.mStatusBox = new VocabularyBox<Status>(this.mApp);
@@ -56,7 +59,19 @@ namespace BugTracker.Members.Controls
             : this(app, loggedMember)
         {
             this.Text = "Edit ticket";
-            this.Ticket = ticket;
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                TicketRepository ticketRepository = new TicketRepository(session);
+                this.Ticket = ticketRepository.Load(ticket.Id);
+
+                this.mProblemTypeBox.SelectedValue = this.Ticket.Type;
+                this.mPriorityBox.SelectedValue = this.Ticket.Priority;
+                this.mStatusBox.SelectedValue = this.Ticket.Status;
+                this.mSolutionBox.SelectedValue = this.Ticket.Solution;
+                this.textBoxTitle.Text = this.Ticket.Title;
+                this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
+            }
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
