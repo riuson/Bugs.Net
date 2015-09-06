@@ -31,6 +31,13 @@ namespace BugTracker.Ticket.Controls
             
             this.comboBox1.DataSource = this.mBS;
             this.UpdateList();
+
+            this.mApp.Messages.Subscribe(typeof(UpdatedVocabularyEventArgs<T>), this.VocabularyUpdated);
+        }
+
+        private void BeforeDisposing()
+        {
+            this.mApp.Messages.Unsubscribe(typeof(UpdatedVocabularyEventArgs<T>), this.VocabularyUpdated);
         }
 
         private void UpdateList()
@@ -66,6 +73,21 @@ namespace BugTracker.Ticket.Controls
             base.OnLoad(e);
         }
 
+        private void VocabularyUpdated(object sender, MessageEventArgs e)
+        {
+            this.UpdateList();
+        }
+
+        private void linkLabelEdit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            DisplayData data = this.comboBox1.SelectedItem as DisplayData;
+
+            if (data != null)
+            {
+                this.mApp.Messages.Send(this, new ShowVocabularyEditorEventArgs<T>(data.Value));
+            }
+        }
+
         private class DisplayData
         {
             public T Value { get; private set; }
@@ -80,10 +102,6 @@ namespace BugTracker.Ticket.Controls
                 IVocabulary vocabulary = (IVocabulary)this.Value;
                 return vocabulary.Value;
             }
-        }
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
         }
     }
 }

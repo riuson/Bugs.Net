@@ -13,6 +13,7 @@
         /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
+            this.BeforeDisposing();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -29,7 +30,7 @@
         private void InitializeComponent()
         {
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.linkLabelEdit = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -42,25 +43,25 @@
             this.comboBox1.Size = new System.Drawing.Size(355, 21);
             this.comboBox1.TabIndex = 0;
             // 
-            // linkLabel1
+            // linkLabelEdit
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.linkLabel1.Location = new System.Drawing.Point(355, 0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(16, 13);
-            this.linkLabel1.TabIndex = 1;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "...";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabelEdit.AutoSize = true;
+            this.linkLabelEdit.Dock = System.Windows.Forms.DockStyle.Right;
+            this.linkLabelEdit.Location = new System.Drawing.Point(355, 0);
+            this.linkLabelEdit.Name = "linkLabelEdit";
+            this.linkLabelEdit.Size = new System.Drawing.Size(16, 13);
+            this.linkLabelEdit.TabIndex = 1;
+            this.linkLabelEdit.TabStop = true;
+            this.linkLabelEdit.Text = "...";
+            this.linkLabelEdit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelEdit_LinkClicked);
             // 
-            // VocabularyEdit
+            // VocabularyBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.linkLabel1);
-            this.Name = "VocabularyEdit";
+            this.Controls.Add(this.linkLabelEdit);
+            this.Name = "VocabularyBox";
             this.Size = new System.Drawing.Size(371, 21);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -70,6 +71,6 @@
         #endregion
 
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkLabelEdit;
     }
 }
