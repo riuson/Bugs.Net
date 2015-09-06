@@ -1,4 +1,5 @@
 ﻿using BugTracker.Core.Interfaces;
+using BugTracker.Members.Controls;
 using BugTracker.Tickets.Events;
 using System;
 using System.Collections.Generic;
@@ -27,10 +28,40 @@ namespace BugTracker.Ticket.Classes
 
         private void AddTicketList(object sender, MessageEventArgs e)
         {
+            AddTicketEventArgs ea = e as AddTicketEventArgs;
+            ControlTicketEdit controlEdit = new ControlTicketEdit(ea.LoggedMember);
+            controlEdit.ClickOK += controlEdit_ClickOK;
+            controlEdit.ClickCancel += controlEdit_ClickCancel;
+            this.mApp.Controls.Show(controlEdit);
+            e.Processed = true;
         }
 
         private void EditTicketList(object sender, MessageEventArgs e)
         {
+        }
+
+        private void controlEdit_ClickOK(object sender, EventArgs e)
+        {
+            ControlTicketEdit controlEdit = sender as ControlTicketEdit;
+
+            if (controlEdit != null)
+            {
+                //LoginAnswerEventArgs ea = new LoginAnswerEventArgs();
+                this.mApp.Controls.Hide(controlEdit);
+                //this.mApp.Messages.Send(this, ea);
+            }
+        }
+
+        private void controlEdit_ClickCancel(object sender, EventArgs e)
+        {
+            ControlTicketEdit controlEdit = sender as ControlTicketEdit;
+
+            if (controlEdit != null)
+            {
+                //LoginAnswerEventArgs ea = new LoginAnswerEventArgs();
+                this.mApp.Controls.Hide(controlEdit);
+                //this.mApp.Messages.Send(this, ea);
+            }
         }
     }
 }
