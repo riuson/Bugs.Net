@@ -7,11 +7,11 @@ using System.Text;
 
 namespace BugTracker.Vocabulary.Events
 {
-    public class ShowProjectTicketsEventArgs<T> : MessageEventArgs where T : new()
+    public class ShowVocabularyEditorEventArgs<T> : MessageEventArgs where T : new()
     {
         public T Item { get; private set; }
 
-        public ShowProjectTicketsEventArgs(T item)
+        public ShowVocabularyEditorEventArgs(T item)
         {
             this.Item = item;
         }
