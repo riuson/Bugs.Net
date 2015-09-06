@@ -12,13 +12,14 @@ using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.Core.Interfaces;
 using BugTracker.Vocabulary.Events;
+using BugTracker.Ticket.Classes;
 
 namespace BugTracker.Ticket.Controls
 {
     public partial class VocabularyBox<T> : UserControl where T : new()
     {
         private ICollection<T> mEntityList;
-        private IEnumerable<DisplayData> mDisplayList;
+        private IEnumerable<VocabularyDisplayData<T>> mDisplayList;
         private BindingSource mBS;
         private IApplication mApp;
 
@@ -28,7 +29,7 @@ namespace BugTracker.Ticket.Controls
             this.mApp = app;
             this.mBS = new BindingSource();
             this.mBS.AllowNew = true;
-            
+
             this.comboBox1.DataSource = this.mBS;
             this.UpdateList();
 
@@ -46,7 +47,7 @@ namespace BugTracker.Ticket.Controls
             {
                 Repository<T> repository = new Repository<T>(session);
                 this.mEntityList = repository.List();
-                this.mDisplayList = this.mEntityList.Select<T, DisplayData>(e => new DisplayData(e));
+                this.mDisplayList = this.mEntityList.Select<T, VocabularyDisplayData<T>>(e => new VocabularyDisplayData<T>(e));
                 this.mBS.DataSource = this.mDisplayList;
             }
         }
@@ -55,11 +56,23 @@ namespace BugTracker.Ticket.Controls
         {
             get
             {
+                VocabularyDisplayData<T> d = this.comboBox1.SelectedItem as VocabularyDisplayData<T>;
+
+                if (d != null)
+                {
+                    return d.Value;
+                }
+
                 return default(T);
             }
             set
             {
+                VocabularyDisplayData<T> d = new VocabularyDisplayData<T>(value);
 
+                if (this.comboBox1.Items.Contains(d))
+                {
+                    this.comboBox1.SelectedItem = d;
+                }
             }
         }
 
@@ -80,27 +93,11 @@ namespace BugTracker.Ticket.Controls
 
         private void linkLabelEdit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DisplayData data = this.comboBox1.SelectedItem as DisplayData;
+            VocabularyDisplayData<T> data = this.comboBox1.SelectedItem as VocabularyDisplayData<T>;
 
             if (data != null)
             {
                 this.mApp.Messages.Send(this, new ShowVocabularyEditorEventArgs<T>(data.Value));
-            }
-        }
-
-        private class DisplayData
-        {
-            public T Value { get; private set; }
-
-            public DisplayData(T value)
-            {
-                this.Value = value;
-            }
-
-            public override string ToString()
-            {
-                IVocabulary vocabulary = (IVocabulary)this.Value;
-                return vocabulary.Value;
             }
         }
     }
