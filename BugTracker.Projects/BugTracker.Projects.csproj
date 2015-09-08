@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\sgKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -77,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\files-o_2c3699_48.png" />
+    <None Include="..\sgKey.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ControlProjectsList.resx">
