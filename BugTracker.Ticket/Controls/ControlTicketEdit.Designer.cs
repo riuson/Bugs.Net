@@ -1,4 +1,4 @@
-﻿namespace BugTracker.Members.Controls
+﻿namespace BugTracker.TicketEditor.Controls
 {
     partial class ControlTicketEdit
     {

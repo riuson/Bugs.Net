@@ -12,9 +12,9 @@ using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.Core.Interfaces;
 using BugTracker.Vocabulary.Events;
-using BugTracker.Ticket.Classes;
+using BugTracker.TicketEditor.Classes;
 
-namespace BugTracker.Ticket.Controls
+namespace BugTracker.TicketEditor.Controls
 {
     public partial class VocabularyBox<T> : UserControl where T : new()
     {

@@ -1,5 +1,5 @@
 ﻿using BugTracker.Core.Interfaces;
-using BugTracker.Members.Controls;
+using BugTracker.TicketEditor.Controls;
 using BugTracker.Tickets.Events;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BugTracker.Ticket.Classes
+namespace BugTracker.TicketEditor.Classes
 {
     internal class Plugin : IPlugin
     {

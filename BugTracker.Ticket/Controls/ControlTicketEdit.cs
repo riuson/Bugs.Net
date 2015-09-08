@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BugTracker.DB.Entities;
-using BugTracker.Ticket.Controls;
+using BugTracker.TicketEditor.Controls;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Repositories;
 
-namespace BugTracker.Members.Controls
+namespace BugTracker.TicketEditor.Controls
 {
     public partial class ControlTicketEdit : UserControl
     {
@@ -26,7 +26,7 @@ namespace BugTracker.Members.Controls
         public event EventHandler ClickOK;
         public event EventHandler ClickCancel;
         public Member LoggedMember { get; private set; }
-        public DB.Entities.Ticket Ticket { get; private set; }
+        public Ticket Ticket { get; private set; }
 
         public ControlTicketEdit(IApplication app, Member loggedMember)
         {
@@ -55,7 +55,7 @@ namespace BugTracker.Members.Controls
             this.mSolutionBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
         }
 
-        public ControlTicketEdit(IApplication app, Member loggedMember, DB.Entities.Ticket ticket)
+        public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
             : this(app, loggedMember)
         {
             this.Text = "Edit ticket";
@@ -82,7 +82,7 @@ namespace BugTracker.Members.Controls
 
                 if (this.Ticket == null)
                 {
-                    this.Ticket = new DB.Entities.Ticket();
+                    this.Ticket = new Ticket();
                 }
 
                 this.Ticket.Title = this.textBoxTitle.Text;

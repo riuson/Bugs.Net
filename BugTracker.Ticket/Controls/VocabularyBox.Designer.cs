@@ -1,4 +1,4 @@
-﻿namespace BugTracker.Ticket.Controls
+﻿namespace BugTracker.TicketEditor.Controls
 {
     partial class VocabularyBox<T>
     {

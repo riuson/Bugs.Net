@@ -7,7 +7,7 @@
     <ProjectGuid>{6870F5A0-6BA0-4475-B624-69389E8E8E46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BugTracker.Ticket</RootNamespace>
+    <RootNamespace>BugTracker.TicketEditor</RootNamespace>
     <AssemblyName>BugTracker.Ticket</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
