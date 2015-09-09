@@ -41,7 +41,6 @@
             this.labelCreated = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             buttonOk = new System.Windows.Forms.Button();
             buttonCancel = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
@@ -181,7 +180,6 @@
             this.tableLayoutPanel1.Controls.Add(label6, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.textBoxTitle, 1, 0);
             this.tableLayoutPanel1.Controls.Add(label7, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelLoggedMember, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelCreated, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -208,15 +206,6 @@
             this.textBoxTitle.Size = new System.Drawing.Size(664, 20);
             this.textBoxTitle.TabIndex = 0;
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(224, 32);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.tableLayoutPanel1.SetRowSpan(this.flowLayoutPanel1, 7);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(497, 289);
-            this.flowLayoutPanel1.TabIndex = 6;
-            // 
             // ControlTicketEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -233,7 +222,6 @@
         #endregion
 
         private System.Windows.Forms.TextBox textBoxTitle;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label labelLoggedMember;
         private System.Windows.Forms.Label labelCreated;

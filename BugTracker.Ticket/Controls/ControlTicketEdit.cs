@@ -25,6 +25,7 @@ namespace BugTracker.TicketEditor.Controls
         private VocabularyBox<ProblemType> mProblemTypeBox;
 
         private TicketData mTicketData;
+        private ControlTicketContent mTicketDataDisplay;
 
         public event EventHandler ClickOK;
         public event EventHandler ClickCancel;
@@ -58,6 +59,12 @@ namespace BugTracker.TicketEditor.Controls
             this.mSolutionBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
             this.mTicketData = new TicketData(this.LoggedMember);
+
+            this.mTicketDataDisplay = new ControlTicketContent();
+            this.tableLayoutPanel1.Controls.Add(this.mTicketDataDisplay, 2, 1);
+            this.tableLayoutPanel1.SetRowSpan(this.mTicketDataDisplay, 7);
+            this.mTicketDataDisplay.Dock = DockStyle.Fill;
+            this.mTicketDataDisplay.UpdateTicketData(this.mTicketData);
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -79,6 +86,7 @@ namespace BugTracker.TicketEditor.Controls
             }
 
             this.mTicketData = new TicketData(this.LoggedMember, this.Ticket);
+            this.mTicketDataDisplay.UpdateTicketData(this.mTicketData);
         }
 
         private void buttonOk_Click(object sender, EventArgs e)

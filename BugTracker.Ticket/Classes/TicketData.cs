@@ -26,6 +26,8 @@ namespace BugTracker.TicketEditor.Classes
         private ICollection<BlobContent> mBlobAdd;
         private ICollection<BlobContent> mBlobRemove;
 
+        public string[] ChangeList { get; private set; }
+
         public TicketData(Member loggedMember)
         {
             this.mTicket = null;
@@ -41,6 +43,8 @@ namespace BugTracker.TicketEditor.Classes
             this.mBlobOriginal = new List<BlobContent>();
             this.mBlobAdd = new List<BlobContent>();
             this.mBlobRemove = new List<BlobContent>();
+
+            this.ChangeList = new string[] { };
         }
 
         public TicketData(Member loggedMember, Ticket ticket)
@@ -59,6 +63,8 @@ namespace BugTracker.TicketEditor.Classes
                 {
                     this.mBlobOriginal.Add(change.Description);
                 }
+
+                this.ChangeList = this.mChangesOriginal.Select<Change, string>(change => Encoding.UTF8.GetString(change.Description.Content)).ToArray<string>();
             }
         }
 
