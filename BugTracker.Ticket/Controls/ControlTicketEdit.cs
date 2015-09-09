@@ -12,6 +12,7 @@ using BugTracker.Core.Interfaces;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Repositories;
+using BugTracker.TicketEditor.Classes;
 
 namespace BugTracker.TicketEditor.Controls
 {
@@ -22,6 +23,8 @@ namespace BugTracker.TicketEditor.Controls
         private VocabularyBox<Solution> mSolutionBox;
         private VocabularyBox<Status> mStatusBox;
         private VocabularyBox<ProblemType> mProblemTypeBox;
+
+        private TicketData mTicketData;
 
         public event EventHandler ClickOK;
         public event EventHandler ClickCancel;
@@ -53,6 +56,8 @@ namespace BugTracker.TicketEditor.Controls
             this.mPriorityBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this.mStatusBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this.mSolutionBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+
+            this.mTicketData = new TicketData(this.LoggedMember);
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -72,6 +77,8 @@ namespace BugTracker.TicketEditor.Controls
                 this.textBoxTitle.Text = this.Ticket.Title;
                 this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
             }
+
+            this.mTicketData = new TicketData(this.LoggedMember, this.Ticket);
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -83,17 +90,19 @@ namespace BugTracker.TicketEditor.Controls
                 if (this.Ticket == null)
                 {
                     this.Ticket = new Ticket();
+                    this.Ticket.Created = DateTime.Now;
+                    this.Ticket.Author = this.LoggedMember;
                 }
 
                 this.Ticket.Title = this.textBoxTitle.Text;
-                this.Ticket.Created = DateTime.Now;
-                this.Ticket.Author = this.LoggedMember;
                 this.Ticket.Type = this.mProblemTypeBox.SelectedValue;
                 this.Ticket.Priority = this.mPriorityBox.SelectedValue;
                 this.Ticket.Status = this.mStatusBox.SelectedValue;
                 this.Ticket.Solution = this.mSolutionBox.SelectedValue;
 
                 ticketRepository.SaveOrUpdate(this.Ticket);
+
+                this.mTicketData.ApplyChanges(session);
             }
 
             if (this.ClickOK != null)
