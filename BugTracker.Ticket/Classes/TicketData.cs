@@ -130,19 +130,6 @@ namespace BugTracker.TicketEditor.Classes
             }
         }
 
-        public void AttachmentWriteToFile(BlobContent entity, string filename)
-        {
-            using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
-            {
-                using (ISession session = SessionManager.Instance.OpenSession())
-                {
-                    BlobContentRepository blobRepository = new BlobContentRepository(session);
-                    BlobContent bc = blobRepository.Load(entity.Id);
-                    bc.WriteTo(fs);
-                }
-            }
-        }
-
         public void AttachmentRemove(Attachment entity)
         {
             this.mBlobRemove.Add(entity.File);
