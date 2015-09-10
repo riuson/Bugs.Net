@@ -159,7 +159,7 @@ namespace BugTracker.TicketEditor.Controls
 
                 ticketRepository.SaveOrUpdate(this.Ticket);
 
-                if (this.mTicketDataDisplay.NewComment != String.Empty)
+                if (this.mTicketDataDisplay.HasNewComment)
                 {
                     this.mTicketData.CommentAdd(this.mTicketDataDisplay.NewComment);
                 }

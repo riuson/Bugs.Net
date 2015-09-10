@@ -6,72 +6,94 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.TicketEditor.Classes;
+using System.Drawing;
 
 namespace BugTracker.TicketEditor.Controls
 {
     internal class ControlTicketChanges : Panel
     {
         private RichTextBox mTextBox;
+        private int mCommentStartPos;
 
         public ControlTicketChanges()
         {
-            this.AutoScroll = true;
-
             this.mTextBox = new RichTextBox();
             this.mTextBox.Dock = DockStyle.Fill;
             this.mTextBox.Margin = new Padding(5);
             this.mTextBox.MinimumSize = new System.Drawing.Size(100, 50);
-            this.mTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Controls.Add(this.mTextBox);
+
+            this.PreparePrompt();
         }
 
         public void UpdateTicketData(Ticket ticket, ISession session)
         {
-            this.Controls.Clear();
-            this.Controls.Remove(this.mTextBox);
+            this.mTextBox.Clear();
 
             foreach (var change in ticket.Changes)
             {
-                Label label = new Label();
-                label.AutoSize = true;
-                label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-                label.Margin = new System.Windows.Forms.Padding(5);
-                label.Padding = new System.Windows.Forms.Padding(5);
-                label.MaximumSize = new System.Drawing.Size(200, 0);
-                label.MinimumSize = new System.Drawing.Size(0, 50);
-                label.Text = String.Format(
-                    "{0} {1} at {2}\n\n{3}",
-                    change.Author.FirstName,
-                    change.Author.LastName,
-                    change.Created,
-                    Encoding.UTF8.GetString(change.Description.Content));
+                this.mTextBox.AppendText(
+                    String.Format(
+                        "{0} {1}",
+                        change.Author.FirstName,
+                        change.Author.LastName),
+                    Color.Navy);
 
-                this.Controls.Add(label);
-                label.Dock = DockStyle.Top;
-                label.BringToFront();
+                this.mTextBox.AppendText(
+                    " at ",
+                    Color.Silver);
+
+                this.mTextBox.AppendText(
+                    String.Format(
+                        "{0}",
+                        change.Created),
+                    Color.DarkGreen);
+
+                this.mTextBox.AppendText(Environment.NewLine);
+
+                this.mTextBox.AppendText(
+                    Encoding.UTF8.GetString(change.Description.Content),
+                    Color.Gray);
+
+                this.mTextBox.AppendText(Environment.NewLine);
+                this.mTextBox.AppendText(Environment.NewLine);
             }
 
-            this.Controls.Add(this.mTextBox);
-            this.mTextBox.Dock = DockStyle.Fill;
-            this.mTextBox.BringToFront();
+            this.PreparePrompt();
+        }
+
+        private void PreparePrompt()
+        {
+            this.mTextBox.AppendText("Add new comment here:", Color.Red);
+
+            this.mTextBox.AppendText(Environment.NewLine);
+
+            this.mTextBox.Select(0, this.mTextBox.Text.Length);
+            this.mTextBox.SelectionProtected = true;
+
+            this.mTextBox.Focus();
+            this.mTextBox.SelectionStart = this.mTextBox.Text.Length;
+            this.mTextBox.ScrollToCaret();
+
+            this.mCommentStartPos = this.mTextBox.Text.Length;
+        }
+
+        public bool HasNewComment
+        {
+            get
+            {
+                return (this.mCommentStartPos < this.mTextBox.Text.Length);
+            }
         }
 
         public string NewComment
         {
             get
             {
-                return this.mTextBox.Text;
+                return this.mTextBox.Text.Substring(this.mCommentStartPos);
             }
-        }
-
-        protected override void OnResize(EventArgs eventargs)
-        {
-            foreach (Control ctrl in this.Controls)
-            {
-                ctrl.MaximumSize = new System.Drawing.Size(this.Width - 1, 0);
-            }
-
-            base.OnResize(eventargs);
         }
     }
 }

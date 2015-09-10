@@ -45,6 +45,7 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Classes\RichTextBoxExt.cs" />
     <Compile Include="Classes\TicketData.cs" />
     <Compile Include="Classes\VocabularyDisplayData.cs" />
     <Compile Include="Controls\ControlTicketChanges.cs">
