@@ -21,11 +21,16 @@ namespace BugTracker.TicketEditor.Controls
         private ToolTip mToolTip;
 
         public event EventHandler<SaveAttachmentEventArgs> SaveAttachment;
+        public event EventHandler<LoadAttachmentsEventArgs> LoadAttachments;
 
         public ControlTicketAttachments(IApplication app)
         {
             this.mApp = app;
             this.mToolTip = new ToolTip();
+
+            this.AllowDrop = true;
+            this.DragEnter += this.ControlTicketAttachments_DragEnter;
+            this.DragDrop += this.ControlTicketAttachments_DragDrop;
         }
 
         public void UpdateTicketData(Ticket ticket, ISession session)
@@ -87,6 +92,24 @@ namespace BugTracker.TicketEditor.Controls
             catch (Exception exc)
             {
                 MessageBox.Show(this.mApp.OwnerWindow, "Can't save file:\n" + exc.Message, "File save error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        private void ControlTicketAttachments_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void ControlTicketAttachments_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (this.LoadAttachments != null)
+            {
+                this.LoadAttachments(this, new LoadAttachmentsEventArgs(filenames));
             }
         }
 

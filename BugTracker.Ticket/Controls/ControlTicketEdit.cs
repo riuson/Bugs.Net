@@ -14,6 +14,7 @@ using BugTracker.DB;
 using BugTracker.DB.Repositories;
 using BugTracker.TicketEditor.Classes;
 using BugTracker.TicketEditor.Events;
+using BugTracker.Core.Classes;
 
 namespace BugTracker.TicketEditor.Controls
 {
@@ -71,10 +72,8 @@ namespace BugTracker.TicketEditor.Controls
             this.tableLayoutPanel1.Controls.Add(this.mTicketAttachmentsDisplay, 0, 7);
             this.tableLayoutPanel1.SetColumnSpan(this.mTicketAttachmentsDisplay, 2);
             this.mTicketAttachmentsDisplay.Dock = DockStyle.Fill;
-            this.mTicketAttachmentsDisplay.SaveAttachment += delegate(object sender, SaveAttachmentEventArgs ea)
-            {
-                this.mTicketData.SaveAttachmentToFile(ea.Attachment, ea.Filename);
-            };
+            this.mTicketAttachmentsDisplay.SaveAttachment += this.OnSaveAttachment;
+            this.mTicketAttachmentsDisplay.LoadAttachments += this.OnLoadAttachments;
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -190,6 +189,35 @@ namespace BugTracker.TicketEditor.Controls
             if (this.ClickCancel != null)
             {
                 this.ClickCancel(this, EventArgs.Empty);
+            }
+        }
+
+        private void OnSaveAttachment(object sender, SaveAttachmentEventArgs ea)
+        {
+            this.mTicketData.SaveAttachmentToFile(ea.Attachment, ea.Filename);
+        }
+
+        private void OnLoadAttachments(object sender, LoadAttachmentsEventArgs ea)
+        {
+            Dictionary<string, string> comments = new Dictionary<string, string>();
+
+            foreach (var filename in ea.Filenames)
+            {
+                string comment;
+
+                if (InputBox.Show("File: " + filename, "Enter comment", String.Empty, out comment) == DialogResult.OK)
+                {
+                    comments.Add(filename, comment);
+                }
+                else
+                {
+                    comments.Add(filename, String.Empty);
+                }
+            }
+
+            foreach (var filename in ea.Filenames)
+            {
+                this.mTicketData.AttachmentAdd(filename, comments[filename]);
             }
         }
     }
