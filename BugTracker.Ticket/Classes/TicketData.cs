@@ -148,5 +148,19 @@ namespace BugTracker.TicketEditor.Classes
             this.mBlobRemove.Add(entity.File);
             this.mAttachmentsRemove.Add(entity);
         }
+
+        public void SaveAttachmentToFile(Attachment attachment, string filename)
+        {
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                BlobContentRepository blobRepository = new BlobContentRepository(session);
+                BlobContent blob = blobRepository.Load(attachment.File.Id);
+
+                using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
+                {
+                    blob.WriteTo(fs);
+                }
+            }
+        }
     }
 }

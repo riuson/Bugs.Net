@@ -66,6 +66,7 @@
     <Compile Include="Controls\VocabularyBox.Designer.cs">
       <DependentUpon>VocabularyBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Events\SaveAttachmentEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

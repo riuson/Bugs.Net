@@ -13,6 +13,7 @@ using BugTracker.DB.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Repositories;
 using BugTracker.TicketEditor.Classes;
+using BugTracker.TicketEditor.Events;
 
 namespace BugTracker.TicketEditor.Controls
 {
@@ -70,6 +71,10 @@ namespace BugTracker.TicketEditor.Controls
             this.tableLayoutPanel1.Controls.Add(this.mTicketAttachmentsDisplay, 0, 7);
             this.tableLayoutPanel1.SetColumnSpan(this.mTicketAttachmentsDisplay, 2);
             this.mTicketAttachmentsDisplay.Dock = DockStyle.Fill;
+            this.mTicketAttachmentsDisplay.SaveAttachment += delegate(object sender, SaveAttachmentEventArgs ea)
+            {
+                this.mTicketData.SaveAttachmentToFile(ea.Attachment, ea.Filename);
+            };
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)

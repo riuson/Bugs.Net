@@ -3,6 +3,7 @@ using BugTracker.DB;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB.Repositories;
+using BugTracker.TicketEditor.Events;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,6 +19,8 @@ namespace BugTracker.TicketEditor.Controls
     {
         private IApplication mApp;
         private ToolTip mToolTip;
+
+        public event EventHandler<SaveAttachmentEventArgs> SaveAttachment;
 
         public ControlTicketAttachments(IApplication app)
         {
@@ -59,28 +62,22 @@ namespace BugTracker.TicketEditor.Controls
                     {
                         Attachment attachment = btn.Tag as Attachment;
 
-                        using (SaveFileDialog dialog = new SaveFileDialog())
+                        if (this.SaveAttachment != null)
                         {
-                            dialog.CheckPathExists = true;
-                            dialog.FileName = attachment.Filename;
-                            dialog.OverwritePrompt = true;
-                            dialog.RestoreDirectory = true;
-                            dialog.Title = "Save attachment";
-                            dialog.DefaultExt = Path.GetExtension(attachment.Filename);
-                            dialog.Filter = String.Format("*.{0}|*.{0}", dialog.DefaultExt);
-                            dialog.FilterIndex = 1;
-
-                            if (dialog.ShowDialog() == DialogResult.OK)
+                            using (SaveFileDialog dialog = new SaveFileDialog())
                             {
-                                using (ISession session = SessionManager.Instance.OpenSession())
-                                {
-                                    BlobContentRepository blobRepository = new BlobContentRepository(session);
-                                    BlobContent blob = blobRepository.Load(attachment.File.Id);
+                                dialog.CheckPathExists = true;
+                                dialog.FileName = attachment.Filename;
+                                dialog.OverwritePrompt = true;
+                                dialog.RestoreDirectory = true;
+                                dialog.Title = "Save attachment";
+                                dialog.DefaultExt = Path.GetExtension(attachment.Filename);
+                                dialog.Filter = String.Format("*.{0}|*.{0}", dialog.DefaultExt);
+                                dialog.FilterIndex = 1;
 
-                                    using (FileStream fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
-                                    {
-                                        blob.WriteTo(fs);
-                                    }
+                                if (dialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    this.SaveAttachment(this, new SaveAttachmentEventArgs(attachment, dialog.FileName));
                                 }
                             }
                         }
