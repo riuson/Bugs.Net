@@ -64,7 +64,6 @@ namespace BugTracker.TicketEditor.Controls
             this.tableLayoutPanel1.Controls.Add(this.mTicketDataDisplay, 2, 1);
             this.tableLayoutPanel1.SetRowSpan(this.mTicketDataDisplay, 7);
             this.mTicketDataDisplay.Dock = DockStyle.Fill;
-            this.mTicketDataDisplay.UpdateTicketData(this.mTicketData);
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -83,10 +82,10 @@ namespace BugTracker.TicketEditor.Controls
                 this.mSolutionBox.SelectedValue = this.Ticket.Solution;
                 this.textBoxTitle.Text = this.Ticket.Title;
                 this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
-            }
 
-            this.mTicketData = new TicketData(this.LoggedMember, this.Ticket);
-            this.mTicketDataDisplay.UpdateTicketData(this.mTicketData);
+                this.mTicketData = new TicketData(this.LoggedMember, this.Ticket, session);
+                this.mTicketDataDisplay.UpdateTicketData(this.Ticket, session);
+            }
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -101,14 +100,69 @@ namespace BugTracker.TicketEditor.Controls
                     this.Ticket.Created = DateTime.Now;
                     this.Ticket.Author = this.LoggedMember;
                 }
+                else
+                {
+                    this.Ticket = ticketRepository.Load(this.Ticket.Id);
+                }
 
-                this.Ticket.Title = this.textBoxTitle.Text;
-                this.Ticket.Type = this.mProblemTypeBox.SelectedValue;
-                this.Ticket.Priority = this.mPriorityBox.SelectedValue;
-                this.Ticket.Status = this.mStatusBox.SelectedValue;
-                this.Ticket.Solution = this.mSolutionBox.SelectedValue;
+                StringBuilder changedFieldsDescription = new StringBuilder();
+
+                if (this.Ticket.Title != this.textBoxTitle.Text)
+                {
+                    changedFieldsDescription.AppendFormat(
+                        "Title changed from '{0}' to '{1}'\n",
+                        this.Ticket.Title,
+                        this.textBoxTitle.Text);
+                    this.Ticket.Title = this.textBoxTitle.Text;
+                }
+
+                if (this.Ticket.Type != this.mProblemTypeBox.SelectedValue)
+                {
+                    changedFieldsDescription.AppendFormat(
+                        "Type changed from '{0}' to '{1}'\n",
+                        this.Ticket.Type.Value,
+                        this.mProblemTypeBox.SelectedValue.Value);
+                    this.Ticket.Type = this.mProblemTypeBox.SelectedValue;
+                }
+
+                if (this.Ticket.Priority != this.mPriorityBox.SelectedValue)
+                {
+                    changedFieldsDescription.AppendFormat(
+                        "Priority changed from '{0}' to '{1}'\n",
+                        this.Ticket.Priority.Value,
+                        this.mPriorityBox.SelectedValue.Value);
+                    this.Ticket.Priority = this.mPriorityBox.SelectedValue;
+                }
+
+                if (this.Ticket.Status != this.mStatusBox.SelectedValue)
+                {
+                    changedFieldsDescription.AppendFormat(
+                        "Status changed from '{0}' to '{1}'\n",
+                        this.Ticket.Status.Value,
+                        this.mStatusBox.SelectedValue.Value);
+                    this.Ticket.Status = this.mStatusBox.SelectedValue;
+                }
+
+                if (this.Ticket.Solution != this.mSolutionBox.SelectedValue)
+                {
+                    changedFieldsDescription.AppendFormat(
+                        "Solution changed from '{0}' to '{1}'\n",
+                        this.Ticket.Solution.Value,
+                        this.mSolutionBox.SelectedValue.Value);
+                    this.Ticket.Solution = this.mSolutionBox.SelectedValue;
+                }
+
+                if (changedFieldsDescription.Length > 0)
+                {
+                    this.mTicketData.CommentAdd(changedFieldsDescription.ToString());
+                }
 
                 ticketRepository.SaveOrUpdate(this.Ticket);
+
+                if (this.mTicketDataDisplay.NewComment != String.Empty)
+                {
+                    this.mTicketData.CommentAdd(this.mTicketDataDisplay.NewComment);
+                }
 
                 this.mTicketData.ApplyChanges(session);
             }

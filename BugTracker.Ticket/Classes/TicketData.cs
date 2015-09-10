@@ -26,8 +26,6 @@ namespace BugTracker.TicketEditor.Classes
         private ICollection<BlobContent> mBlobAdd;
         private ICollection<BlobContent> mBlobRemove;
 
-        public string[] ChangeList { get; private set; }
-
         public TicketData(Member loggedMember)
         {
             this.mTicket = null;
@@ -43,28 +41,21 @@ namespace BugTracker.TicketEditor.Classes
             this.mBlobOriginal = new List<BlobContent>();
             this.mBlobAdd = new List<BlobContent>();
             this.mBlobRemove = new List<BlobContent>();
-
-            this.ChangeList = new string[] { };
         }
 
-        public TicketData(Member loggedMember, Ticket ticket)
+        public TicketData(Member loggedMember, Ticket ticket, ISession session)
             : this(loggedMember)
         {
             this.mLoggedMember = loggedMember;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            TicketRepository ticketRepository = new TicketRepository(session);
+            this.mTicket = ticketRepository.Load(ticket.Id);
+            this.mAttachmentsOriginal = this.mTicket.Attachments;
+            this.mChangesOriginal = this.mTicket.Changes;
+
+            foreach (var change in this.mChangesOriginal)
             {
-                TicketRepository ticketRepository = new TicketRepository(session);
-                this.mTicket = ticketRepository.Load(ticket.Id);
-                this.mAttachmentsOriginal = this.mTicket.Attachments;
-                this.mChangesOriginal = this.mTicket.Changes;
-
-                foreach (var change in this.mChangesOriginal)
-                {
-                    this.mBlobOriginal.Add(change.Description);
-                }
-
-                this.ChangeList = this.mChangesOriginal.Select<Change, string>(change => Encoding.UTF8.GetString(change.Description.Content)).ToArray<string>();
+                this.mBlobOriginal.Add(change.Description);
             }
         }
 
