@@ -25,7 +25,7 @@ namespace BugTracker.TicketEditor.Controls
         private VocabularyBox<ProblemType> mProblemTypeBox;
 
         private TicketData mTicketData;
-        private ControlTicketChanges mTicketDataDisplay;
+        private ControlTicketChanges mTicketChangesDisplay;
 
         public event EventHandler ClickOK;
         public event EventHandler ClickCancel;
@@ -60,10 +60,10 @@ namespace BugTracker.TicketEditor.Controls
 
             this.mTicketData = new TicketData(this.LoggedMember);
 
-            this.mTicketDataDisplay = new ControlTicketChanges();
-            this.tableLayoutPanel1.Controls.Add(this.mTicketDataDisplay, 2, 1);
-            this.tableLayoutPanel1.SetRowSpan(this.mTicketDataDisplay, 7);
-            this.mTicketDataDisplay.Dock = DockStyle.Fill;
+            this.mTicketChangesDisplay = new ControlTicketChanges();
+            this.tableLayoutPanel1.Controls.Add(this.mTicketChangesDisplay, 2, 1);
+            this.tableLayoutPanel1.SetRowSpan(this.mTicketChangesDisplay, 7);
+            this.mTicketChangesDisplay.Dock = DockStyle.Fill;
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -84,7 +84,7 @@ namespace BugTracker.TicketEditor.Controls
                 this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
 
                 this.mTicketData = new TicketData(this.LoggedMember, this.Ticket, session);
-                this.mTicketDataDisplay.UpdateTicketData(this.Ticket, session);
+                this.mTicketChangesDisplay.UpdateTicketData(this.Ticket, session);
             }
         }
 
@@ -159,9 +159,9 @@ namespace BugTracker.TicketEditor.Controls
 
                 ticketRepository.SaveOrUpdate(this.Ticket);
 
-                if (this.mTicketDataDisplay.HasNewComment)
+                if (this.mTicketChangesDisplay.HasNewComment)
                 {
-                    this.mTicketData.CommentAdd(this.mTicketDataDisplay.NewComment);
+                    this.mTicketData.CommentAdd(this.mTicketChangesDisplay.NewComment);
                 }
 
                 this.mTicketData.ApplyChanges(session);
