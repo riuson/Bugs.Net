@@ -47,7 +47,7 @@
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\TicketData.cs" />
     <Compile Include="Classes\VocabularyDisplayData.cs" />
-    <Compile Include="Controls\ControlTicketContent.cs">
+    <Compile Include="Controls\ControlTicketChanges.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\ControlTicketEdit.cs">

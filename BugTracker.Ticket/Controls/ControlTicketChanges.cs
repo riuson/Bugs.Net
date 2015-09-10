@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace BugTracker.TicketEditor.Controls
 {
-    internal class ControlTicketContent : Panel
+    internal class ControlTicketChanges : Panel
     {
         private RichTextBox mTextBox;
 
-        public ControlTicketContent()
+        public ControlTicketChanges()
         {
             this.AutoScroll = true;
 

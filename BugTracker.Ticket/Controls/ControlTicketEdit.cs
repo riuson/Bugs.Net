@@ -25,7 +25,7 @@ namespace BugTracker.TicketEditor.Controls
         private VocabularyBox<ProblemType> mProblemTypeBox;
 
         private TicketData mTicketData;
-        private ControlTicketContent mTicketDataDisplay;
+        private ControlTicketChanges mTicketDataDisplay;
 
         public event EventHandler ClickOK;
         public event EventHandler ClickCancel;
@@ -60,7 +60,7 @@ namespace BugTracker.TicketEditor.Controls
 
             this.mTicketData = new TicketData(this.LoggedMember);
 
-            this.mTicketDataDisplay = new ControlTicketContent();
+            this.mTicketDataDisplay = new ControlTicketChanges();
             this.tableLayoutPanel1.Controls.Add(this.mTicketDataDisplay, 2, 1);
             this.tableLayoutPanel1.SetRowSpan(this.mTicketDataDisplay, 7);
             this.mTicketDataDisplay.Dock = DockStyle.Fill;
