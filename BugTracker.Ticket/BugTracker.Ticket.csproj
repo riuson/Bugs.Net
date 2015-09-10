@@ -48,6 +48,9 @@
     <Compile Include="Classes\RichTextBoxExt.cs" />
     <Compile Include="Classes\TicketData.cs" />
     <Compile Include="Classes\VocabularyDisplayData.cs" />
+    <Compile Include="Controls\ControlTicketAttachments.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\ControlTicketChanges.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -26,6 +26,7 @@ namespace BugTracker.TicketEditor.Controls
 
         private TicketData mTicketData;
         private ControlTicketChanges mTicketChangesDisplay;
+        private ControlTicketAttachments mTicketAttachmentsDisplay;
 
         public event EventHandler ClickOK;
         public event EventHandler ClickCancel;
@@ -64,6 +65,11 @@ namespace BugTracker.TicketEditor.Controls
             this.tableLayoutPanel1.Controls.Add(this.mTicketChangesDisplay, 2, 1);
             this.tableLayoutPanel1.SetRowSpan(this.mTicketChangesDisplay, 7);
             this.mTicketChangesDisplay.Dock = DockStyle.Fill;
+
+            this.mTicketAttachmentsDisplay = new ControlTicketAttachments();
+            this.tableLayoutPanel1.Controls.Add(this.mTicketAttachmentsDisplay, 0, 7);
+            this.tableLayoutPanel1.SetColumnSpan(this.mTicketAttachmentsDisplay, 2);
+            this.mTicketAttachmentsDisplay.Dock = DockStyle.Fill;
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -85,6 +91,7 @@ namespace BugTracker.TicketEditor.Controls
 
                 this.mTicketData = new TicketData(this.LoggedMember, this.Ticket, session);
                 this.mTicketChangesDisplay.UpdateTicketData(this.Ticket, session);
+                this.mTicketAttachmentsDisplay.UpdateTicketData(this.Ticket, session);
             }
         }
 
