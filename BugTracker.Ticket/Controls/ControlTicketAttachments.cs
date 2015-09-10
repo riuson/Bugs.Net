@@ -1,8 +1,12 @@
-﻿using BugTracker.DB.Entities;
+﻿using BugTracker.Core.Interfaces;
+using BugTracker.DB;
+using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
+using BugTracker.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -12,10 +16,12 @@ namespace BugTracker.TicketEditor.Controls
 {
     internal class ControlTicketAttachments : FlowLayoutPanel
     {
+        private IApplication mApp;
         private ToolTip mToolTip;
 
-        public ControlTicketAttachments()
+        public ControlTicketAttachments(IApplication app)
         {
+            this.mApp = app;
             this.mToolTip = new ToolTip();
         }
 
@@ -36,7 +42,54 @@ namespace BugTracker.TicketEditor.Controls
                     att.Created,
                     att.Comment);
                 this.mToolTip.SetToolTip(btn, tip);
+                btn.Click += this.btnFile_Click;
                 this.Controls.Add(btn);
+            }
+        }
+
+        private void btnFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (sender is Button)
+                {
+                    Button btn = sender as Button;
+
+                    if (btn.Tag is Attachment)
+                    {
+                        Attachment attachment = btn.Tag as Attachment;
+
+                        using (SaveFileDialog dialog = new SaveFileDialog())
+                        {
+                            dialog.CheckPathExists = true;
+                            dialog.FileName = attachment.Filename;
+                            dialog.OverwritePrompt = true;
+                            dialog.RestoreDirectory = true;
+                            dialog.Title = "Save attachment";
+                            dialog.DefaultExt = Path.GetExtension(attachment.Filename);
+                            dialog.Filter = String.Format("*.{0}|*.{0}", dialog.DefaultExt);
+                            dialog.FilterIndex = 1;
+
+                            if (dialog.ShowDialog() == DialogResult.OK)
+                            {
+                                using (ISession session = SessionManager.Instance.OpenSession())
+                                {
+                                    BlobContentRepository blobRepository = new BlobContentRepository(session);
+                                    BlobContent blob = blobRepository.Load(attachment.File.Id);
+
+                                    using (FileStream fs = new FileStream(dialog.FileName, FileMode.Create, FileAccess.Write))
+                                    {
+                                        blob.WriteTo(fs);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(this.mApp.OwnerWindow, "Can't save file:\n" + exc.Message, "File save error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 

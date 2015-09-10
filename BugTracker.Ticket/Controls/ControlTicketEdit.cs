@@ -66,7 +66,7 @@ namespace BugTracker.TicketEditor.Controls
             this.tableLayoutPanel1.SetRowSpan(this.mTicketChangesDisplay, 7);
             this.mTicketChangesDisplay.Dock = DockStyle.Fill;
 
-            this.mTicketAttachmentsDisplay = new ControlTicketAttachments();
+            this.mTicketAttachmentsDisplay = new ControlTicketAttachments(this.mApp);
             this.tableLayoutPanel1.Controls.Add(this.mTicketAttachmentsDisplay, 0, 7);
             this.tableLayoutPanel1.SetColumnSpan(this.mTicketAttachmentsDisplay, 2);
             this.mTicketAttachmentsDisplay.Dock = DockStyle.Fill;
