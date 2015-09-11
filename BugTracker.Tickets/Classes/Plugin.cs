@@ -1,7 +1,6 @@
 ﻿using BugTracker.Core.Interfaces;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
-using BugTracker.Projects.Events;
 using BugTracker.Tickets.Controls;
 using System;
 using System.Collections.Generic;

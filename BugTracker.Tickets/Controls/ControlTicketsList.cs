@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BugTracker.Core.Interfaces;
-using BugTracker.Projects.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.Tickets.Classes;
 using BugTracker.DB.Classes;

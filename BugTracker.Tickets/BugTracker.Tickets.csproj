@@ -75,11 +75,6 @@
       <Name>BugTracker.DB</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\BugTracker.Projects\BugTracker.Projects.csproj">
-      <Project>{d231f858-8cde-4488-a625-e87e1f483bc2}</Project>
-      <Name>BugTracker.Projects</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ControlTicketsList.resx">
