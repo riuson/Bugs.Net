@@ -56,14 +56,22 @@ namespace BugTracker.TicketEditor.Classes
             AttachmentRepository attachmentRepository = new AttachmentRepository(session);
             ChangeRepository changeRepository = new ChangeRepository(session);
 
-            foreach (var blob in this.mBlobAdd)
+            foreach (var attachment in this.mAttachmentsRemove)
             {
-                blobRepository.Save(blob);
+                Attachment a = attachmentRepository.Load(attachment.Id);
+                attachmentRepository.Delete(a);
+                ticket.Attachments.Remove(a);
             }
 
             foreach (var blob in this.mBlobRemove)
             {
-                blobRepository.Delete(blob);
+                BlobContent b = blobRepository.Load(blob.Id);
+                blobRepository.Delete(b);
+            }
+
+            foreach (var blob in this.mBlobAdd)
+            {
+                blobRepository.Save(blob);
             }
 
             foreach (var attachment in this.mAttachmentsAdd)
@@ -71,12 +79,6 @@ namespace BugTracker.TicketEditor.Classes
                 attachment.Author = loggedMember;
                 attachmentRepository.Save(attachment);
                 ticket.Attachments.Add(attachment);
-            }
-
-            foreach (var attachment in this.mAttachmentsRemove)
-            {
-                attachmentRepository.Delete(attachment);
-                ticket.Attachments.Remove(attachment);
             }
 
             foreach (var change in this.mChangesAdd)
