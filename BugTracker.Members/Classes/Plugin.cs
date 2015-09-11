@@ -1,7 +1,7 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
 using BugTracker.Members.Controls;
-using BugTracker.Projects.Events;
+using BugTracker.Members.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;

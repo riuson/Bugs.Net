@@ -1,8 +1,8 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Entities;
+using BugTracker.Members.Events;
 using BugTracker.Projects.Controls;
-using BugTracker.Projects.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,6 @@ using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB.Repositories;
-using BugTracker.Projects.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
