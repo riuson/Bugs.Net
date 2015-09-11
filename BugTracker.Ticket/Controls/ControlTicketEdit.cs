@@ -75,7 +75,6 @@ namespace BugTracker.TicketEditor.Controls
             this.mTicketAttachmentsDisplay.Dock = DockStyle.Fill;
             this.tabPageAttachments.Controls.Add(this.mTicketAttachmentsDisplay);
             this.mTicketAttachmentsDisplay.SaveAttachment += this.OnSaveAttachment;
-            this.mTicketAttachmentsDisplay.LoadAttachments += this.OnLoadAttachments;
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -178,6 +177,9 @@ namespace BugTracker.TicketEditor.Controls
                     this.mTicketData.CommentAdd(this.mTicketChangesDisplay.NewComment);
                 }
 
+                this.mTicketData.AttachmentsAdd(this.mTicketAttachmentsDisplay.AddedAttachments);
+                this.mTicketData.AttachmentsRemove(this.mTicketAttachmentsDisplay.RemovedAttachments);
+
                 this.mTicketData.ApplyChanges(session, this.LoggedMember, this.Ticket);
             }
 
@@ -198,30 +200,6 @@ namespace BugTracker.TicketEditor.Controls
         private void OnSaveAttachment(object sender, SaveAttachmentEventArgs ea)
         {
             this.mTicketData.SaveAttachmentToFile(ea.Attachment, ea.Filename);
-        }
-
-        private void OnLoadAttachments(object sender, LoadAttachmentsEventArgs ea)
-        {
-            Dictionary<string, string> comments = new Dictionary<string, string>();
-
-            foreach (var filename in ea.Filenames)
-            {
-                string comment;
-
-                if (InputBox.Show("File: " + filename, "Enter comment", String.Empty, out comment) == DialogResult.OK)
-                {
-                    comments.Add(filename, comment);
-                }
-                else
-                {
-                    comments.Add(filename, String.Empty);
-                }
-            }
-
-            foreach (var filename in ea.Filenames)
-            {
-                this.mTicketData.AttachmentAdd(filename, comments[filename]);
-            }
         }
     }
 }

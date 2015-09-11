@@ -101,27 +101,22 @@ namespace BugTracker.TicketEditor.Classes
             this.mChangesAdd.Add(change);
         }
 
-        public void AttachmentAdd(string filename, string comment)
+        public void AttachmentsAdd(Attachment[] attachments)
         {
-            using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            foreach (Attachment attachment in attachments)
             {
-                BlobContent blob = new BlobContent();
-                blob.ReadFrom(fs);
-                this.mBlobAdd.Add(blob);
-
-                Attachment attachment = new Attachment();
-                attachment.Created = DateTime.Now;
-                attachment.Comment = comment;
-                attachment.Filename = Path.GetFileName(filename);
-                attachment.File = blob;
+                this.mBlobAdd.Add(attachment.File);
                 this.mAttachmentsAdd.Add(attachment);
             }
         }
 
-        public void AttachmentRemove(Attachment entity)
+        public void AttachmentsRemove(Attachment[] attachments)
         {
-            this.mBlobRemove.Add(entity.File);
-            this.mAttachmentsRemove.Add(entity);
+            foreach (Attachment attachment in attachments)
+            {
+                this.mBlobRemove.Add(attachment.File);
+                this.mAttachmentsRemove.Add(attachment);
+            }
         }
 
         public void SaveAttachmentToFile(Attachment attachment, string filename)

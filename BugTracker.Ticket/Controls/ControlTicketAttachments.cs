@@ -6,6 +6,7 @@ using BugTracker.DB.Repositories;
 using BugTracker.TicketEditor.Events;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -15,86 +16,233 @@ using System.Windows.Forms;
 
 namespace BugTracker.TicketEditor.Controls
 {
-    internal class ControlTicketAttachments : FlowLayoutPanel
+    internal class ControlTicketAttachments : Panel
     {
         private IApplication mApp;
-        private ToolTip mToolTip;
+        private DataTable mTableAttachments;
+        private DataGridView mDataGridView;
 
         public event EventHandler<SaveAttachmentEventArgs> SaveAttachment;
-        public event EventHandler<LoadAttachmentsEventArgs> LoadAttachments;
+        public Attachment[] AddedAttachments
+        {
+            get
+            {
+                List<Attachment> result = new List<Attachment>();
+
+                foreach (DataRow row in this.mTableAttachments.Rows)
+                {
+                    Attachment attachment = row["attachment"] as Attachment;
+
+                    if (attachment.Id == 0)
+                    {
+                        attachment.Comment = Convert.ToString(row["comment"]);
+                        result.Add(attachment);
+                    }
+                }
+
+                return result.ToArray();
+            }
+        }
+        public Attachment[] RemovedAttachments
+        {
+            get
+            {
+                List<Attachment> result = new List<Attachment>();
+
+                foreach (DataRow row in this.mTableAttachments.Rows)
+                {
+                    Attachment attachment = row["attachment"] as Attachment;
+
+                    if (Convert.ToBoolean(row["removed"]))
+                    {
+                        result.Add(attachment);
+                    }
+                }
+
+                return result.ToArray();
+            }
+        }
 
         public ControlTicketAttachments(IApplication app)
         {
             this.mApp = app;
-            this.mToolTip = new ToolTip();
-            this.AutoScroll = true;
+
+            {
+                this.mTableAttachments = new DataTable("attachments");
+                this.mTableAttachments.Columns.Add("icon", typeof(Icon));
+                this.mTableAttachments.Columns.Add("filename", typeof(String));
+                this.mTableAttachments.Columns.Add("path", typeof(String));
+                this.mTableAttachments.Columns.Add("comment", typeof(String));
+                this.mTableAttachments.Columns.Add("attachment", typeof(Attachment));
+                this.mTableAttachments.Columns.Add("download", typeof(String)).DefaultValue = "Download";
+                this.mTableAttachments.Columns.Add("remove", typeof(String)).DefaultValue = "Remove";
+                this.mTableAttachments.Columns.Add("removed", typeof(Boolean)).DefaultValue = false;
+            }
+
+            {
+                this.mDataGridView = new DataGridView();
+                this.mDataGridView.AutoGenerateColumns = false;
+                this.mDataGridView.AllowUserToAddRows = false;
+                this.mDataGridView.AllowUserToDeleteRows = false;
+                this.mDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+                this.mDataGridView.BackgroundColor = SystemColors.Window;
+                this.mDataGridView.Columns.Add(new DataGridViewImageColumn()
+                {
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                    DataPropertyName = "icon",
+                    HeaderText = "Type"
+                });
+                this.mDataGridView.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                    DataPropertyName = "filename",
+                    HeaderText = "Filename"
+                });
+                this.mDataGridView.Columns.Add(new DataGridViewTextBoxColumn()
+                {
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                    DataPropertyName = "comment",
+                    HeaderText = "Comment"
+                });
+                this.mDataGridView.Columns.Add(new DataGridViewButtonColumn()
+                {
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                    DataPropertyName = "download"
+                });
+                this.mDataGridView.Columns.Add(new DataGridViewButtonColumn()
+                {
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
+                    DataPropertyName = "remove"
+                });
+
+                this.mDataGridView.CellContentClick += this.mDataGridView_CellContentClick;
+                this.mDataGridView.CellBeginEdit += this.mDataGridView_CellBeginEdit;
+                this.mDataGridView.CellFormatting += this.mDataGridView_CellFormatting;
+
+                this.mDataGridView.Dock = DockStyle.Fill;
+                this.Controls.Add(this.mDataGridView);
+
+                this.mDataGridView.DataSource = this.mTableAttachments;
+            }
 
             this.AllowDrop = true;
             this.DragEnter += this.ControlTicketAttachments_DragEnter;
             this.DragDrop += this.ControlTicketAttachments_DragDrop;
         }
 
-        public void UpdateTicketData(ISession session, Ticket ticket)
+        private void mDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            foreach (Attachment att in ticket.Attachments)
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
             {
-                Button btn = new Button();
-                btn.Text = att.Filename;
-                btn.Tag = att;
-                Icon icon = this.GetFileIcon(att.Filename);
-                btn.Image = icon.ToBitmap();
-                btn.MinimumSize = new System.Drawing.Size(0, icon.Height + 8);
-                btn.TextImageRelation = TextImageRelation.ImageBeforeText;
-                btn.AutoSize = true;
-                string tip = String.Format(
-                    "{0}\nUploaded by {1} {2} at {3}\nComment: {4}",
-                    att.Filename,
-                    att.Author.FirstName, att.Author.LastName,
-                    att.Created,
-                    att.Comment);
-                this.mToolTip.SetToolTip(btn, tip);
-                btn.Click += this.btnFile_Click;
-                this.Controls.Add(btn);
+                DataRowView drv = this.mDataGridView.Rows[e.RowIndex].DataBoundItem as DataRowView;
+                DataRow row = drv.Row as DataRow;
+                Attachment attachment = row["attachment"] as Attachment;
+                //string propertyName = this.mDataGridView.Columns[e.ColumnIndex].DataPropertyName;
+
+                if (Convert.ToBoolean(row["removed"]))
+                {
+                    e.CellStyle.BackColor = Color.Red;
+                }
+
+                if (attachment.Id == 0)
+                {
+                    e.CellStyle.BackColor = Color.Green;
+                }
             }
         }
 
-        private void btnFile_Click(object sender, EventArgs e)
+        private void mDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            try
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
             {
-                if (sender is Button)
+                DataRowView drv = this.mDataGridView.Rows[e.RowIndex].DataBoundItem as DataRowView;
+                DataRow row = drv.Row as DataRow;
+
+                if (Convert.ToString(row["path"]) == String.Empty)
                 {
-                    Button btn = sender as Button;
+                    e.Cancel = true;
+                }
 
-                    if (btn.Tag is Attachment)
+                if (this.mDataGridView.Columns[e.ColumnIndex].DataPropertyName != "comment")
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void mDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+            {
+                if (this.mDataGridView.Columns[e.ColumnIndex].DataPropertyName == "download")
+                {
+                    DataRowView drv = this.mDataGridView.Rows[e.RowIndex].DataBoundItem as DataRowView;
+                    DataRow row = drv.Row as DataRow;
+                    Attachment attachment = row["attachment"] as Attachment;
+
+                    if (this.SaveAttachment != null && attachment != null && attachment.Id != 0)
                     {
-                        Attachment attachment = btn.Tag as Attachment;
-
-                        if (this.SaveAttachment != null)
+                        using (SaveFileDialog dialog = new SaveFileDialog())
                         {
-                            using (SaveFileDialog dialog = new SaveFileDialog())
-                            {
-                                dialog.CheckPathExists = true;
-                                dialog.FileName = attachment.Filename;
-                                dialog.OverwritePrompt = true;
-                                dialog.RestoreDirectory = true;
-                                dialog.Title = "Save attachment";
-                                dialog.DefaultExt = Path.GetExtension(attachment.Filename);
-                                dialog.Filter = String.Format("*.{0}|*.{0}", dialog.DefaultExt);
-                                dialog.FilterIndex = 1;
+                            dialog.CheckPathExists = true;
+                            dialog.FileName = attachment.Filename;
+                            dialog.OverwritePrompt = true;
+                            dialog.RestoreDirectory = true;
+                            dialog.Title = "Save attachment";
+                            dialog.DefaultExt = Path.GetExtension(attachment.Filename);
+                            dialog.Filter = String.Format("*.{0}|*.{0}", dialog.DefaultExt);
+                            dialog.FilterIndex = 1;
 
-                                if (dialog.ShowDialog() == DialogResult.OK)
-                                {
-                                    this.SaveAttachment(this, new SaveAttachmentEventArgs(attachment, dialog.FileName));
-                                }
+                            if (dialog.ShowDialog() == DialogResult.OK)
+                            {
+                                this.SaveAttachment(this, new SaveAttachmentEventArgs(attachment, dialog.FileName));
                             }
                         }
                     }
                 }
+
+                if (this.mDataGridView.Columns[e.ColumnIndex].DataPropertyName == "remove")
+                {
+                    DataRowView drv = this.mDataGridView.Rows[e.RowIndex].DataBoundItem as DataRowView;
+                    DataRow row = drv.Row as DataRow;
+                    Attachment attachment = row["attachment"] as Attachment;
+
+                    // If record exists
+                    if (attachment.Id != 0)
+                    {
+                        // Restore
+                        if (Convert.ToBoolean(row["removed"]))
+                        {
+                            row["removed"] = false;
+                        }
+                        else // Add to list for remove
+                        {
+                            row["removed"] = true;
+                        }
+
+                        this.mDataGridView.InvalidateRow(e.RowIndex);
+                    }
+                    else
+                    {
+                        // Just remove row
+                        this.mTableAttachments.Rows.Remove(row);
+                    }
+                }
             }
-            catch (Exception exc)
+        }
+
+        public void UpdateTicketData(ISession session, Ticket ticket)
+        {
+            this.mTableAttachments.Clear();
+
+            foreach (Attachment att in ticket.Attachments)
             {
-                MessageBox.Show(this.mApp.OwnerWindow, "Can't save file:\n" + exc.Message, "File save error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                DataRow row = this.mTableAttachments.NewRow();
+                row["icon"] = this.GetFileIcon(att.Filename); ;
+                row["filename"] = att.Filename;
+                row["comment"] = att.Comment;
+                row["attachment"] = att;
+                this.mTableAttachments.Rows.Add(row);
             }
         }
 
@@ -110,9 +258,26 @@ namespace BugTracker.TicketEditor.Controls
         {
             string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (this.LoadAttachments != null)
+            foreach (var filename in filenames)
             {
-                this.LoadAttachments(this, new LoadAttachmentsEventArgs(filenames));
+                BlobContent blob = new BlobContent();
+
+                using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
+                {
+                    blob.ReadFrom(fs);
+                }
+
+                Attachment attachment = new Attachment();
+                attachment.File = blob;
+                attachment.Created = DateTime.Now;
+                attachment.Filename = Path.GetFileName(filename);
+
+                DataRow row = this.mTableAttachments.NewRow();
+                row["icon"] = this.GetFileIcon(filename);
+                row["filename"] = Path.GetFileName(filename);
+                row["path"] = filename;
+                row["attachment"] = attachment;
+                this.mTableAttachments.Rows.Add(row);
             }
         }
 
