@@ -42,7 +42,9 @@ namespace BugTracker.TicketEditor.Controls
                 btn.Tag = att;
                 Icon icon = this.GetFileIcon(att.Filename);
                 btn.Image = icon.ToBitmap();
+                btn.MinimumSize = new System.Drawing.Size(0, icon.Height + 8);
                 btn.TextImageRelation = TextImageRelation.ImageBeforeText;
+                btn.AutoSize = true;
                 string tip = String.Format(
                     "{0}\nUploaded by {1} {2} at {3}\nComment: {4}",
                     att.Filename,
