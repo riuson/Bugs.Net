@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7937ECC3-052C-482C-AFAA-C516C76AF9EC}</ProjectGuid>
+    <ProjectGuid>{6870F5A0-6BA0-4475-B624-69389E8E8E46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BugTracker.Vocabulary</RootNamespace>
-    <AssemblyName>BugTracker.Vocabulary</AssemblyName>
+    <RootNamespace>BugTracker.TicketEditor</RootNamespace>
+    <AssemblyName>BugTracker.Ticket</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -45,24 +45,29 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\Plugin.cs" />
-    <Compile Include="Classes\ProjectsListData.cs" />
-    <Compile Include="Controls\ControlVocabularyList.cs">
+    <Compile Include="Classes\RichTextBoxExt.cs" />
+    <Compile Include="Classes\TicketData.cs" />
+    <Compile Include="Classes\VocabularyDisplayData.cs" />
+    <Compile Include="Controls\ControlTicketAttachments.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlTicketChanges.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlTicketEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ControlVocabularyList.Designer.cs">
-      <DependentUpon>ControlVocabularyList.cs</DependentUpon>
+    <Compile Include="Controls\ControlTicketEdit.Designer.cs">
+      <DependentUpon>ControlTicketEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Events\AddVocabularyEventArgs.cs" />
-    <Compile Include="Events\EditVocabularyEventArgs.cs" />
-    <Compile Include="Events\RemoveVocabularyEventArgs.cs" />
-    <Compile Include="Events\UpdatedVocabularyEventArgs.cs" />
-    <Compile Include="Events\ShowVocabularyEditorEventArgs.cs" />
+    <Compile Include="Controls\VocabularyBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\VocabularyBox.Designer.cs">
+      <DependentUpon>VocabularyBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\SaveAttachmentEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
@@ -80,18 +85,25 @@
       <Name>BugTracker.DB</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\BugTracker.Tickets\BugTracker.Tickets.csproj">
+      <Project>{c94188cb-d7eb-4db5-955d-f7a98d3f5109}</Project>
+      <Name>BugTracker.Tickets</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\BugTracker.Vocabulary\BugTracker.Vocabulary.csproj">
+      <Project>{7937ecc3-052c-482c-afaa-c516c76af9ec}</Project>
+      <Name>BugTracker.Vocabulary</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Controls\ControlVocabularyList.resx">
-      <DependentUpon>ControlVocabularyList.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\ControlTicketEdit.resx">
+      <DependentUpon>ControlTicketEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="Controls\VocabularyBox.resx">
+      <DependentUpon>VocabularyBox.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\list-ul_a41e35_48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

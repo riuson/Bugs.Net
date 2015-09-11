@@ -2,6 +2,7 @@
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Entities;
 using BugTracker.Vocabulary.Controls;
+using BugTracker.Vocabulary.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,22 @@ namespace BugTracker.Vocabulary.Classes
     internal class Plugin : IPlugin
     {
         private IApplication mApp;
+        private List<Type> mVocabularyTypes;
 
         public void Initialize(IApplication app)
         {
             this.mApp = app;
+            this.mVocabularyTypes = this.CollectTypes();
+
+            foreach (var type in this.mVocabularyTypes)
+            {
+                Type generic = typeof(ShowVocabularyEditorEventArgs<>);
+                Type[] typeArgs = { type };
+                Type constructed = generic.MakeGenericType(typeArgs);
+
+                //object o = Activator.CreateInstance(constructed, new object[] { null });
+                this.mApp.Messages.Subscribe(constructed, this.ShowList);
+            }
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -29,25 +42,21 @@ namespace BugTracker.Vocabulary.Classes
                     {
                         List<IButton> result = new List<IButton>();
 
-                        Assembly assembly = typeof(IVocabulary).Assembly;
-                        Type[] types = assembly.GetTypes();
-
-                        foreach (var type in types)
+                        foreach (var type in this.mVocabularyTypes)
                         {
-                            Type ti = type.GetInterface(typeof(IVocabulary).FullName);
-
-                            if (ti != null && !type.IsAbstract && !type.IsInterface)
+                            IButton menuItemTypeList = MenuPanelFabric.CreateMenuItem(
+                                String.Format("{0} list", type.Name),
+                                "Vocabulary editor",
+                                BugTracker.Vocabulary.Properties.Resources.icon_list_ul_a41e35_48);
+                            menuItemTypeList.Click += delegate(object sender, EventArgs ea)
                             {
-                                IButton menuItemTypeList = MenuPanelFabric.CreateMenuItem(
-                                    String.Format("{0} list", type.Name),
-                                    "Vocabulary editor",
-                                    BugTracker.Vocabulary.Properties.Resources.icon_list_ul_a41e35_48);
-                                menuItemTypeList.Click += delegate(object sender, EventArgs ea)
-                                {
-                                    this.ShowList(type);
-                                };
-                                result.Add(menuItemTypeList);
-                            }
+                                Type generic = typeof(ShowVocabularyEditorEventArgs<>);
+                                Type[] typeArgs = { type };
+                                Type constructed = generic.MakeGenericType(typeArgs);
+                                object o = Activator.CreateInstance(constructed, new object[] { null });
+                                this.ShowList(this, o as MessageEventArgs);
+                            };
+                            result.Add(menuItemTypeList);
                         }
 
                         return result.ToArray();
@@ -57,18 +66,72 @@ namespace BugTracker.Vocabulary.Classes
             }
         }
 
-        private void ShowList(Type type)
+        private List<Type> CollectTypes()
         {
-            Type generic = typeof(ControlVocabularyList<>);
-            Type[] typeArgs = { type };
-            Type constructed = generic.MakeGenericType(typeArgs);
+            List<Type> result = new List<Type>();
 
-            object o = Activator.CreateInstance(constructed, new object[] { this.mApp });
-            Control control = o as Control;
+            Assembly assembly = typeof(IVocabulary).Assembly;
+            Type[] types = assembly.GetTypes();
 
-            if (control != null)
+            foreach (var type in types)
             {
-                this.mApp.Controls.Show(control);
+                Type ti = type.GetInterface(typeof(IVocabulary).FullName);
+
+                if (ti != null && !type.IsAbstract && !type.IsInterface)
+                {
+                    result.Add(type);
+                }
+            }
+
+            return result;
+        }
+
+        private void ShowList(object sender, MessageEventArgs e)
+        {
+            foreach (var type in this.mVocabularyTypes)
+            {
+                Type genericMessageType = typeof(ShowVocabularyEditorEventArgs<>);
+                Type[] messageTypeArgs = { type };
+                Type constructedMessageType = genericMessageType.MakeGenericType(messageTypeArgs);
+
+                if (e.GetType() == constructedMessageType)
+                {
+                    Type genericEditorType = typeof(ControlVocabularyList<>);
+                    Type[] editorTypeArgs = { type };
+                    Type constructedEditorType = genericEditorType.MakeGenericType(editorTypeArgs);
+
+                    object o = Activator.CreateInstance(constructedEditorType, new object[] { this.mApp });
+                    Control control = o as Control;
+                    control.Disposed += control_Disposed;
+
+                    if (control != null)
+                    {
+                        this.mApp.Controls.Show(control);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        private void control_Disposed(object sender, EventArgs e)
+        {
+            foreach (var type in this.mVocabularyTypes)
+            {
+                Type genericEditorType = typeof(ControlVocabularyList<>);
+                Type[] editorTypeArgs = { type };
+                Type constructedEditorType = genericEditorType.MakeGenericType(editorTypeArgs);
+
+                if (sender.GetType() == constructedEditorType)
+                {
+                    Type genericMessageType = typeof(UpdatedVocabularyEventArgs<>);
+                    Type[] messageTypeArgs = { type };
+                    Type constructedMessageType = genericMessageType.MakeGenericType(messageTypeArgs);
+                    object o = Activator.CreateInstance(constructedMessageType, new object[] { });
+                    this.mApp.Messages.Send(this, (MessageEventArgs)o);
+
+                    break;
+                }
             }
         }
     }
