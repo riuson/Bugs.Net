@@ -8,6 +8,11 @@ namespace BugTracker.DB.Events
 {
     public class EntityEditedEventArgs<T> : EnityOperationEventArgs<T>
     {
+        public EntityEditedEventArgs()
+            : base()
+        {
+        }
+
         public EntityEditedEventArgs(T entity)
             : base(entity)
         {
