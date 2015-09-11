@@ -37,7 +37,7 @@ namespace BugTracker.TicketEditor.Classes
             this.mBlobRemove = new List<BlobContent>();
         }
 
-        public TicketData(Ticket ticket, ISession session)
+        public TicketData(ISession session, Ticket ticket)
             : this()
         {
             this.mAttachmentsOriginal = ticket.Attachments;

@@ -27,13 +27,14 @@ namespace BugTracker.TicketEditor.Controls
         {
             this.mApp = app;
             this.mToolTip = new ToolTip();
+            this.AutoScroll = true;
 
             this.AllowDrop = true;
             this.DragEnter += this.ControlTicketAttachments_DragEnter;
             this.DragDrop += this.ControlTicketAttachments_DragDrop;
         }
 
-        public void UpdateTicketData(Ticket ticket, ISession session)
+        public void UpdateTicketData(ISession session, Ticket ticket)
         {
             foreach (Attachment att in ticket.Attachments)
             {

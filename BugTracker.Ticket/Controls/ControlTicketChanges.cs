@@ -28,7 +28,7 @@ namespace BugTracker.TicketEditor.Controls
             this.PreparePrompt();
         }
 
-        public void UpdateTicketData(Ticket ticket, ISession session)
+        public void UpdateTicketData(ISession session, Ticket ticket)
         {
             this.mTextBox.Clear();
 

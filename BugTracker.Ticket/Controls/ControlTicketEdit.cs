@@ -93,9 +93,9 @@ namespace BugTracker.TicketEditor.Controls
                 this.textBoxTitle.Text = this.Ticket.Title;
                 this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
 
-                this.mTicketData = new TicketData(this.Ticket, session);
-                this.mTicketChangesDisplay.UpdateTicketData(this.Ticket, session);
-                this.mTicketAttachmentsDisplay.UpdateTicketData(this.Ticket, session);
+                this.mTicketData = new TicketData(session, this.Ticket);
+                this.mTicketChangesDisplay.UpdateTicketData(session, this.Ticket);
+                this.mTicketAttachmentsDisplay.UpdateTicketData(session, this.Ticket);
             }
         }
 
