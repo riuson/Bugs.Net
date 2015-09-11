@@ -5,16 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.Projects.Events
+namespace BugTracker.Members.Events
 {
-    public class EditProjectEventArgs : MessageEventArgs
+    public class LoginAnswerEventArgs : MessageEventArgs
     {
-        public Project Item { get; private set; }
         public Member LoggedMember { get; private set; }
 
-        public EditProjectEventArgs(Project item, Member loggedMember)
+        public LoginAnswerEventArgs()
         {
-            this.Item = item;
+            this.LoggedMember = null;
+        }
+
+        public LoginAnswerEventArgs(Member loggedMember)
+        {
             this.LoggedMember = loggedMember;
         }
     }

@@ -3,9 +3,9 @@ using BugTracker.Core.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB.Repositories;
-using BugTracker.Vocabulary.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +48,7 @@ namespace BugTracker.Vocabulary.Classes
 
         public void Add()
         {
-            AddVocabularyEventArgs<T> ea = new AddVocabularyEventArgs<T>();
+            EntityAddEventArgs<T> ea = new EntityAddEventArgs<T>();
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -77,7 +77,7 @@ namespace BugTracker.Vocabulary.Classes
 
         public void Edit(T item)
         {
-            EditVocabularyEventArgs<T> ea = new EditVocabularyEventArgs<T>(item);
+            EntityEditEventArgs<T> ea = new EntityEditEventArgs<T>(item);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -105,7 +105,7 @@ namespace BugTracker.Vocabulary.Classes
 
         public void Remove(T item)
         {
-            RemoveVocabularyEventArgs<T> ea = new RemoveVocabularyEventArgs<T>(item);
+            EntityRemoveEventArgs<T> ea = new EntityRemoveEventArgs<T>(item);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)

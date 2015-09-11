@@ -91,6 +91,14 @@
       <DependentUpon>ControlSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\DataGridViewSubColumn.cs" />
+    <Compile Include="Events\EnityOperationEventArgs.cs" />
+    <Compile Include="Events\EntityAddedEventArgs.cs" />
+    <Compile Include="Events\EntityEditedEventArgs.cs" />
+    <Compile Include="Events\EntityRemovedEventArgs.cs" />
+    <Compile Include="Events\EntityShowEventArgs.cs" />
+    <Compile Include="Events\EntityRemoveEventArgs.cs" />
+    <Compile Include="Events\EntityEditEventArgs.cs" />
+    <Compile Include="Events\EntityAddEventArgs.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

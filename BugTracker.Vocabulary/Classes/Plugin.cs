@@ -1,8 +1,8 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.Vocabulary.Controls;
-using BugTracker.Vocabulary.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace BugTracker.Vocabulary.Classes
 
             foreach (var type in this.mVocabularyTypes)
             {
-                Type generic = typeof(ShowVocabularyEditorEventArgs<>);
+                Type generic = typeof(EntityShowEventArgs<>);
                 Type[] typeArgs = { type };
                 Type constructed = generic.MakeGenericType(typeArgs);
 
@@ -50,10 +50,10 @@ namespace BugTracker.Vocabulary.Classes
                                 BugTracker.Vocabulary.Properties.Resources.icon_list_ul_a41e35_48);
                             menuItemTypeList.Click += delegate(object sender, EventArgs ea)
                             {
-                                Type generic = typeof(ShowVocabularyEditorEventArgs<>);
+                                Type generic = typeof(EntityShowEventArgs<>);
                                 Type[] typeArgs = { type };
                                 Type constructed = generic.MakeGenericType(typeArgs);
-                                object o = Activator.CreateInstance(constructed, new object[] { null });
+                                object o = Activator.CreateInstance(constructed);
                                 this.ShowList(this, o as MessageEventArgs);
                             };
                             result.Add(menuItemTypeList);
@@ -90,7 +90,7 @@ namespace BugTracker.Vocabulary.Classes
         {
             foreach (var type in this.mVocabularyTypes)
             {
-                Type genericMessageType = typeof(ShowVocabularyEditorEventArgs<>);
+                Type genericMessageType = typeof(EntityShowEventArgs<>);
                 Type[] messageTypeArgs = { type };
                 Type constructedMessageType = genericMessageType.MakeGenericType(messageTypeArgs);
 
@@ -124,7 +124,7 @@ namespace BugTracker.Vocabulary.Classes
 
                 if (sender.GetType() == constructedEditorType)
                 {
-                    Type genericMessageType = typeof(UpdatedVocabularyEventArgs<>);
+                    Type genericMessageType = typeof(EntityEditedEventArgs<>);
                     Type[] messageTypeArgs = { type };
                     Type constructedMessageType = genericMessageType.MakeGenericType(messageTypeArgs);
                     object o = Activator.CreateInstance(constructedMessageType, new object[] { });

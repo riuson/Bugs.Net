@@ -4,14 +4,13 @@ using BugTracker.DB;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB.Repositories;
-using BugTracker.Projects.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BugTracker.Tickets.Classes;
-using BugTracker.Tickets.Events;
+using BugTracker.DB.Events;
 
 namespace BugTracker.Tickets.Classes
 {
@@ -51,7 +50,7 @@ namespace BugTracker.Tickets.Classes
 
         public void Add()
         {
-            AddTicketEventArgs ea = new AddTicketEventArgs(this.mLoggedMember);
+            EntityAddEventArgs<Ticket> ea = new EntityAddEventArgs<Ticket>(this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)
@@ -62,7 +61,7 @@ namespace BugTracker.Tickets.Classes
 
         public void Edit(Ticket item)
         {
-            EditTicketEventArgs ea = new EditTicketEventArgs(item, this.mLoggedMember);
+            EntityEditEventArgs<Ticket> ea = new EntityEditEventArgs<Ticket>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)
@@ -73,7 +72,7 @@ namespace BugTracker.Tickets.Classes
 
         public void Remove(Ticket item)
         {
-            RemoveTicketEventArgs ea = new RemoveTicketEventArgs(item, this.mLoggedMember);
+            EntityRemoveEventArgs<Ticket> ea = new EntityRemoveEventArgs<Ticket>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)

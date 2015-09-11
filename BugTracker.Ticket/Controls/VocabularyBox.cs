@@ -11,8 +11,8 @@ using BugTracker.DB;
 using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.Core.Interfaces;
-using BugTracker.Vocabulary.Events;
 using BugTracker.TicketEditor.Classes;
+using BugTracker.DB.Events;
 
 namespace BugTracker.TicketEditor.Controls
 {
@@ -33,12 +33,12 @@ namespace BugTracker.TicketEditor.Controls
             this.comboBox1.DataSource = this.mBS;
             this.UpdateList();
 
-            this.mApp.Messages.Subscribe(typeof(UpdatedVocabularyEventArgs<T>), this.VocabularyUpdated);
+            this.mApp.Messages.Subscribe(typeof(EntityEditedEventArgs<T>), this.VocabularyUpdated);
         }
 
         private void BeforeDisposing()
         {
-            this.mApp.Messages.Unsubscribe(typeof(UpdatedVocabularyEventArgs<T>), this.VocabularyUpdated);
+            this.mApp.Messages.Unsubscribe(typeof(EntityEditedEventArgs<T>), this.VocabularyUpdated);
         }
 
         private void UpdateList()
@@ -97,7 +97,7 @@ namespace BugTracker.TicketEditor.Controls
 
             if (data != null)
             {
-                this.mApp.Messages.Send(this, new ShowVocabularyEditorEventArgs<T>(data.Value));
+                this.mApp.Messages.Send(this, new EntityShowEventArgs<T>(data.Value));
             }
         }
     }

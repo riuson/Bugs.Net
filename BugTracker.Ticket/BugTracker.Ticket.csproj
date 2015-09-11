@@ -85,16 +85,6 @@
       <Name>BugTracker.DB</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\BugTracker.Tickets\BugTracker.Tickets.csproj">
-      <Project>{c94188cb-d7eb-4db5-955d-f7a98d3f5109}</Project>
-      <Name>BugTracker.Tickets</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\BugTracker.Vocabulary\BugTracker.Vocabulary.csproj">
-      <Project>{7937ecc3-052c-482c-afaa-c516c76af9ec}</Project>
-      <Name>BugTracker.Vocabulary</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
