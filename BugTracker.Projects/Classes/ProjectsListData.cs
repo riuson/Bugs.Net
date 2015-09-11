@@ -2,6 +2,7 @@
 using BugTracker.Core.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB.Repositories;
 using BugTracker.Projects.Events;
@@ -49,7 +50,7 @@ namespace BugTracker.Projects.Classes
 
         public void Add()
         {
-            AddProjectEventArgs ea = new AddProjectEventArgs(this.mLoggedMember);
+            EntityAddEventArgs<Project> ea = new EntityAddEventArgs<Project>(this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -77,7 +78,7 @@ namespace BugTracker.Projects.Classes
 
         public void Edit(Project item)
         {
-            EditProjectEventArgs ea = new EditProjectEventArgs(item, this.mLoggedMember);
+            EntityEditEventArgs<Project> ea = new EntityEditEventArgs<Project>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -104,7 +105,7 @@ namespace BugTracker.Projects.Classes
 
         public void Remove(Project item)
         {
-            RemoveProjectEventArgs ea = new RemoveProjectEventArgs(item, this.mLoggedMember);
+            EntityRemoveEventArgs<Project> ea = new EntityRemoveEventArgs<Project>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -135,7 +136,7 @@ namespace BugTracker.Projects.Classes
 
         public void ShowTickets(Project item)
         {
-            ShowProjectTicketsEventArgs ea = new ShowProjectTicketsEventArgs(item, this.mLoggedMember);
+            EntityShowEventArgs<Project> ea = new EntityShowEventArgs<Project>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)

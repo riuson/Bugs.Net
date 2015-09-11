@@ -1,4 +1,6 @@
 ﻿using BugTracker.Core.Interfaces;
+using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.Projects.Events;
 using BugTracker.Tickets.Controls;
 using System;
@@ -17,7 +19,7 @@ namespace BugTracker.Tickets.Classes
         {
             this.mApp = app;
 
-            this.mApp.Messages.Subscribe(typeof(ShowProjectTicketsEventArgs), this.ShowTicketsList);
+            this.mApp.Messages.Subscribe(typeof(EntityShowEventArgs<Project>), this.ShowTicketsList);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -27,11 +29,11 @@ namespace BugTracker.Tickets.Classes
 
         private void ShowTicketsList(object sender, MessageEventArgs e)
         {
-            ShowProjectTicketsEventArgs ea = e as ShowProjectTicketsEventArgs;
+            EntityShowEventArgs<Project> ea = e as EntityShowEventArgs<Project>;
 
             if (ea != null)
             {
-                ControlTicketsList controlList = new ControlTicketsList(this.mApp, ea.LoggedMember);
+                ControlTicketsList controlList = new ControlTicketsList(this.mApp, ea.Member);
                 this.mApp.Controls.Show(controlList);
             }
         }
