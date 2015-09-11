@@ -64,14 +64,16 @@ namespace BugTracker.TicketEditor.Controls
             this.mTicketData = new TicketData();
 
             this.mTicketChangesDisplay = new ControlTicketChanges();
-            this.tableLayoutPanel1.Controls.Add(this.mTicketChangesDisplay, 2, 1);
-            this.tableLayoutPanel1.SetRowSpan(this.mTicketChangesDisplay, 7);
+            //this.tableLayoutPanel1.Controls.Add(this.mTicketChangesDisplay, 2, 1);
+            //this.tableLayoutPanel1.SetRowSpan(this.mTicketChangesDisplay, 7);
             this.mTicketChangesDisplay.Dock = DockStyle.Fill;
+            this.tabPageChangelog.Controls.Add(this.mTicketChangesDisplay);
 
             this.mTicketAttachmentsDisplay = new ControlTicketAttachments(this.mApp);
-            this.tableLayoutPanel1.Controls.Add(this.mTicketAttachmentsDisplay, 0, 7);
-            this.tableLayoutPanel1.SetColumnSpan(this.mTicketAttachmentsDisplay, 2);
+            //this.tableLayoutPanel1.Controls.Add(this.mTicketAttachmentsDisplay, 0, 7);
+            //this.tableLayoutPanel1.SetColumnSpan(this.mTicketAttachmentsDisplay, 2);
             this.mTicketAttachmentsDisplay.Dock = DockStyle.Fill;
+            this.tabPageAttachments.Controls.Add(this.mTicketAttachmentsDisplay);
             this.mTicketAttachmentsDisplay.SaveAttachment += this.OnSaveAttachment;
             this.mTicketAttachmentsDisplay.LoadAttachments += this.OnLoadAttachments;
         }

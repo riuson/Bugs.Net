@@ -41,6 +41,9 @@
             this.labelCreated = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPageChangelog = new System.Windows.Forms.TabPage();
+            this.tabPageAttachments = new System.Windows.Forms.TabPage();
             buttonOk = new System.Windows.Forms.Button();
             buttonCancel = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
@@ -51,6 +54,7 @@
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOk
@@ -182,6 +186,7 @@
             this.tableLayoutPanel1.Controls.Add(label7, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.labelLoggedMember, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelCreated, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.tabControl1, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -206,6 +211,38 @@
             this.textBoxTitle.Size = new System.Drawing.Size(664, 20);
             this.textBoxTitle.TabIndex = 0;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPageChangelog);
+            this.tabControl1.Controls.Add(this.tabPageAttachments);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(224, 32);
+            this.tabControl1.Name = "tabControl1";
+            this.tableLayoutPanel1.SetRowSpan(this.tabControl1, 7);
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(497, 289);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // tabPageChangelog
+            // 
+            this.tabPageChangelog.Location = new System.Drawing.Point(4, 22);
+            this.tabPageChangelog.Name = "tabPageChangelog";
+            this.tabPageChangelog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageChangelog.Size = new System.Drawing.Size(489, 263);
+            this.tabPageChangelog.TabIndex = 0;
+            this.tabPageChangelog.Text = "Changes";
+            this.tabPageChangelog.UseVisualStyleBackColor = true;
+            // 
+            // tabPageAttachments
+            // 
+            this.tabPageAttachments.Location = new System.Drawing.Point(4, 22);
+            this.tabPageAttachments.Name = "tabPageAttachments";
+            this.tabPageAttachments.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAttachments.Size = new System.Drawing.Size(489, 263);
+            this.tabPageAttachments.TabIndex = 1;
+            this.tabPageAttachments.Text = "Attachments";
+            this.tabPageAttachments.UseVisualStyleBackColor = true;
+            // 
             // ControlTicketEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -215,6 +252,7 @@
             this.Size = new System.Drawing.Size(806, 324);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -225,6 +263,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label labelLoggedMember;
         private System.Windows.Forms.Label labelCreated;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPageChangelog;
+        private System.Windows.Forms.TabPage tabPageAttachments;
 
     }
 }
