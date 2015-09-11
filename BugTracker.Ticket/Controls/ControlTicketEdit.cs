@@ -164,6 +164,28 @@ namespace BugTracker.TicketEditor.Controls
                             this.mSolutionBox.SelectedValue.Value);
                     }
 
+                    if (this.mTicketAttachmentsDisplay.AddedAttachments.Length > 0)
+                    {
+                        foreach (Attachment attachment in this.mTicketAttachmentsDisplay.AddedAttachments)
+                        {
+                            changedFieldsDescription.AppendFormat(
+                                "Added attachment '{0}' with comment '{1}'\n",
+                                attachment.Filename,
+                                attachment.Comment);
+                        }
+                    }
+
+                    if (this.mTicketAttachmentsDisplay.RemovedAttachments.Length > 0)
+                    {
+                        foreach (Attachment attachment in this.mTicketAttachmentsDisplay.RemovedAttachments)
+                        {
+                            changedFieldsDescription.AppendFormat(
+                                "Removed attachment '{0}' with comment '{1}'\n",
+                                attachment.Filename,
+                                attachment.Comment);
+                        }
+                    }
+
                     if (changedFieldsDescription.Length > 0)
                     {
                         this.mTicketData.CommentAdd(changedFieldsDescription.ToString());
