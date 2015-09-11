@@ -64,10 +64,6 @@
     <Compile Include="Controls\ControlMemberEdit.Designer.cs">
       <DependentUpon>ControlMemberEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Events\AddMemberEventArgs.cs" />
-    <Compile Include="Events\EditMemberEventArgs.cs" />
-    <Compile Include="Events\RemoveMemberEventArgs.cs" />
-    <Compile Include="Events\ShowMemberListEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

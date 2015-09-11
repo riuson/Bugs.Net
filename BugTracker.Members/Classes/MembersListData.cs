@@ -2,10 +2,10 @@
 using BugTracker.Core.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB.Repositories;
 using BugTracker.Members.Controls;
-using BugTracker.Members.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +54,7 @@ namespace BugTracker.Members.Classes
 
         public void Add()
         {
-            AddMemberEventArgs ea = new AddMemberEventArgs();
+            EntityAddEventArgs<Member> ea = new EntityAddEventArgs<Member>();
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -75,7 +75,7 @@ namespace BugTracker.Members.Classes
 
         public void Edit(Member item)
         {
-            EditMemberEventArgs ea = new EditMemberEventArgs(item);
+            EntityEditEventArgs<Member> ea = new EntityEditEventArgs<Member>(item);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
@@ -96,7 +96,7 @@ namespace BugTracker.Members.Classes
 
         public void Remove(Member item)
         {
-            RemoveMemberEventArgs ea = new RemoveMemberEventArgs(item);
+            EntityRemoveEventArgs<Member> ea = new EntityRemoveEventArgs<Member>(item);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Processed)
