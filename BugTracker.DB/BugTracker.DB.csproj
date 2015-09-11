@@ -97,9 +97,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\Enums\SolutionRepository.cs" />
-    <Compile Include="Repositories\Enums\StatusRepository.cs" />
-    <Compile Include="Repositories\Enums\ProblemTypeRepository.cs" />
     <Compile Include="Repositories\Entities\AttachmentRepository.cs" />
     <Compile Include="Repositories\Entities\BlobContentRepository.cs" />
     <Compile Include="Repositories\Entities\ChangeRepository.cs" />
@@ -110,7 +107,6 @@
     <Compile Include="Interfaces\ISession.cs" />
     <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Enums\PriorityRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
