@@ -1,6 +1,7 @@
 ﻿using BugTracker.Core.Interfaces;
+using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.TicketEditor.Controls;
-using BugTracker.Tickets.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,8 @@ namespace BugTracker.TicketEditor.Classes
         {
             this.mApp = app;
 
-            this.mApp.Messages.Subscribe(typeof(AddTicketEventArgs), this.AddTicketList);
-            this.mApp.Messages.Subscribe(typeof(EditTicketEventArgs), this.EditTicketList);
+            this.mApp.Messages.Subscribe(typeof(EntityAddEventArgs<Ticket>), this.AddTicketList);
+            this.mApp.Messages.Subscribe(typeof(EntityEditEventArgs<Ticket>), this.EditTicketList);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -28,8 +29,8 @@ namespace BugTracker.TicketEditor.Classes
 
         private void AddTicketList(object sender, MessageEventArgs e)
         {
-            AddTicketEventArgs ea = e as AddTicketEventArgs;
-            ControlTicketEdit controlEdit = new ControlTicketEdit(this.mApp, ea.LoggedMember);
+            EntityAddEventArgs<Ticket> ea = e as EntityAddEventArgs<Ticket>;
+            ControlTicketEdit controlEdit = new ControlTicketEdit(this.mApp, ea.Member);
             controlEdit.ClickOK += controlEdit_ClickOK;
             controlEdit.ClickCancel += controlEdit_ClickCancel;
             this.mApp.Controls.Show(controlEdit);
@@ -38,8 +39,8 @@ namespace BugTracker.TicketEditor.Classes
 
         private void EditTicketList(object sender, MessageEventArgs e)
         {
-            EditTicketEventArgs ea = e as EditTicketEventArgs;
-            ControlTicketEdit controlEdit = new ControlTicketEdit(this.mApp, ea.LoggedMember, ea.Item);
+            EntityEditEventArgs<Ticket> ea = e as EntityEditEventArgs<Ticket>;
+            ControlTicketEdit controlEdit = new ControlTicketEdit(this.mApp, ea.Member, ea.Entity);
             controlEdit.ClickOK += controlEdit_ClickOK;
             controlEdit.ClickCancel += controlEdit_ClickCancel;
             this.mApp.Controls.Show(controlEdit);
