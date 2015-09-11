@@ -12,8 +12,6 @@ namespace BugTracker.TicketEditor.Classes
 {
     internal class TicketData
     {
-        private Member mLoggedMember;
-
         private ICollection<Attachment> mAttachmentsOriginal;
         private ICollection<Attachment> mAttachmentsAdd;
         private ICollection<Attachment> mAttachmentsRemove;
@@ -25,10 +23,8 @@ namespace BugTracker.TicketEditor.Classes
         private ICollection<BlobContent> mBlobAdd;
         private ICollection<BlobContent> mBlobRemove;
 
-        public TicketData(Member loggedMember)
+        public TicketData()
         {
-            this.mLoggedMember = loggedMember;
-
             this.mAttachmentsOriginal = new List<Attachment>();
             this.mAttachmentsAdd = new List<Attachment>();
             this.mAttachmentsRemove = new List<Attachment>();
@@ -41,11 +37,9 @@ namespace BugTracker.TicketEditor.Classes
             this.mBlobRemove = new List<BlobContent>();
         }
 
-        public TicketData(Member loggedMember, Ticket ticket, ISession session)
-            : this(loggedMember)
+        public TicketData(Ticket ticket, ISession session)
+            : this()
         {
-            this.mLoggedMember = loggedMember;
-
             this.mAttachmentsOriginal = ticket.Attachments;
             this.mChangesOriginal = ticket.Changes;
 
@@ -55,7 +49,7 @@ namespace BugTracker.TicketEditor.Classes
             }
         }
 
-        public void ApplyChanges(ISession session, Ticket ticket)
+        public void ApplyChanges(ISession session, Member loggedMember, Ticket ticket)
         {
             TicketRepository ticketRepository = new TicketRepository(session);
             BlobContentRepository blobRepository = new BlobContentRepository(session);
@@ -74,6 +68,7 @@ namespace BugTracker.TicketEditor.Classes
 
             foreach (var attachment in this.mAttachmentsAdd)
             {
+                attachment.Author = loggedMember;
                 attachmentRepository.Save(attachment);
                 ticket.Attachments.Add(attachment);
             }
@@ -86,6 +81,7 @@ namespace BugTracker.TicketEditor.Classes
 
             foreach (var change in this.mChangesAdd)
             {
+                change.Author = loggedMember;
                 changeRepository.Save(change);
                 ticket.Changes.Add(change);
             }
@@ -100,7 +96,6 @@ namespace BugTracker.TicketEditor.Classes
             this.mBlobAdd.Add(blob);
 
             Change change = new Change();
-            change.Author = this.mLoggedMember;
             change.Created = DateTime.Now;
             change.Description = blob;
             this.mChangesAdd.Add(change);
@@ -115,7 +110,6 @@ namespace BugTracker.TicketEditor.Classes
                 this.mBlobAdd.Add(blob);
 
                 Attachment attachment = new Attachment();
-                attachment.Author = this.mLoggedMember;
                 attachment.Created = DateTime.Now;
                 attachment.Comment = comment;
                 attachment.Filename = Path.GetFileName(filename);

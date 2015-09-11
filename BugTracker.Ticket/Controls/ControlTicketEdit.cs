@@ -61,7 +61,7 @@ namespace BugTracker.TicketEditor.Controls
             this.mStatusBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this.mSolutionBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
-            this.mTicketData = new TicketData(this.LoggedMember);
+            this.mTicketData = new TicketData();
 
             this.mTicketChangesDisplay = new ControlTicketChanges();
             this.tableLayoutPanel1.Controls.Add(this.mTicketChangesDisplay, 2, 1);
@@ -93,7 +93,7 @@ namespace BugTracker.TicketEditor.Controls
                 this.textBoxTitle.Text = this.Ticket.Title;
                 this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
 
-                this.mTicketData = new TicketData(this.LoggedMember, this.Ticket, session);
+                this.mTicketData = new TicketData(this.Ticket, session);
                 this.mTicketChangesDisplay.UpdateTicketData(this.Ticket, session);
                 this.mTicketAttachmentsDisplay.UpdateTicketData(this.Ticket, session);
             }
@@ -176,7 +176,7 @@ namespace BugTracker.TicketEditor.Controls
                     this.mTicketData.CommentAdd(this.mTicketChangesDisplay.NewComment);
                 }
 
-                this.mTicketData.ApplyChanges(session, this.Ticket);
+                this.mTicketData.ApplyChanges(session, this.LoggedMember, this.Ticket);
             }
 
             if (this.ClickOK != null)
