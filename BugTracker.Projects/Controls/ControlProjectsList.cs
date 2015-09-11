@@ -88,5 +88,15 @@ namespace BugTracker.Projects.Controls
                 this.mProjectsList.ShowTickets(item);
             }
         }
+
+        private void dgvList_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.dgvList.SelectedCells.Count > 0)
+            {
+                int rowIndex = this.dgvList.SelectedCells[0].RowIndex;
+                Project item = this.dgvList.Rows[rowIndex].DataBoundItem as Project;
+                this.mProjectsList.ShowTickets(item);
+            }
+        }
     }
 }
