@@ -13,7 +13,6 @@ namespace BugTracker.TicketEditor.Classes
     internal class TicketData
     {
         private Member mLoggedMember;
-        private Ticket mTicket;
 
         private ICollection<Attachment> mAttachmentsOriginal;
         private ICollection<Attachment> mAttachmentsAdd;
@@ -28,7 +27,6 @@ namespace BugTracker.TicketEditor.Classes
 
         public TicketData(Member loggedMember)
         {
-            this.mTicket = null;
             this.mLoggedMember = loggedMember;
 
             this.mAttachmentsOriginal = new List<Attachment>();
@@ -48,10 +46,8 @@ namespace BugTracker.TicketEditor.Classes
         {
             this.mLoggedMember = loggedMember;
 
-            TicketRepository ticketRepository = new TicketRepository(session);
-            this.mTicket = ticketRepository.Load(ticket.Id);
-            this.mAttachmentsOriginal = this.mTicket.Attachments;
-            this.mChangesOriginal = this.mTicket.Changes;
+            this.mAttachmentsOriginal = ticket.Attachments;
+            this.mChangesOriginal = ticket.Changes;
 
             foreach (var change in this.mChangesOriginal)
             {
@@ -59,14 +55,12 @@ namespace BugTracker.TicketEditor.Classes
             }
         }
 
-        public void ApplyChanges(ISession session)
+        public void ApplyChanges(ISession session, Ticket ticket)
         {
             TicketRepository ticketRepository = new TicketRepository(session);
             BlobContentRepository blobRepository = new BlobContentRepository(session);
             AttachmentRepository attachmentRepository = new AttachmentRepository(session);
             ChangeRepository changeRepository = new ChangeRepository(session);
-
-            Ticket ticket = ticketRepository.Load(this.mTicket.Id);
 
             foreach (var blob in this.mBlobAdd)
             {
