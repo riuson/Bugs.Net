@@ -61,7 +61,7 @@
             this.Controls.Add(this.navigationBar);
             this.Name = "MainWindow";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Text = "MainWindow";
+            this.Text = "Bugs.Net";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
