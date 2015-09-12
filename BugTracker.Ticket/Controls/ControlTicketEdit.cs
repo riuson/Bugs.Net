@@ -130,6 +130,7 @@ namespace BugTracker.TicketEditor.Controls
                             "Title changed from '{0}' to '{1}'\n",
                             this.Ticket.Title,
                             this.textBoxTitle.Text);
+                        this.Ticket.Title = this.textBoxTitle.Text;
                     }
 
                     if (this.Ticket.Type != this.mProblemTypeBox.SelectedValue)
@@ -138,6 +139,7 @@ namespace BugTracker.TicketEditor.Controls
                             "Type changed from '{0}' to '{1}'\n",
                             this.Ticket.Type.Value,
                             this.mProblemTypeBox.SelectedValue.Value);
+                        this.Ticket.Type = this.mProblemTypeBox.SelectedValue;
                     }
 
                     if (this.Ticket.Priority != this.mPriorityBox.SelectedValue)
@@ -146,6 +148,7 @@ namespace BugTracker.TicketEditor.Controls
                             "Priority changed from '{0}' to '{1}'\n",
                             this.Ticket.Priority.Value,
                             this.mPriorityBox.SelectedValue.Value);
+                        this.Ticket.Priority = this.mPriorityBox.SelectedValue;
                     }
 
                     if (this.Ticket.Status != this.mStatusBox.SelectedValue)
@@ -154,6 +157,7 @@ namespace BugTracker.TicketEditor.Controls
                             "Status changed from '{0}' to '{1}'\n",
                             this.Ticket.Status.Value,
                             this.mStatusBox.SelectedValue.Value);
+                        this.Ticket.Status = this.mStatusBox.SelectedValue;
                     }
 
                     if (this.Ticket.Solution != this.mSolutionBox.SelectedValue)
@@ -162,6 +166,7 @@ namespace BugTracker.TicketEditor.Controls
                             "Solution changed from '{0}' to '{1}'\n",
                             this.Ticket.Solution.Value,
                             this.mSolutionBox.SelectedValue.Value);
+                        this.Ticket.Solution = this.mSolutionBox.SelectedValue;
                     }
 
                     if (this.mTicketAttachmentsDisplay.AddedAttachments.Length > 0)
