@@ -110,6 +110,10 @@
     <Compile Include="Mapping\SolutionMap.cs" />
     <Compile Include="Mapping\ProblemTypeMap.cs" />
     <Compile Include="Mapping\PriorityMap.cs" />
+    <Compile Include="Mapping\Test\StatusMapTest.cs" />
+    <Compile Include="Mapping\Test\SolutionMapTest.cs" />
+    <Compile Include="Mapping\Test\ProblemTypeMapTest.cs" />
+    <Compile Include="Mapping\Test\PriorityMapTest.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
