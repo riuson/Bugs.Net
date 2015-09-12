@@ -36,7 +36,8 @@ namespace BugTracker.DB
         /// </summary>
         private SessionManager()
         {
-            this.mSessionManagerInternal = new SessionManagerInternal();
+            //this.mSessionManagerInternal = new SessionManagerInternal();
+            this.mSessionManagerPrivate = new BugTracker.DB.Dao.SessionManagerPrivate();
         }
 
         /// <summary>
@@ -47,16 +48,22 @@ namespace BugTracker.DB
             get { return SessionManagerCreator.Instance; }
         }
 
+        public bool Configure(string filename)
+        {
+            return this.mSessionManagerPrivate.Configure(filename);
+        }
+
         public ISession OpenSession()
         {
-            return this.mSessionManagerInternal.OpenSession();
+            return this.mSessionManagerPrivate.OpenSession();
         }
 
         public bool IsConfigured
         {
-            get { return this.mSessionManagerInternal.IsConfigured; }
+            get { return this.mSessionManagerPrivate.IsConfigured; }
         }
 
-        private SessionManagerInternal mSessionManagerInternal;
+        //private SessionManagerInternal mSessionManagerInternal;
+        private BugTracker.DB.Dao.SessionManagerPrivate mSessionManagerPrivate;
     }
 }
