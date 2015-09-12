@@ -12,23 +12,26 @@ using System.Text;
 
 namespace BugTracker.DB.Repositories.Test
 {
-    [TestFixture]
-    internal class PriorityRepositoryTest
+    [TestFixture(typeof(Priority))]
+    [TestFixture(typeof(ProblemType))]
+    [TestFixture(typeof(Solution))]
+    [TestFixture(typeof(Status))]
+    internal class VocabularyRepositoryTest<T> where T : DB.Entities.Entity, IVocabulary, new()
     {
         [SetUp]
-        public void Configure()
+        public virtual void Configure()
         {
             SessionManager.Instance.Configure("test.db");
             Assert.IsTrue(SessionManager.Instance.IsConfigured);
         }
 
         [Test]
-        public void CanSave()
+        public virtual void CanSave()
         {
             using (ISession session = SessionManager.Instance.OpenSession())
             {
-                IRepository<Priority> repository = new Repository<Priority>(session);
-                var x = new Priority();
+                IRepository<T> repository = new Repository<T>(session);
+                var x = new T();
                 long before = repository.RowCount();
                 repository.Save(x);
                 long after = repository.RowCount();
@@ -37,12 +40,12 @@ namespace BugTracker.DB.Repositories.Test
         }
 
         [Test]
-        public void CanGet()
+        public virtual void CanGet()
         {
             using (ISession session = SessionManager.Instance.OpenSession())
             {
-                IRepository<Priority> repository = new Repository<Priority>(session);
-                var x = new Priority();
+                IRepository<T> repository = new Repository<T>(session);
+                var x = new T();
                 long before = repository.RowCount();
                 repository.Save(x);
                 long after = repository.RowCount();
@@ -54,12 +57,12 @@ namespace BugTracker.DB.Repositories.Test
         }
 
         [Test]
-        public void CanUpdate()
+        public virtual void CanUpdate()
         {
             using (ISession session = SessionManager.Instance.OpenSession())
             {
-                IRepository<Priority> repository = new Repository<Priority>(session);
-                var x = new Priority();
+                IRepository<T> repository = new Repository<T>(session);
+                var x = new T();
                 x.Value = "Test1";
                 long before = repository.RowCount();
                 repository.Save(x);
@@ -80,12 +83,12 @@ namespace BugTracker.DB.Repositories.Test
         }
 
         [Test]
-        public void CanDelete()
+        public virtual void CanDelete()
         {
             using (ISession session = SessionManager.Instance.OpenSession())
             {
-                IRepository<Priority> repository = new Repository<Priority>(session);
-                var x = new Priority();
+                IRepository<T> repository = new Repository<T>(session);
+                var x = new T();
                 long before = repository.RowCount();
                 repository.Save(x);
                 long after = repository.RowCount();

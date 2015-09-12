@@ -126,7 +126,7 @@
     <Compile Include="Repositories\Entities\MemberRepository.cs" />
     <Compile Include="Repositories\Entities\PriorityRepository.cs" />
     <Compile Include="Repositories\Entities\TicketRepository.cs" />
-    <Compile Include="Repositories\Test\PriorityRepositoryTest.cs" />
+    <Compile Include="Repositories\Test\VocabularyRepositoryTest.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Interfaces\ISession.cs" />
     <Compile Include="Interfaces\ISessionManager.cs" />
