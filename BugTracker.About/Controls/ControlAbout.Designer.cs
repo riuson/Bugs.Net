@@ -29,25 +29,28 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label4;
+            System.Windows.Forms.Label label5;
+            System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label7;
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelRevision = new System.Windows.Forms.Label();
-            this.labelCommitAuthorDate = new System.Windows.Forms.Label();
+            this.linkLabelSources = new System.Windows.Forms.LinkLabel();
             label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             label1.Location = new System.Drawing.Point(3, 0);
             label1.Name = "label1";
             label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            label1.Size = new System.Drawing.Size(122, 30);
+            label1.Size = new System.Drawing.Size(107, 27);
             label1.TabIndex = 0;
             label1.Text = "About Bugs.Net";
             // 
@@ -55,62 +58,74 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.labelRevision, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.labelCommitAuthorDate, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(label5, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(label6, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(label7, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(label4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.linkLabelSources, 1, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowCount = 6;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(597, 335);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // label2
+            // label4
             // 
-            label2.AutoSize = true;
-            label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            label2.Location = new System.Drawing.Point(3, 30);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(73, 20);
-            label2.TabIndex = 0;
-            label2.Text = "Revision:";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(3, 67);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(49, 13);
+            label4.TabIndex = 0;
+            label4.Text = "Sources:";
             // 
-            // labelRevision
+            // linkLabelSources
             // 
-            this.labelRevision.AutoEllipsis = true;
-            this.labelRevision.AutoSize = true;
-            this.labelRevision.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelRevision.Location = new System.Drawing.Point(131, 30);
-            this.labelRevision.Name = "labelRevision";
-            this.labelRevision.Size = new System.Drawing.Size(0, 20);
-            this.labelRevision.TabIndex = 0;
+            this.linkLabelSources.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelSources.AutoSize = true;
+            this.linkLabelSources.Location = new System.Drawing.Point(116, 70);
+            this.linkLabelSources.Name = "linkLabelSources";
+            this.linkLabelSources.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelSources.TabIndex = 1;
+            this.linkLabelSources.TabStop = true;
+            this.linkLabelSources.Text = "linkLabel1";
+            this.linkLabelSources.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSources_LinkClicked);
             // 
-            // label3
+            // label5
             // 
-            label3.AutoSize = true;
-            label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            label3.Location = new System.Drawing.Point(3, 50);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(103, 20);
-            label3.TabIndex = 0;
-            label3.Text = "Commit date:";
+            label5.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(label5, 2);
+            label5.Location = new System.Drawing.Point(3, 27);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(275, 13);
+            label5.TabIndex = 0;
+            label5.Text = "Simple bug tracking application with database in local file";
             // 
-            // labelCommitAuthorDate
+            // label6
             // 
-            this.labelCommitAuthorDate.AutoSize = true;
-            this.labelCommitAuthorDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelCommitAuthorDate.Location = new System.Drawing.Point(131, 50);
-            this.labelCommitAuthorDate.Name = "labelCommitAuthorDate";
-            this.labelCommitAuthorDate.Size = new System.Drawing.Size(0, 20);
-            this.labelCommitAuthorDate.TabIndex = 0;
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(3, 47);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(41, 13);
+            label6.TabIndex = 0;
+            label6.Text = "Author:";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(116, 47);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(93, 13);
+            label7.TabIndex = 0;
+            label7.Text = "riuson@gmail.com";
             // 
             // ControlAbout
             // 
@@ -129,7 +144,6 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label labelRevision;
-        private System.Windows.Forms.Label labelCommitAuthorDate;
+        private System.Windows.Forms.LinkLabel linkLabelSources;
     }
 }
