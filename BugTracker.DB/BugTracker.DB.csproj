@@ -104,6 +104,10 @@
     <Compile Include="Events\EntityEditEventArgs.cs" />
     <Compile Include="Events\EntityAddEventArgs.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Mapping\StatusMap.cs" />
+    <Compile Include="Mapping\SolutionMap.cs" />
+    <Compile Include="Mapping\ProblemTypeMap.cs" />
+    <Compile Include="Mapping\PriorityMap.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
