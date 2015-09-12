@@ -95,8 +95,9 @@
       <DependentUpon>ControlSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\DataGridViewSubColumn.cs" />
+    <Compile Include="Dao\SessionConfiguration.cs" />
     <Compile Include="Dao\Test\SchemaTest.cs" />
-    <Compile Include="Dao\SessionManagerNH.cs" />
+    <Compile Include="Dao\SessionManagerPrivate.cs" />
     <Compile Include="Events\EnityOperationEventArgs.cs" />
     <Compile Include="Events\EntityAddedEventArgs.cs" />
     <Compile Include="Events\EntityEditedEventArgs.cs" />

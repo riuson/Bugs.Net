@@ -3,6 +3,7 @@ using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -11,30 +12,19 @@ namespace BugTracker.DB.Dao.Test
     [TestFixture]
     internal class SchemaTest
     {
-        private SessionManagerTest mSessionManager;
-
-        [SetUp]
-        public void CreateSessionManager()
-        {
-            this.mSessionManager = new SessionManagerTest();
-        }
-
         [Test]
         public void CanGenerateSchema()
         {
-            var schemaUpdate = new SchemaUpdate(this.mSessionManager.Configuration);
-            schemaUpdate.Execute(Console.WriteLine, true);
-        }
+            string filename = "test.db";
 
-        private class SessionManagerTest : SessionManagerNH
-        {
-            public new Configuration Configuration
+            if (File.Exists(filename))
             {
-                get
-                {
-                    return base.Configuration;
-                }
+                File.Delete(filename);
             }
+
+            Configuration configuration = SessionConfiguration.CreateConfiguration("test.db");
+            var schemaUpdate = new SchemaUpdate(configuration);
+            schemaUpdate.Execute(Console.WriteLine, true);
         }
     }
 }

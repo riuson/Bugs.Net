@@ -22,15 +22,15 @@ namespace BugTracker.DB.Classes
 
         public SessionManagerInternal()
         {
-            this.mDatabaseFile = Saved<Options>.Instance.FileName;
-            this.Configure();
+            this.IsConfigured = false;
         }
 
-        private bool Configure()
+        public bool Configure(string filename)
         {
             try
             {
-                this.mSessionFactory = this.BuildSessionFactory();
+                this.mSessionFactory = this.BuildSessionFactory(filename);
+                this.mDatabaseFile = filename;
                 this.IsConfigured = true;
             }
             catch (Exception exc)
@@ -42,12 +42,12 @@ namespace BugTracker.DB.Classes
             return this.IsConfigured;
         }
 
-        private ISessionFactory BuildSessionFactory()
+        private ISessionFactory BuildSessionFactory(string filename)
         {
             AutoPersistenceModel model = this.CreateMappings();
 
             return Fluently.Configure()
-                .Database(SQLiteConfiguration.Standard.UsingFile(this.mDatabaseFile))
+                .Database(SQLiteConfiguration.Standard.UsingFile(filename))
                 .Mappings(m => m.AutoMappings.Add(model))
                 .ExposeConfiguration(this.BuildSchema)
                 .BuildSessionFactory();
@@ -78,10 +78,7 @@ namespace BugTracker.DB.Classes
         {
             if (!this.IsConfigured)
             {
-                if (!this.Configure())
-                {
-                    throw new Exception("Session factory not configured", this.mConfigurationException);
-                }
+                throw new Exception("Session factory not configured", this.mConfigurationException);
             }
 
             NHibernate.ISession nhSession = this.mSessionFactory.OpenSession();
