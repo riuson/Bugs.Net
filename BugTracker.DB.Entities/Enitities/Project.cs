@@ -9,7 +9,7 @@ namespace BugTracker.DB.Entities
     {
         public virtual string Name { get; set; }
 
-        public virtual IList<Ticket> Tickets { get; protected set; }
+        public virtual ICollection<Ticket> Tickets { get; protected set; }
 
         public Project()
         {

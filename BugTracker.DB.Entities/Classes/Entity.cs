@@ -7,7 +7,7 @@ namespace BugTracker.DB.Entities
 {
     public abstract class Entity : IEquatable<Entity>
     {
-        public virtual long Id { get; set; }
+        public virtual long Id { get; protected set; }
 
         public override bool Equals(object obj)
         {

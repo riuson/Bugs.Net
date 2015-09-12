@@ -15,8 +15,8 @@ namespace BugTracker.DB.Entities
         public virtual Priority Priority { get; set; }
         public virtual Solution Solution { get; set; }
 
-        public virtual IList<Attachment> Attachments { get; protected set; }
-        public virtual IList<Change> Changes { get; protected set; }
+        public virtual ICollection<Attachment> Attachments { get; protected set; }
+        public virtual ICollection<Change> Changes { get; protected set; }
 
         public Ticket()
         {
