@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BugTracker.DB.Classes
 {
-    public class Repository<T> : IRepository<T> where T : new()
+    public class Repository<T> : IRepository<T> where T : class, new()
     {
         protected NHibernate.ISession Session { get; set; }
 
@@ -44,6 +44,11 @@ namespace BugTracker.DB.Classes
         public virtual void Delete(T entity)
         {
             this.Session.Delete(entity);
+        }
+
+        public virtual long RowCount()
+        {
+            return this.Session.QueryOver<T>().RowCountInt64();
         }
     }
 }

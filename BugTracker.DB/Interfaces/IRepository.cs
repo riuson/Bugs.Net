@@ -13,5 +13,6 @@ namespace BugTracker.DB.Interfaces
         void Save(T entity);
         void SaveOrUpdate(T entity);
         void Delete(T entity);
+        long RowCount();
     }
 }
