@@ -59,6 +59,7 @@
     <Compile Include="Enums\Status.cs" />
     <Compile Include="Interfaces\IVocabulary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\BlobContentTest.cs" />
     <Compile Include="Test\StatusTest.cs" />
     <Compile Include="Test\SolutionTest.cs" />
     <Compile Include="Test\ProblemTypeTest.cs" />
