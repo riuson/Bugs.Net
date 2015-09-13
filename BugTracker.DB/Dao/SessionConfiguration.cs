@@ -47,7 +47,8 @@ namespace BugTracker.DB.Dao
                 typeof(ProblemTypeMap),
                 typeof(SolutionMap),
                 typeof(StatusMap),
-                typeof(BlobContentMap)
+                typeof(BlobContentMap),
+                typeof(MemberMap)
             });
             return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }
