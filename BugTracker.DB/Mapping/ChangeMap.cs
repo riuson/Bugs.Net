@@ -21,7 +21,7 @@ namespace BugTracker.DB.Mapping
                 m.Cascade(Cascade.None);
                 m.Access(Accessor.Property);
                 m.Fetch(FetchKind.Join);
-                m.Lazy(LazyRelation.NoLazy);
+                m.Lazy(LazyRelation.Proxy);
                 m.NotNullable(true);
             });
             ManyToOne(x => x.Description, m =>
@@ -32,8 +32,18 @@ namespace BugTracker.DB.Mapping
                 m.Unique(true);
                 m.Access(Accessor.Property);
                 m.Fetch(FetchKind.Join);
-                m.Lazy(LazyRelation.NoLazy);
+                m.Lazy(LazyRelation.Proxy);
                 m.NotNullable(true);
+            });
+            ManyToOne(x => x.Ticket, m =>
+            {
+                m.Column(typeof(Ticket).Name + "_Id");
+                m.Class(typeof(Ticket));
+                m.Unique(false);
+                m.Access(Accessor.Property);
+                m.Fetch(FetchKind.Join);
+                m.Lazy(LazyRelation.Proxy);
+                //m.Cascade(Cascade.All);
             });
         }
     }

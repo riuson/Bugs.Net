@@ -107,6 +107,7 @@
     <Compile Include="Events\EntityEditEventArgs.cs" />
     <Compile Include="Events\EntityAddEventArgs.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Mapping\TicketMap.cs" />
     <Compile Include="Mapping\BlobContentMap.cs" />
     <Compile Include="Mapping\AttachmentMap.cs" />
     <Compile Include="Mapping\ChangeMap.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Mapping\SolutionMap.cs" />
     <Compile Include="Mapping\ProblemTypeMap.cs" />
     <Compile Include="Mapping\PriorityMap.cs" />
+    <Compile Include="Mapping\Test\TicketMapTest.cs" />
     <Compile Include="Mapping\Test\BlobContentMapTest.cs" />
     <Compile Include="Mapping\Test\AttachmentMapTest.cs" />
     <Compile Include="Mapping\Test\ChangeMapTest.cs" />
@@ -129,6 +131,7 @@
     </Compile>
     <Compile Include="Repositories\Entities\PriorityRepository.cs" />
     <Compile Include="Repositories\Entities\TicketRepository.cs" />
+    <Compile Include="Repositories\Test\TicketRepositoryTest.cs" />
     <Compile Include="Repositories\Test\AttachmentRepositoryTest.cs" />
     <Compile Include="Repositories\Test\ChangeRepositoryTest.cs" />
     <Compile Include="Repositories\Test\MemoryRepositoryTest.cs" />

@@ -10,5 +10,6 @@ namespace BugTracker.DB.Entities
         public virtual Member Author { get; set; }
         public virtual DateTime Created { get; set; }
         public virtual BlobContent Description { get; set; }
+        public virtual Ticket Ticket { get; set; }
     }
 }
