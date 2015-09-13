@@ -108,6 +108,7 @@
     <Compile Include="Events\EntityAddEventArgs.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Mapping\BlobContentMap.cs" />
+    <Compile Include="Mapping\AttachmentMap.cs" />
     <Compile Include="Mapping\ChangeMap.cs" />
     <Compile Include="Mapping\MemberMap.cs" />
     <Compile Include="Mapping\StatusMap.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Mapping\ProblemTypeMap.cs" />
     <Compile Include="Mapping\PriorityMap.cs" />
     <Compile Include="Mapping\Test\BlobContentMapTest.cs" />
+    <Compile Include="Mapping\Test\AttachmentMapTest.cs" />
     <Compile Include="Mapping\Test\ChangeMapTest.cs" />
     <Compile Include="Mapping\Test\StatusMapTest.cs" />
     <Compile Include="Mapping\Test\SolutionMapTest.cs" />
@@ -125,9 +127,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\Entities\AttachmentRepository.cs" />
     <Compile Include="Repositories\Entities\PriorityRepository.cs" />
     <Compile Include="Repositories\Entities\TicketRepository.cs" />
+    <Compile Include="Repositories\Test\AttachmentRepositoryTest.cs" />
     <Compile Include="Repositories\Test\ChangeRepositoryTest.cs" />
     <Compile Include="Repositories\Test\MemoryRepositoryTest.cs" />
     <Compile Include="Repositories\Test\BlobContentRepositoryTest.cs" />
