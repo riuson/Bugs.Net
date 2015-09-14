@@ -16,16 +16,21 @@ namespace BugTracker.DB.Tests.Dao
         [Test]
         public void CanGenerateSchema()
         {
-            string filename = "test.db";
+            string filename = "test_schema.db";
 
             if (File.Exists(filename))
             {
                 File.Delete(filename);
             }
 
-            Configuration configuration = SessionConfiguration.CreateConfiguration("test.db");
+            Configuration configuration = SessionConfiguration.CreateConfiguration(filename);
             var schemaUpdate = new SchemaUpdate(configuration);
             schemaUpdate.Execute(Console.WriteLine, true);
+
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
         }
     }
 }
