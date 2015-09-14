@@ -22,36 +22,47 @@ namespace BugTracker.DB.Repositories.Test
         public virtual void Configure()
         {
             SessionManager.Instance.Configure("test.db");
-            Assert.IsTrue(SessionManager.Instance.IsConfigured);
+            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
         }
 
         [Test]
         public virtual void CanSave()
         {
+            long before = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var x = new T();
-                long before = repository.RowCount();
+                before = repository.RowCount();
                 repository.Save(x);
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<T> repository = new Repository<T>(session);
                 long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                Assert.That(after, Is.EqualTo(before + 1));
             }
         }
 
         [Test]
         public virtual void CanGet()
         {
+            long ticketId = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var x = new T();
-                long before = repository.RowCount();
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                ticketId = x.Id;
+            }
 
-                var y = repository.GetById(x.Id);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<T> repository = new Repository<T>(session);
+                var y = repository.GetById(ticketId);
                 Assert.IsNotNull(y);
             }
         }
@@ -59,44 +70,56 @@ namespace BugTracker.DB.Repositories.Test
         [Test]
         public virtual void CanUpdate()
         {
+            long ticketId = 0;
+            var x = new T();
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<T> repository = new Repository<T>(session);
-                var x = new T();
                 x.Value = "Test1";
-                long before = repository.RowCount();
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                ticketId = x.Id;
+            }
 
-                var y = repository.GetById(x.Id);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<T> repository = new Repository<T>(session);
+                var y = repository.GetById(ticketId);
                 y.Value = "Test2";
                 repository.SaveOrUpdate(y);
-                after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+            }
 
-                y = repository.GetById(x.Id);
-                Assert.AreEqual(x, y);
-                Assert.AreSame(x, y);
-                Assert.AreEqual(x.Value, y.Value);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<T> repository = new Repository<T>(session);
+                var y = repository.GetById(ticketId);
+                Assert.That(x, Is.EqualTo(y));
+                Assert.That(y.Value, Is.EqualTo("Test2"));
             }
         }
 
         [Test]
         public virtual void CanDelete()
         {
+            long id = 0;
+            long before = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<T> repository = new Repository<T>(session);
+                before = repository.RowCount();
                 var x = new T();
-                long before = repository.RowCount();
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                id = x.Id;
+            }
 
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<T> repository = new Repository<T>(session);
+                T x = repository.GetById(id);
                 repository.Delete(x);
-                after = repository.RowCount();
-                Assert.AreEqual(before, after);
+                long after = repository.RowCount();
+                Assert.That(after, Is.EqualTo(before));
             }
         }
     }

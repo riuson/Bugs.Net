@@ -19,12 +19,16 @@ namespace BugTracker.DB.Repositories.Test
         public virtual void Configure()
         {
             SessionManager.Instance.Configure("test.db");
-            Assert.IsTrue(SessionManager.Instance.IsConfigured);
+            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
         }
 
         [Test]
         public virtual void CanSave()
         {
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long attachmentsBefore = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
@@ -32,38 +36,45 @@ namespace BugTracker.DB.Repositories.Test
                 IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 Member author = new Member();
-                BlobContent blob = new BlobContent();
 
                 var attachment = new Attachment();
                 attachment.Author = author;
                 attachment.Created = DateTime.Now;
-                attachment.File = blob;
+                attachment.File = new BlobContent();
 
-                long membersBefore = memberRepository.RowCount();
-                long blobsBefore = blobRepository.RowCount();
-                long attachmentsBefore = attachmentRepository.RowCount();
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                attachmentsBefore = attachmentRepository.RowCount();
 
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 long membersAfter = memberRepository.RowCount();
                 long blobsAfter = blobRepository.RowCount();
                 long attachmentsAfter = attachmentRepository.RowCount();
 
-                Assert.AreEqual(membersBefore + 1, membersAfter);
-                Assert.AreEqual(blobsBefore + 1, blobsAfter);
-                Assert.AreEqual(attachmentsBefore + 1, attachmentsAfter);
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(blobsAfter, Is.EqualTo(blobsBefore + 1));
+                Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore + 1));
             }
         }
 
         [Test]
         public virtual void CanGet()
         {
+            long id;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
-                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 Member author = new Member()
                 {
@@ -81,26 +92,31 @@ namespace BugTracker.DB.Repositories.Test
 
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
+                id = attachment.Id;
+            }
 
-                Attachment attachment2 = attachmentRepository.GetById(attachment.Id);
-                Member author2 = attachment2.Author;
-                BlobContent blob2 = attachment2.File;
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                Attachment attachment = attachmentRepository.GetById(id);
 
-                Assert.AreEqual(attachment2.Author.FirstName, "First");
-                Assert.AreEqual(attachment2.Author.LastName, "Last");
-                Assert.AreEqual(attachment2.Author.EMail, "Email");
-                Assert.AreEqual(attachment2.File.GetString(), "Description");
+                Assert.That(attachment, Is.Not.Null);
+                Assert.AreEqual(attachment.Author.FirstName, "First");
+                Assert.AreEqual(attachment.Author.LastName, "Last");
+                Assert.AreEqual(attachment.Author.EMail, "Email");
+                Assert.AreEqual(attachment.File.GetString(), "Description");
             }
         }
 
         [Test]
         public virtual void CanUpdate()
         {
+            long id = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
-                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 Member author = new Member()
                 {
@@ -120,25 +136,42 @@ namespace BugTracker.DB.Repositories.Test
 
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
+                id = attachment.Id;
+            }
 
-                Attachment attachment2 = attachmentRepository.GetById(attachment.Id);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
 
-                attachment2.File.SetString("Test");
-                attachment2.Comment = "comment2";
-                attachment2.Filename = "test2.txt";
-                attachmentRepository.SaveOrUpdate(attachment2);
+                Attachment attachment = attachmentRepository.GetById(id);
 
-                Attachment attachment3 = attachmentRepository.Load(attachment2.Id);
+                attachment.File.SetString("Test");
+                attachment.Comment = "comment2";
+                attachment.Filename = "test2.txt";
+                attachmentRepository.SaveOrUpdate(attachment);
+            }
 
-                Assert.AreEqual(attachment3.File.GetString(), "Test");
-                Assert.AreEqual(attachment3.Comment, "comment2");
-                Assert.AreEqual(attachment3.Filename, "test2.txt");
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+
+                Attachment attachment = attachmentRepository.Load(id);
+
+                Assert.That(attachment.File.GetString(), Is.EqualTo("Test"));
+                Assert.That(attachment.Comment, Is.EqualTo("comment2"));
+                Assert.That(attachment.Filename, Is.EqualTo("test2.txt"));
             }
         }
 
         [Test]
         public virtual void CanDelete()
         {
+            long id = 0;
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long attachmentsBefore = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
@@ -153,30 +186,31 @@ namespace BugTracker.DB.Repositories.Test
                 attachment.Created = DateTime.Now;
                 attachment.File = blob;
 
-                long membersBefore = memberRepository.RowCount();
-                long blobsBefore = blobRepository.RowCount();
-                long attachmentsBefore = attachmentRepository.RowCount();
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                attachmentsBefore = attachmentRepository.RowCount();
 
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
+                id = attachment.Id;
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Attachment attachment = attachmentRepository.GetById(id);
+                attachmentRepository.Delete(attachment);
 
                 long membersAfter = memberRepository.RowCount();
                 long blobsAfter = blobRepository.RowCount();
                 long attachmentsAfter = attachmentRepository.RowCount();
 
-                Assert.AreEqual(membersBefore + 1, membersAfter);
-                Assert.AreEqual(blobsBefore + 1, blobsAfter);
-                Assert.AreEqual(attachmentsBefore + 1, attachmentsAfter);
-
-                attachmentRepository.Delete(attachment);
-
-                membersAfter = memberRepository.RowCount();
-                blobsAfter = blobRepository.RowCount();
-                attachmentsAfter = attachmentRepository.RowCount();
-
-                Assert.AreEqual(membersBefore + 1, membersAfter);
-                Assert.AreEqual(blobsBefore, blobsAfter);
-                Assert.AreEqual(attachmentsBefore, attachmentsAfter);
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
+                Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore));
             }
         }
     }

@@ -134,7 +134,7 @@
     <Compile Include="Repositories\Test\TicketRepositoryTest.cs" />
     <Compile Include="Repositories\Test\AttachmentRepositoryTest.cs" />
     <Compile Include="Repositories\Test\ChangeRepositoryTest.cs" />
-    <Compile Include="Repositories\Test\MemoryRepositoryTest.cs" />
+    <Compile Include="Repositories\Test\MemberRepositoryTest.cs" />
     <Compile Include="Repositories\Test\BlobContentRepositoryTest.cs" />
     <Compile Include="Repositories\Test\VocabularyRepositoryTest.cs" />
     <Compile Include="SessionManager.cs" />

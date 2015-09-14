@@ -15,162 +15,130 @@ namespace BugTracker.DB.Repositories.Test
     [TestFixture]
     internal class BlobContentRepositoryTest
     {
+        private Random mRandom;
+
         [SetUp]
         public virtual void Configure()
         {
             SessionManager.Instance.Configure("test.db");
-            Assert.IsTrue(SessionManager.Instance.IsConfigured);
+            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
+            this.mRandom = new Random(Convert.ToInt32(DateTime.Now.TimeOfDay.TotalMilliseconds));
         }
 
         [Test]
         public virtual void CanSave()
         {
+            long before = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
-                byte[] buffer = this.GetRandomArray();
-
-                using (MemoryStream ms = new MemoryStream(buffer))
-                {
-                    x.ReadFrom(ms);
-                }
-
-                long before = repository.RowCount();
+                x.Content = this.GetRandomArray();
+                before = repository.RowCount();
                 repository.Save(x);
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<BlobContent> repository = new Repository<BlobContent>(session);
+
                 long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                Assert.That(after, Is.EqualTo(before + 1));
             }
         }
 
         [Test]
         public virtual void CanGet()
         {
+            long id = 0;
+            byte[] buffer1 = this.GetRandomArray();
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
-                byte[] buffer1 = this.GetRandomArray();
-
-                using (MemoryStream ms = new MemoryStream(buffer1))
-                {
-                    x.ReadFrom(ms);
-                }
-
-                long before = repository.RowCount();
+                x.Content = buffer1;
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                id = x.Id;
+            }
 
-                var y = repository.GetById(x.Id);
-                Assert.IsNotNull(y);
-                byte[] buffer2;
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    x.WriteTo(ms);
-                    buffer2 = ms.GetBuffer();
-                }
-
-                Assert.IsTrue(this.CompareBuffers(buffer1, buffer2));
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<BlobContent> repository = new Repository<BlobContent>(session);
+                var y = repository.GetById(id);
+                Assert.That(y, Is.Not.Null);
+                byte[] buffer2 = y.Content;
+                Assert.That(buffer1, Is.EqualTo(buffer2));
             }
         }
 
         [Test]
         public virtual void CanUpdate()
         {
+            long id = 0;
+            byte[] buffer1 = this.GetRandomArray();
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
-                byte[] buffer1 = this.GetRandomArray();
-
-                using (MemoryStream ms = new MemoryStream(buffer1))
-                {
-                    x.ReadFrom(ms);
-                }
-
-                long before = repository.RowCount();
+                x.Content = buffer1;
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                id = x.Id;
+            }
 
-                var y = repository.GetById(x.Id);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<BlobContent> repository = new Repository<BlobContent>(session);
+                var y = repository.GetById(id);
                 buffer1 = this.GetRandomArray();
-
-                using (MemoryStream ms = new MemoryStream(buffer1))
-                {
-                    y.ReadFrom(ms);
-                }
-
+                y.Content = buffer1;
                 repository.SaveOrUpdate(y);
+            }
 
-                after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
-
-                y = repository.GetById(x.Id);
-                byte[] buffer2;
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    y.WriteTo(ms);
-                    buffer2 = ms.GetBuffer();
-                }
-
-                Assert.IsTrue(this.CompareBuffers(buffer1, buffer2));
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<BlobContent> repository = new Repository<BlobContent>(session);
+                var y = repository.GetById(id);
+                byte[] buffer2 = y.Content;
+                Assert.That(buffer2, Is.EqualTo(buffer1));
             }
         }
 
         [Test]
         public virtual void CanDelete()
         {
+            long before = 0;
+            long id = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
-                byte[] buffer = this.GetRandomArray();
-
-                using (MemoryStream ms = new MemoryStream(buffer))
-                {
-                    x.ReadFrom(ms);
-                }
-
-                long before = repository.RowCount();
+                x.Content = this.GetRandomArray();
+                before = repository.RowCount();
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                id = x.Id;
+            }
 
-                repository.Delete(x);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<BlobContent> repository = new Repository<BlobContent>(session);
+                long after = repository.RowCount();
+                var y = repository.GetById(id);
+                repository.Delete(y);
                 after = repository.RowCount();
-                Assert.AreEqual(before, after);
+                Assert.That(after, Is.EqualTo(before));
             }
         }
 
         private byte[] GetRandomArray()
         {
-            Random rnd = new Random(Convert.ToInt32(DateTime.Now.TimeOfDay.TotalMilliseconds));
-            int size = rnd.Next(10000);
+            int size = this.mRandom.Next(100);
             byte[] buffer = new byte[size];
-            rnd.NextBytes(buffer);
+            this.mRandom.NextBytes(buffer);
             return buffer;
-        }
-
-        private bool CompareBuffers(byte[] buffer1, byte[] buffer2)
-        {
-            if (buffer1.Length != buffer2.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < buffer1.Length; i++)
-            {
-                if (buffer1[i] != buffer2[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

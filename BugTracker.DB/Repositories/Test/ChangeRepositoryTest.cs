@@ -19,12 +19,16 @@ namespace BugTracker.DB.Repositories.Test
         public virtual void Configure()
         {
             SessionManager.Instance.Configure("test.db");
-            Assert.IsTrue(SessionManager.Instance.IsConfigured);
+            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
         }
 
         [Test]
         public virtual void CanSave()
         {
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long changesBefore = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
@@ -32,33 +36,41 @@ namespace BugTracker.DB.Repositories.Test
                 IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 Member author = new Member();
-                BlobContent description = new BlobContent();
 
                 var change = new Change();
                 change.Author = author;
                 change.Created = DateTime.Now;
-                change.Description = description;
+                change.Description = new BlobContent();
 
-                long membersBefore = memberRepository.RowCount();
-                long blobsBefore = blobRepository.RowCount();
-                long changesBefore = changeRepository.RowCount();
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                changesBefore = changeRepository.RowCount();
 
                 memberRepository.Save(author);
                 changeRepository.Save(change);
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 long membersAfter = memberRepository.RowCount();
                 long blobsAfter = blobRepository.RowCount();
                 long changesAfter = changeRepository.RowCount();
 
-                Assert.AreEqual(membersBefore + 1, membersAfter);
-                Assert.AreEqual(blobsBefore + 1, blobsAfter);
-                Assert.AreEqual(changesBefore + 1, changesAfter);
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(blobsAfter, Is.EqualTo(blobsBefore + 1));
+                Assert.That(changesAfter, Is.EqualTo(changesBefore + 1));
             }
         }
 
         [Test]
         public virtual void CanGet()
         {
+            long id = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
@@ -81,21 +93,31 @@ namespace BugTracker.DB.Repositories.Test
 
                 memberRepository.Save(author);
                 changeRepository.Save(change);
+                id = change.Id;
+            }
 
-                Change change2 = changeRepository.GetById(change.Id);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Change change2 = changeRepository.GetById(id);
                 Member author2 = change2.Author;
                 BlobContent description2 = change2.Description;
 
-                Assert.AreEqual(change2.Author.FirstName, "First");
-                Assert.AreEqual(change2.Author.LastName, "Last");
-                Assert.AreEqual(change2.Author.EMail, "Email");
-                Assert.AreEqual(change2.Description.GetString(), "Description");
+                Assert.That(change2.Author.FirstName, Is.EqualTo("First"));
+                Assert.That(change2.Author.LastName, Is.EqualTo("Last"));
+                Assert.That(change2.Author.EMail, Is.EqualTo("Email"));
+                Assert.That(change2.Description.GetString(), Is.EqualTo("Description"));
             }
         }
 
         [Test]
         public virtual void CanUpdate()
         {
+            long id = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
@@ -118,21 +140,43 @@ namespace BugTracker.DB.Repositories.Test
 
                 memberRepository.Save(author);
                 changeRepository.Save(change);
+                id = change.Id;
+            }
 
-                Change change2 = changeRepository.GetById(change.Id);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
-                change2.Description.SetString("Test");
-                changeRepository.SaveOrUpdate(change2);
+                Change change = changeRepository.GetById(id);
 
-                Change change3 = changeRepository.Load(change2.Id);
+                change.Description.SetString("Test");
+                change.Created = new DateTime(2000, 11, 01);
+                changeRepository.SaveOrUpdate(change);
+            }
 
-                Assert.AreEqual(change3.Description.GetString(), "Test");
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Change change = changeRepository.Load(id);
+
+                Assert.That(change.Description.GetString(), Is.EqualTo("Test"));
+                Assert.That(change.Created, Is.EqualTo(new DateTime(2000, 11, 01)));
             }
         }
 
         [Test]
         public virtual void CanDelete()
         {
+            long id = 0;
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long changesBefore = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
@@ -147,30 +191,31 @@ namespace BugTracker.DB.Repositories.Test
                 change.Created = DateTime.Now;
                 change.Description = description;
 
-                long membersBefore = memberRepository.RowCount();
-                long blobsBefore = blobRepository.RowCount();
-                long changesBefore = changeRepository.RowCount();
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                changesBefore = changeRepository.RowCount();
 
                 memberRepository.Save(author);
                 changeRepository.Save(change);
+                id = change.Id;
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Change change = changeRepository.GetById(id);
+                changeRepository.Delete(change);
 
                 long membersAfter = memberRepository.RowCount();
                 long blobsAfter = blobRepository.RowCount();
                 long changesAfter = changeRepository.RowCount();
 
-                Assert.AreEqual(membersBefore + 1, membersAfter);
-                Assert.AreEqual(blobsBefore + 1, blobsAfter);
-                Assert.AreEqual(changesBefore + 1, changesAfter);
-
-                changeRepository.Delete(change);
-
-                membersAfter = memberRepository.RowCount();
-                blobsAfter = blobRepository.RowCount();
-                changesAfter = changeRepository.RowCount();
-
-                Assert.AreEqual(membersBefore + 1, membersAfter);
-                Assert.AreEqual(blobsBefore, blobsAfter);
-                Assert.AreEqual(changesBefore, changesAfter);
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
+                Assert.That(changesAfter, Is.EqualTo(changesBefore));
             }
         }
     }

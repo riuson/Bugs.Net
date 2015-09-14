@@ -13,59 +13,62 @@ using System.Text;
 namespace BugTracker.DB.Repositories.Test
 {
     [TestFixture]
-    internal class MemoryRepositoryTest
+    internal class MemberRepositoryTest
     {
         [SetUp]
         public virtual void Configure()
         {
             SessionManager.Instance.Configure("test.db");
-            Assert.IsTrue(SessionManager.Instance.IsConfigured);
+            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
         }
 
         [Test]
         public virtual void CanSave()
         {
+            long before = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Member> repository = new Repository<Member>(session);
                 var x = new Member();
-                long before = repository.RowCount();
+                before = repository.RowCount();
                 repository.Save(x);
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Member> repository = new Repository<Member>(session);
                 long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                Assert.That(after, Is.EqualTo(before + 1));
             }
         }
 
         [Test]
         public virtual void CanGet()
         {
+            long id = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Member> repository = new Repository<Member>(session);
-                var x = new Member()
-                {
-                    FirstName = "First",
-                    LastName = "Last",
-                    EMail = "Email"
-                };
-                long before = repository.RowCount();
+                var x = new Member();
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                id = x.Id;
+            }
 
-                var y = repository.GetById(x.Id);
-                Assert.IsNotNull(y);
-
-                Assert.AreEqual(x.FirstName, y.FirstName);
-                Assert.AreEqual(x.LastName, y.LastName);
-                Assert.AreEqual(x.EMail, y.EMail);
-                Assert.AreEqual(x, y);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Member> repository = new Repository<Member>(session);
+                var y = repository.GetById(id);
+                Assert.That(y, Is.Not.Null);
             }
         }
 
         [Test]
         public virtual void CanUpdate()
         {
+            long id = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Member> repository = new Repository<Member>(session);
@@ -76,43 +79,53 @@ namespace BugTracker.DB.Repositories.Test
                     EMail = "Email"
                 };
 
-                long before = repository.RowCount();
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                id = x.Id;
+            }
 
-                var y = repository.GetById(x.Id);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Member> repository = new Repository<Member>(session);
+                var y = repository.GetById(id);
                 y.FirstName = "First2";
                 y.LastName = "Last2";
                 y.EMail = "Email2";
 
                 repository.SaveOrUpdate(y);
+            }
 
-                after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
-
-                y = repository.GetById(x.Id);
-                Assert.AreEqual(y.FirstName, "First2");
-                Assert.AreEqual(y.LastName, "Last2");
-                Assert.AreEqual(y.EMail, "Email2");
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Member> repository = new Repository<Member>(session);
+                var y = repository.GetById(id);
+                Assert.That(y.FirstName, Is.EqualTo("First2"));
+                Assert.That(y.LastName, Is.EqualTo("Last2"));
+                Assert.That(y.EMail, Is.EqualTo("Email2"));
             }
         }
 
         [Test]
         public virtual void CanDelete()
         {
+            long id = 0;
+            long before = 0;
+
             using (ISession session = SessionManager.Instance.OpenSession())
             {
                 IRepository<Member> repository = new Repository<Member>(session);
                 var x = new Member();
-                long before = repository.RowCount();
+                before = repository.RowCount();
                 repository.Save(x);
-                long after = repository.RowCount();
-                Assert.AreEqual(before + 1, after);
+                id = x.Id;
+            }
 
-                repository.Delete(x);
-                after = repository.RowCount();
-                Assert.AreEqual(before, after);
+            using (ISession session = SessionManager.Instance.OpenSession())
+            {
+                IRepository<Member> repository = new Repository<Member>(session);
+                var y = repository.GetById(id);
+                repository.Delete(y);
+                long after = repository.RowCount();
+                Assert.That(after, Is.EqualTo(before));
             }
         }
     }
