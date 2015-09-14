@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{968136E6-1382-485E-98FE-CAABDDB1CAD5}</ProjectGuid>
+    <ProjectGuid>{1AC14EEC-C1DC-4078-BE45-84C5BEE9746F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BugTracker.DB.Entities</RootNamespace>
-    <AssemblyName>BugTracker.DB.Entities</AssemblyName>
+    <RootNamespace>BugTracker.DB.Entities.Tests</RootNamespace>
+    <AssemblyName>BugTracker.DB.Entities.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,19 +46,26 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
-    <Compile Include="Classes\Entity.cs" />
-    <Compile Include="Enitities\Attachment.cs" />
-    <Compile Include="Enitities\BlobContent.cs" />
-    <Compile Include="Enitities\Change.cs" />
-    <Compile Include="Enitities\Member.cs" />
-    <Compile Include="Enitities\Project.cs" />
-    <Compile Include="Enitities\Ticket.cs" />
-    <Compile Include="Enitities\Priority.cs" />
-    <Compile Include="Enitities\ProblemType.cs" />
-    <Compile Include="Enitities\Solution.cs" />
-    <Compile Include="Enitities\Status.cs" />
-    <Compile Include="Interfaces\IVocabulary.cs" />
+    <Compile Include="Classes\EntityTest.cs" />
+    <Compile Include="Entities\AttachmentTest.cs" />
+    <Compile Include="Entities\BlobContentTest.cs" />
+    <Compile Include="Entities\ChangeTest.cs" />
+    <Compile Include="Entities\MemberTest.cs" />
+    <Compile Include="Entities\PriorityTest.cs" />
+    <Compile Include="Entities\ProblemTypeTest.cs" />
+    <Compile Include="Entities\SolutionTest.cs" />
+    <Compile Include="Entities\StatusTest.cs" />
+    <Compile Include="Entities\TicketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BugTracker.DB.Entities\BugTracker.DB.Entities.csproj">
+      <Project>{968136e6-1382-485e-98fe-caabddb1cad5}</Project>
+      <Name>BugTracker.DB.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

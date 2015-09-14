@@ -20,3 +20,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("263d2527-29eb-4442-ada6-58d3445f3809")]
 
 [assembly: BugTracker.Core.Classes.AssemblyPluginType(typeof(BugTracker.DB.Classes.Plugin))]
+[assembly: InternalsVisibleTo("BugTracker.DB.Tests")]

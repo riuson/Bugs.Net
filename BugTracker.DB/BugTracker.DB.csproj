@@ -52,10 +52,6 @@
       <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -96,7 +92,6 @@
     </Compile>
     <Compile Include="Controls\DataGridViewSubColumn.cs" />
     <Compile Include="Dao\SessionConfiguration.cs" />
-    <Compile Include="Dao\Test\SchemaTest.cs" />
     <Compile Include="Dao\SessionManagerPrivate.cs" />
     <Compile Include="Events\EnityOperationEventArgs.cs" />
     <Compile Include="Events\EntityAddedEventArgs.cs" />
@@ -116,14 +111,6 @@
     <Compile Include="Mapping\SolutionMap.cs" />
     <Compile Include="Mapping\ProblemTypeMap.cs" />
     <Compile Include="Mapping\PriorityMap.cs" />
-    <Compile Include="Mapping\Test\TicketMapTest.cs" />
-    <Compile Include="Mapping\Test\BlobContentMapTest.cs" />
-    <Compile Include="Mapping\Test\AttachmentMapTest.cs" />
-    <Compile Include="Mapping\Test\ChangeMapTest.cs" />
-    <Compile Include="Mapping\Test\StatusMapTest.cs" />
-    <Compile Include="Mapping\Test\SolutionMapTest.cs" />
-    <Compile Include="Mapping\Test\ProblemTypeMapTest.cs" />
-    <Compile Include="Mapping\Test\PriorityMapTest.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -131,12 +118,6 @@
     </Compile>
     <Compile Include="Repositories\Entities\PriorityRepository.cs" />
     <Compile Include="Repositories\Entities\TicketRepository.cs" />
-    <Compile Include="Repositories\Test\TicketRepositoryTest.cs" />
-    <Compile Include="Repositories\Test\AttachmentRepositoryTest.cs" />
-    <Compile Include="Repositories\Test\ChangeRepositoryTest.cs" />
-    <Compile Include="Repositories\Test\MemberRepositoryTest.cs" />
-    <Compile Include="Repositories\Test\BlobContentRepositoryTest.cs" />
-    <Compile Include="Repositories\Test\VocabularyRepositoryTest.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="Interfaces\ISession.cs" />
     <Compile Include="Interfaces\ISessionManager.cs" />
