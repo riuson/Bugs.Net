@@ -20,8 +20,6 @@ namespace BugTracker.DB.Tests.Repositories
         [SetUp]
         public virtual void Configure()
         {
-            SessionManager.Instance.Configure("test.db");
-            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
             this.mRandom = new Random(Convert.ToInt32(DateTime.Now.TimeOfDay.TotalMilliseconds));
         }
 

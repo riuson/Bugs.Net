@@ -15,13 +15,6 @@ namespace BugTracker.DB.Tests.Repositories
     [TestFixture]
     internal class TicketRepositoryTest
     {
-        [SetUp]
-        public virtual void Configure()
-        {
-            SessionManager.Instance.Configure("test.db");
-            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
-        }
-
         [Test]
         public virtual void CanSave()
         {
