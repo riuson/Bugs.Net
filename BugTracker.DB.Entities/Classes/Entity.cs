@@ -31,9 +31,15 @@ namespace BugTracker.DB.Entities
                 return true;
             }
 
-            if (GetType() != other.GetType())
+            if (this.GetType() != other.GetType())
+            //if (this.GetType() != other.GetUnproxiedType()) - requires reference to NHibernate
             {
-                return false;
+                if (!this.GetType().IsAssignableFrom(other.GetType()))
+                {
+                    Console.WriteLine("This: " + this.GetType().FullName);
+                    Console.WriteLine("Other: " + other.GetType().FullName);
+                    return false;
+                }
             }
 
             return other.Id == this.Id;
