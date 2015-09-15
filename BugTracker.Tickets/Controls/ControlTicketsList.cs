@@ -17,20 +17,22 @@ namespace BugTracker.Tickets.Controls
         private IApplication mApp;
         private TicketsListData mTicketsList;
         private Member mLoggedMember;
+        private Project mProject;
 
         private DataGridViewTextBoxColumn mColumnTitle;
         private DataGridViewColumn mColumnAuthor;
         private DataGridViewTextBoxColumn mColumnCreated;
         private DataGridViewColumn mColumnStatus;
 
-        public ControlTicketsList(IApplication app, Member loggedMember)
+        public ControlTicketsList(IApplication app, Member loggedMember, Project project)
         {
             InitializeComponent();
             this.Text = "Tickets list";
             this.mApp = app;
             this.mLoggedMember = loggedMember;
+            this.mProject = project;
 
-            this.mTicketsList = new TicketsListData(this.mApp, this.mLoggedMember);
+            this.mTicketsList = new TicketsListData(this.mApp, this.mLoggedMember, this.mProject);
 
             this.dgvList.AutoGenerateColumns = false;
             this.CreateColumns();
