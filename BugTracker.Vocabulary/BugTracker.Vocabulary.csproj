@@ -45,7 +45,7 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\Plugin.cs" />
-    <Compile Include="Classes\ProjectsListData.cs" />
+    <Compile Include="Classes\VocabularyListData.cs" />
     <Compile Include="Controls\ControlVocabularyList.cs">
       <SubType>UserControl</SubType>
     </Compile>
