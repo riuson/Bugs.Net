@@ -63,7 +63,7 @@ namespace BugTracker.DB.Tests.Classes
         }
 
         [Test]
-        public void CanRollbackWithTransaction()
+        public void CanRollbackOnException()
         {
             long before = 0;
 
@@ -79,6 +79,39 @@ namespace BugTracker.DB.Tests.Classes
                     repository.Save(null);
 
                     session.Transaction.Commit();
+                }
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.Message);
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Priority> repository = new Repository<Priority>(session);
+                long after = repository.RowCount();
+
+                Assert.That(after, Is.EqualTo(before));
+            }
+        }
+
+        [Test]
+        public void CanRollbackWithTransaction()
+        {
+            long before = 0;
+
+            try
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Priority> repository = new Repository<Priority>(session);
+                    before = repository.RowCount();
+
+                    repository.Save(new Priority());
+                    repository.Save(new Priority());
+                    repository.Save(null);
+
+                    session.Transaction.Rollback();
                 }
             }
             catch (Exception exc)

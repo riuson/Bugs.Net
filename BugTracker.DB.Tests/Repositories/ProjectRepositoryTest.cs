@@ -37,6 +37,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore + 3));
                 Assert.That(projectsAfter, Is.EqualTo(projectsBefore + 1));
+
+                session.Transaction.Commit();
             }
         }
 
@@ -50,6 +52,8 @@ namespace BugTracker.DB.Tests.Repositories
             {
                 Project project = this.CreateAndSave(session, ticketsCount);
                 id = project.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -85,6 +89,8 @@ namespace BugTracker.DB.Tests.Repositories
 
                 Project project = this.CreateAndSave(session, ticketsCount);
                 id = project.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -107,6 +113,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore + ticketsCount));
                 Assert.That(projectsAfter, Is.EqualTo(projectsBefore + 1));
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -144,6 +152,8 @@ namespace BugTracker.DB.Tests.Repositories
 
                 Project project = this.CreateAndSave(session, ticketsCount);
                 id = project.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -165,6 +175,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore));
                 Assert.That(projectsAfter, Is.EqualTo(projectsBefore));
+
+                session.Transaction.Commit();
             }
         }
 

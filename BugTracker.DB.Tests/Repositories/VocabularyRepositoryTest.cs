@@ -28,6 +28,8 @@ namespace BugTracker.DB.Tests.Repositories
                 var x = new T();
                 before = repository.RowCount();
                 repository.Save(x);
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -49,6 +51,8 @@ namespace BugTracker.DB.Tests.Repositories
                 var x = new T();
                 repository.Save(x);
                 ticketId = x.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -71,6 +75,8 @@ namespace BugTracker.DB.Tests.Repositories
                 x.Value = "Test1";
                 repository.Save(x);
                 ticketId = x.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -79,6 +85,8 @@ namespace BugTracker.DB.Tests.Repositories
                 var y = repository.GetById(ticketId);
                 y.Value = "Test2";
                 repository.SaveOrUpdate(y);
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -103,6 +111,8 @@ namespace BugTracker.DB.Tests.Repositories
                 var x = new T();
                 repository.Save(x);
                 id = x.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -112,6 +122,8 @@ namespace BugTracker.DB.Tests.Repositories
                 repository.Delete(x);
                 long after = repository.RowCount();
                 Assert.That(after, Is.EqualTo(before));
+
+                session.Transaction.Commit();
             }
         }
     }

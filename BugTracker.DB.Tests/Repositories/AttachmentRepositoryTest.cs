@@ -41,6 +41,8 @@ namespace BugTracker.DB.Tests.Repositories
 
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -86,6 +88,8 @@ namespace BugTracker.DB.Tests.Repositories
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
                 id = attachment.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -130,6 +134,8 @@ namespace BugTracker.DB.Tests.Repositories
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
                 id = attachment.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -142,6 +148,8 @@ namespace BugTracker.DB.Tests.Repositories
                 attachment.Comment = "comment2";
                 attachment.Filename = "test2.txt";
                 attachmentRepository.SaveOrUpdate(attachment);
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -186,6 +194,8 @@ namespace BugTracker.DB.Tests.Repositories
                 memberRepository.Save(author);
                 attachmentRepository.Save(attachment);
                 id = attachment.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -204,6 +214,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
                 Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
                 Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore));
+
+                session.Transaction.Commit();
             }
         }
     }

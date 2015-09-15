@@ -41,6 +41,8 @@ namespace BugTracker.DB.Tests.Repositories
 
                 memberRepository.Save(author);
                 changeRepository.Save(change);
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -87,6 +89,8 @@ namespace BugTracker.DB.Tests.Repositories
                 memberRepository.Save(author);
                 changeRepository.Save(change);
                 id = change.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -134,6 +138,8 @@ namespace BugTracker.DB.Tests.Repositories
                 memberRepository.Save(author);
                 changeRepository.Save(change);
                 id = change.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -147,6 +153,8 @@ namespace BugTracker.DB.Tests.Repositories
                 change.Description.SetString("Test");
                 change.Created = new DateTime(2000, 11, 01);
                 changeRepository.SaveOrUpdate(change);
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -191,6 +199,8 @@ namespace BugTracker.DB.Tests.Repositories
                 memberRepository.Save(author);
                 changeRepository.Save(change);
                 id = change.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -209,6 +219,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
                 Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
                 Assert.That(changesAfter, Is.EqualTo(changesBefore));
+
+                session.Transaction.Commit();
             }
         }
     }

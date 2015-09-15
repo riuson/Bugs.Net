@@ -45,6 +45,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(changesAfter, Is.EqualTo(changesBefore + 3));
                 Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore + 5));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore + 1));
+
+                session.Transaction.Commit();
             }
         }
 
@@ -57,6 +59,8 @@ namespace BugTracker.DB.Tests.Repositories
             {
                 Ticket ticket = this.CreateAndSave(session, 1, 1);
                 ticketId = ticket.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -98,6 +102,8 @@ namespace BugTracker.DB.Tests.Repositories
 
                 Ticket ticket = this.CreateAndSave(session, changesCount, attachmentsCount);
                 ticketId = ticket.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -128,6 +134,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(changesAfter, Is.EqualTo(changesBefore + changesCount));
                 Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore + attachmentsCount));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore + 1));
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
@@ -174,6 +182,8 @@ namespace BugTracker.DB.Tests.Repositories
 
                 Ticket ticket = this.CreateAndSave(session, changesCount, attachmentsCount);
                 ticketId = ticket.Id;
+
+                session.Transaction.Commit();
             }
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
@@ -202,6 +212,8 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(changesAfter, Is.EqualTo(changesBefore));
                 Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore));
+
+                session.Transaction.Commit();
             }
         }
 
