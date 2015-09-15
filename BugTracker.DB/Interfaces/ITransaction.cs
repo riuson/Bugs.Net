@@ -5,8 +5,9 @@ using System.Text;
 
 namespace BugTracker.DB.Interfaces
 {
-    public interface ISession : IDisposable
+    public interface ITransaction
     {
-        ITransaction Transaction { get; }
+        void Commit();
+        void Rollback();
     }
 }

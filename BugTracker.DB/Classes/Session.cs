@@ -1,5 +1,4 @@
-﻿using NHibernate;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +7,12 @@ namespace BugTracker.DB.Classes
 {
     internal class Session : BugTracker.DB.Interfaces.ISession
     {
+        private Transaction mTransaction;
+
         public NHibernate.ISession NHSession { get; private set; }
         public NHibernate.ITransaction NHTransaction { get; private set; }
         public bool IsUseTransaction { get { return this.NHTransaction != null; } }
+        public BugTracker.DB.Interfaces.ITransaction Transaction { get { return this.mTransaction; } }
 
         public Session(NHibernate.ISession session, bool beginTransaction)
         {
@@ -19,10 +21,12 @@ namespace BugTracker.DB.Classes
             if (beginTransaction)
             {
                 this.NHTransaction = this.NHSession.BeginTransaction();
+                this.mTransaction = new Transaction();
             }
             else
             {
                 this.NHTransaction = null;
+                this.mTransaction = null;
             }
         }
 
@@ -32,7 +36,14 @@ namespace BugTracker.DB.Classes
             {
                 try
                 {
-                    this.NHTransaction.Commit();
+                    if (this.mTransaction.State == Classes.Transaction.TransactionState.Confirmed)
+                    {
+                        this.NHTransaction.Commit();
+                    }
+                    else
+                    {
+                        this.NHTransaction.Rollback();
+                    }
                 }
                 catch // (Exception exc)
                 {
