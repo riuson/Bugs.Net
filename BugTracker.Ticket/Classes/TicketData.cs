@@ -1,7 +1,7 @@
 ﻿using BugTracker.DB;
+using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
-using BugTracker.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,10 +51,10 @@ namespace BugTracker.TicketEditor.Classes
 
         public void ApplyChanges(ISession session, Member loggedMember, Ticket ticket)
         {
-            TicketRepository ticketRepository = new TicketRepository(session);
-            BlobContentRepository blobRepository = new BlobContentRepository(session);
-            AttachmentRepository attachmentRepository = new AttachmentRepository(session);
-            ChangeRepository changeRepository = new ChangeRepository(session);
+            IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+            IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+            IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+            IRepository<Change> changeRepository = new Repository<Change>(session);
 
             foreach (var attachment in this.mAttachmentsRemove)
             {
@@ -77,6 +77,7 @@ namespace BugTracker.TicketEditor.Classes
             foreach (var attachment in this.mAttachmentsAdd)
             {
                 attachment.Author = loggedMember;
+                attachment.Ticket = ticket;
                 attachmentRepository.Save(attachment);
                 ticket.Attachments.Add(attachment);
             }
@@ -84,6 +85,7 @@ namespace BugTracker.TicketEditor.Classes
             foreach (var change in this.mChangesAdd)
             {
                 change.Author = loggedMember;
+                change.Ticket = ticket;
                 changeRepository.Save(change);
                 ticket.Changes.Add(change);
             }
@@ -123,9 +125,9 @@ namespace BugTracker.TicketEditor.Classes
 
         public void SaveAttachmentToFile(Attachment attachment, string filename)
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                BlobContentRepository blobRepository = new BlobContentRepository(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
                 BlobContent blob = blobRepository.Load(attachment.File.Id);
 
                 using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))

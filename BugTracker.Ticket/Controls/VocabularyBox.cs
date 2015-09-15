@@ -16,7 +16,7 @@ using BugTracker.DB.Events;
 
 namespace BugTracker.TicketEditor.Controls
 {
-    public partial class VocabularyBox<T> : UserControl where T : new()
+    public partial class VocabularyBox<T> : UserControl where T : class, new()
     {
         private ICollection<T> mEntityList;
         private IEnumerable<VocabularyDisplayData<T>> mDisplayList;
@@ -43,7 +43,7 @@ namespace BugTracker.TicketEditor.Controls
 
         private void UpdateList()
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 Repository<T> repository = new Repository<T>(session);
                 this.mEntityList = repository.List();
