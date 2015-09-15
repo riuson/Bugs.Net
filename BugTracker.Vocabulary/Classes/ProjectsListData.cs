@@ -37,7 +37,7 @@ namespace BugTracker.Vocabulary.Classes
         {
             using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                Repository<T> repository = new Repository<T>(session);
+                IRepository<T> repository = new Repository<T>(session);
 
                 this.mInternalData = repository.List();
                 this.Data.DataSource = this.mInternalData;

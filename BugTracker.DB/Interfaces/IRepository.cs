@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BugTracker.DB.Interfaces
 {
-    interface IRepository<T> where T : new()
+    public interface IRepository<T> where T : new()
     {
         T Load(object id);
         T GetById(object id);
