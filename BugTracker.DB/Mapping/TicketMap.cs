@@ -71,6 +71,16 @@ namespace BugTracker.DB.Mapping
                 m.NotNullable(true);
             });
 
+            ManyToOne(x => x.Project, m =>
+            {
+                m.Column(typeof(Project).Name + "_Id");
+                m.Class(typeof(Project));
+                m.Unique(false);
+                m.Access(Accessor.Property);
+                m.Fetch(FetchKind.Join);
+                m.Lazy(LazyRelation.Proxy);
+            });
+
             Bag(x => x.Changes,
                 c =>
                 {
@@ -79,7 +89,6 @@ namespace BugTracker.DB.Mapping
                         k =>
                         {
                             k.Column(typeof(Ticket).Name + "_Id");
-                            //k.OnDelete(OnDeleteAction.Cascade);
                             k.Unique(true);
                             k.Update(true);
                         });
@@ -98,7 +107,6 @@ namespace BugTracker.DB.Mapping
                         k =>
                         {
                             k.Column(typeof(Ticket).Name + "_Id");
-                            //k.OnDelete(OnDeleteAction.Cascade);
                             k.Unique(true);
                             k.Update(true);
                         });

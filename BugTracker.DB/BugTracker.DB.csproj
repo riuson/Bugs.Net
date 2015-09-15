@@ -102,6 +102,7 @@
     <Compile Include="Events\EntityEditEventArgs.cs" />
     <Compile Include="Events\EntityAddEventArgs.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Mapping\ProjectMap.cs" />
     <Compile Include="Mapping\TicketMap.cs" />
     <Compile Include="Mapping\BlobContentMap.cs" />
     <Compile Include="Mapping\AttachmentMap.cs" />

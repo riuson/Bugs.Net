@@ -51,7 +51,8 @@ namespace BugTracker.DB.Dao
                 typeof(MemberMap),
                 typeof(ChangeMap),
                 typeof(AttachmentMap),
-                typeof(TicketMap)
+                typeof(TicketMap),
+                typeof(ProjectMap)
             });
             return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }

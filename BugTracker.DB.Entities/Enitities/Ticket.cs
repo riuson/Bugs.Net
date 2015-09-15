@@ -7,6 +7,7 @@ namespace BugTracker.DB.Entities
 {
     public class Ticket : Entity
     {
+        public virtual Project Project { get; set; }
         public virtual string Title { get; set; }
         public virtual Member Author { get; set; }
         public virtual DateTime Created { get; set; }
