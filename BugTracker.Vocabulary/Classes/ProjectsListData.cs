@@ -5,7 +5,6 @@ using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
-using BugTracker.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Vocabulary.Classes
 {
-    internal class VocabularyListData<T> : IDisposable where T : new()
+    internal class VocabularyListData<T> : IDisposable where T : class, new()
     {
         private IApplication mApp;
         private ICollection<T> mInternalData;
@@ -36,11 +35,10 @@ namespace BugTracker.Vocabulary.Classes
 
         public void UpdateList()
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 Repository<T> repository = new Repository<T>(session);
 
-                this.Data.DataSource = null;
                 this.mInternalData = repository.List();
                 this.Data.DataSource = this.mInternalData;
             }
@@ -57,13 +55,15 @@ namespace BugTracker.Vocabulary.Classes
 
                 if (InputBox.Show("New item:", "Add item", String.Empty, out newValue) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
                         Repository<T> repository = new Repository<T>(session);
                         T item = new T();
                         IVocabulary v = item as IVocabulary;
                         v.Value = newValue;
                         repository.Save(item);
+
+                        session.Transaction.Commit();
                     }
                     ea.Processed = true;
                 }
@@ -87,11 +87,13 @@ namespace BugTracker.Vocabulary.Classes
 
                 if (InputBox.Show("Change item:", "Edit item", v.Value, out newValue) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
                         Repository<T> repository = new Repository<T>(session);
                         v.Value = newValue;
                         repository.SaveOrUpdate(item);
+
+                        session.Transaction.Commit();
                     }
                     ea.Processed = true;
                 }
@@ -120,10 +122,12 @@ namespace BugTracker.Vocabulary.Classes
                     "Remove item",
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
                         Repository<T> repository = new Repository<T>(session);
                         repository.Delete(item);
+
+                        session.Transaction.Commit();
                     }
 
                     ea.Processed = true;

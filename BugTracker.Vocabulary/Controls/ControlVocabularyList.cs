@@ -12,7 +12,7 @@ using BugTracker.DB.Entities;
 
 namespace BugTracker.Vocabulary.Controls
 {
-    public partial class ControlVocabularyList<T> : UserControl where T : new()
+    public partial class ControlVocabularyList<T> : UserControl where T : class, new()
     {
         private IApplication mApp;
         private VocabularyListData<T> mVocabularyList;
