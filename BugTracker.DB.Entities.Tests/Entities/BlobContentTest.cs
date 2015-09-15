@@ -11,7 +11,7 @@ namespace BugTracker.DB.Entities.Tests
     internal class BlobContentTest
     {
         [Test]
-        public void Operation()
+        public void CanWriteFile()
         {
             var blob = new BlobContent();
 
@@ -19,30 +19,50 @@ namespace BugTracker.DB.Entities.Tests
             Random rnd = new Random(Convert.ToInt32(DateTime.Now.TimeOfDay.TotalMilliseconds));
             rnd.NextBytes(buffer);
 
+            blob.Content = buffer;
+
+            FileInfo file = new FileInfo(Path.GetTempFileName());
+
+            using (FileStream fs = file.OpenWrite())
+            {
+                blob.WriteTo(fs);
+                fs.Flush();
+            }
+
             using (MemoryStream ms = new MemoryStream(buffer))
             {
-                blob.ReadFrom(ms);
-            }
-
-            byte[] buffer2 = new byte[blob.Content.Length];
-
-            using (MemoryStream ms = new MemoryStream(buffer2))
-            {
-                blob.WriteTo(ms);
-            }
-
-            bool success = true;
-
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                if (buffer[i] != buffer2[i])
+                using (FileStream fs = file.OpenRead())
                 {
-                    success = false;
-                    break;
+                    Assert.That(fs, Is.EqualTo(ms));
                 }
             }
 
-            Assert.IsTrue(success);
+            file.Delete();
+        }
+
+        [Test]
+        public void CanReadFile()
+        {
+            byte[] buffer = new byte[10000];
+            Random rnd = new Random(Convert.ToInt32(DateTime.Now.TimeOfDay.TotalMilliseconds));
+            rnd.NextBytes(buffer);
+
+            FileInfo file = new FileInfo(Path.GetTempFileName());
+
+            using (FileStream fs = file.OpenWrite())
+            {
+                fs.Write(buffer, 0, buffer.Length);
+                fs.Flush();
+            }
+
+            var blob = new BlobContent();
+
+            using (FileStream fs = file.OpenRead())
+            {
+                blob.ReadFrom(fs);
+            }
+
+            Assert.That(blob.Content, Is.EqualTo(buffer));
         }
     }
 }
