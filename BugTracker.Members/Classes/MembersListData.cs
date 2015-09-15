@@ -1,10 +1,10 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB;
+using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
-using BugTracker.DB.Repositories;
 using BugTracker.Members.Controls;
 using System;
 using System.Collections.Generic;
@@ -42,11 +42,10 @@ namespace BugTracker.Members.Classes
 
         public void UpdateList()
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                MemberRepository repository = new MemberRepository(session);
+                IRepository<Member> repository = new Repository<Member>(session);
 
-                this.Data.DataSource = null;
                 this.mInternalData = repository.List();
                 this.Data.DataSource = this.mInternalData;
             }
@@ -109,10 +108,12 @@ namespace BugTracker.Members.Classes
                     "Remove Member",
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
-                        MemberRepository repository = new MemberRepository(session);
+                        IRepository<Member> repository = new Repository<Member>(session);
                         repository.Delete(item);
+
+                        session.Transaction.Commit();
                     }
 
                     ea.Processed = true;
@@ -127,14 +128,17 @@ namespace BugTracker.Members.Classes
 
         private void mEditorAdd_ClickOK(object sender, EventArgs e)
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
-                MemberRepository repository = new MemberRepository(session);
+                IRepository<Member> repository = new Repository<Member>(session);
+
                 Member item = new Member();
                 item.FirstName = this.mEditor.FirstName;
                 item.LastName = this.mEditor.LastName;
                 item.EMail = this.mEditor.Email;
                 repository.Save(item);
+
+                session.Transaction.Commit();
             }
 
             this.mApp.Controls.Hide(this.mEditor);
@@ -145,14 +149,17 @@ namespace BugTracker.Members.Classes
 
         private void mEditorEdit_ClickOK(object sender, EventArgs e)
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
-                MemberRepository repository = new MemberRepository(session);
+                IRepository<Member> repository = new Repository<Member>(session);
+
                 Member item = this.mEditor.Entity;
                 item.FirstName = this.mEditor.FirstName;
                 item.LastName = this.mEditor.LastName;
                 item.EMail = this.mEditor.Email;
                 repository.SaveOrUpdate(item);
+
+                session.Transaction.Commit();
             }
 
             this.mApp.Controls.Hide(this.mEditor);
