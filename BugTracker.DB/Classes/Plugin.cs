@@ -17,6 +17,7 @@ namespace BugTracker.DB.Classes
         public void Initialize(IApplication app)
         {
             this.mApp = app;
+            SessionManager.Instance.Configure(Saved<Options>.Instance.FileName);
         }
 
         public IButton[] GetCommandLinks(string tag)
