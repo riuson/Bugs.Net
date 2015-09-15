@@ -83,7 +83,6 @@
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\Repository.cs" />
     <Compile Include="Classes\Session.cs" />
-    <Compile Include="Classes\SessionManagerInternal.cs" />
     <Compile Include="Controls\ControlSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>

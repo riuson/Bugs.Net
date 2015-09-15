@@ -36,7 +36,6 @@ namespace BugTracker.DB
         /// </summary>
         private SessionManager()
         {
-            //this.mSessionManagerInternal = new SessionManagerInternal();
             this.mSessionManagerPrivate = new BugTracker.DB.Dao.SessionManagerPrivate();
         }
 
@@ -63,7 +62,6 @@ namespace BugTracker.DB
             get { return this.mSessionManagerPrivate.IsConfigured; }
         }
 
-        //private SessionManagerInternal mSessionManagerInternal;
         private BugTracker.DB.Dao.SessionManagerPrivate mSessionManagerPrivate;
     }
 }
