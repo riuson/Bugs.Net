@@ -113,6 +113,8 @@ namespace BugTracker.TicketEditor.Controls
             {
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
 
+                StringBuilder changedFieldsDescription = new StringBuilder();
+
                 // New item
                 if (this.Ticket == null)
                 {
@@ -141,8 +143,6 @@ namespace BugTracker.TicketEditor.Controls
                 else // Existing item
                 {
                     this.Ticket = ticketRepository.Load(this.Ticket.Id);
-
-                    StringBuilder changedFieldsDescription = new StringBuilder();
 
                     if (this.Ticket.Title != this.textBoxTitle.Text)
                     {
@@ -189,17 +189,6 @@ namespace BugTracker.TicketEditor.Controls
                         this.Ticket.Solution = this.mSolutionBox.SelectedValue;
                     }
 
-                    if (this.mTicketAttachmentsDisplay.AddedAttachments.Length > 0)
-                    {
-                        foreach (Attachment attachment in this.mTicketAttachmentsDisplay.AddedAttachments)
-                        {
-                            changedFieldsDescription.AppendFormat(
-                                "Added attachment '{0}' with comment '{1}'\n",
-                                attachment.Filename,
-                                attachment.Comment);
-                        }
-                    }
-
                     if (this.mTicketAttachmentsDisplay.RemovedAttachments.Length > 0)
                     {
                         foreach (Attachment attachment in this.mTicketAttachmentsDisplay.RemovedAttachments)
@@ -210,11 +199,22 @@ namespace BugTracker.TicketEditor.Controls
                                 attachment.Comment);
                         }
                     }
+                }
 
-                    if (changedFieldsDescription.Length > 0)
+                if (this.mTicketAttachmentsDisplay.AddedAttachments.Length > 0)
+                {
+                    foreach (Attachment attachment in this.mTicketAttachmentsDisplay.AddedAttachments)
                     {
-                        this.mTicketData.CommentAdd(changedFieldsDescription.ToString());
+                        changedFieldsDescription.AppendFormat(
+                            "Added attachment '{0}' with comment '{1}'\n",
+                            attachment.Filename,
+                            attachment.Comment);
                     }
+                }
+
+                if (changedFieldsDescription.Length > 0)
+                {
+                    this.mTicketData.CommentAdd(changedFieldsDescription.ToString());
                 }
 
                 ticketRepository.SaveOrUpdate(this.Ticket);
