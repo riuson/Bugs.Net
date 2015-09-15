@@ -10,16 +10,36 @@ namespace BugTracker.DB.Classes
     {
         public NHibernate.ISession NHSession { get; private set; }
         public NHibernate.ITransaction NHTransaction { get; private set; }
+        public bool IsUseTransaction { get { return this.NHTransaction != null; } }
 
-        public Session(NHibernate.ISession session)
+        public Session(NHibernate.ISession session, bool beginTransaction)
         {
             this.NHSession = session;
-            this.NHTransaction = this.NHSession.BeginTransaction();
+
+            if (beginTransaction)
+            {
+                this.NHTransaction = this.NHSession.BeginTransaction();
+            }
+            else
+            {
+                this.NHTransaction = null;
+            }
         }
 
         public void Dispose()
         {
-            this.NHTransaction.Commit();
+            if (this.IsUseTransaction)
+            {
+                try
+                {
+                    this.NHTransaction.Commit();
+                }
+                catch // (Exception exc)
+                {
+                    this.NHTransaction.Rollback();
+                }
+            }
+
             this.NHSession.Dispose();
         }
     }

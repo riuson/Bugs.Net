@@ -18,7 +18,7 @@ namespace BugTracker.DB.Tests.Repositories
         [Test]
         public virtual void CanSave()
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -53,13 +53,13 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long ticketId = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 Ticket ticket = this.CreateAndSave(session, 1, 1);
                 ticketId = ticket.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
 
@@ -82,7 +82,7 @@ namespace BugTracker.DB.Tests.Repositories
             int changesCount = 5;
             int attachmentsCount = 9;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -100,7 +100,7 @@ namespace BugTracker.DB.Tests.Repositories
                 ticketId = ticket.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -130,7 +130,7 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore + 1));
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
 
@@ -158,7 +158,7 @@ namespace BugTracker.DB.Tests.Repositories
             int changesCount = 5;
             int attachmentsCount = 9;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -176,7 +176,7 @@ namespace BugTracker.DB.Tests.Repositories
                 ticketId = ticket.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);

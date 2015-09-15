@@ -22,7 +22,7 @@ namespace BugTracker.DB.Tests.Repositories
             long blobsBefore = 0;
             long changesBefore = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -43,7 +43,7 @@ namespace BugTracker.DB.Tests.Repositories
                 changeRepository.Save(change);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -64,7 +64,7 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long id = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -89,7 +89,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = change.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -111,7 +111,7 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long id = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -136,7 +136,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = change.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -149,7 +149,7 @@ namespace BugTracker.DB.Tests.Repositories
                 changeRepository.SaveOrUpdate(change);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -170,7 +170,7 @@ namespace BugTracker.DB.Tests.Repositories
             long blobsBefore = 0;
             long changesBefore = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -193,7 +193,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = change.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);

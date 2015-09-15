@@ -33,16 +33,31 @@ namespace BugTracker.DB.Classes
 
         public virtual void Save(T entity)
         {
+            if (!this.Session.Transaction.IsActive)
+            {
+                throw new InvalidOperationException("Write operations must use transaction");
+            }
+
             this.Session.Save(entity);
         }
 
         public virtual void SaveOrUpdate(T entity)
         {
+            if (this.Session.Transaction == null)
+            {
+                throw new InvalidOperationException("Write operations must use transaction");
+            }
+
             this.Session.SaveOrUpdate(entity);
         }
 
         public virtual void Delete(T entity)
         {
+            if (this.Session.Transaction == null)
+            {
+                throw new InvalidOperationException("Write operations must use transaction");
+            }
+
             this.Session.Delete(entity);
         }
 

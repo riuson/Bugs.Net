@@ -52,9 +52,9 @@ namespace BugTracker.DB
             return this.mSessionManagerPrivate.Configure(filename);
         }
 
-        public ISession OpenSession()
+        public ISession OpenSession(bool beginTransaction)
         {
-            return this.mSessionManagerPrivate.OpenSession();
+            return this.mSessionManagerPrivate.OpenSession(beginTransaction);
         }
 
         public bool IsConfigured

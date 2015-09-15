@@ -28,7 +28,7 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long before = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
@@ -37,7 +37,7 @@ namespace BugTracker.DB.Tests.Repositories
                 repository.Save(x);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
 
@@ -52,7 +52,7 @@ namespace BugTracker.DB.Tests.Repositories
             long id = 0;
             byte[] buffer1 = this.GetRandomArray();
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
@@ -61,7 +61,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = x.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var y = repository.GetById(id);
@@ -77,7 +77,7 @@ namespace BugTracker.DB.Tests.Repositories
             long id = 0;
             byte[] buffer1 = this.GetRandomArray();
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
@@ -86,7 +86,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = x.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var y = repository.GetById(id);
@@ -95,7 +95,7 @@ namespace BugTracker.DB.Tests.Repositories
                 repository.SaveOrUpdate(y);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var y = repository.GetById(id);
@@ -110,7 +110,7 @@ namespace BugTracker.DB.Tests.Repositories
             long before = 0;
             long id = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
@@ -120,7 +120,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = x.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 long after = repository.RowCount();

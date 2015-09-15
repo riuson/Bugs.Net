@@ -60,7 +60,7 @@ namespace BugTracker.DB.Dao
 
         #region ISessionManager
 
-        public BugTracker.DB.Interfaces.ISession OpenSession()
+        public BugTracker.DB.Interfaces.ISession OpenSession(bool beginTransaction)
         {
             if (!this.IsConfigured)
             {
@@ -68,7 +68,7 @@ namespace BugTracker.DB.Dao
             }
 
             NHibernate.ISession nhSession = this.SessionFactory.OpenSession();
-            Session session = new Session(nhSession);
+            Session session = new Session(nhSession, beginTransaction);
             return session;
         }
 

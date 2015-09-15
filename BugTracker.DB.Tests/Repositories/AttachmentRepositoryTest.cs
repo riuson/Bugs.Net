@@ -22,7 +22,7 @@ namespace BugTracker.DB.Tests.Repositories
             long blobsBefore = 0;
             long attachmentsBefore = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -43,7 +43,7 @@ namespace BugTracker.DB.Tests.Repositories
                 attachmentRepository.Save(attachment);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -64,7 +64,7 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long id;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -88,7 +88,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = attachment.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 Attachment attachment = attachmentRepository.GetById(id);
@@ -106,7 +106,7 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long id = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -132,7 +132,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = attachment.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
 
@@ -144,7 +144,7 @@ namespace BugTracker.DB.Tests.Repositories
                 attachmentRepository.SaveOrUpdate(attachment);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -165,7 +165,7 @@ namespace BugTracker.DB.Tests.Repositories
             long blobsBefore = 0;
             long attachmentsBefore = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);
@@ -188,7 +188,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = attachment.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
                 IRepository<Member> memberRepository = new Repository<Member>(session);

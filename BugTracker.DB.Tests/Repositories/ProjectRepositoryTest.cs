@@ -18,7 +18,7 @@ namespace BugTracker.DB.Tests.Repositories
         [Test]
         public virtual void CanSave()
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> memberRepository = new Repository<Member>(session);
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
@@ -46,13 +46,13 @@ namespace BugTracker.DB.Tests.Repositories
             long id = 0;
             int ticketsCount = 5;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 Project project = this.CreateAndSave(session, ticketsCount);
                 id = project.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Project> projectepository = new Repository<Project>(session);
 
@@ -73,7 +73,7 @@ namespace BugTracker.DB.Tests.Repositories
 
             int ticketsCount = 5;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> memberRepository = new Repository<Member>(session);
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
@@ -87,7 +87,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = project.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> memberRepository = new Repository<Member>(session);
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
@@ -109,7 +109,7 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(projectsAfter, Is.EqualTo(projectsBefore + 1));
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<Project> projectRepository = new Repository<Project>(session);
 
@@ -132,7 +132,7 @@ namespace BugTracker.DB.Tests.Repositories
 
             int ticketsCount = 5;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> memberRepository = new Repository<Member>(session);
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
@@ -146,7 +146,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = project.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> memberRepository = new Repository<Member>(session);
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);

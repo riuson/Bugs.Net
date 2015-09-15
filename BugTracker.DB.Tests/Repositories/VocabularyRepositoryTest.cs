@@ -22,7 +22,7 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long before = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var x = new T();
@@ -30,7 +30,7 @@ namespace BugTracker.DB.Tests.Repositories
                 repository.Save(x);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 long after = repository.RowCount();
@@ -43,7 +43,7 @@ namespace BugTracker.DB.Tests.Repositories
         {
             long ticketId = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var x = new T();
@@ -51,7 +51,7 @@ namespace BugTracker.DB.Tests.Repositories
                 ticketId = x.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var y = repository.GetById(ticketId);
@@ -65,7 +65,7 @@ namespace BugTracker.DB.Tests.Repositories
             long ticketId = 0;
             var x = new T();
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 x.Value = "Test1";
@@ -73,7 +73,7 @@ namespace BugTracker.DB.Tests.Repositories
                 ticketId = x.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var y = repository.GetById(ticketId);
@@ -81,7 +81,7 @@ namespace BugTracker.DB.Tests.Repositories
                 repository.SaveOrUpdate(y);
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var y = repository.GetById(ticketId);
@@ -96,7 +96,7 @@ namespace BugTracker.DB.Tests.Repositories
             long id = 0;
             long before = 0;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 before = repository.RowCount();
@@ -105,7 +105,7 @@ namespace BugTracker.DB.Tests.Repositories
                 id = x.Id;
             }
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<T> repository = new Repository<T>(session);
                 T x = repository.GetById(id);
