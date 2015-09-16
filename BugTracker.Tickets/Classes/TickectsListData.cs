@@ -46,7 +46,6 @@ namespace BugTracker.Tickets.Classes
 
                 this.mProject = projectRepository.Load(this.mProject.Id);
 
-                this.Data.DataSource = null;
                 this.mInternalData = this.mProject.Tickets;
                 this.Data.DataSource = this.mInternalData;
             }
