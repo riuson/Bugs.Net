@@ -52,7 +52,7 @@ namespace BugTracker.Core.Controls
             }
         }
 
-        private void label_Click(object sender, EventArgs e)
+        protected void label_Click(object sender, EventArgs e)
         {
             if (this.Navigate != null)
             {
