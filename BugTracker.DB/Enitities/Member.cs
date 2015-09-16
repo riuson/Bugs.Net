@@ -12,9 +12,12 @@ namespace BugTracker.DB.Entities
         public virtual string LastName { get; set; }
         public virtual string EMail { get; set; }
 
-        public virtual string GetFullName()
+        public virtual string FullName
         {
-            return String.Format("{0} {1}", this.FirstName, this.LastName);
+            get
+            {
+                return String.Format("{0} {1}", this.FirstName, this.LastName);
+            }
         }
     }
 }

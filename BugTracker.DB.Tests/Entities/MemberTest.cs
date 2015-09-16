@@ -22,7 +22,7 @@ namespace BugTracker.DB.Entities.Tests
             Assert.That(member.FirstName, Is.EqualTo("First"));
             Assert.That(member.LastName, Is.EqualTo("Last"));
             Assert.That(member.EMail, Is.EqualTo("Email"));
-            Assert.That(member.GetFullName(), Is.EqualTo("First Last"));
+            Assert.That(member.FullName, Is.EqualTo("First Last"));
         }
     }
 }

@@ -47,7 +47,7 @@ namespace BugTracker.DB.Entities.Tests
             ticket.Changes.Add(change);
             ticket.Attachments.Add(attachment);
 
-            Assert.That(ticket.Author.GetFullName(), Is.EqualTo(author.GetFullName()));
+            Assert.That(ticket.Author.FullName, Is.EqualTo(author.FullName));
             Assert.That(ticket.Created, Is.EqualTo(now));
             Assert.That(ticket.Priority.Value, Is.EqualTo("priority"));
             Assert.That(ticket.Solution.Value, Is.EqualTo("solution"));

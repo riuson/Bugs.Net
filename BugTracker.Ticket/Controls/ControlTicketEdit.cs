@@ -43,7 +43,7 @@ namespace BugTracker.TicketEditor.Controls
             this.LoggedMember = loggedMember;
             this.Ticket = null;
 
-            this.labelLoggedMember.Text = String.Format("{0} {1}", this.LoggedMember.FirstName, this.LoggedMember.LastName);
+            this.labelLoggedMember.Text = String.Format("{0}", this.LoggedMember.FullName);
             this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
 
             this.mProblemTypeBox = new VocabularyBox<ProblemType>(this.mApp);

@@ -57,7 +57,7 @@ namespace BugTracker.Tickets.Controls
             // columnAuthor
             // 
             this.mColumnAuthor = DataGridViewColumnFabric.CreateSubColumn(BugTracker.DB.Classes.DataGridViewColumnFabric.ColumnType.SubColumn);
-            this.mColumnAuthor.DataPropertyName = "Author.LastName";
+            this.mColumnAuthor.DataPropertyName = "Author.FullName";
             this.mColumnAuthor.HeaderText = "Author";
             this.mColumnAuthor.Name = "columnAuthor";
             this.mColumnAuthor.ReadOnly = true;
