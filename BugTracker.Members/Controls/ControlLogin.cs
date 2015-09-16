@@ -10,7 +10,7 @@ using BugTracker.DB.Entities;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
-using BugTracker.DB.Classes;
+using BugTracker.DB.Dao;
 
 namespace BugTracker.Members.Controls
 {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
-using BugTracker.DB.Classes;
+using BugTracker.DB.Dao;
 using BugTracker.DB.Entities;
 using BugTracker.Core.Interfaces;
 using BugTracker.TicketEditor.Classes;

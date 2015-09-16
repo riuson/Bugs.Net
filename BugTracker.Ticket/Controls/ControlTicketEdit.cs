@@ -14,7 +14,7 @@ using BugTracker.DB;
 using BugTracker.TicketEditor.Classes;
 using BugTracker.TicketEditor.Events;
 using BugTracker.Core.Classes;
-using BugTracker.DB.Classes;
+using BugTracker.DB.Dao;
 
 namespace BugTracker.TicketEditor.Controls
 {

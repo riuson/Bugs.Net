@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.DB.Classes
+namespace BugTracker.DB.Dao
 {
     public class Repository<T> : IRepository<T> where T : class, new()
     {
@@ -12,7 +12,7 @@ namespace BugTracker.DB.Classes
 
         public Repository(BugTracker.DB.Interfaces.ISession session)
         {
-            Session s = session as Session;
+            BugTracker.DB.Classes.Session s = session as BugTracker.DB.Classes.Session;
             this.Session = s.NHSession;
         }
 

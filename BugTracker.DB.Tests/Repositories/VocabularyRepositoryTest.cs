@@ -1,4 +1,5 @@
 ﻿using BugTracker.DB.Classes;
+using BugTracker.DB.Dao;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
 using NHibernate.Tool.hbm2ddl;

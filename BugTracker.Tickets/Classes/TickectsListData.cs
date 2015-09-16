@@ -10,7 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 using BugTracker.Tickets.Classes;
 using BugTracker.DB.Events;
-using BugTracker.DB.Classes;
+using BugTracker.DB.Dao;
 
 namespace BugTracker.Tickets.Classes
 {

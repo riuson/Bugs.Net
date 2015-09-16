@@ -1,7 +1,7 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB;
-using BugTracker.DB.Classes;
+using BugTracker.DB.Dao;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
