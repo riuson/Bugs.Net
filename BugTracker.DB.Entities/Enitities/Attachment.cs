@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BugTracker.DB.Entities
 {
-    public class Attachment : Entity
+    public class Attachment : Entity<long>
     {
         public virtual string Filename { get; set; }
         public virtual DateTime Created { get; set; }

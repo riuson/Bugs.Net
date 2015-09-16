@@ -35,9 +35,9 @@ namespace BugTracker.DB.Entities.Tests
             Assert.IsFalse(entity1 == entity2);
             Assert.IsTrue(entity1 != entity2);
             Assert.IsFalse(entity1.Equals(entity2));
-        } 
+        }
 
-        private class EntityEx : Entity
+        private class EntityEx : Entity<long>
         {
             public EntityEx(long id)
             {

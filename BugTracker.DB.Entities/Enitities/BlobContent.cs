@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BugTracker.DB.Entities
 {
-    public class BlobContent : Entity
+    public class BlobContent : Entity<long>
     {
         public virtual byte[] Content { get; set; }
 

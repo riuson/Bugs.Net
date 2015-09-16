@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BugTracker.DB.Entities
 {
-    public class Change : Entity
+    public class Change : Entity<long>
     {
         public virtual Member Author { get; set; }
         public virtual DateTime Created { get; set; }

@@ -5,44 +5,53 @@ using System.Text;
 
 namespace BugTracker.DB.Entities
 {
-    public abstract class Entity : IEquatable<Entity>
+    public abstract class Entity<T>
     {
-        public virtual long Id { get; protected set; }
+        public virtual T Id { get; protected set; }
 
         public override bool Equals(object obj)
         {
-            if (obj is Entity)
-            {
-                return this.Equals(obj as Entity);
-            }
-
-            return false;
+            return Equals(obj as Entity<T>);
         }
 
-        public virtual bool Equals(Entity other)
+        private static bool IsTransient(Entity<T> obj)
         {
-            if (ReferenceEquals(null, other))
+            return obj != null && Equals(obj.Id, default(T));
+        }
+
+        private Type GetUnproxiedType()
+        {
+            return GetType();
+        }
+
+        public virtual bool Equals(Entity<T> other)
+        {
+            Console.WriteLine("check other == null");
+            if (other == null) return false;
+
+            Console.WriteLine("check reference equals");
+            if (ReferenceEquals(this, other)) return true;
+
+            Console.WriteLine("check transient");
+            if (!IsTransient(this) && !IsTransient(this) && Equals(Id, other.Id))
             {
-                return false;
+                Console.WriteLine("get unproxied types");
+                var otherType = other.GetUnproxiedType();
+                var thisType = GetUnproxiedType();
+
+                bool result = thisType.IsAssignableFrom(otherType) ||
+                   otherType.IsAssignableFrom(thisType);
+
+                Console.WriteLine(String.Format("this {0} and other {1}",
+                    thisType,
+                    otherType));
+                Console.WriteLine("result: " + result);
+
+                return result;
             }
 
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (this.GetType() != other.GetType())
-            //if (this.GetType() != other.GetUnproxiedType()) - requires reference to NHibernate
-            {
-                if (!this.GetType().IsAssignableFrom(other.GetType()))
-                {
-                    Console.WriteLine("This: " + this.GetType().FullName);
-                    Console.WriteLine("Other: " + other.GetType().FullName);
-                    return false;
-                }
-            }
-
-            return other.Id == this.Id;
+            Console.WriteLine("return false");
+            return false;
         }
 
         public override int GetHashCode()
@@ -50,12 +59,12 @@ namespace BugTracker.DB.Entities
             return (this.Id.GetHashCode() * 31415926) & GetType().GetHashCode();
         }
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Entity<T> left, Entity<T> right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Entity<T> left, Entity<T> right)
         {
             return !Equals(left, right);
         }

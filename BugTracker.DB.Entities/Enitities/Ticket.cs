@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BugTracker.DB.Entities
 {
-    public class Ticket : Entity
+    public class Ticket : Entity<long>
     {
         public virtual Project Project { get; set; }
         public virtual string Title { get; set; }

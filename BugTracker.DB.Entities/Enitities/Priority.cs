@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BugTracker.DB.Entities
 {
-    public class Priority : Entity, IVocabulary
+    public class Priority : Entity<long>, IVocabulary
     {
         public virtual string Value { get; set; }
     }
