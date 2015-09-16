@@ -1,4 +1,5 @@
-﻿using BugTracker.DB.Entities;
+﻿using BugTracker.DB.Classes;
+using BugTracker.DB.Entities;
 using BugTracker.DB.Mapping;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
@@ -15,9 +16,9 @@ namespace BugTracker.DB.Dao
 {
     internal static class SessionConfiguration
     {
-        public static Configuration CreateConfiguration(string filename)
+        public static Configuration CreateConfiguration(SessionOptions options)
         {
-            string connectioinString = String.Format("Data Source=\"{0}\";Version=3;New=True", filename);
+            string connectioinString = String.Format("Data Source=\"{0}\";Version=3;New=True", options.Filename);
 
             var configuration = new Configuration();
             configuration.DataBaseIntegration(db =>
@@ -26,15 +27,18 @@ namespace BugTracker.DB.Dao
                 db.ConnectionString = connectioinString;
                 db.ConnectionStringName = "bugtracker.database";
                 db.Dialect<SQLiteDialect>();
-                db.LogSqlInConsole = true;
-                db.LogFormattedSql = true;
-                db.AutoCommentSql = true;
+                db.LogSqlInConsole = options.ShowLogs;
+                db.LogFormattedSql = options.ShowLogs;
+                db.AutoCommentSql = options.ShowLogs;
             });
             configuration.AddAssembly(typeof(Priority).Assembly);
             configuration.AddDeserializedMapping(CreateMapping(), null);
 
-            var schemaUpdate = new SchemaUpdate(configuration);
-            schemaUpdate.Execute(Console.WriteLine, true);
+            if (options.DoSchemaUpdate)
+            {
+                var schemaUpdate = new SchemaUpdate(configuration);
+                schemaUpdate.Execute(Console.WriteLine, true);
+            }
 
             return configuration;
         }

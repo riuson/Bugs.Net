@@ -47,9 +47,9 @@ namespace BugTracker.DB
             get { return SessionManagerCreator.Instance; }
         }
 
-        public bool Configure(string filename)
+        public bool Configure(SessionOptions sessionOptions)
         {
-            return this.mSessionManagerPrivate.Configure(filename);
+            return this.mSessionManagerPrivate.Configure(sessionOptions);
         }
 
         public ISession OpenSession(bool beginTransaction)

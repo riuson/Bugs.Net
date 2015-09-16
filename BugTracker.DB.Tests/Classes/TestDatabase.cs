@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using BugTracker.DB.Classes;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,10 @@ namespace BugTracker.DB.Tests
         {
             // Configure database singleton for temp database file
             // before any tests
-            SessionManager.Instance.Configure("test.db");
+            SessionManager.Instance.Configure(new SessionOptions("test.db")
+            {
+                ShowLogs = true
+            });
             Assert.That(SessionManager.Instance.IsConfigured, Is.True);
         }
 

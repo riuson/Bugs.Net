@@ -11,9 +11,9 @@ namespace BugTracker.DB.Interfaces
         /// <summary>
         /// Configure use specified database file
         /// </summary>
-        /// <param name="filename">Database filename</param>
+        /// <param name="sessopnOptions">Options for session</param>
         /// <returns>Is successfully configured</returns>
-        bool Configure(string filename);
+        bool Configure(SessionOptions sessionOptions);
         /// <summary>
         /// Open session with transaction
         /// </summary>

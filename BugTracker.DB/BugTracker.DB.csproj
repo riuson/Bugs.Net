@@ -78,6 +78,7 @@
     <Compile Include="Classes\Entity.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Classes\SessionOptions.cs" />
     <Compile Include="Dao\Repository.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\Transaction.cs" />

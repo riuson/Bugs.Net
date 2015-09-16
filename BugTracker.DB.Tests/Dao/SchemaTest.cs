@@ -1,4 +1,5 @@
-﻿using BugTracker.DB.Dao;
+﻿using BugTracker.DB.Classes;
+using BugTracker.DB.Dao;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
@@ -23,7 +24,10 @@ namespace BugTracker.DB.Tests.Dao
                 File.Delete(filename);
             }
 
-            Configuration configuration = SessionConfiguration.CreateConfiguration(filename);
+            Configuration configuration = SessionConfiguration.CreateConfiguration(new SessionOptions(filename)
+            {
+                ShowLogs = true
+            });
             var schemaUpdate = new SchemaUpdate(configuration);
             schemaUpdate.Execute(Console.WriteLine, true);
 

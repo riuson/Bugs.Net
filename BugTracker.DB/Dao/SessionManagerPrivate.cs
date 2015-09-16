@@ -27,20 +27,20 @@ namespace BugTracker.DB.Dao
 
         public SessionManagerPrivate()
         {
-            this.Configure(this.mDatabaseFile);
+            this.Configure(new SessionOptions(this.mDatabaseFile));
         }
 
-        public SessionManagerPrivate(string filename)
+        public SessionManagerPrivate(SessionOptions sessionOptions)
         {
-            this.Configure(filename);
+            this.Configure(sessionOptions);
         }
 
-        public bool Configure(string filename)
+        public bool Configure(SessionOptions sessionOptions)
         {
             try
             {
-                this.SessionFactory = this.BuildSessionFactory(filename);
-                this.mDatabaseFile = filename;
+                this.SessionFactory = this.BuildSessionFactory(sessionOptions);
+                this.mDatabaseFile = sessionOptions.Filename;
                 this.IsConfigured = true;
             }
             catch (Exception exc)
@@ -52,9 +52,9 @@ namespace BugTracker.DB.Dao
             return this.IsConfigured;
         }
 
-        protected ISessionFactory BuildSessionFactory(string filename)
+        protected ISessionFactory BuildSessionFactory(SessionOptions sessionOptions)
         {
-            this.Configuration = SessionConfiguration.CreateConfiguration(filename);
+            this.Configuration = SessionConfiguration.CreateConfiguration(sessionOptions);
             return this.Configuration.BuildSessionFactory();
         }
 
