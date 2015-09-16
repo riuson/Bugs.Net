@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.About", "BugTrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.Settings", "BugTracker.Settings\BugTracker.Settings.csproj", "{29EB1875-A1FF-45F6-9C70-D32A7B97E12B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.DB.Entities", "BugTracker.DB.Entities\BugTracker.DB.Entities.csproj", "{968136E6-1382-485E-98FE-CAABDDB1CAD5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.Projects", "BugTracker.Projects\BugTracker.Projects.csproj", "{D231F858-8CDE-4488-A625-E87E1F483BC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.Vocabulary", "BugTracker.Vocabulary\BugTracker.Vocabulary.csproj", "{7937ECC3-052C-482C-AFAA-C516C76AF9EC}"
@@ -31,8 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C7C597
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.DB.Tests", "BugTracker.DB.Tests\BugTracker.DB.Tests.csproj", "{B4E11D98-ED41-4D27-A3B2-029EDCA4583B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugTracker.DB.Entities.Tests", "BugTracker.DB.Entities.Tests\BugTracker.DB.Entities.Tests.csproj", "{1AC14EEC-C1DC-4078-BE45-84C5BEE9746F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,10 +56,6 @@ Global
 		{29EB1875-A1FF-45F6-9C70-D32A7B97E12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29EB1875-A1FF-45F6-9C70-D32A7B97E12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29EB1875-A1FF-45F6-9C70-D32A7B97E12B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{968136E6-1382-485E-98FE-CAABDDB1CAD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{968136E6-1382-485E-98FE-CAABDDB1CAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{968136E6-1382-485E-98FE-CAABDDB1CAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{968136E6-1382-485E-98FE-CAABDDB1CAD5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D231F858-8CDE-4488-A625-E87E1F483BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D231F858-8CDE-4488-A625-E87E1F483BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D231F858-8CDE-4488-A625-E87E1F483BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -88,10 +80,6 @@ Global
 		{B4E11D98-ED41-4D27-A3B2-029EDCA4583B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4E11D98-ED41-4D27-A3B2-029EDCA4583B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4E11D98-ED41-4D27-A3B2-029EDCA4583B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1AC14EEC-C1DC-4078-BE45-84C5BEE9746F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AC14EEC-C1DC-4078-BE45-84C5BEE9746F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AC14EEC-C1DC-4078-BE45-84C5BEE9746F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AC14EEC-C1DC-4078-BE45-84C5BEE9746F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

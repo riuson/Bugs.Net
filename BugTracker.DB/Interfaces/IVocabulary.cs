@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.DB.Entities
+namespace BugTracker.DB.Interfaces
 {
     public interface IVocabulary
     {

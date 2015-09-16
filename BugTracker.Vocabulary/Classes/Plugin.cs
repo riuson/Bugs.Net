@@ -2,6 +2,7 @@
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
+using BugTracker.DB.Interfaces;
 using BugTracker.Vocabulary.Controls;
 using System;
 using System.Collections.Generic;

@@ -15,7 +15,7 @@ namespace BugTracker.DB.Tests.Repositories
     [TestFixture(typeof(ProblemType))]
     [TestFixture(typeof(Solution))]
     [TestFixture(typeof(Status))]
-    internal class VocabularyRepositoryTest<T> where T : DB.Entities.Entity<long>, IVocabulary, new()
+    internal class VocabularyRepositoryTest<T> where T : Entity<long>, IVocabulary, new()
     {
         [Test]
         public virtual void CanSave()

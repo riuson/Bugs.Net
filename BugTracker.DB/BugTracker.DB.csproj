@@ -75,6 +75,7 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\DataGridViewColumnFabric.cs" />
+    <Compile Include="Classes\Entity.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\Repository.cs" />
@@ -89,6 +90,16 @@
     <Compile Include="Controls\DataGridViewSubColumn.cs" />
     <Compile Include="Dao\SessionConfiguration.cs" />
     <Compile Include="Dao\SessionManagerPrivate.cs" />
+    <Compile Include="Enitities\Attachment.cs" />
+    <Compile Include="Enitities\BlobContent.cs" />
+    <Compile Include="Enitities\Change.cs" />
+    <Compile Include="Enitities\Member.cs" />
+    <Compile Include="Enitities\Priority.cs" />
+    <Compile Include="Enitities\ProblemType.cs" />
+    <Compile Include="Enitities\Project.cs" />
+    <Compile Include="Enitities\Solution.cs" />
+    <Compile Include="Enitities\Status.cs" />
+    <Compile Include="Enitities\Ticket.cs" />
     <Compile Include="Events\EnityOperationEventArgs.cs" />
     <Compile Include="Events\EntityAddedEventArgs.cs" />
     <Compile Include="Events\EntityEditedEventArgs.cs" />
@@ -99,6 +110,7 @@
     <Compile Include="Events\EntityAddEventArgs.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ITransaction.cs" />
+    <Compile Include="Interfaces\IVocabulary.cs" />
     <Compile Include="Mapping\ProjectMap.cs" />
     <Compile Include="Mapping\TicketMap.cs" />
     <Compile Include="Mapping\BlobContentMap.cs" />
@@ -136,11 +148,6 @@
     <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
       <Project>{88b80997-3b6a-4d74-b0af-50a397f69d99}</Project>
       <Name>BugTracker.Core</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\BugTracker.DB.Entities\BugTracker.DB.Entities.csproj">
-      <Project>{968136e6-1382-485e-98fe-caabddb1cad5}</Project>
-      <Name>BugTracker.DB.Entities</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

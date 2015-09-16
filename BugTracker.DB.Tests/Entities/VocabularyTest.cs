@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using BugTracker.DB.Classes;
+using BugTracker.DB.Interfaces;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ namespace BugTracker.DB.Entities.Tests
     [TestFixture(typeof(ProblemType))]
     [TestFixture(typeof(Solution))]
     [TestFixture(typeof(Status))]
-    internal class VocabularyTest<T> where T : DB.Entities.Entity<long>, IVocabulary, new()
+    internal class VocabularyTest<T> where T : Entity<long>, IVocabulary, new()
     {
         [Test]
         public void Operation()

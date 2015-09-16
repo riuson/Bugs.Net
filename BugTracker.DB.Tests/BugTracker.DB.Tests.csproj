@@ -54,10 +54,18 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\EntityTest.cs" />
     <Compile Include="Classes\TestDatabase.cs" />
     <Compile Include="Classes\TransactionTest.cs" />
     <Compile Include="Dao\SchemaTest.cs" />
+    <Compile Include="Entities\AttachmentTest.cs" />
+    <Compile Include="Entities\BlobContentTest.cs" />
+    <Compile Include="Entities\ChangeTest.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityList.cs" />
+    <Compile Include="Entities\MemberTest.cs" />
+    <Compile Include="Entities\TicketTest.cs" />
+    <Compile Include="Entities\VocabularyTest.cs" />
     <Compile Include="Mapping\AttachmentMapTest.cs" />
     <Compile Include="Mapping\BlobContentMapTest.cs" />
     <Compile Include="Mapping\ChangeMapTest.cs" />
@@ -77,11 +85,6 @@
     <Compile Include="Repositories\VocabularyRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BugTracker.DB.Entities\BugTracker.DB.Entities.csproj">
-      <Project>{968136e6-1382-485e-98fe-caabddb1cad5}</Project>
-      <Name>BugTracker.DB.Entities</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\BugTracker.DB\BugTracker.DB.csproj">
       <Project>{5da8e098-cf39-4b13-88cd-056e3021c0b6}</Project>
       <Name>BugTracker.DB</Name>

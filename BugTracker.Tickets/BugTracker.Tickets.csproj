@@ -65,11 +65,6 @@
       <Name>BugTracker.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\BugTracker.DB.Entities\BugTracker.DB.Entities.csproj">
-      <Project>{968136e6-1382-485e-98fe-caabddb1cad5}</Project>
-      <Name>BugTracker.DB.Entities</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\BugTracker.DB\BugTracker.DB.csproj">
       <Project>{5da8e098-cf39-4b13-88cd-056e3021c0b6}</Project>
       <Name>BugTracker.DB</Name>

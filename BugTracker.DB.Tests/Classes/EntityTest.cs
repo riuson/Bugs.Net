@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using BugTracker.DB.Classes;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
