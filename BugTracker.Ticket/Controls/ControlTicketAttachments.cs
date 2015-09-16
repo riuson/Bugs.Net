@@ -2,7 +2,6 @@
 using BugTracker.DB;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
-using BugTracker.DB.Repositories;
 using BugTracker.TicketEditor.Events;
 using System;
 using System.Collections.Generic;

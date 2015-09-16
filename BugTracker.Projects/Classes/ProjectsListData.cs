@@ -1,10 +1,10 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB;
+using BugTracker.DB.Dao;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.DB.Interfaces;
-using BugTracker.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,11 +37,10 @@ namespace BugTracker.Projects.Classes
 
         public void UpdateList()
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                ProjectRepository repository = new ProjectRepository(session);
+                IRepository<Project> repository = new Repository<Project>(session);
 
-                this.Data.DataSource = null;
                 this.mInternalData = repository.List();
                 this.Data.DataSource = this.mInternalData;
             }
@@ -58,12 +57,15 @@ namespace BugTracker.Projects.Classes
 
                 if (InputBox.Show("New project name:", "Add project", String.Empty, out newName) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
-                        ProjectRepository repository = new ProjectRepository(session);
+                        IRepository<Project> repository = new Repository<Project>(session);
+
                         Project item = new Project();
                         item.Name = newName;
                         repository.Save(item);
+
+                        session.Transaction.Commit();
                     }
                     ea.Processed = true;
                 }
@@ -86,11 +88,14 @@ namespace BugTracker.Projects.Classes
 
                 if (InputBox.Show("Change project name:", "Edit project", item.Name, out newName) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
-                        ProjectRepository repository = new ProjectRepository(session);
+                        IRepository<Project> repository = new Repository<Project>(session);
+
                         item.Name = newName;
                         repository.SaveOrUpdate(item);
+
+                        session.Transaction.Commit();
                     }
                     ea.Processed = true;
                 }
@@ -117,10 +122,13 @@ namespace BugTracker.Projects.Classes
                     "Remove project",
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
-                        ProjectRepository repository = new ProjectRepository(session);
+                        IRepository<Project> repository = new Repository<Project>(session);
+
                         repository.Delete(item);
+
+                        session.Transaction.Commit();
                     }
 
                     ea.Processed = true;

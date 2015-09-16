@@ -1,0 +1,13 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" processModel="Default" domainUsage="Default" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="BugTracker.Core\..\_Debug\BugTracker.Core.dll" />
+    <assembly path="BugTracker\..\_Debug\BugTracker.exe" />
+    <assembly path="BugTracker.DB\..\_Debug\Database\BugTracker.DB.Tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto">
+    <assembly path="BugTracker.Core\..\_Release\BugTracker.Core.dll" />
+    <assembly path="BugTracker\..\_Release\BugTracker.exe" />
+    <assembly path="BugTracker.DB\..\_Release\Database\BugTracker.DB.Tests.dll" />
+  </Config>
+</NUnitProject>

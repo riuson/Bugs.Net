@@ -3,7 +3,6 @@ using BugTracker.Core.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
-using BugTracker.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 using BugTracker.Tickets.Classes;
 using BugTracker.DB.Events;
+using BugTracker.DB.Dao;
 
 namespace BugTracker.Tickets.Classes
 {
@@ -19,13 +19,15 @@ namespace BugTracker.Tickets.Classes
         private IApplication mApp;
         private ICollection<Ticket> mInternalData;
         private Member mLoggedMember;
+        private Project mProject;
 
         public BindingSource Data { get; private set; }
 
-        public TicketsListData(IApplication app, Member loggedMember)
+        public TicketsListData(IApplication app, Member loggedMember, Project project)
         {
             this.mApp = app;
             this.mLoggedMember = loggedMember;
+            this.mProject = project;
             this.Data = new BindingSource();
             this.Data.AllowNew = false;
             this.UpdateList();
@@ -38,19 +40,24 @@ namespace BugTracker.Tickets.Classes
 
         public void UpdateList()
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                TicketRepository repository = new TicketRepository(session);
+                IRepository<Project> projectRepository = new Repository<Project>(session);
 
-                this.Data.DataSource = null;
-                this.mInternalData = repository.List();
+                this.mProject = projectRepository.Load(this.mProject.Id);
+
+                this.mInternalData = this.mProject.Tickets;
                 this.Data.DataSource = this.mInternalData;
             }
         }
 
         public void Add()
         {
-            EntityAddEventArgs<Ticket> ea = new EntityAddEventArgs<Ticket>(this.mLoggedMember);
+            Ticket ticket = new Ticket();
+            ticket.Author = this.mLoggedMember;
+            ticket.Project = this.mProject;
+
+            EntityEditEventArgs<Ticket> ea = new EntityEditEventArgs<Ticket>(ticket, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
             if (ea.Processed)
@@ -85,10 +92,13 @@ namespace BugTracker.Tickets.Classes
                     "Remove ticket",
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession())
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
-                        TicketRepository repository = new TicketRepository(session);
+                        IRepository<Ticket> repository = new Repository<Ticket>(session);
+
                         repository.Delete(item);
+
+                        session.Transaction.Commit();
                     }
 
                     ea.Processed = true;

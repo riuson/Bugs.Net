@@ -1,4 +1,6 @@
-﻿using BugTracker.DB.Entities;
+﻿using BugTracker.DB.Classes;
+using BugTracker.DB.Entities;
+using BugTracker.DB.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,12 +50,12 @@ namespace BugTracker.TicketEditor.Classes
                 return false;
             }
 
-            return (other.Value as Entity).Id == (this.Value as Entity).Id;
+            return (other.Value as Entity<long>).Id == (this.Value as Entity<long>).Id;
         }
 
         public override int GetHashCode()
         {
-            return ((this.Value as Entity).Id.GetHashCode() * 31415926) & GetType().GetHashCode();
+            return ((this.Value as Entity<long>).Id.GetHashCode() * 31415926) & GetType().GetHashCode();
         }
 
         public static bool operator ==(VocabularyDisplayData<T> left, VocabularyDisplayData<T> right)

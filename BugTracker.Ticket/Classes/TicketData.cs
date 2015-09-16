@@ -1,7 +1,7 @@
 ﻿using BugTracker.DB;
+using BugTracker.DB.Dao;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
-using BugTracker.DB.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,10 +19,6 @@ namespace BugTracker.TicketEditor.Classes
         private ICollection<Change> mChangesOriginal;
         private ICollection<Change> mChangesAdd;
 
-        private ICollection<BlobContent> mBlobOriginal;
-        private ICollection<BlobContent> mBlobAdd;
-        private ICollection<BlobContent> mBlobRemove;
-
         public TicketData()
         {
             this.mAttachmentsOriginal = new List<Attachment>();
@@ -31,10 +27,6 @@ namespace BugTracker.TicketEditor.Classes
 
             this.mChangesOriginal = new List<Change>();
             this.mChangesAdd = new List<Change>();
-
-            this.mBlobOriginal = new List<BlobContent>();
-            this.mBlobAdd = new List<BlobContent>();
-            this.mBlobRemove = new List<BlobContent>();
         }
 
         public TicketData(ISession session, Ticket ticket)
@@ -42,19 +34,13 @@ namespace BugTracker.TicketEditor.Classes
         {
             this.mAttachmentsOriginal = ticket.Attachments;
             this.mChangesOriginal = ticket.Changes;
-
-            foreach (var change in this.mChangesOriginal)
-            {
-                this.mBlobOriginal.Add(change.Description);
-            }
         }
 
         public void ApplyChanges(ISession session, Member loggedMember, Ticket ticket)
         {
-            TicketRepository ticketRepository = new TicketRepository(session);
-            BlobContentRepository blobRepository = new BlobContentRepository(session);
-            AttachmentRepository attachmentRepository = new AttachmentRepository(session);
-            ChangeRepository changeRepository = new ChangeRepository(session);
+            IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+            IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+            IRepository<Change> changeRepository = new Repository<Change>(session);
 
             foreach (var attachment in this.mAttachmentsRemove)
             {
@@ -63,20 +49,10 @@ namespace BugTracker.TicketEditor.Classes
                 ticket.Attachments.Remove(a);
             }
 
-            foreach (var blob in this.mBlobRemove)
-            {
-                BlobContent b = blobRepository.Load(blob.Id);
-                blobRepository.Delete(b);
-            }
-
-            foreach (var blob in this.mBlobAdd)
-            {
-                blobRepository.Save(blob);
-            }
-
             foreach (var attachment in this.mAttachmentsAdd)
             {
                 attachment.Author = loggedMember;
+                attachment.Ticket = ticket;
                 attachmentRepository.Save(attachment);
                 ticket.Attachments.Add(attachment);
             }
@@ -84,6 +60,7 @@ namespace BugTracker.TicketEditor.Classes
             foreach (var change in this.mChangesAdd)
             {
                 change.Author = loggedMember;
+                change.Ticket = ticket;
                 changeRepository.Save(change);
                 ticket.Changes.Add(change);
             }
@@ -93,13 +70,12 @@ namespace BugTracker.TicketEditor.Classes
 
         public void CommentAdd(string text)
         {
-            BlobContent blob = new BlobContent();
-            blob.Content = Encoding.UTF8.GetBytes(text);
-            this.mBlobAdd.Add(blob);
-
             Change change = new Change();
             change.Created = DateTime.Now;
-            change.Description = blob;
+            change.Description = new BlobContent()
+            {
+                Content = Encoding.UTF8.GetBytes(text)
+            };
             this.mChangesAdd.Add(change);
         }
 
@@ -107,7 +83,6 @@ namespace BugTracker.TicketEditor.Classes
         {
             foreach (Attachment attachment in attachments)
             {
-                this.mBlobAdd.Add(attachment.File);
                 this.mAttachmentsAdd.Add(attachment);
             }
         }
@@ -116,16 +91,15 @@ namespace BugTracker.TicketEditor.Classes
         {
             foreach (Attachment attachment in attachments)
             {
-                this.mBlobRemove.Add(attachment.File);
                 this.mAttachmentsRemove.Add(attachment);
             }
         }
 
         public void SaveAttachmentToFile(Attachment attachment, string filename)
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                BlobContentRepository blobRepository = new BlobContentRepository(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
                 BlobContent blob = blobRepository.Load(attachment.File.Id);
 
                 using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))

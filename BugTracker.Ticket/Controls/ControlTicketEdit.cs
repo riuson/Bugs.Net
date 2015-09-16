@@ -11,10 +11,10 @@ using BugTracker.TicketEditor.Controls;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
-using BugTracker.DB.Repositories;
 using BugTracker.TicketEditor.Classes;
 using BugTracker.TicketEditor.Events;
 using BugTracker.Core.Classes;
+using BugTracker.DB.Dao;
 
 namespace BugTracker.TicketEditor.Controls
 {
@@ -43,7 +43,7 @@ namespace BugTracker.TicketEditor.Controls
             this.LoggedMember = loggedMember;
             this.Ticket = null;
 
-            this.labelLoggedMember.Text = String.Format("{0} {1}", this.LoggedMember.FirstName, this.LoggedMember.LastName);
+            this.labelLoggedMember.Text = String.Format("{0}", this.LoggedMember.FullName);
             this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
 
             this.mProblemTypeBox = new VocabularyBox<ProblemType>(this.mApp);
@@ -82,30 +82,40 @@ namespace BugTracker.TicketEditor.Controls
         {
             this.Text = "Edit ticket";
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                TicketRepository ticketRepository = new TicketRepository(session);
-                this.Ticket = ticketRepository.Load(ticket.Id);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+                this.Ticket = ticketRepository.GetById(ticket.Id);
 
-                this.mProblemTypeBox.SelectedValue = this.Ticket.Type;
-                this.mPriorityBox.SelectedValue = this.Ticket.Priority;
-                this.mStatusBox.SelectedValue = this.Ticket.Status;
-                this.mSolutionBox.SelectedValue = this.Ticket.Solution;
-                this.textBoxTitle.Text = this.Ticket.Title;
-                this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
+                if (this.Ticket != null)
+                {
+                    this.mProblemTypeBox.SelectedValue = this.Ticket.Type;
+                    this.mPriorityBox.SelectedValue = this.Ticket.Priority;
+                    this.mStatusBox.SelectedValue = this.Ticket.Status;
+                    this.mSolutionBox.SelectedValue = this.Ticket.Solution;
+                    this.textBoxTitle.Text = this.Ticket.Title;
+                    this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", this.Ticket.Created);
 
-                this.mTicketData = new TicketData(session, this.Ticket);
-                this.mTicketChangesDisplay.UpdateTicketData(session, this.Ticket);
-                this.mTicketAttachmentsDisplay.UpdateTicketData(session, this.Ticket);
+                    this.mTicketData = new TicketData(session, this.Ticket);
+                    this.mTicketChangesDisplay.UpdateTicketData(session, this.Ticket);
+                    this.mTicketAttachmentsDisplay.UpdateTicketData(session, this.Ticket);
+                }
+                else
+                {
+                    this.Ticket = ticket;
+                }
             }
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(true))
             {
-                TicketRepository ticketRepository = new TicketRepository(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
 
+                StringBuilder changedFieldsDescription = new StringBuilder();
+
+                // New item
                 if (this.Ticket == null)
                 {
                     this.Ticket = new Ticket();
@@ -118,11 +128,21 @@ namespace BugTracker.TicketEditor.Controls
                     this.Ticket.Status = this.mStatusBox.SelectedValue;
                     this.Ticket.Solution = this.mSolutionBox.SelectedValue;
                 }
-                else
+                // Not saved item
+                else if (ticketRepository.GetById(this.Ticket.Id) == null)
+                {
+                    this.Ticket.Created = DateTime.Now;
+                    this.Ticket.Author = this.LoggedMember;
+
+                    this.Ticket.Title = this.textBoxTitle.Text;
+                    this.Ticket.Type = this.mProblemTypeBox.SelectedValue;
+                    this.Ticket.Priority = this.mPriorityBox.SelectedValue;
+                    this.Ticket.Status = this.mStatusBox.SelectedValue;
+                    this.Ticket.Solution = this.mSolutionBox.SelectedValue;
+                }
+                else // Existing item
                 {
                     this.Ticket = ticketRepository.Load(this.Ticket.Id);
-
-                    StringBuilder changedFieldsDescription = new StringBuilder();
 
                     if (this.Ticket.Title != this.textBoxTitle.Text)
                     {
@@ -169,17 +189,6 @@ namespace BugTracker.TicketEditor.Controls
                         this.Ticket.Solution = this.mSolutionBox.SelectedValue;
                     }
 
-                    if (this.mTicketAttachmentsDisplay.AddedAttachments.Length > 0)
-                    {
-                        foreach (Attachment attachment in this.mTicketAttachmentsDisplay.AddedAttachments)
-                        {
-                            changedFieldsDescription.AppendFormat(
-                                "Added attachment '{0}' with comment '{1}'\n",
-                                attachment.Filename,
-                                attachment.Comment);
-                        }
-                    }
-
                     if (this.mTicketAttachmentsDisplay.RemovedAttachments.Length > 0)
                     {
                         foreach (Attachment attachment in this.mTicketAttachmentsDisplay.RemovedAttachments)
@@ -190,11 +199,22 @@ namespace BugTracker.TicketEditor.Controls
                                 attachment.Comment);
                         }
                     }
+                }
 
-                    if (changedFieldsDescription.Length > 0)
+                if (this.mTicketAttachmentsDisplay.AddedAttachments.Length > 0)
+                {
+                    foreach (Attachment attachment in this.mTicketAttachmentsDisplay.AddedAttachments)
                     {
-                        this.mTicketData.CommentAdd(changedFieldsDescription.ToString());
+                        changedFieldsDescription.AppendFormat(
+                            "Added attachment '{0}' with comment '{1}'\n",
+                            attachment.Filename,
+                            attachment.Comment);
                     }
+                }
+
+                if (changedFieldsDescription.Length > 0)
+                {
+                    this.mTicketData.CommentAdd(changedFieldsDescription.ToString());
                 }
 
                 ticketRepository.SaveOrUpdate(this.Ticket);
@@ -208,6 +228,8 @@ namespace BugTracker.TicketEditor.Controls
                 this.mTicketData.AttachmentsRemove(this.mTicketAttachmentsDisplay.RemovedAttachments);
 
                 this.mTicketData.ApplyChanges(session, this.LoggedMember, this.Ticket);
+
+                session.Transaction.Commit();
             }
 
             if (this.ClickOK != null)

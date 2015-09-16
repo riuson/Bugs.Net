@@ -10,7 +10,7 @@ using BugTracker.DB.Entities;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
-using BugTracker.DB.Repositories;
+using BugTracker.DB.Dao;
 
 namespace BugTracker.Members.Controls
 {
@@ -30,9 +30,9 @@ namespace BugTracker.Members.Controls
             this.Text = "Login";
             this.mApp = app;
 
-            using (ISession session = SessionManager.Instance.OpenSession())
+            using (ISession session = SessionManager.Instance.OpenSession(false))
             {
-                MemberRepository repository = new MemberRepository(session);
+                IRepository<Member> repository = new Repository<Member>(session);
                 this.mMembers = repository.List();
             }
 

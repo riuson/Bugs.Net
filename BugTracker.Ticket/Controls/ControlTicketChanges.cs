@@ -34,12 +34,7 @@ namespace BugTracker.TicketEditor.Controls
 
             foreach (var change in ticket.Changes)
             {
-                this.mTextBox.AppendText(
-                    String.Format(
-                        "{0} {1}",
-                        change.Author.FirstName,
-                        change.Author.LastName),
-                    Color.Navy);
+                this.mTextBox.AppendText(change.Author.FullName, Color.Navy);
 
                 this.mTextBox.AppendText(
                     " at ",
