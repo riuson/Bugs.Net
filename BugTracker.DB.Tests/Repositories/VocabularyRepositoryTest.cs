@@ -59,7 +59,7 @@ namespace BugTracker.DB.Tests.Repositories
             {
                 IRepository<T> repository = new Repository<T>(session);
                 var y = repository.GetById(ticketId);
-                Assert.IsNotNull(y);
+                Assert.That(y, Is.Not.Null);
             }
         }
 

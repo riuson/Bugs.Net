@@ -19,10 +19,10 @@ namespace BugTracker.DB.Entities.Tests
                 EMail = "Email"
             };
 
-            Assert.AreEqual(member.FirstName, "First");
-            Assert.AreEqual(member.LastName, "Last");
-            Assert.AreEqual(member.EMail, "Email");
-            Assert.AreEqual(member.GetFullName(), "First Last");
+            Assert.That(member.FirstName, Is.EqualTo("First"));
+            Assert.That(member.LastName, Is.EqualTo("Last"));
+            Assert.That(member.EMail, Is.EqualTo("Email"));
+            Assert.That(member.GetFullName(), Is.EqualTo("First Last"));
         }
     }
 }

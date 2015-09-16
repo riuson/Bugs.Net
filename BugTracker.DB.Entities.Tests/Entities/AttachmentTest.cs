@@ -25,11 +25,11 @@ namespace BugTracker.DB.Entities.Tests
                 Comment = "comment"
             };
 
-            Assert.AreEqual(attachment.Author, author);
-            Assert.AreEqual(attachment.Created, now);
-            Assert.AreEqual(attachment.File, blob);
-            Assert.AreEqual(attachment.Filename, "test.txt");
-            Assert.AreEqual(attachment.Comment, "comment");
+            Assert.That(attachment.Author, Is.EqualTo(author));
+            Assert.That(attachment.Created, Is.EqualTo(now));
+            Assert.That(attachment.File, Is.EqualTo(blob));
+            Assert.That(attachment.Filename, Is.EqualTo("test.txt"));
+            Assert.That(attachment.Comment, Is.EqualTo("comment"));
         }
     }
 }

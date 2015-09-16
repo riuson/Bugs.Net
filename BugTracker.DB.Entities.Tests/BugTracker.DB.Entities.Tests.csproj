@@ -51,10 +51,7 @@
     <Compile Include="Entities\BlobContentTest.cs" />
     <Compile Include="Entities\ChangeTest.cs" />
     <Compile Include="Entities\MemberTest.cs" />
-    <Compile Include="Entities\PriorityTest.cs" />
-    <Compile Include="Entities\ProblemTypeTest.cs" />
-    <Compile Include="Entities\SolutionTest.cs" />
-    <Compile Include="Entities\StatusTest.cs" />
+    <Compile Include="Entities\VocabularyTest.cs" />
     <Compile Include="Entities\TicketTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

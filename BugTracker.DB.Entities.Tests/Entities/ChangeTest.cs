@@ -23,9 +23,9 @@ namespace BugTracker.DB.Entities.Tests
                 Description = blob
             };
 
-            Assert.AreEqual(change.Author, author);
-            Assert.AreEqual(change.Created, now);
-            Assert.AreEqual(change.Description, blob);
+            Assert.That(change.Author, Is.EqualTo(author));
+            Assert.That(change.Created, Is.EqualTo(now));
+            Assert.That(change.Description, Is.EqualTo(blob));
         }
     }
 }

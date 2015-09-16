@@ -6,8 +6,11 @@ using System.Text;
 
 namespace BugTracker.DB.Entities.Tests
 {
-    [TestFixture]
-    internal class StatusTest
+    [TestFixture(typeof(Priority))]
+    [TestFixture(typeof(ProblemType))]
+    [TestFixture(typeof(Solution))]
+    [TestFixture(typeof(Status))]
+    internal class VocabularyTest<T> where T : DB.Entities.Entity<long>, IVocabulary, new()
     {
         [Test]
         public void Operation()
@@ -17,7 +20,7 @@ namespace BugTracker.DB.Entities.Tests
                 Value = "Test"
             };
 
-            Assert.AreEqual(status.Value, "Test");
+            Assert.That(status.Value, Is.EqualTo("Test"));
         }
     }
 }

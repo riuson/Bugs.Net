@@ -98,10 +98,10 @@ namespace BugTracker.DB.Tests.Repositories
                 Attachment attachment = attachmentRepository.GetById(id);
 
                 Assert.That(attachment, Is.Not.Null);
-                Assert.AreEqual(attachment.Author.FirstName, "First");
-                Assert.AreEqual(attachment.Author.LastName, "Last");
-                Assert.AreEqual(attachment.Author.EMail, "Email");
-                Assert.AreEqual(attachment.File.GetString(), "Description");
+                Assert.That(attachment.Author.FirstName, Is.EqualTo("First"));
+                Assert.That(attachment.Author.LastName, Is.EqualTo("Last"));
+                Assert.That(attachment.Author.EMail, Is.EqualTo("Email"));
+                Assert.That(attachment.File.GetString(), Is.EqualTo("Description"));
             }
         }
 

@@ -47,15 +47,15 @@ namespace BugTracker.DB.Entities.Tests
             ticket.Changes.Add(change);
             ticket.Attachments.Add(attachment);
 
-            Assert.AreEqual(ticket.Author.GetFullName(), author.GetFullName());
-            Assert.AreEqual(ticket.Created, now);
-            Assert.AreEqual(ticket.Priority.Value, "priority");
-            Assert.AreEqual(ticket.Solution.Value, "solution");
-            Assert.AreEqual(ticket.Status.Value, "status");
-            Assert.AreEqual(ticket.Type.Value, "type");
-            Assert.AreEqual(ticket.Title, "title");
-            Assert.AreEqual(ticket.Attachments.Count, 1);
-            Assert.AreEqual(ticket.Changes.Count, 1);
+            Assert.That(ticket.Author.GetFullName(), Is.EqualTo(author.GetFullName()));
+            Assert.That(ticket.Created, Is.EqualTo(now));
+            Assert.That(ticket.Priority.Value, Is.EqualTo("priority"));
+            Assert.That(ticket.Solution.Value, Is.EqualTo("solution"));
+            Assert.That(ticket.Status.Value, Is.EqualTo("status"));
+            Assert.That(ticket.Type.Value, Is.EqualTo("type"));
+            Assert.That(ticket.Title, Is.EqualTo("title"));
+            Assert.That(ticket.Attachments.Count, Is.EqualTo(1));
+            Assert.That(ticket.Changes.Count, Is.EqualTo(1));
         }
     }
 }
