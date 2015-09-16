@@ -57,6 +57,7 @@
     <Compile Include="Classes\TestDatabase.cs" />
     <Compile Include="Classes\TransactionTest.cs" />
     <Compile Include="Dao\SchemaTest.cs" />
+    <Compile Include="Entities\EntityList.cs" />
     <Compile Include="Mapping\AttachmentMapTest.cs" />
     <Compile Include="Mapping\BlobContentMapTest.cs" />
     <Compile Include="Mapping\ChangeMapTest.cs" />
