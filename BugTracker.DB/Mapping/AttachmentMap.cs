@@ -33,7 +33,7 @@ namespace BugTracker.DB.Mapping
                 m.Cascade(Cascade.All | Cascade.Persist | Cascade.Remove);
                 m.Unique(true);
                 m.Access(Accessor.Property);
-                m.Fetch(FetchKind.Join);
+                m.Fetch(FetchKind.Select);
                 m.Lazy(LazyRelation.Proxy);
                 m.NotNullable(true);
             });
@@ -43,7 +43,7 @@ namespace BugTracker.DB.Mapping
                 m.Class(typeof(Ticket));
                 m.Unique(false);
                 m.Access(Accessor.Property);
-                m.Fetch(FetchKind.Join);
+                m.Fetch(FetchKind.Select);
                 m.Lazy(LazyRelation.Proxy);
                 //m.Cascade(Cascade.All);
             });
