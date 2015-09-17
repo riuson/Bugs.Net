@@ -18,25 +18,24 @@ namespace BugTracker.Core.Classes
         private static T mInstance;
         private static object mLocker = new object();
 
-        private static string SettinsDirectory
+        private static DirectoryInfo SettinsDirectory
         {
             get
             {
                 // With VS Host Process enabled will return other directory
                 string appdata = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string directory = Path.Combine(appdata, Application.CompanyName);
-                directory = Path.Combine(directory, Application.ProductName);
+                DirectoryInfo directory = new DirectoryInfo(Path.Combine(appdata, Application.CompanyName, Application.ProductName));
                 return directory;
             }
         }
 
-        private static string Filename
+        private static FileInfo SettingsFile
         {
             get
             {
                 string typename = typeof(T).FullName;
-                string filename = Path.Combine(SettinsDirectory, typename + ".xml");
-                return filename;
+                FileInfo file = new FileInfo(Path.Combine(SettinsDirectory.FullName, typename + ".xml"));
+                return file;
             }
         }
 
@@ -65,9 +64,9 @@ namespace BugTracker.Core.Classes
 
             try
             {
-                if (File.Exists(Filename))
+                if (SettingsFile.Exists)
                 {
-                    using (FileStream fs = new FileStream(Filename, FileMode.Open))
+                    using (FileStream fs = SettingsFile.OpenRead())
                     {
                         using (XmlReader xr = new XmlTextReader(fs))
                         {
@@ -100,9 +99,9 @@ namespace BugTracker.Core.Classes
         {
             if (mInstance != null)
             {
-                if (!Directory.Exists(SettinsDirectory))
+                if (!SettinsDirectory.Exists)
                 {
-                    Directory.CreateDirectory(SettinsDirectory);
+                    SettinsDirectory.Create();
                 }
 
                 try
@@ -119,7 +118,7 @@ namespace BugTracker.Core.Classes
                             wr.Flush();
 
                             // If serialized successfully, try write to file
-                            using (FileStream fs = new FileStream(Filename, FileMode.Create))
+                            using (FileStream fs = SettingsFile.OpenWrite())
                             {
                                 ms.WriteTo(fs);
                                 fs.Flush();
