@@ -11,6 +11,8 @@ using BugTracker.Core.Interfaces;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Dao;
+using BugTracker.Members.Classes;
+using BugTracker.DB.Events;
 
 namespace BugTracker.Members.Controls
 {
@@ -79,6 +81,11 @@ namespace BugTracker.Members.Controls
             {
                 this.LoginRejected(this, EventArgs.Empty);
             }
+        }
+
+        private void buttonMembersList_Click(object sender, EventArgs e)
+        {
+            this.mApp.Messages.Send(this, new EntityShowEventArgs<Member>());
         }
     }
 }
