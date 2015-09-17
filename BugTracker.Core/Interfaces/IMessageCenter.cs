@@ -22,7 +22,11 @@ namespace BugTracker.Core.Interfaces
         public MessageEventArgs()
         {
             this.Handled = false;
-            this.Completed = null;
+            this.Completed = new MessageProcessCompleted(this.CallbackStub);
+        }
+
+        private void CallbackStub()
+        {
         }
     }
 }
