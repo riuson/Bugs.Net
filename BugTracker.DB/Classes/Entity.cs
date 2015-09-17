@@ -26,26 +26,17 @@ namespace BugTracker.DB.Classes
 
         public virtual bool Equals(Entity<T> other)
         {
-            Console.WriteLine("check other == null");
             if (other == null) return false;
 
-            Console.WriteLine("check reference equals");
             if (ReferenceEquals(this, other)) return true;
 
-            Console.WriteLine("check transient");
             if (!IsTransient(this) && !IsTransient(this) && Equals(Id, other.Id))
             {
-                Console.WriteLine("get unproxied types");
                 var otherType = other.GetUnproxiedType();
                 var thisType = GetUnproxiedType();
 
                 bool result = thisType.IsAssignableFrom(otherType) ||
                    otherType.IsAssignableFrom(thisType);
-
-                Console.WriteLine(String.Format("this {0} and other {1}",
-                    thisType,
-                    otherType));
-                Console.WriteLine("result: " + result);
 
                 return result;
             }
