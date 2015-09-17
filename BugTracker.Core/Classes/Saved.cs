@@ -9,6 +9,10 @@ using System.Xml.Serialization;
 
 namespace BugTracker.Core.Classes
 {
+    /// <summary>
+    /// Singleton class to load/save settings in xml format.
+    /// </summary>
+    /// <typeparam name="T">Type of settings class, must be public accessible.</typeparam>
     public static class Saved<T>
     {
         private static T mInstance;
@@ -36,6 +40,9 @@ namespace BugTracker.Core.Classes
             }
         }
 
+        /// <summary>
+        /// Singleton instance of settings class
+        /// </summary>
         public static T Instance
         {
             get
@@ -85,7 +92,10 @@ namespace BugTracker.Core.Classes
                 obj = (T)Activator.CreateInstance(typeof(T));
             return obj;
         }
-        
+
+        /// <summary>
+        /// Save settings to file
+        /// </summary>
         public static void Save()
         {
             if (mInstance != null)
@@ -117,10 +127,21 @@ namespace BugTracker.Core.Classes
                         }
                     }
                 }
-                catch(Exception exc)
+                catch (Exception exc)
                 {
                     System.Diagnostics.Debug.WriteLine(exc.Message);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Reload settings from file
+        /// </summary>
+        public static void Reload()
+        {
+            lock (mLocker)
+            {
+                mInstance = Load();
             }
         }
     }

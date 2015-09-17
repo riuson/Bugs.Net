@@ -9,55 +9,80 @@ namespace BugTracker.Core.Classes
 {
     internal class ControlManager : IControlManager
     {
-        private Stack<Control> mControlStack;
-        private Control mCurrentControl;
+        private List<Control> mControls;
 
         public ControlManager()
         {
-            this.mControlStack = new Stack<Control>();
-            this.mCurrentControl = null;
+            this.mControls = new List<Control>();
         }
 
         public void Show(Control ctrl)
         {
-            if (this.mCurrentControl != null)
+            if (this.mControls.Count > 0)
             {
-                this.mControlStack.Push(this.mCurrentControl);
+                Control previousControl = this.mControls.Last();
 
                 if (this.ControlHide != null)
                 {
-                    this.ControlHide(this, new ControlChangeEventArgs(this.mCurrentControl));
+                    this.ControlHide(this, new ControlChangeEventArgs(previousControl));
                 }
             }
 
-            this.mCurrentControl = ctrl;
-
-            if (this.ControlShow != null)
+            if (ctrl != null)
             {
-                this.ControlShow(this, new ControlChangeEventArgs(ctrl));
+                this.mControls.Add(ctrl);
+
+                if (this.ControlShow != null)
+                {
+                    this.ControlShow(this, new ControlChangeEventArgs(ctrl));
+                }
             }
         }
 
         public void Hide(Control ctrl)
         {
-            if (this.ControlHide != null && ctrl != null)
+            if (this.mControls.Count > 0)
             {
-                this.ControlHide(this, new ControlChangeEventArgs(ctrl));
+                Control lastControl = this.mControls.Last();
+
+                if (lastControl == ctrl)
+                {
+                    if (this.ControlHide != null)
+                    {
+                        this.ControlHide(this, new ControlChangeEventArgs(ctrl));
+                    }
+
+                    this.mControls.Remove(ctrl);
+                    ctrl.Dispose();
+                }
+                else
+                {
+                    throw new ArgumentException("Cannot hide not last control.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Nothing to hide.");
             }
 
-            ctrl.Dispose();
-
-            Control previous = this.mControlStack.Pop();
-            this.mCurrentControl = previous;
-
-            if (this.ControlShow != null && previous != null)
+            if (this.mControls.Count > 0)
             {
-                this.ControlShow(this, new ControlChangeEventArgs(previous));
+                Control previousControl = this.mControls.Last();
+
+                if (this.ControlShow != null)
+                {
+                    this.ControlShow(this, new ControlChangeEventArgs(previousControl));
+                }
             }
         }
 
         public void Hide(int steps)
         {
+            if (steps > this.mControls.Count)
+            {
+                throw new ArgumentOutOfRangeException(String.Format("{0} step(s) specified, but {1} control(s) saved.", steps, this.mControls.Count));
+            }
+
             for (int i = 0; i < steps; i++)
             {
                 this.Hide();
@@ -66,7 +91,12 @@ namespace BugTracker.Core.Classes
 
         public void Hide()
         {
-            this.Hide(this.mCurrentControl);
+            if (this.mControls.Count == 0)
+            {
+                throw new ArgumentOutOfRangeException("Cannot hide, 0 controls in stack.");
+            }
+
+            this.Hide(this.mControls.Last());
         }
 
         public event EventHandler<ControlChangeEventArgs> ControlHide;
@@ -86,17 +116,12 @@ namespace BugTracker.Core.Classes
         {
             get
             {
-                IEnumerable<String> list = this.mControlStack.Select<Control, string>(delegate(Control ctrl)
+                IEnumerable<String> list = this.mControls.Select<Control, string>(delegate(Control ctrl)
                 {
                     return ctrl.Text;
                 });
 
-                list = list.Reverse();
-
-                List<string> result = new List<string>(list);
-                result.Add(this.mCurrentControl.Text);
-
-                return result;
+                return list;
             }
         }
     }
