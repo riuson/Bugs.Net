@@ -19,9 +19,7 @@ namespace BugTracker.Members.Controls
     public partial class ControlLogin : UserControl
     {
         private IApplication mApp;
-        private ICollection<Member> mMembers;
-        private IEnumerable<MemberDisplay> mMembersDisplay;
-        private BindingSource mBS;
+        private MembersListData mData;
 
         public event EventHandler LoginConfirmed;
         public event EventHandler LoginRejected;
@@ -32,41 +30,18 @@ namespace BugTracker.Members.Controls
             this.Text = "Login";
             this.mApp = app;
 
-            using (ISession session = SessionManager.Instance.OpenSession(false))
-            {
-                IRepository<Member> repository = new Repository<Member>(session);
-                this.mMembers = repository.List();
-            }
-
-            this.mMembersDisplay = this.mMembers.Select<Member, MemberDisplay>(m => new MemberDisplay(m));
-            this.mBS = new BindingSource();
-            this.mBS.DataSource = this.mMembersDisplay;
-            this.comboBoxMember.DataSource = this.mBS;
+            this.mData = new MembersListData(app);
+            this.comboBoxMember.DataSource = this.mData.Data;
+            this.comboBoxMember.DisplayMember = "FullName";
         }
 
         public Member SelectedMember { get; private set; }
-
-        private class MemberDisplay
-        {
-            public Member Member { get; private set; }
-
-            public MemberDisplay(Member member)
-            {
-                this.Member = member;
-            }
-
-            public override string ToString()
-            {
-                return String.Format("{0} {1} ({2})", this.Member.FirstName, this.Member.LastName, this.Member.EMail);
-            }
-        }
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
             if (this.comboBoxMember.SelectedIndex >= 0)
             {
-                MemberDisplay md = this.comboBoxMember.SelectedItem as MemberDisplay;
-                this.SelectedMember = md.Member;
+                this.SelectedMember = this.comboBoxMember.SelectedItem as Member;
 
                 if (this.LoginConfirmed != null)
                 {
