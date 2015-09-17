@@ -54,6 +54,7 @@ namespace BugTracker.Members.Classes
         public void Add()
         {
             EntityAddEventArgs<Member> ea = new EntityAddEventArgs<Member>();
+            ea.Completed += new MessageProcessCompleted(this.UpdateList);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Handled)
@@ -64,17 +65,17 @@ namespace BugTracker.Members.Classes
                 this.mEditor.Entity = null;
                 this.mApp.Controls.Show(this.mEditor);
                 ea.Handled = true;
-            }
-
-            if (ea.Handled)
-            {
-                this.UpdateList();
+                this.mEditor.Disposed += delegate(object sender, EventArgs e)
+                {
+                    ea.Completed();
+                };
             }
         }
 
         public void Edit(Member item)
         {
             EntityEditEventArgs<Member> ea = new EntityEditEventArgs<Member>(item);
+            ea.Completed += new MessageProcessCompleted(this.UpdateList);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Handled)
@@ -85,17 +86,17 @@ namespace BugTracker.Members.Classes
                 this.mEditor.Entity = item;
                 this.mApp.Controls.Show(this.mEditor);
                 ea.Handled = true;
-            }
-
-            if (ea.Handled)
-            {
-                this.UpdateList();
+                this.mEditor.Disposed += delegate(object sender, EventArgs e)
+                {
+                    ea.Completed();
+                };
             }
         }
 
         public void Remove(Member item)
         {
             EntityRemoveEventArgs<Member> ea = new EntityRemoveEventArgs<Member>(item);
+            ea.Completed += new MessageProcessCompleted(this.UpdateList);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Handled)
@@ -115,14 +116,10 @@ namespace BugTracker.Members.Classes
 
                         session.Transaction.Commit();
                     }
-
-                    ea.Handled = true;
                 }
-            }
 
-            if (ea.Handled)
-            {
-                this.UpdateList();
+                ea.Handled = true;
+                ea.Completed();
             }
         }
 
@@ -143,8 +140,6 @@ namespace BugTracker.Members.Classes
 
             this.mApp.Controls.Hide(this.mEditor);
             this.mEditor = null;
-
-            this.UpdateList();
         }
 
         private void mEditorEdit_ClickOK(object sender, EventArgs e)
@@ -164,8 +159,6 @@ namespace BugTracker.Members.Classes
 
             this.mApp.Controls.Hide(this.mEditor);
             this.mEditor = null;
-
-            this.UpdateList();
         }
 
         private void mEditor_ClickCancel(object sender, EventArgs e)

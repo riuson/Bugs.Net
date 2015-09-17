@@ -27,10 +27,8 @@ namespace BugTracker.Members.Controls
 
             this.dgvList.AutoGenerateColumns = false;
             this.dgvList.DataSource = this.mMembersList.Data;
-
+            this.mMembersList.Data.ListChanged += this.Data_ListChanged;
             this.UpdateButtons();
-
-            this.VisibleChanged += this.ControlMembersList_VisibleChanged;
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -77,13 +75,9 @@ namespace BugTracker.Members.Controls
             this.UpdateButtons();
         }
 
-        private void ControlMembersList_VisibleChanged(object sender, EventArgs e)
+        void Data_ListChanged(object sender, ListChangedEventArgs e)
         {
-            if (this.Visible)
-            {
-                this.UpdateButtons();
-                this.mMembersList.UpdateList();
-            }
+            this.UpdateButtons();
         }
     }
 }
