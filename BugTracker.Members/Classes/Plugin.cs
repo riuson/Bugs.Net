@@ -45,6 +45,10 @@ namespace BugTracker.Members.Classes
         private void ShowMembersList(object sender, MessageEventArgs ea)
         {
             ControlMembersList controlMembers = new ControlMembersList(this.mApp);
+            controlMembers.Disposed += delegate(object s, EventArgs e)
+            {
+                ea.Completed();
+            };
             this.mApp.Controls.Show(controlMembers);
         }
 

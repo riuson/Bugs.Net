@@ -60,7 +60,9 @@ namespace BugTracker.Members.Controls
 
         private void buttonMembersList_Click(object sender, EventArgs e)
         {
-            this.mApp.Messages.Send(this, new EntityShowEventArgs<Member>());
+            EntityShowEventArgs<Member> ea = new EntityShowEventArgs<Member>();
+            ea.Completed += new MessageProcessCompleted(this.mData.UpdateList);
+            this.mApp.Messages.Send(this, ea);
         }
     }
 }
