@@ -19,7 +19,6 @@ namespace BugTracker.TicketEditor.Controls
     public partial class VocabularyBox<T> : UserControl where T : class, new()
     {
         private ICollection<T> mEntityList;
-        private IEnumerable<VocabularyDisplayData<T>> mDisplayList;
         private BindingSource mBS;
         private IApplication mApp;
 
@@ -30,7 +29,6 @@ namespace BugTracker.TicketEditor.Controls
             this.mBS = new BindingSource();
             this.mBS.AllowNew = true;
 
-            this.comboBox1.DataSource = this.mBS;
             this.UpdateList();
 
             this.mApp.Messages.Subscribe(typeof(EntityEditedEventArgs<T>), this.VocabularyUpdated);
@@ -47,8 +45,9 @@ namespace BugTracker.TicketEditor.Controls
             {
                 Repository<T> repository = new Repository<T>(session);
                 this.mEntityList = repository.List();
-                this.mDisplayList = this.mEntityList.Select<T, VocabularyDisplayData<T>>(e => new VocabularyDisplayData<T>(e));
-                this.mBS.DataSource = this.mDisplayList;
+                this.mBS.DataSource = this.mEntityList;
+                this.comboBox1.DataSource = this.mBS; ;
+                this.comboBox1.DisplayMember = "Value";
             }
         }
 
@@ -56,18 +55,18 @@ namespace BugTracker.TicketEditor.Controls
         {
             get
             {
-                VocabularyDisplayData<T> d = this.comboBox1.SelectedItem as VocabularyDisplayData<T>;
+                T d = this.comboBox1.SelectedItem as T;
 
                 if (d != null)
                 {
-                    return d.Value;
+                    return d;
                 }
 
                 return default(T);
             }
             set
             {
-                VocabularyDisplayData<T> d = new VocabularyDisplayData<T>(value);
+                T d = value;
 
                 if (this.comboBox1.Items.Contains(d))
                 {
@@ -93,11 +92,15 @@ namespace BugTracker.TicketEditor.Controls
 
         private void linkLabelEdit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            VocabularyDisplayData<T> data = this.comboBox1.SelectedItem as VocabularyDisplayData<T>;
+            T data = this.comboBox1.SelectedItem as T;
 
             if (data != null)
             {
-                this.mApp.Messages.Send(this, new EntityShowEventArgs<T>(data.Value));
+                this.mApp.Messages.Send(this, new EntityShowEventArgs<T>(data));
+            }
+            else
+            {
+                this.mApp.Messages.Send(this, new EntityShowEventArgs<T>());
             }
         }
     }
