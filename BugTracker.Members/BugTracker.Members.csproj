@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\LoginOptions.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Classes\MembersListData.cs" />
     <Compile Include="Controls\ControlLogin.cs">

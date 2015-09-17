@@ -13,6 +13,7 @@ using BugTracker.DB;
 using BugTracker.DB.Dao;
 using BugTracker.Members.Classes;
 using BugTracker.DB.Events;
+using BugTracker.Core.Classes;
 
 namespace BugTracker.Members.Controls
 {
@@ -36,6 +37,12 @@ namespace BugTracker.Members.Controls
             this.mData.Data.ListChanged += this.Data_ListChanged;
 
             this.UpdateButtons();
+            this.LoadSettings();
+        }
+
+        private void BeforeDisposing()
+        {
+            this.SaveSettings();
         }
 
         public Member SelectedMember { get; private set; }
@@ -76,6 +83,29 @@ namespace BugTracker.Members.Controls
         private void UpdateButtons()
         {
             this.buttonOk.Enabled = (this.comboBoxMember.SelectedIndex >= 0);
+        }
+
+        private void LoadSettings()
+        {
+            long id = Saved<LoginOptions>.Instance.MemberId;
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Member> repository = new Repository<Member>(session);
+                Member member = repository.GetById(id);
+
+                if (member != null)
+                {
+                    this.SelectedMember = member;
+                    this.comboBoxMember.SelectedItem = member;
+                }
+            }
+        }
+
+        private void SaveSettings()
+        {
+            Saved<LoginOptions>.Instance.MemberId = this.SelectedMember.Id;
+            Saved<LoginOptions>.Save();
         }
     }
 }
