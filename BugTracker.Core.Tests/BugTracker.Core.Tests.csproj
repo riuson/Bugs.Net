@@ -54,6 +54,7 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\ControlManagerTest.cs" />
+    <Compile Include="Classes\SavedTest.cs" />
     <Compile Include="Controls\NavigationBarTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
