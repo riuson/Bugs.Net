@@ -76,7 +76,7 @@ namespace BugTracker.DB.Controls
         {
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                dialog.CheckFileExists = true;
+                dialog.CheckFileExists = false;
                 dialog.CheckPathExists = true;
                 dialog.DefaultExt = "sqlite";
                 dialog.FileName = Saved<Options>.Instance.FileName;
