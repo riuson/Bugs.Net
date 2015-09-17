@@ -30,13 +30,10 @@ namespace BugTracker.TicketEditor.Controls
             this.mBS.AllowNew = true;
 
             this.UpdateList();
-
-            this.mApp.Messages.Subscribe(typeof(EntityEditedEventArgs<T>), this.VocabularyUpdated);
         }
 
         private void BeforeDisposing()
         {
-            this.mApp.Messages.Unsubscribe(typeof(EntityEditedEventArgs<T>), this.VocabularyUpdated);
         }
 
         private void UpdateList()
@@ -96,11 +93,15 @@ namespace BugTracker.TicketEditor.Controls
 
             if (data != null)
             {
-                this.mApp.Messages.Send(this, new EntityShowEventArgs<T>(data));
+                EntityShowEventArgs<T> ea = new EntityShowEventArgs<T>(data);
+                ea.Completed += new MessageProcessCompleted(this.UpdateList);
+                this.mApp.Messages.Send(this, ea);
             }
             else
             {
-                this.mApp.Messages.Send(this, new EntityShowEventArgs<T>());
+                EntityShowEventArgs<T> ea = new EntityShowEventArgs<T>();
+                ea.Completed += new MessageProcessCompleted(this.UpdateList);
+                this.mApp.Messages.Send(this, ea);
             }
         }
     }

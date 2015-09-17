@@ -125,11 +125,12 @@ namespace BugTracker.Members.Classes
 
         private void mEditorAdd_ClickOK(object sender, EventArgs e)
         {
+            Member item = new Member();
+
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> repository = new Repository<Member>(session);
 
-                Member item = new Member();
                 item.FirstName = this.mEditor.FirstName;
                 item.LastName = this.mEditor.LastName;
                 item.EMail = this.mEditor.Email;
@@ -144,11 +145,13 @@ namespace BugTracker.Members.Classes
 
         private void mEditorEdit_ClickOK(object sender, EventArgs e)
         {
+            Member item = null;
+
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> repository = new Repository<Member>(session);
 
-                Member item = this.mEditor.Entity;
+                item = this.mEditor.Entity;
                 item.FirstName = this.mEditor.FirstName;
                 item.LastName = this.mEditor.LastName;
                 item.EMail = this.mEditor.Email;

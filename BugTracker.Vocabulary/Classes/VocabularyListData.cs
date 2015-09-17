@@ -108,6 +108,7 @@ namespace BugTracker.Vocabulary.Classes
         public void Remove(T item)
         {
             EntityRemoveEventArgs<T> ea = new EntityRemoveEventArgs<T>(item);
+            ea.Completed += new MessageProcessCompleted(this.UpdateList);
             this.mApp.Messages.Send(this, ea);
 
             if (!ea.Handled)
@@ -131,12 +132,8 @@ namespace BugTracker.Vocabulary.Classes
                     }
 
                     ea.Handled = true;
+                    ea.Completed();
                 }
-            }
-
-            if (ea.Handled)
-            {
-                this.UpdateList();
             }
         }
     }
