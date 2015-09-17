@@ -108,9 +108,6 @@
     <Compile Include="Enitities\Status.cs" />
     <Compile Include="Enitities\Ticket.cs" />
     <Compile Include="Events\EnityOperationEventArgs.cs" />
-    <Compile Include="Events\EntityAddedEventArgs.cs" />
-    <Compile Include="Events\EntityEditedEventArgs.cs" />
-    <Compile Include="Events\EntityRemovedEventArgs.cs" />
     <Compile Include="Events\EntityShowEventArgs.cs" />
     <Compile Include="Events\EntityRemoveEventArgs.cs" />
     <Compile Include="Events\EntityEditEventArgs.cs" />
