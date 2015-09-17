@@ -33,6 +33,9 @@ namespace BugTracker.Members.Controls
             this.mData = new MembersListData(app);
             this.comboBoxMember.DataSource = this.mData.Data;
             this.comboBoxMember.DisplayMember = "FullName";
+            this.mData.Data.ListChanged += this.Data_ListChanged;
+
+            this.UpdateButtons();
         }
 
         public Member SelectedMember { get; private set; }
@@ -63,6 +66,16 @@ namespace BugTracker.Members.Controls
             EntityShowEventArgs<Member> ea = new EntityShowEventArgs<Member>();
             ea.Completed += new MessageProcessCompleted(this.mData.UpdateList);
             this.mApp.Messages.Send(this, ea);
+        }
+
+        private void Data_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            this.UpdateButtons();
+        }
+
+        private void UpdateButtons()
+        {
+            this.buttonOk.Enabled = (this.comboBoxMember.SelectedIndex >= 0);
         }
     }
 }

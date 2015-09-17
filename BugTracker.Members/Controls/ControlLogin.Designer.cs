@@ -31,15 +31,14 @@
             System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
-            System.Windows.Forms.Button buttonOk;
             System.Windows.Forms.Button buttonCancel;
             System.Windows.Forms.Button buttonMembersList;
+            this.buttonOk = new System.Windows.Forms.Button();
             this.comboBoxMember = new System.Windows.Forms.ComboBox();
             this.maskedTextBoxPassword = new System.Windows.Forms.MaskedTextBox();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
-            buttonOk = new System.Windows.Forms.Button();
             buttonCancel = new System.Windows.Forms.Button();
             buttonMembersList = new System.Windows.Forms.Button();
             tableLayoutPanel1.SuspendLayout();
@@ -55,7 +54,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             tableLayoutPanel1.Controls.Add(label1, 1, 3);
             tableLayoutPanel1.Controls.Add(label2, 1, 4);
-            tableLayoutPanel1.Controls.Add(buttonOk, 4, 0);
+            tableLayoutPanel1.Controls.Add(this.buttonOk, 4, 0);
             tableLayoutPanel1.Controls.Add(buttonCancel, 4, 1);
             tableLayoutPanel1.Controls.Add(this.comboBoxMember, 2, 3);
             tableLayoutPanel1.Controls.Add(this.maskedTextBoxPassword, 2, 4);
@@ -97,13 +96,13 @@
             // 
             // buttonOk
             // 
-            buttonOk.Location = new System.Drawing.Point(750, 3);
-            buttonOk.Name = "buttonOk";
-            buttonOk.Size = new System.Drawing.Size(75, 23);
-            buttonOk.TabIndex = 3;
-            buttonOk.Text = "OK";
-            buttonOk.UseVisualStyleBackColor = true;
-            buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            this.buttonOk.Location = new System.Drawing.Point(750, 3);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.TabIndex = 3;
+            this.buttonOk.Text = "OK";
+            this.buttonOk.UseVisualStyleBackColor = true;
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // buttonCancel
             // 
@@ -162,5 +161,6 @@
 
         private System.Windows.Forms.ComboBox comboBoxMember;
         private System.Windows.Forms.MaskedTextBox maskedTextBoxPassword;
+        private System.Windows.Forms.Button buttonOk;
     }
 }
