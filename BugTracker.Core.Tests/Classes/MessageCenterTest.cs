@@ -161,7 +161,7 @@ namespace BugTracker.Core.Tests.Classes
             mc.Subscribe(typeof(MessageEventArgs), this.MessageCallbackTest);
 
             MessageEventArgs ea = new MessageEventArgs();
-            ea.Callback += this.MessageCallBack;
+            ea.Completed += this.MessageCallBack;
             ea.Handled = false;
 
             this.mValue1 = 0;
@@ -185,7 +185,7 @@ namespace BugTracker.Core.Tests.Classes
 
         private void MessageCallbackTest(object sender, MessageEventArgs ea)
         {
-            ea.Callback();
+            ea.Completed();
             ea.Handled = true;
         }
 
