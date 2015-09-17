@@ -60,7 +60,7 @@ namespace BugTracker.Tickets.Classes
             EntityEditEventArgs<Ticket> ea = new EntityEditEventArgs<Ticket>(ticket, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -71,7 +71,7 @@ namespace BugTracker.Tickets.Classes
             EntityEditEventArgs<Ticket> ea = new EntityEditEventArgs<Ticket>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -82,7 +82,7 @@ namespace BugTracker.Tickets.Classes
             EntityRemoveEventArgs<Ticket> ea = new EntityRemoveEventArgs<Ticket>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
@@ -101,11 +101,11 @@ namespace BugTracker.Tickets.Classes
                         session.Transaction.Commit();
                     }
 
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }

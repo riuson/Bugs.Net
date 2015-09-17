@@ -42,7 +42,7 @@ namespace BugTracker.Projects.Classes
             LoginRequestEventArgs loginRequestEventArgs = new LoginRequestEventArgs();
             this.mApp.Messages.Send(this, loginRequestEventArgs);
 
-            if (!loginRequestEventArgs.Processed)
+            if (!loginRequestEventArgs.Handled)
             {
                 MessageBox.Show(this.mApp.OwnerWindow, "Login handler not installed!", "Login required", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }

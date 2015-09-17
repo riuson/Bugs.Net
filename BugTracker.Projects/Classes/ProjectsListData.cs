@@ -51,7 +51,7 @@ namespace BugTracker.Projects.Classes
             EntityAddEventArgs<Project> ea = new EntityAddEventArgs<Project>(this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 string newName;
 
@@ -67,11 +67,11 @@ namespace BugTracker.Projects.Classes
 
                         session.Transaction.Commit();
                     }
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -82,7 +82,7 @@ namespace BugTracker.Projects.Classes
             EntityEditEventArgs<Project> ea = new EntityEditEventArgs<Project>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 string newName;
 
@@ -97,11 +97,11 @@ namespace BugTracker.Projects.Classes
 
                         session.Transaction.Commit();
                     }
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -112,7 +112,7 @@ namespace BugTracker.Projects.Classes
             EntityRemoveEventArgs<Project> ea = new EntityRemoveEventArgs<Project>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
@@ -131,11 +131,11 @@ namespace BugTracker.Projects.Classes
                         session.Transaction.Commit();
                     }
 
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -146,7 +146,7 @@ namespace BugTracker.Projects.Classes
             EntityShowEventArgs<Project> ea = new EntityShowEventArgs<Project>(item, this.mLoggedMember);
             this.mApp.Messages.Send(this, ea);
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }

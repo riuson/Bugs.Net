@@ -56,17 +56,17 @@ namespace BugTracker.Members.Classes
             EntityAddEventArgs<Member> ea = new EntityAddEventArgs<Member>();
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 this.mEditor = new ControlMemberEdit();
                 this.mEditor.ClickOK += this.mEditorAdd_ClickOK;
                 this.mEditor.ClickCancel += this.mEditor_ClickCancel;
                 this.mEditor.Entity = null;
                 this.mApp.Controls.Show(this.mEditor);
-                ea.Processed = true;
+                ea.Handled = true;
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -77,17 +77,17 @@ namespace BugTracker.Members.Classes
             EntityEditEventArgs<Member> ea = new EntityEditEventArgs<Member>(item);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 this.mEditor = new ControlMemberEdit(item.FirstName, item.LastName, item.EMail);
                 this.mEditor.ClickOK += this.mEditorEdit_ClickOK;
                 this.mEditor.ClickCancel += this.mEditor_ClickCancel;
                 this.mEditor.Entity = item;
                 this.mApp.Controls.Show(this.mEditor);
-                ea.Processed = true;
+                ea.Handled = true;
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -98,7 +98,7 @@ namespace BugTracker.Members.Classes
             EntityRemoveEventArgs<Member> ea = new EntityRemoveEventArgs<Member>(item);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
@@ -116,11 +116,11 @@ namespace BugTracker.Members.Classes
                         session.Transaction.Commit();
                     }
 
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }

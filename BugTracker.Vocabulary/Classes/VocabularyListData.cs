@@ -49,7 +49,7 @@ namespace BugTracker.Vocabulary.Classes
             EntityAddEventArgs<T> ea = new EntityAddEventArgs<T>();
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 string newValue;
 
@@ -65,11 +65,11 @@ namespace BugTracker.Vocabulary.Classes
 
                         session.Transaction.Commit();
                     }
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -80,7 +80,7 @@ namespace BugTracker.Vocabulary.Classes
             EntityEditEventArgs<T> ea = new EntityEditEventArgs<T>(item);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 string newValue;
                 IVocabulary v = item as IVocabulary;
@@ -95,11 +95,11 @@ namespace BugTracker.Vocabulary.Classes
 
                         session.Transaction.Commit();
                     }
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }
@@ -110,7 +110,7 @@ namespace BugTracker.Vocabulary.Classes
             EntityRemoveEventArgs<T> ea = new EntityRemoveEventArgs<T>(item);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 IVocabulary v = item as IVocabulary;
 
@@ -130,11 +130,11 @@ namespace BugTracker.Vocabulary.Classes
                         session.Transaction.Commit();
                     }
 
-                    ea.Processed = true;
+                    ea.Handled = true;
                 }
             }
 
-            if (ea.Processed)
+            if (ea.Handled)
             {
                 this.UpdateList();
             }

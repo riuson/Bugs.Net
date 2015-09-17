@@ -16,12 +16,12 @@ namespace BugTracker.Core.Interfaces
 
     public class MessageEventArgs : EventArgs
     {
-        public bool Processed { get; set; }
+        public bool Handled { get; set; }
         public MessageCallback Callback { get; set; }
 
         public MessageEventArgs()
         {
-            this.Processed = false;
+            this.Handled = false;
             this.Callback = null;
         }
     }

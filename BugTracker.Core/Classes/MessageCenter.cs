@@ -74,7 +74,7 @@ namespace BugTracker.Core.Classes
                 {
                     handler.Func(sender, ea);
 
-                    if (ea.Processed)
+                    if (ea.Handled)
                     {
                         break;
                     }

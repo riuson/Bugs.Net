@@ -50,7 +50,7 @@ namespace BugTracker.Members.Classes
 
         private void LoginRequired(object sender, MessageEventArgs e)
         {
-            e.Processed = true;
+            e.Handled = true;
 
             ControlLogin loginControl = new ControlLogin(this.mApp);
             loginControl.LoginConfirmed += loginControl_LoginConfirmed;
