@@ -34,7 +34,7 @@ namespace BugTracker.TicketEditor.Classes
             controlEdit.ClickOK += controlEdit_ClickOK;
             controlEdit.ClickCancel += controlEdit_ClickCancel;
             this.mApp.Controls.Show(controlEdit);
-            e.Processed = true;
+            e.Handled = true;
         }
 
         private void EditTicketList(object sender, MessageEventArgs e)
@@ -44,7 +44,7 @@ namespace BugTracker.TicketEditor.Classes
             controlEdit.ClickOK += controlEdit_ClickOK;
             controlEdit.ClickCancel += controlEdit_ClickCancel;
             this.mApp.Controls.Show(controlEdit);
-            e.Processed = true;
+            e.Handled = true;
         }
 
         private void controlEdit_ClickOK(object sender, EventArgs e)

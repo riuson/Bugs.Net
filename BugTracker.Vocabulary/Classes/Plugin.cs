@@ -103,33 +103,15 @@ namespace BugTracker.Vocabulary.Classes
 
                     object o = Activator.CreateInstance(constructedEditorType, new object[] { this.mApp });
                     Control control = o as Control;
-                    control.Disposed += control_Disposed;
+                    control.Disposed += delegate(object s, EventArgs ea)
+                    {
+                        e.Completed();
+                    };
 
                     if (control != null)
                     {
                         this.mApp.Controls.Show(control);
                     }
-
-                    break;
-                }
-            }
-        }
-
-        private void control_Disposed(object sender, EventArgs e)
-        {
-            foreach (var type in this.mVocabularyTypes)
-            {
-                Type genericEditorType = typeof(ControlVocabularyList<>);
-                Type[] editorTypeArgs = { type };
-                Type constructedEditorType = genericEditorType.MakeGenericType(editorTypeArgs);
-
-                if (sender.GetType() == constructedEditorType)
-                {
-                    Type genericMessageType = typeof(EntityEditedEventArgs<>);
-                    Type[] messageTypeArgs = { type };
-                    Type constructedMessageType = genericMessageType.MakeGenericType(messageTypeArgs);
-                    object o = Activator.CreateInstance(constructedMessageType, new object[] { });
-                    this.mApp.Messages.Send(this, (MessageEventArgs)o);
 
                     break;
                 }

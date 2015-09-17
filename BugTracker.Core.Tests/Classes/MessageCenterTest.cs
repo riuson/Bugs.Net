@@ -53,12 +53,12 @@ namespace BugTracker.Core.Tests.Classes
             mc.Subscribe(typeof(MessageEventArgs), this.Callback);
 
             MessageEventArgs ea = new MessageEventArgs();
-            ea.Processed = false;
+            ea.Handled = false;
 
             this.mValue1 = 0;
             mc.Send(this, ea);
 
-            Assert.That(ea.Processed, Is.True);
+            Assert.That(ea.Handled, Is.True);
             Assert.That(this.mValue1, Is.EqualTo(1));
         }
 
@@ -69,18 +69,18 @@ namespace BugTracker.Core.Tests.Classes
             mc.Subscribe(typeof(MessageEventArgs), this.Callback);
 
             MessageEventArgs ea = new MessageEventArgs();
-            ea.Processed = false;
+            ea.Handled = false;
 
             this.mValue1 = 0;
             mc.Send(this, ea);
 
             mc.Unsubscribe(typeof(MessageEventArgs), this.Callback);
 
-            ea.Processed = false;
+            ea.Handled = false;
             this.mValue1 = 0;
             mc.Send(this, ea);
 
-            Assert.That(ea.Processed, Is.False);
+            Assert.That(ea.Handled, Is.False);
             Assert.That(this.mValue1, Is.EqualTo(0));
         }
 
@@ -91,13 +91,13 @@ namespace BugTracker.Core.Tests.Classes
             mc.Subscribe(typeof(MessageEventArgsInherited), this.CallbackInherited);
 
             MessageEventArgsInherited ea = new MessageEventArgsInherited();
-            ea.Processed = false;
+            ea.Handled = false;
             ea.Value = 0;
 
             this.mValue2 = 0;
             mc.Send(this, ea);
 
-            Assert.That(ea.Processed, Is.True);
+            Assert.That(ea.Handled, Is.True);
             Assert.That(this.mValue2, Is.EqualTo(2));
         }
 
@@ -108,18 +108,18 @@ namespace BugTracker.Core.Tests.Classes
             mc.Subscribe(typeof(MessageEventArgsInherited), this.CallbackInherited);
 
             MessageEventArgsInherited ea = new MessageEventArgsInherited();
-            ea.Processed = false;
+            ea.Handled = false;
 
             this.mValue2 = 0;
             mc.Send(this, ea);
 
             mc.Unsubscribe(typeof(MessageEventArgsInherited), this.CallbackInherited);
 
-            ea.Processed = false;
+            ea.Handled = false;
             this.mValue2 = 0;
             mc.Send(this, ea);
 
-            Assert.That(ea.Processed, Is.False);
+            Assert.That(ea.Handled, Is.False);
             Assert.That(this.mValue2, Is.EqualTo(0));
         }
 
@@ -131,17 +131,17 @@ namespace BugTracker.Core.Tests.Classes
             mc.Subscribe(typeof(MessageEventArgsInherited), this.CallbackInherited);
 
             MessageEventArgs ea = new MessageEventArgs();
-            ea.Processed = false;
+            ea.Handled = false;
             
             MessageEventArgsInherited ea2 = new MessageEventArgsInherited();
-            ea2.Processed = false;
+            ea2.Handled = false;
             ea2.Value = 0;
 
             this.mValue1 = 0;
             this.mValue2 = 0;
             mc.Send(this, ea);
 
-            Assert.That(ea.Processed, Is.True);
+            Assert.That(ea.Handled, Is.True);
             Assert.That(this.mValue1, Is.EqualTo(1));
             Assert.That(this.mValue2, Is.EqualTo(0));
 
@@ -149,21 +149,49 @@ namespace BugTracker.Core.Tests.Classes
             this.mValue2 = 0;
             mc.Send(this, ea2);
 
-            Assert.That(ea2.Processed, Is.True);
+            Assert.That(ea2.Handled, Is.True);
             Assert.That(this.mValue1, Is.EqualTo(0));
             Assert.That(this.mValue2, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void CanCallback()
+        {
+            MessageCenter mc = new MessageCenter();
+            mc.Subscribe(typeof(MessageEventArgs), this.MessageCallbackTest);
+
+            MessageEventArgs ea = new MessageEventArgs();
+            ea.Completed += this.MessageCallBack;
+            ea.Handled = false;
+
+            this.mValue1 = 0;
+            mc.Send(this, ea);
+
+            Assert.That(ea.Handled, Is.True);
+            Assert.That(this.mValue1, Is.EqualTo(1));
         }
 
         private void Callback(object sender, MessageEventArgs ea)
         {
             this.mValue1++;
-            ea.Processed = true;
+            ea.Handled = true;
         }
 
         private void CallbackInherited(object sender, MessageEventArgs ea)
         {
             this.mValue2 += 2;
-            ea.Processed = true;
+            ea.Handled = true;
+        }
+
+        private void MessageCallbackTest(object sender, MessageEventArgs ea)
+        {
+            ea.Completed();
+            ea.Handled = true;
+        }
+
+        private void MessageCallBack()
+        {
+            this.mValue1++;
         }
 
         private class MessageEventArgsInherited : MessageEventArgs

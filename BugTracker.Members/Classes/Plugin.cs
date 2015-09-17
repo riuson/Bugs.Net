@@ -1,5 +1,7 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
+using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.Members.Controls;
 using BugTracker.Members.Events;
 using System;
@@ -18,6 +20,7 @@ namespace BugTracker.Members.Classes
         {
             this.mApp = app;
             this.mApp.Messages.Subscribe(typeof(LoginRequestEventArgs), this.LoginRequired);
+            this.mApp.Messages.Subscribe(typeof(EntityShowEventArgs<Member>), this.ShowMembersList);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -29,7 +32,7 @@ namespace BugTracker.Members.Classes
                         IButton menuItemMembers = MenuPanelFabric.CreateMenuItem("Members", "Manage member's list", BugTracker.Members.Properties.Resources.icon_users_07572d_48);
                         menuItemMembers.Click += delegate(object sender, EventArgs ea)
                         {
-                            this.ShowMembersList();
+                            this.mApp.Messages.Send(this, new EntityShowEventArgs<Member>());
                         };
 
                         return new IButton[] { menuItemMembers };
@@ -39,15 +42,19 @@ namespace BugTracker.Members.Classes
             }
         }
 
-        private void ShowMembersList()
+        private void ShowMembersList(object sender, MessageEventArgs ea)
         {
             ControlMembersList controlMembers = new ControlMembersList(this.mApp);
+            controlMembers.Disposed += delegate(object s, EventArgs e)
+            {
+                ea.Completed();
+            };
             this.mApp.Controls.Show(controlMembers);
         }
 
         private void LoginRequired(object sender, MessageEventArgs e)
         {
-            e.Processed = true;
+            e.Handled = true;
 
             ControlLogin loginControl = new ControlLogin(this.mApp);
             loginControl.LoginConfirmed += loginControl_LoginConfirmed;

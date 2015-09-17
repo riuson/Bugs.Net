@@ -54,51 +54,52 @@ namespace BugTracker.Members.Classes
         public void Add()
         {
             EntityAddEventArgs<Member> ea = new EntityAddEventArgs<Member>();
+            ea.Completed += new MessageProcessCompleted(this.UpdateList);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 this.mEditor = new ControlMemberEdit();
                 this.mEditor.ClickOK += this.mEditorAdd_ClickOK;
                 this.mEditor.ClickCancel += this.mEditor_ClickCancel;
                 this.mEditor.Entity = null;
                 this.mApp.Controls.Show(this.mEditor);
-                ea.Processed = true;
-            }
-
-            if (ea.Processed)
-            {
-                this.UpdateList();
+                ea.Handled = true;
+                this.mEditor.Disposed += delegate(object sender, EventArgs e)
+                {
+                    ea.Completed();
+                };
             }
         }
 
         public void Edit(Member item)
         {
             EntityEditEventArgs<Member> ea = new EntityEditEventArgs<Member>(item);
+            ea.Completed += new MessageProcessCompleted(this.UpdateList);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 this.mEditor = new ControlMemberEdit(item.FirstName, item.LastName, item.EMail);
                 this.mEditor.ClickOK += this.mEditorEdit_ClickOK;
                 this.mEditor.ClickCancel += this.mEditor_ClickCancel;
                 this.mEditor.Entity = item;
                 this.mApp.Controls.Show(this.mEditor);
-                ea.Processed = true;
-            }
-
-            if (ea.Processed)
-            {
-                this.UpdateList();
+                ea.Handled = true;
+                this.mEditor.Disposed += delegate(object sender, EventArgs e)
+                {
+                    ea.Completed();
+                };
             }
         }
 
         public void Remove(Member item)
         {
             EntityRemoveEventArgs<Member> ea = new EntityRemoveEventArgs<Member>(item);
+            ea.Completed += new MessageProcessCompleted(this.UpdateList);
             this.mApp.Messages.Send(this, ea);
 
-            if (!ea.Processed)
+            if (!ea.Handled)
             {
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
@@ -115,24 +116,21 @@ namespace BugTracker.Members.Classes
 
                         session.Transaction.Commit();
                     }
-
-                    ea.Processed = true;
                 }
-            }
 
-            if (ea.Processed)
-            {
-                this.UpdateList();
+                ea.Handled = true;
+                ea.Completed();
             }
         }
 
         private void mEditorAdd_ClickOK(object sender, EventArgs e)
         {
+            Member item = new Member();
+
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> repository = new Repository<Member>(session);
 
-                Member item = new Member();
                 item.FirstName = this.mEditor.FirstName;
                 item.LastName = this.mEditor.LastName;
                 item.EMail = this.mEditor.Email;
@@ -143,17 +141,17 @@ namespace BugTracker.Members.Classes
 
             this.mApp.Controls.Hide(this.mEditor);
             this.mEditor = null;
-
-            this.UpdateList();
         }
 
         private void mEditorEdit_ClickOK(object sender, EventArgs e)
         {
+            Member item = null;
+
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Member> repository = new Repository<Member>(session);
 
-                Member item = this.mEditor.Entity;
+                item = this.mEditor.Entity;
                 item.FirstName = this.mEditor.FirstName;
                 item.LastName = this.mEditor.LastName;
                 item.EMail = this.mEditor.Email;
@@ -164,8 +162,6 @@ namespace BugTracker.Members.Classes
 
             this.mApp.Controls.Hide(this.mEditor);
             this.mEditor = null;
-
-            this.UpdateList();
         }
 
         private void mEditor_ClickCancel(object sender, EventArgs e)

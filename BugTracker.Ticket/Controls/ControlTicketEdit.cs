@@ -51,6 +51,11 @@ namespace BugTracker.TicketEditor.Controls
             this.mStatusBox = new VocabularyBox<Status>(this.mApp);
             this.mSolutionBox = new VocabularyBox<Solution>(this.mApp);
 
+            this.mProblemTypeBox.DataUpdated += this.OnDataChanged;
+            this.mPriorityBox.DataUpdated += this.OnDataChanged;
+            this.mStatusBox.DataUpdated += this.OnDataChanged;
+            this.mSolutionBox.DataUpdated += this.OnDataChanged;
+
             this.tableLayoutPanel1.Controls.Add(this.mProblemTypeBox, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.mPriorityBox, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.mStatusBox, 1, 5);
@@ -75,6 +80,8 @@ namespace BugTracker.TicketEditor.Controls
             this.mTicketAttachmentsDisplay.Dock = DockStyle.Fill;
             this.tabPageAttachments.Controls.Add(this.mTicketAttachmentsDisplay);
             this.mTicketAttachmentsDisplay.SaveAttachment += this.OnSaveAttachment;
+
+            this.UpdateButtons();
         }
 
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
@@ -249,6 +256,31 @@ namespace BugTracker.TicketEditor.Controls
         private void OnSaveAttachment(object sender, SaveAttachmentEventArgs ea)
         {
             this.mTicketData.SaveAttachmentToFile(ea.Attachment, ea.Filename);
+        }
+
+        private void UpdateButtons()
+        {
+            bool allowOk = true;
+
+            if (this.textBoxTitle.Text == String.Empty)
+            {
+                allowOk = false;
+            }
+
+            if (this.mPriorityBox.SelectedValue == null ||
+                this.mProblemTypeBox.SelectedValue == null ||
+                this.mSolutionBox.SelectedValue == null ||
+                this.mStatusBox.SelectedValue == null)
+            {
+                allowOk = false;
+            }
+
+            this.buttonOk.Enabled = allowOk;
+        }
+
+        private void OnDataChanged(object sender, EventArgs e)
+        {
+            this.UpdateButtons();
         }
     }
 }
