@@ -41,7 +41,16 @@ namespace BugTracker.Core
 
         public void Run()
         {
-            Application.Run();
+            try
+            {
+                Application.Run();
+            }
+            catch (Exception exc)
+            {
+                System.Diagnostics.Debug.WriteLine(exc.Message);
+                System.Diagnostics.Debug.WriteLine(exc.Source);
+                System.Diagnostics.Debug.WriteLine(exc.StackTrace);
+            }
         }
 
         public void Exit()
