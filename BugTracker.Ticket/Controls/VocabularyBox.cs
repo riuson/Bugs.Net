@@ -21,6 +21,7 @@ namespace BugTracker.TicketEditor.Controls
         private ICollection<T> mEntityList;
         private BindingSource mBS;
         private IApplication mApp;
+        public event EventHandler DataUpdated;
 
         public VocabularyBox(IApplication app)
         {
@@ -82,9 +83,14 @@ namespace BugTracker.TicketEditor.Controls
             base.OnLoad(e);
         }
 
-        private void VocabularyUpdated(object sender, MessageEventArgs e)
+        private void VocabularyUpdated()
         {
             this.UpdateList();
+
+            if (this.DataUpdated!= null)
+            {
+                this.DataUpdated(this, EventArgs.Empty);
+            }
         }
 
         private void linkLabelEdit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -94,13 +100,13 @@ namespace BugTracker.TicketEditor.Controls
             if (data != null)
             {
                 EntityShowEventArgs<T> ea = new EntityShowEventArgs<T>(data);
-                ea.Completed += new MessageProcessCompleted(this.UpdateList);
+                ea.Completed += new MessageProcessCompleted(this.VocabularyUpdated);
                 this.mApp.Messages.Send(this, ea);
             }
             else
             {
                 EntityShowEventArgs<T> ea = new EntityShowEventArgs<T>();
-                ea.Completed += new MessageProcessCompleted(this.UpdateList);
+                ea.Completed += new MessageProcessCompleted(this.VocabularyUpdated);
                 this.mApp.Messages.Send(this, ea);
             }
         }

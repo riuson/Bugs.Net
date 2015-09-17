@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Button buttonOk;
             System.Windows.Forms.Button buttonCancel;
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
@@ -37,6 +36,7 @@
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label7;
+            this.buttonOk = new System.Windows.Forms.Button();
             this.labelLoggedMember = new System.Windows.Forms.Label();
             this.labelCreated = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -44,7 +44,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageChangelog = new System.Windows.Forms.TabPage();
             this.tabPageAttachments = new System.Windows.Forms.TabPage();
-            buttonOk = new System.Windows.Forms.Button();
             buttonCancel = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -56,16 +55,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // buttonOk
-            // 
-            buttonOk.Location = new System.Drawing.Point(727, 3);
-            buttonOk.Name = "buttonOk";
-            buttonOk.Size = new System.Drawing.Size(75, 23);
-            buttonOk.TabIndex = 3;
-            buttonOk.Text = "OK";
-            buttonOk.UseVisualStyleBackColor = true;
-            buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // buttonCancel
             // 
@@ -147,6 +136,16 @@
             label7.TabIndex = 0;
             label7.Text = "Solution:";
             // 
+            // buttonOk
+            // 
+            this.buttonOk.Location = new System.Drawing.Point(727, 3);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.TabIndex = 3;
+            this.buttonOk.Text = "OK";
+            this.buttonOk.UseVisualStyleBackColor = true;
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            // 
             // labelLoggedMember
             // 
             this.labelLoggedMember.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -174,7 +173,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(buttonOk, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonOk, 3, 0);
             this.tableLayoutPanel1.Controls.Add(buttonCancel, 3, 1);
             this.tableLayoutPanel1.Controls.Add(label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(label2, 0, 1);
@@ -210,6 +209,7 @@
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(664, 20);
             this.textBoxTitle.TabIndex = 0;
+            this.textBoxTitle.TextChanged += new System.EventHandler(this.OnDataChanged);
             // 
             // tabControl1
             // 
@@ -266,6 +266,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageChangelog;
         private System.Windows.Forms.TabPage tabPageAttachments;
+        private System.Windows.Forms.Button buttonOk;
 
     }
 }
