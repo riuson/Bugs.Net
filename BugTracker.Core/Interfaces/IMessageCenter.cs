@@ -12,13 +12,17 @@ namespace BugTracker.Core.Interfaces
         void Send(object sender, MessageEventArgs ea);
     }
 
+    public delegate void MessageCallback();
+
     public class MessageEventArgs : EventArgs
     {
         public bool Processed { get; set; }
+        public MessageCallback Callback { get; set; }
 
         public MessageEventArgs()
         {
             this.Processed = false;
+            this.Callback = null;
         }
     }
 }

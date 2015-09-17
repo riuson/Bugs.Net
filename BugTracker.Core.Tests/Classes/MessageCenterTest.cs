@@ -154,6 +154,23 @@ namespace BugTracker.Core.Tests.Classes
             Assert.That(this.mValue2, Is.EqualTo(2));
         }
 
+        [Test]
+        public void CanCallback()
+        {
+            MessageCenter mc = new MessageCenter();
+            mc.Subscribe(typeof(MessageEventArgs), this.MessageCallbackTest);
+
+            MessageEventArgs ea = new MessageEventArgs();
+            ea.Callback += this.MessageCallBack;
+            ea.Processed = false;
+
+            this.mValue1 = 0;
+            mc.Send(this, ea);
+
+            Assert.That(ea.Processed, Is.True);
+            Assert.That(this.mValue1, Is.EqualTo(1));
+        }
+
         private void Callback(object sender, MessageEventArgs ea)
         {
             this.mValue1++;
@@ -164,6 +181,17 @@ namespace BugTracker.Core.Tests.Classes
         {
             this.mValue2 += 2;
             ea.Processed = true;
+        }
+
+        private void MessageCallbackTest(object sender, MessageEventArgs ea)
+        {
+            ea.Callback();
+            ea.Processed = true;
+        }
+
+        private void MessageCallBack()
+        {
+            this.mValue1++;
         }
 
         private class MessageEventArgsInherited : MessageEventArgs
