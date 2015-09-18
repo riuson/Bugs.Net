@@ -217,6 +217,171 @@ namespace BugTracker.DB.Tests.Repositories
             }
         }
 
+        [Test]
+        public virtual void CanKeepConstraint()
+        {
+            long ticketId = 0;
+
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long attachmentsBefore = 0;
+            long changesBefore = 0;
+            long ticketsBefore = 0;
+
+            int changesCount = 5;
+            int attachmentsCount = 9;
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                attachmentsBefore = attachmentRepository.RowCount();
+                changesBefore = changeRepository.RowCount();
+                ticketsBefore = ticketRepository.RowCount();
+
+                Ticket ticket = this.CreateAndSave(session, changesCount, attachmentsCount);
+                ticketId = ticket.Id;
+
+                session.Transaction.Commit();
+            }
+
+            Assert.That(delegate()
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
+                    {
+                        IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                        IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                        Ticket ticket = ticketRepository.GetById(ticketId);
+                        attachmentRepository.Delete(ticket.Attachments.ElementAt(0));
+
+                        session.Transaction.Commit();
+                    }
+                },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Change> changeRepository = new Repository<Change>(session);
+                    IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                    Ticket ticket = ticketRepository.GetById(ticketId);
+                    changeRepository.Delete(ticket.Changes.ElementAt(0));
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Member> memberRepository = new Repository<Member>(session);
+                    IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                    Ticket ticket = ticketRepository.GetById(ticketId);
+                    memberRepository.Delete(ticket.Author);
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Priority> priorityRepository = new Repository<Priority>(session);
+                    IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                    Ticket ticket = ticketRepository.GetById(ticketId);
+                    priorityRepository.Delete(ticket.Priority);
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<ProblemType> problemTypeRepository = new Repository<ProblemType>(session);
+                    IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                    Ticket ticket = ticketRepository.GetById(ticketId);
+                    problemTypeRepository.Delete(ticket.Type);
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Solution> solutionTypeRepository = new Repository<Solution>(session);
+                    IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                    Ticket ticket = ticketRepository.GetById(ticketId);
+                    solutionTypeRepository.Delete(ticket.Solution);
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Status> statusTypeRepository = new Repository<Status>(session);
+                    IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                    Ticket ticket = ticketRepository.GetById(ticketId);
+                    statusTypeRepository.Delete(ticket.Status);
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                Ticket ticket = ticketRepository.GetById(ticketId);
+
+                Assert.That(ticket.Changes.Count, Is.EqualTo(changesCount));
+                Assert.That(ticket.Attachments.Count, Is.EqualTo(attachmentsCount));
+
+                long membersAfter = memberRepository.RowCount();
+                long attachmentsAfter = attachmentRepository.RowCount();
+                long changesAfter = changeRepository.RowCount();
+                long ticketsAfter = ticketRepository.RowCount();
+
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(changesAfter, Is.EqualTo(changesBefore + changesCount));
+                Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore + attachmentsCount));
+                Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore + 1));
+
+                session.Transaction.Commit();
+            }
+        }
+
         private Ticket CreateAndSave(ISession session, int changesCount, int attachmentsCount)
         {
             IRepository<Member> memberRepository = new Repository<Member>(session);
