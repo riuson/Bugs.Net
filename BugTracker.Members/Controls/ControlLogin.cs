@@ -104,7 +104,15 @@ namespace BugTracker.Members.Controls
 
         private void SaveSettings()
         {
-            Saved<LoginOptions>.Instance.MemberId = this.SelectedMember.Id;
+            if (this.SelectedMember != null)
+            {
+                Saved<LoginOptions>.Instance.MemberId = this.SelectedMember.Id;
+            }
+            else
+            {
+                Saved<LoginOptions>.Instance.MemberId = 0;
+            }
+
             Saved<LoginOptions>.Save();
         }
     }
