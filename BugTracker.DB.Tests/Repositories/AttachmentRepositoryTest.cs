@@ -218,5 +218,190 @@ namespace BugTracker.DB.Tests.Repositories
                 session.Transaction.Commit();
             }
         }
+
+        [Test]
+        public virtual void CanKeepConstraintBlob()
+        {
+            long attachmentId = 0;
+            long blobId = 0;
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long attachmentsBefore = 0;
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Member author = new Member();
+                BlobContent blob = new BlobContent();
+
+                var attachment = new Attachment();
+                attachment.Author = author;
+                attachment.Created = DateTime.Now;
+                attachment.File = blob;
+
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                attachmentsBefore = attachmentRepository.RowCount();
+
+                memberRepository.Save(author);
+                attachmentRepository.Save(attachment);
+                attachmentId = attachment.Id;
+                blobId = blob.Id;
+
+                session.Transaction.Commit();
+            }
+
+            Assert.That(delegate()
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
+                    {
+                        IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                        BlobContent blob = blobRepository.Load(blobId);
+                        Assert.That(blob, Is.Not.Null);
+
+                        blobRepository.Delete(blob);
+
+                        long blobsAfter = blobRepository.RowCount();
+
+                        session.Transaction.Commit();
+                    }
+                },
+                Throws.Exception);
+
+            Assert.That(delegate()
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
+                    {
+                        IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                        BlobContent blob = blobRepository.GetById(blobId);
+                        Assert.That(blob, Is.Not.Null);
+
+                        blobRepository.Delete(blob);
+
+                        //long blobsAfter = blobRepository.RowCount();
+                        //Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
+
+                        session.Transaction.Commit();
+                    }
+                },
+                Throws.Exception);
+
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                long membersAfter = memberRepository.RowCount();
+                long blobsAfter = blobRepository.RowCount();
+                long attachmentsAfter = attachmentRepository.RowCount();
+
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(blobsAfter, Is.EqualTo(blobsBefore + 1));
+                Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore + 1));
+
+                Attachment attachment = attachmentRepository.GetById(attachmentId);
+                Assert.That(attachment, Is.Not.Null);
+
+                BlobContent blob = attachment.File;
+                Assert.That(blob, Is.Not.Null);
+            }
+        }
+
+        [Test]
+        public virtual void CanKeepConstraintAuthor()
+        {
+            long attachmentId = 0;
+            long memberId = 0;
+            long membersBefore = 0;
+            long attachmentsBefore = 0;
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Member author = new Member();
+                BlobContent blob = new BlobContent();
+
+                var attachment = new Attachment();
+                attachment.Author = author;
+                attachment.Created = DateTime.Now;
+                attachment.File = blob;
+
+                membersBefore = memberRepository.RowCount();
+                attachmentsBefore = attachmentRepository.RowCount();
+
+                memberRepository.Save(author);
+                attachmentRepository.Save(attachment);
+                attachmentId = attachment.Id;
+                memberId = author.Id;
+
+                session.Transaction.Commit();
+            }
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Member> memberRepository = new Repository<Member>(session);
+
+                    Member member = memberRepository.Load(memberId);
+                    Assert.That(member, Is.Not.Null);
+
+                    memberRepository.Delete(member);
+
+                    long membersAfter = memberRepository.RowCount();
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Member> memberRepository = new Repository<Member>(session);
+
+                    Member member = memberRepository.GetById(memberId);
+                    Assert.That(member, Is.Not.Null);
+
+                    memberRepository.Delete(member);
+
+                    //long blobsAfter = blobRepository.RowCount();
+                    //Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+
+                long membersAfter = memberRepository.RowCount();
+                long attachmentsAfter = attachmentRepository.RowCount();
+
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore + 1));
+
+                Attachment attachment = attachmentRepository.GetById(attachmentId);
+                Assert.That(attachment, Is.Not.Null);
+
+                BlobContent blob = attachment.File;
+                Assert.That(blob, Is.Not.Null);
+            }
+        }
     }
 }

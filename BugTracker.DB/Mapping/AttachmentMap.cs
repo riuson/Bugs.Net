@@ -30,7 +30,7 @@ namespace BugTracker.DB.Mapping
             {
                 m.Column(typeof(BlobContent).Name + "_Id");
                 m.Class(typeof(BlobContent));
-                m.Cascade(Cascade.All | Cascade.Persist | Cascade.Remove);
+                m.Cascade(Cascade.All);
                 m.Unique(true);
                 m.Access(Accessor.Property);
                 m.Fetch(FetchKind.Select);
