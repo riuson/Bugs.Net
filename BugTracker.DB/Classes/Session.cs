@@ -45,9 +45,16 @@ namespace BugTracker.DB.Classes
                         this.NHTransaction.Rollback();
                     }
                 }
-                catch // (Exception exc)
+                catch (Exception exc)
                 {
+                    System.Diagnostics.Debug.WriteLine(String.Format(
+                        "Exception occured on transaction commit:{0}{1}{0}{2}{0}{3}",
+                        Environment.NewLine,
+                        exc.Source,
+                        exc.Message,
+                        exc.StackTrace));
                     this.NHTransaction.Rollback();
+                    throw exc;
                 }
             }
 
