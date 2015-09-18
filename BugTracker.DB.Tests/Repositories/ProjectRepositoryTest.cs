@@ -180,6 +180,87 @@ namespace BugTracker.DB.Tests.Repositories
             }
         }
 
+        [Test]
+        public virtual void CanKeepConstraint()
+        {
+            long id = 0;
+
+            long membersBefore = 0;
+            long ticketsBefore = 0;
+            long projectsBefore = 0;
+
+            int ticketsCount = 5;
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+                IRepository<Project> projectRepository = new Repository<Project>(session);
+
+                membersBefore = memberRepository.RowCount();
+                ticketsBefore = ticketRepository.RowCount();
+                projectsBefore = projectRepository.RowCount();
+
+                Project project = this.CreateAndSave(session, ticketsCount);
+                id = project.Id;
+
+                session.Transaction.Commit();
+            }
+
+            Assert.That(delegate()
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
+                    {
+                        IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+                        IRepository<Project> projectRepository = new Repository<Project>(session);
+
+                        Project project = projectRepository.GetById(id);
+
+                        Assert.That(project.Tickets.Count, Is.EqualTo(ticketsCount));
+
+                        ticketRepository.Delete(project.Tickets.ElementAt(0));
+
+                        session.Transaction.Commit();
+                    }
+                },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Member> memberRepository = new Repository<Member>(session);
+                    IRepository<Project> projectRepository = new Repository<Project>(session);
+
+                    Project project = projectRepository.GetById(id);
+
+                    Assert.That(project.Tickets.Count, Is.EqualTo(ticketsCount));
+
+                    memberRepository.Delete(project.Tickets.ElementAt(0).Author);
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+                IRepository<Project> projectRepository = new Repository<Project>(session);
+
+                long membersAfter = memberRepository.RowCount();
+                long ticketsAfter = ticketRepository.RowCount();
+                long projectsAfter = projectRepository.RowCount();
+
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore + ticketsCount));
+                Assert.That(projectsAfter, Is.EqualTo(projectsBefore + 1));
+
+                session.Transaction.Commit();
+            }
+        }
+
         private Project CreateAndSave(ISession session, int ticketsCount)
         {
             IRepository<Member> memberRepository = new Repository<Member>(session);
