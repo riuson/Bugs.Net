@@ -223,5 +223,192 @@ namespace BugTracker.DB.Tests.Repositories
                 session.Transaction.Commit();
             }
         }
+
+        [Test]
+        public virtual void CanKeepConstraintBlob()
+        {
+            long changeId = 0;
+            long blobId = 0;
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long changesBefore = 0;
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Member author = new Member();
+                BlobContent blob = new BlobContent();
+
+                var change = new Change();
+                change.Author = author;
+                change.Created = DateTime.Now;
+                change.Description = blob;
+
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                changesBefore = changeRepository.RowCount();
+
+                memberRepository.Save(author);
+                changeRepository.Save(change);
+                changeId = change.Id;
+                blobId = blob.Id;
+
+                session.Transaction.Commit();
+            }
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                    BlobContent blob = blobRepository.Load(blobId);
+                    Assert.That(blob, Is.Not.Null);
+
+                    blobRepository.Delete(blob);
+
+                    long blobsAfter = blobRepository.RowCount();
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                    BlobContent blob = blobRepository.GetById(blobId);
+                    Assert.That(blob, Is.Not.Null);
+
+                    blobRepository.Delete(blob);
+
+                    //long blobsAfter = blobRepository.RowCount();
+                    //Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                long membersAfter = memberRepository.RowCount();
+                long blobsAfter = blobRepository.RowCount();
+                long changesAfter = changeRepository.RowCount();
+
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(blobsAfter, Is.EqualTo(blobsBefore + 1));
+                Assert.That(changesAfter, Is.EqualTo(changesBefore + 1));
+
+                Change change = changeRepository.GetById(changeId);
+                Assert.That(change, Is.Not.Null);
+
+                BlobContent blob = change.Description;
+                Assert.That(blob, Is.Not.Null);
+            }
+        }
+
+        [Test]
+        public virtual void CanKeepConstraintAuthor()
+        {
+            long changeId = 0;
+            long memberId = 0;
+            long membersBefore = 0;
+            long blobsBefore = 0;
+            long changesBefore = 0;
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+
+                Member author = new Member();
+                BlobContent blob = new BlobContent();
+
+                var change = new Change();
+                change.Author = author;
+                change.Created = DateTime.Now;
+                change.Description = blob;
+
+                membersBefore = memberRepository.RowCount();
+                blobsBefore = blobRepository.RowCount();
+                changesBefore = changeRepository.RowCount();
+
+                memberRepository.Save(author);
+                changeRepository.Save(change);
+                changeId = change.Id;
+                memberId = author.Id;
+
+                session.Transaction.Commit();
+            }
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Member> memberRepository = new Repository<Member>(session);
+
+                    Member member = memberRepository.Load(memberId);
+                    Assert.That(member, Is.Not.Null);
+
+                    memberRepository.Delete(member);
+
+                    long membersAfter = memberRepository.RowCount();
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+            Assert.That(delegate()
+            {
+                using (ISession session = SessionManager.Instance.OpenSession(true))
+                {
+                    IRepository<Member> memberRepository = new Repository<Member>(session);
+
+                    Member member = memberRepository.GetById(memberId);
+                    Assert.That(member, Is.Not.Null);
+
+                    memberRepository.Delete(member);
+
+                    //long blobsAfter = blobRepository.RowCount();
+                    //Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
+
+                    session.Transaction.Commit();
+                }
+            },
+                Throws.Exception);
+
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+
+                long membersAfter = memberRepository.RowCount();
+                long changesAfter = changeRepository.RowCount();
+
+                Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
+                Assert.That(changesAfter, Is.EqualTo(changesBefore + 1));
+
+                Change change = changeRepository.GetById(changeId);
+                Assert.That(change, Is.Not.Null);
+
+                Member member = change.Author;
+                Assert.That(member, Is.Not.Null);
+            }
+        }
     }
 }

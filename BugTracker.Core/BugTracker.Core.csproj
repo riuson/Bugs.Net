@@ -56,8 +56,16 @@
     <Compile Include="Classes\CommandLinkBackendNative.cs" />
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
+    <Compile Include="Classes\Exceptions.cs" />
+    <Compile Include="Extensions\RichTextBoxExt.cs" />
     <Compile Include="Controls\MenuListView.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\FormExceptionMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormExceptionMessage.Designer.cs">
+      <DependentUpon>FormExceptionMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ICommandLinkBackend.cs" />
     <Compile Include="Interfaces\IMenuPanel.cs" />
@@ -99,6 +107,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\FormExceptionMessage.resx">
+      <DependentUpon>FormExceptionMessage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormInputBox.resx">
       <DependentUpon>FormInputBox.cs</DependentUpon>
     </EmbeddedResource>

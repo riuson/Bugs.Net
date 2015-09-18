@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using BugTracker.TicketEditor.Classes;
 using System.Drawing;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.TicketEditor.Controls
 {

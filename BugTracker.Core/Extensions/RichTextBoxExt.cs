@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.TicketEditor.Classes
+namespace BugTracker.Core.Extensions
 {
-    internal static class RichTextBoxExt
+    public static class RichTextBoxExt
     {
         public static void AppendText(this RichTextBox box, string text, Color clr)
         {
