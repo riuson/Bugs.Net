@@ -123,12 +123,19 @@ namespace BugTracker.Vocabulary.Classes
                     "Remove item",
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession(true))
+                    try
                     {
-                        Repository<T> repository = new Repository<T>(session);
-                        repository.Delete(item);
+                        using (ISession session = SessionManager.Instance.OpenSession(true))
+                        {
+                            Repository<T> repository = new Repository<T>(session);
+                            repository.Delete(item);
 
-                        session.Transaction.Commit();
+                            session.Transaction.Commit();
+                        }
+                    }
+                    catch(Exception exc)
+                    {
+                        Exceptions.Handle(exc);
                     }
 
                     ea.Handled = true;

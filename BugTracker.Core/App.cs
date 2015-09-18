@@ -50,6 +50,8 @@ namespace BugTracker.Core
                 System.Diagnostics.Debug.WriteLine(exc.Message);
                 System.Diagnostics.Debug.WriteLine(exc.Source);
                 System.Diagnostics.Debug.WriteLine(exc.StackTrace);
+
+                Exceptions.Handle(exc);
             }
         }
 

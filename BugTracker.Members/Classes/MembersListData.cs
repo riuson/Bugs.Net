@@ -109,12 +109,19 @@ namespace BugTracker.Members.Classes
                     "Remove Member",
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    using (ISession session = SessionManager.Instance.OpenSession(true))
+                    try
                     {
-                        IRepository<Member> repository = new Repository<Member>(session);
-                        repository.Delete(item);
+                        using (ISession session = SessionManager.Instance.OpenSession(true))
+                        {
+                            IRepository<Member> repository = new Repository<Member>(session);
+                            repository.Delete(item);
 
-                        session.Transaction.Commit();
+                            session.Transaction.Commit();
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        Exceptions.Handle(exc);
                     }
                 }
 
