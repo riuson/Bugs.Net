@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Core.Forms
 {
@@ -20,6 +21,7 @@ namespace BugTracker.Core.Forms
         public MainWindow(IApplication app)
         {
             InitializeComponent();
+            this.Text = "Bugs.Net".Tr();
 
             this.mApp = app;
             this.mControls = new ControlManager();

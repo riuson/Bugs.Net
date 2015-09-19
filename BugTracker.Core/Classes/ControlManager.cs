@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Core.Classes
 {
@@ -57,12 +58,12 @@ namespace BugTracker.Core.Classes
                 }
                 else
                 {
-                    throw new ArgumentException("Cannot hide not last control.");
+                    throw new ArgumentException("Cannot hide not last control.".Tr());
                 }
             }
             else
             {
-                throw new ArgumentException("Nothing to hide.");
+                throw new ArgumentException("Nothing to hide.".Tr());
             }
 
             if (this.mControls.Count > 0)
@@ -80,7 +81,7 @@ namespace BugTracker.Core.Classes
         {
             if (steps > this.mControls.Count)
             {
-                throw new ArgumentOutOfRangeException(String.Format("{0} step(s) specified, but {1} control(s) saved.", steps, this.mControls.Count));
+                throw new ArgumentOutOfRangeException(String.Format("{0} step(s) specified, but {1} control(s) saved.".Tr(), steps, this.mControls.Count));
             }
 
             for (int i = 0; i < steps; i++)
@@ -93,7 +94,7 @@ namespace BugTracker.Core.Classes
         {
             if (this.mControls.Count == 0)
             {
-                throw new ArgumentOutOfRangeException("Cannot hide, 0 controls in stack.");
+                throw new ArgumentOutOfRangeException("Cannot hide, 0 controls in stack.".Tr());
             }
 
             this.Hide(this.mControls.Last());
