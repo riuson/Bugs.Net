@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BugTracker.Core.Interfaces;
 using System.Reflection;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.About.Controls
 {
@@ -17,7 +18,7 @@ namespace BugTracker.About.Controls
         public ControlAbout(IApplication app)
         {
             InitializeComponent();
-            this.Text = "About";
+            this.Text = "About".Tr();
 
             object[] attributesRevision = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitRevisionAttribute), false);
             object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
@@ -25,7 +26,7 @@ namespace BugTracker.About.Controls
             string commitDate = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate.ToString("yyyy-MM-dd HH:mm:ss zzz");
             string githubLink = "https://github.com/riuson/Bugs.Net";
             string revisionShort = (attributesRevision[0] as AssemblyGitRevisionAttribute).RevisionHash.Substring(0, 7);
-            this.linkLabelSources.Text = String.Format("{0}, rev.{1} from {2}", githubLink, revisionShort, commitDate);
+            this.linkLabelSources.Text = String.Format("{0}, rev.{1} from {2}".Tr(), githubLink, revisionShort, commitDate);
             this.linkLabelSources.Links.Add(this.linkLabelSources.Text.IndexOf(githubLink), githubLink.Length, githubLink);
             this.linkLabelSources.Links.Add(this.linkLabelSources.Text.IndexOf(revisionShort), revisionShort.Length, String.Format("{0}/commit/{1}", githubLink, revisionShort));
         }
