@@ -17,6 +17,9 @@ namespace BugTracker.About.Classes
         public void Initialize(IApplication app)
         {
             this.mApp = app;
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("ru");
+            System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("ru");
+            BugTracker.About.Properties.Strings.Culture = System.Globalization.CultureInfo.GetCultureInfo("ru");
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -25,7 +28,10 @@ namespace BugTracker.About.Classes
             {
                 case "startpage":
                     {
-                        IButton menuItemAbout = MenuPanelFabric.CreateMenuItem("About", "About application", BugTracker.About.Properties.Resources.icon_info_circle_005719_48);
+                        IButton menuItemAbout = MenuPanelFabric.CreateMenuItem(
+                            BugTracker.About.Properties.Strings.BugTracker_About_Classes_Plugin_About,
+                            BugTracker.About.Properties.Strings.BugTracker_About_Classes_Plugin_About_Application,
+                            BugTracker.About.Properties.Resources.icon_info_circle_005719_48);
                         menuItemAbout.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlAbout controlAbout = new ControlAbout(this.mApp);

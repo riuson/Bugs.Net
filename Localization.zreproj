@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project>
+  <configuration createBackupFiles="False" hideEmptyRows="False" hideTranslatedRows="False" useSpellChecker="True" neutralLanguageCode="en-US" languagesToDisplay="">
+    <globalSetting name="autoTranslateForm.prefixTextBox.Text">####</globalSetting>
+    <globalSetting name="autoTranslateForm.prefixCheckBox.Checked">False</globalSetting>
+    <globalSetting name="autoTranslateForm.referenceLanguageComboBoxEdit.SelectedIndex">-1</globalSetting>
+    <globalSetting name="autoTranslateForm.languagesToTranslateCheckListBox">
+    </globalSetting>
+    <globalSetting name="Filter-ResourceEditorGrid">&lt;XtraSerializer version="1.0" application="View"&gt;
+  &lt;property name="#LayoutVersion" /&gt;
+  &lt;property name="ActiveFilterString" /&gt;
+&lt;/XtraSerializer&gt;</globalSetting>
+    <globalSetting name="Sort-ResourceEditorGrid">&lt;XtraSerializer version="1.0" application="View"&gt;
+  &lt;property name="#LayoutVersion" /&gt;
+&lt;/XtraSerializer&gt;</globalSetting>
+    <globalSetting name="CreateNewFileForm.prefixTextBox.Text">####</globalSetting>
+    <globalSetting name="CreateNewFileForm.prefixCheckBox.Checked">False</globalSetting>
+    <globalSetting name="CreateNewFileForm.referenceLanguageComboBox.SelectedIndex">0</globalSetting>
+    <globalSetting name="CreateNewFileForm.newLanguageComboBox.SelectedIndex">238</globalSetting>
+    <globalSetting name="CreateNewFileForm.copyTextsCheckBox.Checked">True</globalSetting>
+    <globalSetting name="CreateNewFileForm.automaticallyTranslateCheckBox.Checked">False</globalSetting>
+    <globalSetting name="projectMruItems">&lt;?xml version='1.0' encoding='utf-8'?&gt;&lt;items&gt;&lt;item type="2" checksum="2280068989" /&gt;&lt;/items&gt;</globalSetting>
+    <userSetting name="Vladimir@Desktop.filesInitialDir">D:\projects\Bugs.Net\BugTracker.About\Properties</userSetting>
+    <userSetting name="Vladimir@Desktop.FindText">
+    </userSetting>
+    <userSetting name="Vladimir@Desktop.RecentFiles">D:\projects\Bugs.Net\BugTracker.About\Properties\Strings.resx;D:\projects\Bugs.Net\BugTracker.About\Properties\Strings.ru.resx</userSetting>
+    <description>
+    </description>
+  </configuration>
+  <fileGroups>
+    <fileGroup name="" projectFolderUniqueID="a2a0f8ac-20cc-453c-bbbd-8bac4b40a591" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="197daf40-6e1c-4c89-8c3e-24bb52e48930" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.DB\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.DB\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="d08b3b15-14f2-47ba-9f9b-02b701582eac" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.About\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.About\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="d08b3b15-14f2-47ba-9f9b-02b701582eac" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.About\Properties\Strings.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.About\Properties\Strings.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <file filePath="BugTracker.About\Properties\Strings.ru.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.About\Properties\Strings.ru.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="4283ede3-c362-4101-bd89-737b900c38d9" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.Settings\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.Settings\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="bc023bbc-b608-49a2-b0e3-4426711bab0c" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.Projects\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.Projects\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="30b41d46-b4e1-4e1c-9d20-5595e28a62da" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.Vocabulary\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.Vocabulary\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="20f951ce-6a09-4d8b-80c4-780e5c3d6d84" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.Members\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.Members\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+    <fileGroup name="" projectFolderUniqueID="da205260-def9-4a1c-a71f-c376689277bf" orderPosition="0" ignoreDuringExportAndImport="False" uniqueID="00000000-0000-0000-0000-000000000000">
+      <file filePath="BugTracker.Tickets\Properties\Resources.resx" absoluteFilePath="D:\projects\Bugs.Net\BugTracker.Tickets\Properties\Resources.resx" uniqueID="00000000-0000-0000-0000-000000000000" />
+      <remarks>
+      </remarks>
+    </fileGroup>
+  </fileGroups>
+  <projectFolders>
+    <projectFolder uniqueID="a2a0f8ac-20cc-453c-bbbd-8bac4b40a591" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="197daf40-6e1c-4c89-8c3e-24bb52e48930" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.DB" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="a63f4a6f-3d97-44fa-9de4-c34f5e459b62" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Core" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="d08b3b15-14f2-47ba-9f9b-02b701582eac" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.About" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="4283ede3-c362-4101-bd89-737b900c38d9" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Settings" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="bc023bbc-b608-49a2-b0e3-4426711bab0c" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Projects" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="30b41d46-b4e1-4e1c-9d20-5595e28a62da" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Vocabulary" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="20f951ce-6a09-4d8b-80c4-780e5c3d6d84" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Members" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="da205260-def9-4a1c-a71f-c376689277bf" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Tickets" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="5da50971-c2b0-4c1b-ab1d-8d90eb71e0e8" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Ticket" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="8dcc0b7f-ab12-4766-9794-bf505cb12ef9" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.DB.Tests" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+    <projectFolder uniqueID="3cff509f-1214-4227-b4d5-bfcd7705c567" parentUniqueID="00000000-0000-0000-0000-000000000000" name="BugTracker.Core.Tests" orderPosition="0">
+      <remarks>
+      </remarks>
+      <dynSettings />
+    </projectFolder>
+  </projectFolders>
+</project>
