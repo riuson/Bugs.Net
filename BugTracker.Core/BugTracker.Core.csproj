@@ -57,6 +57,7 @@
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
     <Compile Include="Classes\Exceptions.cs" />
+    <Compile Include="Classes\LocalizationManager.cs" />
     <Compile Include="Extensions\RichTextBoxExt.cs" />
     <Compile Include="Controls\MenuListView.cs">
       <SubType>Component</SubType>
