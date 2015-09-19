@@ -61,6 +61,7 @@
     <Compile Include="Controls\MenuListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Extensions\TransExt.cs" />
     <Compile Include="Forms\FormExceptionMessage.cs">
       <SubType>Form</SubType>
     </Compile>
