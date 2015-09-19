@@ -24,5 +24,15 @@ namespace BugTracker.Core.Extensions
 
             return LocalizationManager.Instance.Translate(assembly, method, value);
         }
+
+        public static string Tr(this string value, string comment)
+        {
+            Assembly assembly = Assembly.GetCallingAssembly();
+
+            StackTrace stackTrace = new StackTrace();
+            MethodBase method = stackTrace.GetFrame(1).GetMethod();
+
+            return LocalizationManager.Instance.Translate(assembly, method, value, comment);
+        }
     }
 }

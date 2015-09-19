@@ -47,15 +47,17 @@ namespace BugTracker.Core.Classes
 
         private Dictionary<string, TranslationData> mTranslations;
 
-        public string Translate(Assembly assembly, MethodBase method, string value)
+        public string Translate(Assembly assembly, MethodBase method, string value, string comment = "")
         {
             CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
 
             TranslationData data = this.GetData(assembly, culture);
 
-            string result = this.GetTranslation(data, method, value, this.CleanString(value));
+            string className = method.ReflectedType.Name;
+            string methodName = this.CleanString(className + "_" + method.Name);
+            string id = this.GetHash(methodName + value);
 
-            return result;
+            return data.GetTranslation(id, methodName, value, comment);
         }
 
         public void Save()
@@ -94,14 +96,6 @@ namespace BugTracker.Core.Classes
             return data;
         }
 
-        private string GetTranslation(TranslationData data, MethodBase method, string valueDefault, string valueId)
-        {
-            string className = method.ReflectedType.Name;
-            string methodName = this.CleanString(className + "_" + method.Name);
-
-            return data.GetTranslation(methodName, valueId, valueDefault);
-        }
-
         private string CleanString(string value)
         {
             Regex reg = new Regex("[\\W]");
@@ -113,6 +107,11 @@ namespace BugTracker.Core.Classes
             }
 
             return result;
+        }
+
+        private string GetHash(string value)
+        {
+            return value.GetHashCode().ToString();
         }
 
         private class TranslationData
@@ -138,52 +137,72 @@ namespace BugTracker.Core.Classes
                     this.mDocument = new XmlDocument();
                     this.mChanged = true;
 
-                    XmlDeclaration xmlDeclaration = this.mDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
-                    XmlElement root = this.mDocument.DocumentElement;
-                    this.mDocument.InsertBefore(xmlDeclaration, root);
+                    // Write down the XML declaration
+                    XmlDeclaration xmlDeclaration = this.mDocument.CreateXmlDeclaration("1.0", "utf-8", null);
 
-                    XmlElement rootElement = this.mDocument.CreateElement(string.Empty, "root", string.Empty);
+                    // Create the root element
+                    XmlElement rootElement = this.mDocument.CreateElement("messages");
+                    this.mDocument.InsertBefore(xmlDeclaration, this.mDocument.DocumentElement);
                     this.mDocument.AppendChild(rootElement);
 
                     rootElement.Attributes.Append(this.mDocument.CreateAttribute("culture")).InnerText = culture.Name;
                 }
             }
 
-            internal string GetTranslation(string methodName, string valueId, string valueDefault)
+            internal string GetTranslation(string id, string methodName, string valueDefault, string comment)
             {
-                XmlNode nodeMethod = this.mDocument.DocumentElement.SelectSingleNode(methodName);
+                XmlNode nodeMethod = this.mDocument.DocumentElement.SelectSingleNode(
+                    String.Format("message[id={0}]", id));
 
-                if (nodeMethod == null)
+                if (nodeMethod != null)
                 {
-                    nodeMethod = this.mDocument.CreateElement(methodName);
-                    this.mDocument.DocumentElement.AppendChild(nodeMethod);
-                }
-
-                XmlNode node = nodeMethod.SelectSingleNode(valueId);
-
-                if (node != null)
-                {
-                    XmlNode cdata = node.FirstChild;
+                    XmlNode cdata = nodeMethod.SelectSingleNode("translated");
                     return cdata.InnerText;
                 }
                 else
                 {
-                    node = nodeMethod.AppendChild(this.mDocument.CreateElement(valueId));
-                    Regex reg = new Regex("[\\<\\>\\\"\\\']");
-                    if (reg.IsMatch(valueDefault))
+                    XmlNode nodeMessage = this.mDocument.DocumentElement.AppendChild(this.mDocument.CreateElement("message"));
+
                     {
-                        XmlNode cdata = this.mDocument.CreateCDataSection(valueDefault);
-                        node.AppendChild(cdata);
+                        XmlNode nodeId = this.GetNode(nodeMessage, "id", true);
+                        nodeId.InnerText = id;
                     }
-                    else
+
                     {
-                        node.InnerText = valueDefault;
+                        XmlNode nodeSource = this.GetNode(nodeMessage, "source", true);
+                        XmlNode cdata = this.mDocument.CreateCDataSection(valueDefault);
+                        nodeSource.AppendChild(cdata);
+                    }
+
+                    {
+                        XmlNode nodeTranslated = this.GetNode(nodeMessage, "translated", true);
+                        XmlNode cdata = this.mDocument.CreateCDataSection(valueDefault);
+                        nodeTranslated.AppendChild(cdata);
+                    }
+
+                    if (comment != String.Empty)
+                    {
+                        XmlNode nodeComment = this.GetNode(nodeMessage, "comment", true);
+                        XmlNode cdata = this.mDocument.CreateCDataSection(comment);
+                        nodeComment.AppendChild(cdata);
                     }
 
                     this.mChanged = true;
 
                     return valueDefault;
                 }
+            }
+
+            private XmlNode GetNode(XmlNode parent, string name, bool create)
+            {
+                XmlNode result = parent.SelectSingleNode(name);
+
+                if (result == null)
+                {
+                    result = parent.OwnerDocument.CreateElement(name);
+                    parent.AppendChild(result);
+                }
+                return result;
             }
 
             public void SaveChanges()
