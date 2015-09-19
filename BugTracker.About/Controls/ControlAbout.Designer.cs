@@ -28,43 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label4;
-            System.Windows.Forms.Label label5;
-            System.Windows.Forms.Label label6;
-            System.Windows.Forms.Label label7;
+            this.labelTitle = new System.Windows.Forms.Label();
+            this.labelSourcesTitle = new System.Windows.Forms.Label();
+            this.labelDescription = new System.Windows.Forms.Label();
+            this.labelAuthorTitle = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.linkLabelSources = new System.Windows.Forms.LinkLabel();
-            label1 = new System.Windows.Forms.Label();
-            label4 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
-            label6 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
+            this.linkLabelAuthor = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // labelTitle
             // 
-            label1.AutoSize = true;
-            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            label1.Location = new System.Drawing.Point(3, 0);
-            label1.Name = "label1";
-            label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            label1.Size = new System.Drawing.Size(107, 27);
-            label1.TabIndex = 0;
-            label1.Text = "About Bugs.Net";
+            this.labelTitle.AutoSize = true;
+            this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTitle.Location = new System.Drawing.Point(3, 0);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.labelTitle.Size = new System.Drawing.Size(107, 27);
+            this.labelTitle.TabIndex = 0;
+            this.labelTitle.Text = "About Bugs.Net";
+            // 
+            // labelSourcesTitle
+            // 
+            this.labelSourcesTitle.AutoSize = true;
+            this.labelSourcesTitle.Location = new System.Drawing.Point(3, 67);
+            this.labelSourcesTitle.Name = "labelSourcesTitle";
+            this.labelSourcesTitle.Size = new System.Drawing.Size(49, 13);
+            this.labelSourcesTitle.TabIndex = 0;
+            this.labelSourcesTitle.Text = "Sources:";
+            // 
+            // labelDescription
+            // 
+            this.labelDescription.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.labelDescription, 2);
+            this.labelDescription.Location = new System.Drawing.Point(3, 27);
+            this.labelDescription.Name = "labelDescription";
+            this.labelDescription.Size = new System.Drawing.Size(275, 13);
+            this.labelDescription.TabIndex = 0;
+            this.labelDescription.Text = "Simple bug tracking application with database in local file";
+            // 
+            // labelAuthorTitle
+            // 
+            this.labelAuthorTitle.AutoSize = true;
+            this.labelAuthorTitle.Location = new System.Drawing.Point(3, 47);
+            this.labelAuthorTitle.Name = "labelAuthorTitle";
+            this.labelAuthorTitle.Size = new System.Drawing.Size(41, 13);
+            this.labelAuthorTitle.TabIndex = 0;
+            this.labelAuthorTitle.Text = "Author:";
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(label5, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(label6, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(label7, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(label4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.labelTitle, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.labelDescription, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelAuthorTitle, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelSourcesTitle, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.linkLabelSources, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.linkLabelAuthor, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -78,15 +101,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(597, 335);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(3, 67);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(49, 13);
-            label4.TabIndex = 0;
-            label4.Text = "Sources:";
-            // 
             // linkLabelSources
             // 
             this.linkLabelSources.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -99,33 +113,17 @@
             this.linkLabelSources.Text = "linkLabel1";
             this.linkLabelSources.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSources_LinkClicked);
             // 
-            // label5
+            // linkLabelAuthor
             // 
-            label5.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(label5, 2);
-            label5.Location = new System.Drawing.Point(3, 27);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(275, 13);
-            label5.TabIndex = 0;
-            label5.Text = "Simple bug tracking application with database in local file";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(3, 47);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(41, 13);
-            label6.TabIndex = 0;
-            label6.Text = "Author:";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(116, 47);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(93, 13);
-            label7.TabIndex = 0;
-            label7.Text = "riuson@gmail.com";
+            this.linkLabelAuthor.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.linkLabelAuthor.AutoSize = true;
+            this.linkLabelAuthor.Location = new System.Drawing.Point(116, 50);
+            this.linkLabelAuthor.Name = "linkLabelAuthor";
+            this.linkLabelAuthor.Size = new System.Drawing.Size(93, 13);
+            this.linkLabelAuthor.TabIndex = 1;
+            this.linkLabelAuthor.TabStop = true;
+            this.linkLabelAuthor.Text = "riuson@gmail.com";
+            this.linkLabelAuthor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSources_LinkClicked);
             // 
             // ControlAbout
             // 
@@ -145,5 +143,10 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.LinkLabel linkLabelSources;
+        private System.Windows.Forms.Label labelTitle;
+        private System.Windows.Forms.Label labelDescription;
+        private System.Windows.Forms.LinkLabel linkLabelAuthor;
+        private System.Windows.Forms.Label labelSourcesTitle;
+        private System.Windows.Forms.Label labelAuthorTitle;
     }
 }

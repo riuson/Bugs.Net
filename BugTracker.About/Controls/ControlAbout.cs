@@ -19,6 +19,10 @@ namespace BugTracker.About.Controls
         {
             InitializeComponent();
             this.Text = "About".Tr();
+            this.labelTitle.Text = this.labelTitle.Text.Tr();
+            this.labelAuthorTitle.Text = this.labelAuthorTitle.Text.Tr();
+            this.labelDescription.Text = this.labelDescription.Text.Tr();
+            this.labelSourcesTitle.Text = this.labelSourcesTitle.Text.Tr();
 
             object[] attributesRevision = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitRevisionAttribute), false);
             object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
@@ -26,9 +30,14 @@ namespace BugTracker.About.Controls
             string commitDate = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate.ToString("yyyy-MM-dd HH:mm:ss zzz");
             string githubLink = "https://github.com/riuson/Bugs.Net";
             string revisionShort = (attributesRevision[0] as AssemblyGitRevisionAttribute).RevisionHash.Substring(0, 7);
+
             this.linkLabelSources.Text = String.Format("{0}, rev.{1} from {2}".Tr(), githubLink, revisionShort, commitDate);
             this.linkLabelSources.Links.Add(this.linkLabelSources.Text.IndexOf(githubLink), githubLink.Length, githubLink);
             this.linkLabelSources.Links.Add(this.linkLabelSources.Text.IndexOf(revisionShort), revisionShort.Length, String.Format("{0}/commit/{1}", githubLink, revisionShort));
+
+            string email = "mailto:riuson@gmail.com";
+            this.linkLabelAuthor.Text = String.Format("Vladimir {0}", email);
+            this.linkLabelAuthor.Links.Add(this.linkLabelAuthor.Text.IndexOf(email), email.Length, email);
         }
 
         private void linkLabelSources_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
