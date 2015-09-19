@@ -30,7 +30,7 @@ namespace BugTracker.Core.Extensions
 
         private static string GetTranslated(Assembly assembly, MethodBase method, string value)
         {
-            string id = value.Replace('.', '_');
+            string id = ReplaceChars(value);
             CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
             Tuple<XmlDocument, FileInfo> document = GetDocument(assembly, culture);
             string result = GetTranslation(document, method, value, id);
