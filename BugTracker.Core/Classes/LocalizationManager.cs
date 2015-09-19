@@ -34,6 +34,7 @@ namespace BugTracker.Core.Classes
         /// </summary>
         private LocalizationManager()
         {
+            this.mTranslations = new Dictionary<string, TranslationData>();
         }
 
         /// <summary>
@@ -44,16 +45,28 @@ namespace BugTracker.Core.Classes
             get { return LocalizationManagerCreator.Instance; }
         }
 
+        private Dictionary<string, TranslationData> mTranslations;
+
         public string Translate(Assembly assembly, MethodBase method, string value)
         {
-            string id = ReplaceChars(value);
             CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
-            Tuple<XmlDocument, FileInfo> document = GetDocument(assembly, culture);
-            string result = this.GetTranslation(document, method, value, id);
+
+            TranslationData data = this.GetData(assembly, culture);
+
+            string result = this.GetTranslation(data, method, value, this.CleanString(value));
+
             return result;
         }
 
-        private Tuple<XmlDocument, FileInfo> GetDocument(Assembly assembly, CultureInfo culture)
+        public void Save()
+        {
+            foreach (var value in this.mTranslations.Values)
+            {
+                value.SaveChanges();
+            }
+        }
+
+        private TranslationData GetData(Assembly assembly, CultureInfo culture)
         {
             UriBuilder uri = new UriBuilder(assembly.CodeBase);
             string path = Uri.UnescapeDataString(uri.Path);
@@ -66,86 +79,121 @@ namespace BugTracker.Core.Classes
 
             FileInfo file = new FileInfo(Path.Combine(dir.FullName, Path.ChangeExtension(Path.GetFileName(path), ".xml")));
 
-            XmlDocument doc = new XmlDocument();
+            TranslationData data = null;
 
-            if (file.Exists)
+            if (this.mTranslations.ContainsKey(file.FullName))
             {
-                using (FileStream fs = file.OpenRead())
-                {
-                    doc.Load(fs);
-                }
+                data = this.mTranslations[file.FullName];
             }
             else
             {
-                XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-                XmlElement root = doc.DocumentElement;
-                doc.InsertBefore(xmlDeclaration, root);
-
-                XmlElement rootElement = doc.CreateElement(string.Empty, "root", string.Empty);
-                doc.AppendChild(rootElement);
-
-                rootElement.Attributes.Append(doc.CreateAttribute("culture")).InnerText = culture.Name; ;
-
-                using (FileStream fs = file.OpenWrite())
-                {
-                    doc.Save(fs);
-                }
+                data = new TranslationData(file, culture);
+                this.mTranslations.Add(file.FullName, data);
             }
 
-            return new Tuple<XmlDocument, FileInfo>(doc, file);
+            return data;
         }
 
-        private string GetTranslation(Tuple<XmlDocument, FileInfo> document, MethodBase method, string valueDefault, string valueId)
+        private string GetTranslation(TranslationData data, MethodBase method, string valueDefault, string valueId)
         {
-            XmlDocument doc = document.Item1;
-            FileInfo file = document.Item2;
             string className = method.ReflectedType.Name;
-            string methodName = ReplaceChars(className + "_" + method.Name);
+            string methodName = this.CleanString(className + "_" + method.Name);
 
-            XmlNode nodeMethod = doc.DocumentElement.SelectSingleNode(methodName);
+            return data.GetTranslation(methodName, valueId, valueDefault);
+        }
 
-            if (nodeMethod == null)
+        private string CleanString(string value)
+        {
+            Regex reg = new Regex("[\\W]");
+            string result = reg.Replace(value, "_");
+
+            while (result.Contains("__"))
             {
-                nodeMethod = doc.CreateElement(methodName);
-                doc.DocumentElement.AppendChild(nodeMethod);
+                result = result.Replace("__", "_");
             }
 
-            XmlNode node = nodeMethod.SelectSingleNode(valueId);
+            return result;
+        }
 
+        private class TranslationData
+        {
+            private FileInfo mFile;
+            private CultureInfo mCulture;
+            private XmlDocument mDocument;
+            private bool mChanged;
 
-            if (node != null)
+            public TranslationData(FileInfo file, CultureInfo culture)
             {
-                XmlNode cdata = node.FirstChild;
-                return cdata.InnerText;
-            }
-            else
-            {
-                node = nodeMethod.AppendChild(doc.CreateElement(valueId));
-                Regex reg = new Regex("[\\<\\>\\\"\\\']");
-                if (reg.IsMatch(valueDefault))
+                this.mCulture = culture;
+                this.mFile = file;
+
+                if (file.Exists)
                 {
-                    XmlNode cdata = doc.CreateCDataSection(valueDefault);
-                    node.AppendChild(cdata);
+                    this.mDocument = new XmlDocument();
+                    this.mDocument.Load(file.FullName);
+                    this.mChanged = false;
                 }
                 else
                 {
-                    node.InnerText = valueDefault;
-                }
+                    this.mDocument = new XmlDocument();
+                    this.mChanged = true;
 
-                using (FileStream fs = file.OpenWrite())
-                {
-                    doc.Save(fs);
-                }
+                    XmlDeclaration xmlDeclaration = this.mDocument.CreateXmlDeclaration("1.0", "UTF-8", null);
+                    XmlElement root = this.mDocument.DocumentElement;
+                    this.mDocument.InsertBefore(xmlDeclaration, root);
 
-                return valueDefault;
+                    XmlElement rootElement = this.mDocument.CreateElement(string.Empty, "root", string.Empty);
+                    this.mDocument.AppendChild(rootElement);
+
+                    rootElement.Attributes.Append(this.mDocument.CreateAttribute("culture")).InnerText = culture.Name;
+                }
             }
 
-        }
+            internal string GetTranslation(string methodName, string valueId, string valueDefault)
+            {
+                XmlNode nodeMethod = this.mDocument.DocumentElement.SelectSingleNode(methodName);
 
-        private string ReplaceChars(string value)
-        {
-            Regex reg = new Regex("[\\W]");
-            return reg.Replace(value, "_");
+                if (nodeMethod == null)
+                {
+                    nodeMethod = this.mDocument.CreateElement(methodName);
+                    this.mDocument.DocumentElement.AppendChild(nodeMethod);
+                }
+
+                XmlNode node = nodeMethod.SelectSingleNode(valueId);
+
+                if (node != null)
+                {
+                    XmlNode cdata = node.FirstChild;
+                    return cdata.InnerText;
+                }
+                else
+                {
+                    node = nodeMethod.AppendChild(this.mDocument.CreateElement(valueId));
+                    Regex reg = new Regex("[\\<\\>\\\"\\\']");
+                    if (reg.IsMatch(valueDefault))
+                    {
+                        XmlNode cdata = this.mDocument.CreateCDataSection(valueDefault);
+                        node.AppendChild(cdata);
+                    }
+                    else
+                    {
+                        node.InnerText = valueDefault;
+                    }
+
+                    this.mChanged = true;
+
+                    return valueDefault;
+                }
+            }
+
+            public void SaveChanges()
+            {
+                if (this.mChanged)
+                {
+                    this.mDocument.Save(this.mFile.FullName);
+                    this.mChanged = false;
+                }
+            }
         }
     }
 }
