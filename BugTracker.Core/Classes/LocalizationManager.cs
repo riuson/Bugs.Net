@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace BugTracker.Core.Classes
 {
-    internal class LocalizationManager
+    internal class LocalizationManager : ILocalizationManager
     {
         /// <summary>
         /// Creator
@@ -35,6 +35,9 @@ namespace BugTracker.Core.Classes
         private LocalizationManager()
         {
             this.mTranslations = new Dictionary<string, TranslationData>();
+
+            this.mActiveCulture = new CultureInfo(Saved<LocalizationOptions>.Instance.CultureName);
+            Thread.CurrentThread.CurrentUICulture = this.mActiveCulture;
         }
 
         /// <summary>
@@ -56,6 +59,7 @@ namespace BugTracker.Core.Classes
                 return Path.Combine(path, "Languages");
             }
         }
+        private CultureInfo mActiveCulture;
 
         public string GetTranslation(Assembly assembly, MethodBase method, string value, string comment = "")
         {
@@ -88,6 +92,20 @@ namespace BugTracker.Core.Classes
             foreach (var value in this.mTranslations.Values)
             {
                 value.SaveChanges();
+            }
+        }
+
+        public CultureInfo ActiveUICulture
+        {
+            get
+            {
+                return this.mActiveCulture;
+            }
+            set
+            {
+                this.mActiveCulture = value;
+                Saved<LocalizationOptions>.Instance.CultureName = value.Name;
+                Saved<LocalizationOptions>.Save();
             }
         }
 
