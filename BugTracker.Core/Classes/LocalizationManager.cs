@@ -86,13 +86,9 @@ namespace BugTracker.Core.Classes
             UriBuilder uri = new UriBuilder(assembly.CodeBase);
             string path = Uri.UnescapeDataString(uri.Path);
 
-            DirectoryInfo dir = new DirectoryInfo(Path.Combine(Path.GetDirectoryName(path), culture.Name));
-            if (!dir.Exists)
-            {
-                dir.Create();
-            }
+            string translationFileTemplate = Path.Combine(Path.GetDirectoryName(path), "{0}", Path.ChangeExtension(Path.GetFileName(path), ".xml"));
 
-            string filename = Path.Combine(dir.FullName, Path.ChangeExtension(Path.GetFileName(path), ".xml"));
+            string filename = String.Format(translationFileTemplate, culture.Name);
 
             TranslationData data = null;
 
@@ -102,7 +98,7 @@ namespace BugTracker.Core.Classes
             }
             else
             {
-                data = new TranslationData(filename, culture);
+                data = new TranslationData(translationFileTemplate, culture);
                 this.mTranslations.Add(filename, data);
             }
 
@@ -134,16 +130,45 @@ namespace BugTracker.Core.Classes
             private XmlDocument mDocument;
             private bool mChanged;
 
-            public TranslationData(string filename, CultureInfo culture)
+            public TranslationData(string filenameTemplate, CultureInfo culture)
             {
                 this.mCulture = culture;
-                this.mFilename = filename;
+
+                string translationDirTemplate = Path.GetDirectoryName(filenameTemplate);
+                DirectoryInfo dir = new DirectoryInfo(String.Format(translationDirTemplate, culture.Name));
+                if (!dir.Exists)
+                {
+                    dir.Create();
+                }
+
+                this.mFilename = String.Format(filenameTemplate, culture.Name);
+                bool fileCopiedFromParent = false;
+
+                if (!File.Exists(this.mFilename))
+                {
+                    if (culture != CultureInfo.InvariantCulture && culture.Parent != CultureInfo.InvariantCulture)
+                    {
+                        string filenameParent = String.Format(filenameTemplate, culture.Parent.Name);
+
+                        if (File.Exists(filenameParent))
+                        {
+                            File.Copy(filenameParent, this.mFilename);
+                            fileCopiedFromParent = true;
+                        }
+                    }
+                }
 
                 if (File.Exists(this.mFilename))
                 {
                     this.mDocument = new XmlDocument();
                     this.mDocument.Load(this.mFilename);
                     this.mChanged = false;
+
+                    if (fileCopiedFromParent)
+                    {
+                        XmlNode nodeRoot = this.mDocument.DocumentElement;
+                        nodeRoot.Attributes["culture"].InnerText = culture.Name;
+                    }
                 }
                 else
                 {
