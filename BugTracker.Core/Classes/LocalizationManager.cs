@@ -46,6 +46,16 @@ namespace BugTracker.Core.Classes
         }
 
         private Dictionary<string, TranslationData> mTranslations;
+        private string LanguagesDir
+        {
+            get
+            {
+                UriBuilder uri = new UriBuilder(Assembly.GetExecutingAssembly().CodeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                path = Path.GetDirectoryName(path);
+                return Path.Combine(path, "Languages");
+            }
+        }
 
         public string GetTranslation(Assembly assembly, MethodBase method, string value, string comment = "")
         {
@@ -81,12 +91,23 @@ namespace BugTracker.Core.Classes
             }
         }
 
+        public IEnumerable<CultureInfo> FoundCultures
+        {
+            get
+            {
+                DirectoryInfo directory = new DirectoryInfo(this.LanguagesDir);
+                DirectoryInfo []subdirs = directory.GetDirectories();
+                IEnumerable<CultureInfo> cultures = subdirs.Select<DirectoryInfo, CultureInfo>(dir => new CultureInfo(dir.Name));
+                return cultures;
+            }
+        }
+
         private TranslationData GetData(Assembly assembly, CultureInfo culture)
         {
-            UriBuilder uri = new UriBuilder(assembly.CodeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
+            string path = this.LanguagesDir;
+            string assemblyFilename = Path.GetFileName(assembly.CodeBase);
 
-            string translationFileTemplate = Path.Combine(Path.GetDirectoryName(path), "{0}", Path.ChangeExtension(Path.GetFileName(path), ".xml"));
+            string translationFileTemplate = Path.Combine(path, "{0}", Path.ChangeExtension(assemblyFilename, ".xml"));
 
             string filename = String.Format(translationFileTemplate, culture.Name);
 
