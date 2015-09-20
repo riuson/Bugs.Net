@@ -26,31 +26,40 @@ namespace BugTracker.Translator.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem(
+                        IButton menuItemSelectLanguage = MenuPanelFabric.CreateMenuItem(
                             "Language".Tr(),
                             "Select interface language".Tr(),
                             BugTracker.Translator.Properties.Resources.icon_language_008000_48);
-                        menuItemSettings.Click += delegate(object sender, EventArgs ea)
+                        menuItemSelectLanguage.Click += delegate(object sender, EventArgs ea)
                         {
-                            this.ShowLanguageSelect();
+                            this.ShowLanguageSelector();
                         };
 
-                        return new IButton[] { menuItemSettings };
+                        IButton menuItemTranslation = MenuPanelFabric.CreateMenuItem(
+                            "Translation".Tr(),
+                            "Create and translate language files".Tr(),
+                            BugTracker.Translator.Properties.Resources.icon_language_ff0000_48);
+                        menuItemTranslation.Click += delegate(object sender, EventArgs ea)
+                        {
+                            this.ShowLanguageEditor();
+                        };
+
+                        return new IButton[] { menuItemSelectLanguage, menuItemTranslation };
                     }
                 default:
                     return new IButton[] { };
             }
         }
 
-        private void ShowLanguageSelect()
+        private void ShowLanguageSelector()
         {
             ControlLanguage control = new ControlLanguage(this.mApp);
-            control.Confirmed += this.control_Confirmed;
-            control.Rejected += this.control_Rejected;
+            control.Confirmed += this.controlSelector_Confirmed;
+            control.Rejected += this.controlSelector_Rejected;
             this.mApp.Controls.Show(control);
         }
 
-        private void control_Confirmed(object sender, EventArgs e)
+        private void controlSelector_Confirmed(object sender, EventArgs e)
         {
             ControlLanguage control = sender as ControlLanguage;
 
@@ -67,7 +76,7 @@ namespace BugTracker.Translator.Classes
             }
         }
 
-        private void control_Rejected(object sender, EventArgs e)
+        private void controlSelector_Rejected(object sender, EventArgs e)
         {
             ControlLanguage control = sender as ControlLanguage;
 
@@ -75,6 +84,12 @@ namespace BugTracker.Translator.Classes
             {
                 this.mApp.Controls.Hide(control);
             }
+        }
+
+        private void ShowLanguageEditor()
+        {
+            ControlLanguages control = new ControlLanguages(this.mApp);
+            this.mApp.Controls.Show(control);
         }
     }
 }

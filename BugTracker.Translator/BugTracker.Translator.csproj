@@ -51,6 +51,12 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Controls\ControlLanguages.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlLanguages.Designer.cs">
+      <DependentUpon>ControlLanguages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ControlLanguage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -75,6 +81,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\ControlLanguages.resx">
+      <DependentUpon>ControlLanguages.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlLanguage.resx">
       <DependentUpon>ControlLanguage.cs</DependentUpon>
     </EmbeddedResource>
