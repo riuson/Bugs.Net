@@ -15,7 +15,7 @@ namespace BugTracker.Settings.Controls
 
         public ControlSettings(IApplication app)
         {
-            this.Text = "Settings";
+            this.Text = "Settings".Trim();
 
             this.mApp = app;
             this.mMenu = MenuPanelFabric.CreateMenuPanel();

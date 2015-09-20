@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using BugTracker.Core.Interfaces;
 using BugTracker.Members.Classes;
 using BugTracker.DB.Entities;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Members.Controls
 {
@@ -20,7 +21,13 @@ namespace BugTracker.Members.Controls
         public ControlMembersList(IApplication app)
         {
             InitializeComponent();
-            this.Text = "Members list";
+            this.Text = "Members list".Tr();
+            this.buttonAdd.Text = this.buttonAdd.Text.Tr();
+            this.buttonEdit.Text = this.buttonEdit.Text.Tr();
+            this.buttonRemove.Text = this.buttonRemove.Text.Tr();
+            this.columnFirstName.HeaderText = this.columnFirstName.HeaderText.Tr();
+            this.columnLastName.HeaderText = this.columnLastName.HeaderText.Tr();
+            this.columnEmail.HeaderText = this.columnEmail.HeaderText.Tr();
             this.mApp = app;
 
             this.mMembersList = new MembersListData(this.mApp);

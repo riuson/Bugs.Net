@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Settings
 {
@@ -25,7 +26,7 @@ namespace BugTracker.Settings
             {
                 case "startpage":
                     {
-                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings", "Application options", BugTracker.Settings.Properties.Resources.icon_gears_920000_48);
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings".Tr(), "Application options".Tr(), BugTracker.Settings.Properties.Resources.icon_gears_920000_48);
                         menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);

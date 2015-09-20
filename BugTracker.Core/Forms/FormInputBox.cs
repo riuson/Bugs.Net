@@ -25,8 +25,8 @@ namespace BugTracker.Core.Forms
             this.labelPrompt.Text = prompt;
 
             this.buttonOk.Enabled = this.textBox.Text != String.Empty;
-            this.buttonOk.Text = "OK".Tr();
-            this.buttonCancel.Text = "Cancel".Tr();
+            this.buttonOk.Text = this.buttonOk.Text.Tr();
+            this.buttonCancel.Text = this.buttonCancel.Text.Tr();
         }
 
         public string Result

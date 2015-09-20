@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using BugTracker.Tickets.Classes;
 using BugTracker.DB.Events;
 using BugTracker.DB.Dao;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Tickets.Classes
 {
@@ -87,9 +88,9 @@ namespace BugTracker.Tickets.Classes
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
                     String.Format(
-                        "Do you really want remove ticket '{0}'?",
+                        "Do you really want remove ticket '{0}'?".Tr(),
                         item.Title),
-                    "Remove ticket",
+                    "Remove ticket".Tr(),
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     using (ISession session = SessionManager.Instance.OpenSession(true))

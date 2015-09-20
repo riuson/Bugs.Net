@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Vocabulary.Classes
 {
@@ -53,7 +54,7 @@ namespace BugTracker.Vocabulary.Classes
             {
                 string newValue;
 
-                if (InputBox.Show("New item:", "Add item", String.Empty, out newValue) == DialogResult.OK)
+                if (InputBox.Show("New item:".Tr(), "Add item".Tr(), String.Empty, out newValue) == DialogResult.OK)
                 {
                     using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
@@ -85,7 +86,7 @@ namespace BugTracker.Vocabulary.Classes
                 string newValue;
                 IVocabulary v = item as IVocabulary;
 
-                if (InputBox.Show("Change item:", "Edit item", v.Value, out newValue) == DialogResult.OK)
+                if (InputBox.Show("Change item:".Tr(), "Edit item".Tr(), v.Value, out newValue) == DialogResult.OK)
                 {
                     using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
@@ -118,9 +119,9 @@ namespace BugTracker.Vocabulary.Classes
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
                     String.Format(
-                        "Do you really want remove item '{0}'?",
+                        "Do you really want remove item '{0}'?".Tr(),
                         v.Value),
-                    "Remove item",
+                    "Remove item".Tr(),
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try

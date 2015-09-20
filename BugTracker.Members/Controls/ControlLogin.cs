@@ -14,6 +14,7 @@ using BugTracker.DB.Dao;
 using BugTracker.Members.Classes;
 using BugTracker.DB.Events;
 using BugTracker.Core.Classes;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Members.Controls
 {
@@ -28,7 +29,12 @@ namespace BugTracker.Members.Controls
         public ControlLogin(IApplication app)
         {
             InitializeComponent();
-            this.Text = "Login";
+            this.Text = "Login".Tr();
+            this.buttonOk.Text = this.buttonOk.Text.Tr();
+            this.buttonCancel.Text = this.buttonCancel.Text.Tr();
+            this.buttonMembersList.Text = this.buttonMembersList.Text.Tr();
+            this.labelMember.Text = this.labelMember.Text.Tr();
+            this.labelPassword.Text = this.labelPassword.Text.Tr();
             this.mApp = app;
 
             this.mData = new MembersListData(app);

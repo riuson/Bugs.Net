@@ -16,6 +16,7 @@ namespace BugTracker.Core.Forms
         {
             InitializeComponent();
             this.Text = "Exception handled".Tr();
+            this.buttonOk.Text = this.buttonOk.Text.Tr();
         }
 
         public FormExceptionMessage(Exception exc)

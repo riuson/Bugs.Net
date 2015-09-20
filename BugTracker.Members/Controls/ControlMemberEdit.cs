@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BugTracker.DB.Entities;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Members.Controls
 {
@@ -19,14 +20,19 @@ namespace BugTracker.Members.Controls
         public ControlMemberEdit()
         {
             InitializeComponent();
-            this.Text = "Add member";
+            this.Text = "Add member".Tr();
+            this.buttonOk.Text = this.buttonOk.Text.Tr();
+            this.buttonCancel.Text = this.buttonCancel.Text.Tr();
+            this.labelFirstName.Text = this.labelFirstName.Text.Tr();
+            this.labelLastName.Text = this.labelLastName.Text.Tr();
+            this.labelEmail.Text = this.labelEmail.Text.Tr();
             this.Entity = null;
         }
 
         public ControlMemberEdit(string firstName, string lastName, string email)
             : this()
         {
-            this.Text = "Edit member";
+            this.Text = "Edit member".Tr();
             this.textBoxFirstName.Text = firstName;
             this.textBoxLastName.Text = lastName;
             this.textBoxEmail.Text = email;

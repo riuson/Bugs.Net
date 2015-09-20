@@ -10,6 +10,7 @@ using BugTracker.Core.Interfaces;
 using BugTracker.Core.Classes;
 using BugTracker.DB.Classes;
 using System.IO;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.DB.Controls
 {
@@ -20,7 +21,7 @@ namespace BugTracker.DB.Controls
         public ControlSettings(IApplication app)
         {
             InitializeComponent();
-            this.Text = "Database settings";
+            this.Text = "Database settings".Tr();
             this.mApp = app;
 
             this.LoadSettings();
@@ -68,7 +69,7 @@ namespace BugTracker.DB.Controls
             }
             catch (Exception exc)
             {
-                MessageBox.Show(this.mApp.OwnerWindow, exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Exceptions.Handle(exc);
             }
         }
 
@@ -80,10 +81,10 @@ namespace BugTracker.DB.Controls
                 dialog.CheckPathExists = true;
                 dialog.DefaultExt = "sqlite";
                 dialog.FileName = Saved<Options>.Instance.FileName;
-                dialog.Filter = "SQLite files (*.sqlite)|*.sqlite|All files (*.*)|*.*";
+                dialog.Filter = "SQLite files (*.sqlite)|*.sqlite|All files (*.*)|*.*".Tr();
                 dialog.InitialDirectory = Path.GetDirectoryName(dialog.FileName);
                 dialog.Multiselect = false;
-                dialog.Title = "Select database file";
+                dialog.Title = "Select database file".Tr();
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {

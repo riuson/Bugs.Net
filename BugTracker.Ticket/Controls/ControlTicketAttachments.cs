@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.TicketEditor.Controls
 {
@@ -73,8 +74,8 @@ namespace BugTracker.TicketEditor.Controls
                 this.mTableAttachments.Columns.Add("path", typeof(String));
                 this.mTableAttachments.Columns.Add("comment", typeof(String));
                 this.mTableAttachments.Columns.Add("attachment", typeof(Attachment));
-                this.mTableAttachments.Columns.Add("download", typeof(String)).DefaultValue = "Download";
-                this.mTableAttachments.Columns.Add("remove", typeof(String)).DefaultValue = "Remove";
+                this.mTableAttachments.Columns.Add("download", typeof(String)).DefaultValue = "Download".Tr();
+                this.mTableAttachments.Columns.Add("remove", typeof(String)).DefaultValue = "Remove".Tr();
                 this.mTableAttachments.Columns.Add("removed", typeof(Boolean)).DefaultValue = false;
             }
 
@@ -89,19 +90,19 @@ namespace BugTracker.TicketEditor.Controls
                 {
                     AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
                     DataPropertyName = "icon",
-                    HeaderText = "Type"
+                    HeaderText = "Type".Tr()
                 });
                 this.mDataGridView.Columns.Add(new DataGridViewTextBoxColumn()
                 {
                     AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells,
                     DataPropertyName = "filename",
-                    HeaderText = "Filename"
+                    HeaderText = "Filename".Tr()
                 });
                 this.mDataGridView.Columns.Add(new DataGridViewTextBoxColumn()
                 {
                     AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
                     DataPropertyName = "comment",
-                    HeaderText = "Comment"
+                    HeaderText = "Comment".Tr()
                 });
                 this.mDataGridView.Columns.Add(new DataGridViewButtonColumn()
                 {
@@ -187,7 +188,7 @@ namespace BugTracker.TicketEditor.Controls
                             dialog.FileName = attachment.Filename;
                             dialog.OverwritePrompt = true;
                             dialog.RestoreDirectory = true;
-                            dialog.Title = "Save attachment";
+                            dialog.Title = "Save attachment".Tr();
                             dialog.DefaultExt = Path.GetExtension(attachment.Filename);
                             dialog.Filter = String.Format("*.{0}|*.{0}", dialog.DefaultExt);
                             dialog.FilterIndex = 1;

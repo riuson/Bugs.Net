@@ -41,7 +41,6 @@ namespace BugTracker.DB.Classes
                 return result;
             }
 
-            Console.WriteLine("return false");
             return false;
         }
 

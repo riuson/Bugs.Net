@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Projects.Classes
 {
@@ -55,7 +56,7 @@ namespace BugTracker.Projects.Classes
             {
                 string newName;
 
-                if (InputBox.Show("New project name:", "Add project", String.Empty, out newName) == DialogResult.OK)
+                if (InputBox.Show("New project name:".Tr(), "Add project".Tr(), String.Empty, out newName) == DialogResult.OK)
                 {
                     using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
@@ -86,7 +87,7 @@ namespace BugTracker.Projects.Classes
             {
                 string newName;
 
-                if (InputBox.Show("Change project name:", "Edit project", item.Name, out newName) == DialogResult.OK)
+                if (InputBox.Show("Change project name:".Tr(), "Edit project".Tr(), item.Name, out newName) == DialogResult.OK)
                 {
                     using (ISession session = SessionManager.Instance.OpenSession(true))
                     {
@@ -117,9 +118,9 @@ namespace BugTracker.Projects.Classes
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
                     String.Format(
-                        "Do you really want remove project '{0}'?",
+                        "Do you really want remove project '{0}'?".Tr(),
                         item.Name),
-                    "Remove project",
+                    "Remove project".Tr(),
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     using (ISession session = SessionManager.Instance.OpenSession(true))

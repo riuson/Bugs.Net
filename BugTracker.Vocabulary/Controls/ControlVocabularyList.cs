@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using BugTracker.Core.Interfaces;
 using BugTracker.Vocabulary.Classes;
 using BugTracker.DB.Entities;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Vocabulary.Controls
 {
@@ -20,7 +21,11 @@ namespace BugTracker.Vocabulary.Controls
         public ControlVocabularyList(IApplication app)
         {
             InitializeComponent();
-            this.Text = String.Format("Vocabulary list <{0}>", typeof(T).Name);
+            this.Text = String.Format("Vocabulary list <{0}>".Tr(), typeof(T).Name);
+            this.buttonAdd.Text = this.buttonAdd.Text.Tr();
+            this.buttonEdit.Text = this.buttonEdit.Text.Tr();
+            this.buttonRemove.Text = this.buttonRemove.Text.Tr();
+            this.columnValue.HeaderText = this.columnValue.HeaderText.Tr();
             this.mApp = app;
 
             this.mVocabularyList = new VocabularyListData<T>(this.mApp);
