@@ -92,18 +92,18 @@ namespace BugTracker.Core.Classes
                 dir.Create();
             }
 
-            FileInfo file = new FileInfo(Path.Combine(dir.FullName, Path.ChangeExtension(Path.GetFileName(path), ".xml")));
+            string filename = Path.Combine(dir.FullName, Path.ChangeExtension(Path.GetFileName(path), ".xml"));
 
             TranslationData data = null;
 
-            if (this.mTranslations.ContainsKey(file.FullName))
+            if (this.mTranslations.ContainsKey(filename))
             {
-                data = this.mTranslations[file.FullName];
+                data = this.mTranslations[filename];
             }
             else
             {
-                data = new TranslationData(file, culture);
-                this.mTranslations.Add(file.FullName, data);
+                data = new TranslationData(filename, culture);
+                this.mTranslations.Add(filename, data);
             }
 
             return data;
@@ -129,20 +129,20 @@ namespace BugTracker.Core.Classes
 
         private class TranslationData
         {
-            private FileInfo mFile;
+            private string mFilename;
             private CultureInfo mCulture;
             private XmlDocument mDocument;
             private bool mChanged;
 
-            public TranslationData(FileInfo file, CultureInfo culture)
+            public TranslationData(string filename, CultureInfo culture)
             {
                 this.mCulture = culture;
-                this.mFile = file;
+                this.mFilename = filename;
 
-                if (file.Exists)
+                if (File.Exists(this.mFilename))
                 {
                     this.mDocument = new XmlDocument();
-                    this.mDocument.Load(file.FullName);
+                    this.mDocument.Load(this.mFilename);
                     this.mChanged = false;
                 }
                 else
@@ -271,7 +271,7 @@ namespace BugTracker.Core.Classes
             {
                 if (this.mChanged)
                 {
-                    this.mDocument.Save(this.mFile.FullName);
+                    this.mDocument.Save(this.mFilename);
                     this.mChanged = false;
                 }
             }
