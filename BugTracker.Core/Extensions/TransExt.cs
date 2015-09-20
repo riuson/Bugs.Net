@@ -22,7 +22,7 @@ namespace BugTracker.Core.Extensions
             StackTrace stackTrace = new StackTrace();
             MethodBase method = stackTrace.GetFrame(1).GetMethod();
 
-            return LocalizationManager.Instance.Translate(assembly, method, value);
+            return LocalizationManager.Instance.GetTranslation(assembly, method, value);
         }
 
         public static string Tr(this string value, string comment)
@@ -32,7 +32,7 @@ namespace BugTracker.Core.Extensions
             StackTrace stackTrace = new StackTrace();
             MethodBase method = stackTrace.GetFrame(1).GetMethod();
 
-            return LocalizationManager.Instance.Translate(assembly, method, value, comment);
+            return LocalizationManager.Instance.GetTranslation(assembly, method, value, comment);
         }
     }
 }

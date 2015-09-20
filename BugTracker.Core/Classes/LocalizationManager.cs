@@ -47,7 +47,7 @@ namespace BugTracker.Core.Classes
 
         private Dictionary<string, TranslationData> mTranslations;
 
-        public string Translate(Assembly assembly, MethodBase method, string value, string comment = "")
+        public string GetTranslation(Assembly assembly, MethodBase method, string value, string comment = "")
         {
             CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
 
