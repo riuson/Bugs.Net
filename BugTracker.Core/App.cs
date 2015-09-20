@@ -73,5 +73,7 @@ namespace BugTracker.Core
         public IMessageCenter Messages { get { return this.mMessages; } }
 
         public IWin32Window OwnerWindow { get { return this.mWindow; } }
+
+        public ILocalizationManager Localization { get { return LocalizationManager.Instance; } }
     }
 }
