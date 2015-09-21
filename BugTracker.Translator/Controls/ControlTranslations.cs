@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using BugTracker.Core.Interfaces;
 using BugTracker.Core.Extensions;
 using BugTracker.Translator.Classes;
+using System.Globalization;
 
 namespace BugTracker.Translator.Controls
 {
@@ -32,9 +33,75 @@ namespace BugTracker.Translator.Controls
             this.mApp = app;
 
             this.mData = new LanguagesListData(this.mApp);
+            this.mData.Data.ListChanged += this.Data_ListChanged;
 
             this.dgvList.AutoGenerateColumns = false;
             this.dgvList.DataSource = this.mData.Data;
+        }
+
+        private void UpdateButtons()
+        {
+            if (this.dgvList.SelectedCells.Count > 0)
+            {
+                this.buttonEdit.Enabled = true;
+                this.buttonRemove.Enabled = true;
+            }
+            else
+            {
+                this.buttonEdit.Enabled = false;
+                this.buttonRemove.Enabled = false;
+            }
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            this.mData.Add();
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            if (this.dgvList.SelectedCells.Count > 0)
+            {
+                int rowIndex = this.dgvList.SelectedCells[0].RowIndex;
+
+                if (rowIndex >= 0)
+                {
+                    DataGridViewRow dgvr = this.dgvList.Rows[rowIndex];
+                    CultureInfo culture = dgvr.DataBoundItem as CultureInfo;
+
+                    this.mData.Edit(culture);
+                }
+            }
+        }
+
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+            if (this.dgvList.SelectedCells.Count > 0)
+            {
+                int rowIndex = this.dgvList.SelectedCells[0].RowIndex;
+
+                if (rowIndex >= 0)
+                {
+                    DataGridViewRow dgvr = this.dgvList.Rows[rowIndex];
+                    CultureInfo culture = dgvr.DataBoundItem as CultureInfo;
+
+                    if (MessageBox.Show(
+                        this.mApp.OwnerWindow,
+                        String.Format(
+                            "Do you really want remove language files for '{0}'?".Tr(),
+                            culture),
+                        "Remove language files".Tr(),
+                        MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    {
+                        this.mData.Remove(culture);
+                    }
+                }
+            }
+        }
+
+        private void Data_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            this.UpdateButtons();
         }
     }
 }

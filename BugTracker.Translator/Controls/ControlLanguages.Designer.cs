@@ -95,6 +95,7 @@
             this.dgvList.Location = new System.Drawing.Point(3, 3);
             this.dgvList.Name = "dgvList";
             tableLayoutPanel1.SetRowSpan(this.dgvList, 3);
+            this.dgvList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvList.Size = new System.Drawing.Size(508, 338);
             this.dgvList.TabIndex = 5;
             // 

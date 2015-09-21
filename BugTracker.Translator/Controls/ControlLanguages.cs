@@ -39,13 +39,16 @@ namespace BugTracker.Translator.Controls
             this.dgvList.DataSource = this.mBS;
         }
 
-        //public CultureInfo SelectedCulture
-        //{
-        //    get
-        //    {
-        //        return this.comboBoxLangauge.SelectedItem as CultureInfo;
-        //    }
-        //}
+        public IEnumerable<CultureInfo> SelectedCultures
+        {
+            get
+            {
+                IEnumerable<DataGridViewRow> rows = this.dgvList.SelectedRows.Cast<DataGridViewRow>();
+                rows = rows.Where<DataGridViewRow>(row => row.Index >= 0 && row.DataBoundItem is CultureInfo);
+                IEnumerable<CultureInfo> cultures = rows.Select<DataGridViewRow, CultureInfo>(row => row.DataBoundItem as CultureInfo);
+                return cultures;
+            }
+        }
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
