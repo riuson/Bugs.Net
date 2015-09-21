@@ -33,7 +33,9 @@ namespace BugTracker.Translator.Classes
 
         public void Edit(CultureInfo culture)
         {
-            throw new NotImplementedException();
+            ControlTranslate controlTranslate= new ControlTranslate(this.mApp, culture);
+            //controlTranslate.Confirmed += this.controlSelectNewLanguages_Confirmed;
+            this.mApp.Controls.Show(controlTranslate);
         }
 
         public void Remove(CultureInfo culture)

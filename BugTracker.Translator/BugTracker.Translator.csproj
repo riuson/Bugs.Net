@@ -64,6 +64,12 @@
     <Compile Include="Controls\ControlLanguage.Designer.cs">
       <DependentUpon>ControlLanguage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ControlTranslate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlTranslate.Designer.cs">
+      <DependentUpon>ControlTranslate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ControlTranslations.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlLanguage.resx">
       <DependentUpon>ControlLanguage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ControlTranslate.resx">
+      <DependentUpon>ControlTranslate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlTranslations.resx">
       <DependentUpon>ControlTranslations.cs</DependentUpon>
