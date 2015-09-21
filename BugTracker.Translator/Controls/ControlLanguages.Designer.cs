@@ -83,6 +83,9 @@
             // 
             this.dgvList.AllowUserToAddRows = false;
             this.dgvList.AllowUserToDeleteRows = false;
+            this.dgvList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvList.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgvList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnDisplayName,
@@ -113,12 +116,12 @@
             this.columnNativeName.HeaderText = "Native Name";
             this.columnNativeName.Name = "columnNativeName";
             // 
-            // ControlLanguageCreate
+            // ControlLanguages
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(tableLayoutPanel1);
-            this.Name = "ControlLanguageCreate";
+            this.Name = "ControlLanguages";
             this.Size = new System.Drawing.Size(595, 344);
             tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).EndInit();

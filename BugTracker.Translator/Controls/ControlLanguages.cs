@@ -23,7 +23,7 @@ namespace BugTracker.Translator.Controls
         public ControlLanguages(IApplication app)
         {
             InitializeComponent();
-            this.Text = "Select languages".Tr();
+            this.Text = "Select new languages".Tr();
             this.buttonOk.Text = this.buttonOk.Text.Tr();
             this.buttonCancel.Text = this.buttonCancel.Text.Tr();
             this.columnName.HeaderText = this.columnName.HeaderText.Tr();
