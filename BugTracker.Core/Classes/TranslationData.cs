@@ -41,6 +41,14 @@ namespace BugTracker.Core.Classes
         [DataMember(Name="Messages")]
         private List<TranslationUnit> mUnits;
 
+        public IEnumerable<TranslationUnit> Units
+        {
+            get
+            {
+                return this.mUnits;
+            }
+        }
+
         private bool mChanged;
 
         public TranslationData()
@@ -130,7 +138,7 @@ namespace BugTracker.Core.Classes
     }
 
     [DataContract(Name="Message")]
-    internal class TranslationUnit
+    public class TranslationUnit
     {
         [DataMember()]
         public string Id { get; set; }

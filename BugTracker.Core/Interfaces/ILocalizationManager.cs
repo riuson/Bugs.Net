@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BugTracker.Core.Classes;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,5 +11,8 @@ namespace BugTracker.Core.Interfaces
     {
         CultureInfo ActiveUICulture { get; set; }
         IEnumerable<CultureInfo> FoundCultures { get; }
+        IEnumerable<string> GetModules(CultureInfo culture);
+        IEnumerable<TranslationUnit> GetTranslationUnits(CultureInfo culture, string assemblyName);
+        void SetTranslationUnits(CultureInfo culture, string assemblyName, TranslationUnit unit);
     }
 }

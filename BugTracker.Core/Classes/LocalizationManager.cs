@@ -64,7 +64,7 @@ namespace BugTracker.Core.Classes
 
         public TranslationUnit GetTranslation(CultureInfo culture, string assemblyName, string methodName, string source, string comment = "")
         {
-            TranslationData data = this.GetData(assemblyName, culture);
+            TranslationData data = this.GetData(culture, assemblyName);
 
             string id = this.GetHash(methodName + source);
 
@@ -81,7 +81,7 @@ namespace BugTracker.Core.Classes
 
         public void SetTranslation(CultureInfo culture, string assemblyName, string methodName, string source, string translated, string comment = "")
         {
-            TranslationData data = this.GetData(assemblyName, culture);
+            TranslationData data = this.GetData(culture, assemblyName);
 
             string id = this.GetHash(methodName + source);
 
@@ -122,13 +122,33 @@ namespace BugTracker.Core.Classes
             }
         }
 
+        public IEnumerable<string> GetModules(CultureInfo culture)
+        {
+            DirectoryInfo directory = new DirectoryInfo(Path.Combine(this.LanguagesDir, culture.Name));
+            FileInfo[] files = directory.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
+            IEnumerable<string> modules = files.Select<FileInfo, string>(file => Path.GetFileNameWithoutExtension(file.Name));
+            return modules;
+        }
+
+        public IEnumerable<TranslationUnit> GetTranslationUnits(CultureInfo culture, string assemblyName)
+        {
+            TranslationData data = this.GetData(culture, assemblyName);
+            return data.Units;
+        }
+
+        public void SetTranslationUnits(CultureInfo culture, string assemblyName, TranslationUnit unit)
+        {
+            TranslationData data = this.GetData(culture, assemblyName);
+            data.SetTranslation(unit);
+        }
+
         /// <summary>
         /// Get translation data by assembly name and culture
         /// </summary>
         /// <param name="assemblyName">Assembly file name without extension.</param>
         /// <param name="culture">Selected culture</param>
         /// <returns>Translation data</returns>
-        private TranslationData GetData(string assemblyName, CultureInfo culture)
+        private TranslationData GetData(CultureInfo culture, string assemblyName)
         {
             string path = this.LanguagesDir;
 
