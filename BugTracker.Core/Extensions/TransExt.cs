@@ -25,7 +25,7 @@ namespace BugTracker.Core.Extensions
             string assemblyFilename = Path.GetFileNameWithoutExtension(assembly.CodeBase);
             string methodName = CleanString(method.ReflectedType.Name+ "_" + method.Name);
 
-            return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value);
+            return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value).Translated;
         }
 
         public static string Tr(this string value, string comment)
@@ -38,7 +38,7 @@ namespace BugTracker.Core.Extensions
             string assemblyFilename = Path.GetFileNameWithoutExtension(assembly.CodeBase);
             string methodName = CleanString(method.ReflectedType.Name + "_" + method.Name);
 
-            return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value, comment);
+            return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value, comment).Translated;
         }
 
         private static string CleanString(string value)

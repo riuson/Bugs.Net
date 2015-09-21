@@ -22,19 +22,19 @@ namespace BugTracker.Core.Tests.Classes
             CultureInfo cultureRu = new CultureInfo("ru");
 
             string assemblyFilename = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
-            string str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test");
+            string str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test").Translated;
 
             Assert.That(str, Is.EqualTo("Test"));
 
             LocalizationManager.Instance.SetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test", "Тест");
 
-            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test");
+            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test").Translated;
             Assert.That(str, Is.EqualTo("Тест"));
 
-            str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test");
+            str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test").Translated;
             Assert.That(str, Is.EqualTo("Test"));
 
-            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test");
+            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test").Translated;
             Assert.That(str, Is.EqualTo("Тест"));
 
             //LocalizationManager.Instance.Save();
