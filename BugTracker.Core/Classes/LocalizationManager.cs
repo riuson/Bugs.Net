@@ -72,7 +72,7 @@ namespace BugTracker.Core.Classes
 
             if (unit == null)
             {
-                unit = new TranslationUnit(id, source, source, comment);
+                unit = new TranslationUnit(id, methodName, source, source, comment);
                 data.SetTranslation(unit);
             }
 
@@ -85,7 +85,7 @@ namespace BugTracker.Core.Classes
 
             string id = this.GetHash(methodName + source);
 
-            TranslationUnit unit = new TranslationUnit(id, source, translated, comment);
+            TranslationUnit unit = new TranslationUnit(id, methodName, source, translated, comment);
             data.SetTranslation(unit);
         }
 
@@ -178,7 +178,7 @@ namespace BugTracker.Core.Classes
                         data = TranslationData.LoadFrom(filename);
                         this.mTranslations.Add(filename, data);
                     }
-                    catch(Exception exc)
+                    catch (Exception exc)
                     {
                         data = new TranslationData(filename, culture);
                         this.mTranslations.Add(filename, data);

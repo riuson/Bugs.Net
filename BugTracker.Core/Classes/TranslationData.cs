@@ -38,7 +38,7 @@ namespace BugTracker.Core.Classes
             }
         }
 
-        [DataMember(Name="Messages")]
+        [DataMember(Name = "Messages")]
         private List<TranslationUnit> mUnits;
 
         public IEnumerable<TranslationUnit> Units
@@ -137,11 +137,13 @@ namespace BugTracker.Core.Classes
         }
     }
 
-    [DataContract(Name="Message")]
+    [DataContract(Name = "Message")]
     public class TranslationUnit
     {
         [DataMember()]
         public string Id { get; set; }
+        [DataMember()]
+        public string Method { get; set; }
         [DataMember()]
         public string Source { get; set; }
         [DataMember()]
@@ -149,9 +151,10 @@ namespace BugTracker.Core.Classes
         [DataMember()]
         public string Comment { get; set; }
 
-        public TranslationUnit(string id, string source, string translated, string comment)
+        public TranslationUnit(string id, string method, string source, string translated, string comment)
         {
             this.Id = id;
+            this.Method = method;
             this.Source = source;
             this.Translated = translated;
             this.Comment = comment;
