@@ -61,18 +61,18 @@ namespace BugTracker.Core.Classes
         }
         private CultureInfo mActiveCulture;
 
-        public string GetTranslation(CultureInfo culture, string assemblyFilename, string methodName, string value, string comment = "")
+        public string GetTranslation(CultureInfo culture, string assemblyName, string methodName, string value, string comment = "")
         {
-            TranslationData data = this.GetData(assemblyFilename, culture);
+            TranslationData data = this.GetData(assemblyName, culture);
 
             string id = this.GetHash(methodName + value);
 
             return data.GetTranslation(id, methodName, value, comment);
         }
 
-        public void SetTranslation(CultureInfo culture, string assemblyFilename, string methodName, string value, string translation, string comment = "")
+        public void SetTranslation(CultureInfo culture, string assemblyName, string methodName, string value, string translation, string comment = "")
         {
-            TranslationData data = this.GetData(assemblyFilename, culture);
+            TranslationData data = this.GetData(assemblyName, culture);
 
             string id = this.GetHash(methodName + value);
 
@@ -112,11 +112,17 @@ namespace BugTracker.Core.Classes
             }
         }
 
-        private TranslationData GetData(string assemblyFilename, CultureInfo culture)
+        /// <summary>
+        /// Get translation data by assembly name and culture
+        /// </summary>
+        /// <param name="assemblyName">Assembly file name without extension.</param>
+        /// <param name="culture">Selected culture</param>
+        /// <returns>Translation data</returns>
+        private TranslationData GetData(string assemblyName, CultureInfo culture)
         {
             string path = this.LanguagesDir;
 
-            string translationFileTemplate = Path.Combine(path, "{0}", Path.ChangeExtension(assemblyFilename, ".xml"));
+            string translationFileTemplate = Path.Combine(path, "{0}", assemblyName + ".xml");
 
             string filename = String.Format(translationFileTemplate, culture.Name);
 

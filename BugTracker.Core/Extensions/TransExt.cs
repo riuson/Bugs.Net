@@ -22,7 +22,7 @@ namespace BugTracker.Core.Extensions
             StackTrace stackTrace = new StackTrace();
             MethodBase method = stackTrace.GetFrame(1).GetMethod();
 
-            string assemblyFilename = Path.GetFileName(assembly.CodeBase);
+            string assemblyFilename = Path.GetFileNameWithoutExtension(assembly.CodeBase);
             string methodName = CleanString(method.ReflectedType.Name+ "_" + method.Name);
 
             return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value);
@@ -35,7 +35,7 @@ namespace BugTracker.Core.Extensions
             StackTrace stackTrace = new StackTrace();
             MethodBase method = stackTrace.GetFrame(1).GetMethod();
 
-            string assemblyFilename = Path.GetFileName(assembly.CodeBase);
+            string assemblyFilename = Path.GetFileNameWithoutExtension(assembly.CodeBase);
             string methodName = CleanString(method.ReflectedType.Name + "_" + method.Name);
 
             return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value, comment);

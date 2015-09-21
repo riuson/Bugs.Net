@@ -21,7 +21,7 @@ namespace BugTracker.Core.Tests.Classes
             CultureInfo cultureEn = new CultureInfo("en");
             CultureInfo cultureRu = new CultureInfo("ru");
 
-            string assemblyFilename = Path.GetFileName(Assembly.GetExecutingAssembly().CodeBase);
+            string assemblyFilename = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
             string str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test");
 
             Assert.That(str, Is.EqualTo("Test"));
