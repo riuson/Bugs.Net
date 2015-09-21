@@ -142,6 +142,23 @@ namespace BugTracker.Core.Classes
             data.SetTranslation(unit);
         }
 
+        public void AddCulture(CultureInfo cultureNew, CultureInfo cultureSource = null)
+        {
+            DirectoryInfo directoryNew = new DirectoryInfo(Path.Combine(this.LanguagesDir, cultureNew.Name));
+            directoryNew.Create();
+
+            if (cultureSource != null)
+            {
+                DirectoryInfo directorySource = new DirectoryInfo(Path.Combine(this.LanguagesDir, cultureSource.Name));
+                FileInfo[] files = directorySource.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
+
+                foreach (var file in files)
+                {
+                    file.CopyTo(Path.Combine(directoryNew.FullName, Path.GetFileName(file.FullName)));
+                }
+            }
+        }
+
         /// <summary>
         /// Get translation data by assembly name and culture
         /// </summary>

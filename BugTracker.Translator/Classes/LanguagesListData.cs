@@ -33,7 +33,7 @@ namespace BugTracker.Translator.Classes
 
         public void Edit(CultureInfo culture)
         {
-            ControlTranslate controlTranslate= new ControlTranslate(this.mApp, culture);
+            ControlTranslate controlTranslate = new ControlTranslate(this.mApp, culture);
             //controlTranslate.Confirmed += this.controlSelectNewLanguages_Confirmed;
             this.mApp.Controls.Show(controlTranslate);
         }
@@ -89,14 +89,18 @@ namespace BugTracker.Translator.Classes
                     {
                         cultureSource = cultureEnUs;
                     }
-                    else // Or get En
+                    else if (this.mCultures.Contains(cultureEn))
                     {
                         cultureSource = cultureEn;
+                    }
+                    else
+                    {
+                        cultureSource = null;
                     }
                 }
             }
 
-            // Copy files
+            this.mApp.Localization.AddCulture(culture, cultureSource);
         }
     }
 }
