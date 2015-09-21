@@ -9,14 +9,22 @@ using System.Xml.Serialization;
 
 namespace BugTracker.DB.Tests.Mapping
 {
-    [TestFixture]
-    public class ProblemTypeMapTest
+    [TestFixture(typeof(AttachmentMap))]
+    [TestFixture(typeof(BlobContentMap))]
+    [TestFixture(typeof(ChangeMap))]
+    [TestFixture(typeof(PriorityMap))]
+    [TestFixture(typeof(ProblemTypeMap))]
+    [TestFixture(typeof(ProjectMap))]
+    [TestFixture(typeof(SolutionMap))]
+    [TestFixture(typeof(StatusMap))]
+    [TestFixture(typeof(TicketMap))]
+    public class GenericMapTest<T> where T : IConformistHoldersProvider, new()
     {
         [Test]
         public void CanGenerateXmlMapping()
         {
             var mapper = new ModelMapper();
-            mapper.AddMapping<ProblemTypeMap>();
+            mapper.AddMapping<T>();
 
             var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
             var xmlSerializer = new XmlSerializer(mapping.GetType());
