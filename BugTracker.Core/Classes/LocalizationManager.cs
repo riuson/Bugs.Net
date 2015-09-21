@@ -61,27 +61,23 @@ namespace BugTracker.Core.Classes
         }
         private CultureInfo mActiveCulture;
 
-        public string GetTranslation(Assembly assembly, MethodBase method, string value, string comment = "")
+        public string GetTranslation(string assemblyFilename, string methodName, string value, string comment = "")
         {
             CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
 
-            TranslationData data = this.GetData(assembly, culture);
+            TranslationData data = this.GetData(assemblyFilename, culture);
 
-            string className = method.ReflectedType.Name;
-            string methodName = this.CleanString(className + "_" + method.Name);
             string id = this.GetHash(methodName + value);
 
             return data.GetTranslation(id, methodName, value, comment);
         }
 
-        public void SetTranslation(Assembly assembly, MethodBase method, string value, string translation, string comment = "")
+        public void SetTranslation(string assemblyFilename, string methodName, string value, string translation, string comment = "")
         {
             CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
 
-            TranslationData data = this.GetData(assembly, culture);
+            TranslationData data = this.GetData(assemblyFilename, culture);
 
-            string className = method.ReflectedType.Name;
-            string methodName = this.CleanString(className + "_" + method.Name);
             string id = this.GetHash(methodName + value);
 
             data.SetTranslation(id, methodName, value, translation, comment);
@@ -114,16 +110,15 @@ namespace BugTracker.Core.Classes
             get
             {
                 DirectoryInfo directory = new DirectoryInfo(this.LanguagesDir);
-                DirectoryInfo []subdirs = directory.GetDirectories();
+                DirectoryInfo[] subdirs = directory.GetDirectories();
                 IEnumerable<CultureInfo> cultures = subdirs.Select<DirectoryInfo, CultureInfo>(dir => new CultureInfo(dir.Name));
                 return cultures;
             }
         }
 
-        private TranslationData GetData(Assembly assembly, CultureInfo culture)
+        private TranslationData GetData(string assemblyFilename, CultureInfo culture)
         {
             string path = this.LanguagesDir;
-            string assemblyFilename = Path.GetFileName(assembly.CodeBase);
 
             string translationFileTemplate = Path.Combine(path, "{0}", Path.ChangeExtension(assemblyFilename, ".xml"));
 
@@ -142,19 +137,6 @@ namespace BugTracker.Core.Classes
             }
 
             return data;
-        }
-
-        private string CleanString(string value)
-        {
-            Regex reg = new Regex("[\\W]");
-            string result = reg.Replace(value, "_");
-
-            while (result.Contains("__"))
-            {
-                result = result.Replace("__", "_");
-            }
-
-            return result;
         }
 
         private string GetHash(string value)

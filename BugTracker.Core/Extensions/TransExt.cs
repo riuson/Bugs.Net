@@ -22,7 +22,10 @@ namespace BugTracker.Core.Extensions
             StackTrace stackTrace = new StackTrace();
             MethodBase method = stackTrace.GetFrame(1).GetMethod();
 
-            return LocalizationManager.Instance.GetTranslation(assembly, method, value);
+            string assemblyFilename = Path.GetFileName(assembly.CodeBase);
+            string methodName = CleanString(method.ReflectedType.Name+ "_" + method.Name);
+
+            return LocalizationManager.Instance.GetTranslation(assemblyFilename, methodName, value);
         }
 
         public static string Tr(this string value, string comment)
@@ -32,7 +35,23 @@ namespace BugTracker.Core.Extensions
             StackTrace stackTrace = new StackTrace();
             MethodBase method = stackTrace.GetFrame(1).GetMethod();
 
-            return LocalizationManager.Instance.GetTranslation(assembly, method, value, comment);
+            string assemblyFilename = Path.GetFileName(assembly.CodeBase);
+            string methodName = CleanString(method.ReflectedType.Name + "_" + method.Name);
+
+            return LocalizationManager.Instance.GetTranslation(assemblyFilename, methodName, value, comment);
+        }
+
+        private static string CleanString(string value)
+        {
+            Regex reg = new Regex("[\\W]");
+            string result = reg.Replace(value, "_");
+
+            while (result.Contains("__"))
+            {
+                result = result.Replace("__", "_");
+            }
+
+            return result;
         }
     }
 }

@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -17,24 +18,25 @@ namespace BugTracker.Core.Tests.Classes
         [Test]
         public void CanTranslate()
         {
+            string assemblyFilename = Path.GetFileName(Assembly.GetExecutingAssembly().CodeBase);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-            string str = LocalizationManager.Instance.GetTranslation(Assembly.GetExecutingAssembly(), MethodBase.GetCurrentMethod(), "Test");
+            string str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
 
             Assert.That(str, Is.EqualTo("Test"));
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
-            LocalizationManager.Instance.SetTranslation(Assembly.GetExecutingAssembly(), MethodBase.GetCurrentMethod(), "Test", "Тест");
+            LocalizationManager.Instance.SetTranslation(assemblyFilename, "CanTranslate", "Test", "Тест");
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
-            str = LocalizationManager.Instance.GetTranslation(Assembly.GetExecutingAssembly(), MethodBase.GetCurrentMethod(), "Test");
+            str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
             Assert.That(str, Is.EqualTo("Тест"));
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-            str = LocalizationManager.Instance.GetTranslation(Assembly.GetExecutingAssembly(), MethodBase.GetCurrentMethod(), "Test");
+            str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
             Assert.That(str, Is.EqualTo("Test"));
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
-            str = LocalizationManager.Instance.GetTranslation(Assembly.GetExecutingAssembly(), MethodBase.GetCurrentMethod(), "Test");
+            str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
             Assert.That(str, Is.EqualTo("Тест"));
 
             //LocalizationManager.Instance.Save();
