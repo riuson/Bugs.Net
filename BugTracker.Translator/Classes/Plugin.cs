@@ -88,7 +88,7 @@ namespace BugTracker.Translator.Classes
 
         private void ShowLanguageEditor()
         {
-            ControlLanguages control = new ControlLanguages(this.mApp);
+            ControlTranslations control = new ControlTranslations(this.mApp);
             this.mApp.Controls.Show(control);
         }
     }
