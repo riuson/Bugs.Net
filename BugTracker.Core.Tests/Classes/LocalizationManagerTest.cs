@@ -18,25 +18,23 @@ namespace BugTracker.Core.Tests.Classes
         [Test]
         public void CanTranslate()
         {
+            CultureInfo cultureEn = new CultureInfo("en");
+            CultureInfo cultureRu = new CultureInfo("ru");
+
             string assemblyFilename = Path.GetFileName(Assembly.GetExecutingAssembly().CodeBase);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-            string str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
+            string str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test");
 
             Assert.That(str, Is.EqualTo("Test"));
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
-            LocalizationManager.Instance.SetTranslation(assemblyFilename, "CanTranslate", "Test", "Тест");
+            LocalizationManager.Instance.SetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test", "Тест");
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
-            str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
+            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test");
             Assert.That(str, Is.EqualTo("Тест"));
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
-            str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
+            str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test");
             Assert.That(str, Is.EqualTo("Test"));
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
-            str = LocalizationManager.Instance.GetTranslation(assemblyFilename, "CanTranslate", "Test");
+            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test");
             Assert.That(str, Is.EqualTo("Тест"));
 
             //LocalizationManager.Instance.Save();

@@ -61,10 +61,8 @@ namespace BugTracker.Core.Classes
         }
         private CultureInfo mActiveCulture;
 
-        public string GetTranslation(string assemblyFilename, string methodName, string value, string comment = "")
+        public string GetTranslation(CultureInfo culture, string assemblyFilename, string methodName, string value, string comment = "")
         {
-            CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
-
             TranslationData data = this.GetData(assemblyFilename, culture);
 
             string id = this.GetHash(methodName + value);
@@ -72,10 +70,8 @@ namespace BugTracker.Core.Classes
             return data.GetTranslation(id, methodName, value, comment);
         }
 
-        public void SetTranslation(string assemblyFilename, string methodName, string value, string translation, string comment = "")
+        public void SetTranslation(CultureInfo culture, string assemblyFilename, string methodName, string value, string translation, string comment = "")
         {
-            CultureInfo culture = Thread.CurrentThread.CurrentUICulture;
-
             TranslationData data = this.GetData(assemblyFilename, culture);
 
             string id = this.GetHash(methodName + value);
