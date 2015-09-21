@@ -130,8 +130,9 @@ namespace BugTracker.Core.Classes
                 {
                     var serialzer = new DataContractSerializer(typeof(TranslationData));
                     object o = serialzer.ReadObject(reader);
-
-                    return o as TranslationData;
+                    TranslationData result = o as TranslationData;
+                    result.mFilename = filename;
+                    return result;
                 }
             }
         }
