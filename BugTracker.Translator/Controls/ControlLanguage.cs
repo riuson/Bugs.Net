@@ -35,6 +35,8 @@ namespace BugTracker.Translator.Controls
             this.mBS.DataSource = this.mApp.Localization.FoundCultures;
             this.comboBoxLangauge.DataSource = this.mBS;
             this.comboBoxLangauge.DisplayMember = "DisplayName";
+
+            this.comboBoxLangauge.SelectedItem = this.mApp.Localization.ActiveUICulture;
         }
 
         public CultureInfo SelectedCulture
