@@ -30,17 +30,18 @@
         {
             System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
             this.dgvList = new System.Windows.Forms.DataGridView();
-            this.columnMethod = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnTranslated = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.listBoxModules = new System.Windows.Forms.ListBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSource = new System.Windows.Forms.TabPage();
             this.richTextBoxSource = new System.Windows.Forms.RichTextBox();
             this.tabPageTranslated = new System.Windows.Forms.TabPage();
             this.richTextBoxTranslated = new System.Windows.Forms.RichTextBox();
+            this.columnMethod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnTranslated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnChanged = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
@@ -82,15 +83,81 @@
             this.columnId,
             this.columnSource,
             this.columnTranslated,
-            this.columnComment});
+            this.columnComment,
+            this.columnChanged});
             this.dgvList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvList.Location = new System.Drawing.Point(128, 3);
             this.dgvList.Name = "dgvList";
             tableLayoutPanel1.SetRowSpan(this.dgvList, 3);
             this.dgvList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvList.Size = new System.Drawing.Size(495, 234);
+            this.dgvList.Size = new System.Drawing.Size(495, 251);
             this.dgvList.TabIndex = 5;
             this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
+            // 
+            // listBoxModules
+            // 
+            this.listBoxModules.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxModules.FormattingEnabled = true;
+            this.listBoxModules.Location = new System.Drawing.Point(3, 3);
+            this.listBoxModules.Name = "listBoxModules";
+            tableLayoutPanel1.SetRowSpan(this.listBoxModules, 4);
+            this.listBoxModules.Size = new System.Drawing.Size(119, 341);
+            this.listBoxModules.TabIndex = 6;
+            this.listBoxModules.SelectedIndexChanged += new System.EventHandler(this.listBoxModules_SelectedIndexChanged);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPageSource);
+            this.tabControl1.Controls.Add(this.tabPageTranslated);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(128, 260);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(495, 84);
+            this.tabControl1.TabIndex = 7;
+            // 
+            // tabPageSource
+            // 
+            this.tabPageSource.Controls.Add(this.richTextBoxSource);
+            this.tabPageSource.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSource.Name = "tabPageSource";
+            this.tabPageSource.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSource.Size = new System.Drawing.Size(487, 58);
+            this.tabPageSource.TabIndex = 0;
+            this.tabPageSource.Text = "Source";
+            this.tabPageSource.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxSource
+            // 
+            this.richTextBoxSource.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxSource.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxSource.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxSource.Name = "richTextBoxSource";
+            this.richTextBoxSource.Size = new System.Drawing.Size(481, 52);
+            this.richTextBoxSource.TabIndex = 0;
+            this.richTextBoxSource.Text = "";
+            // 
+            // tabPageTranslated
+            // 
+            this.tabPageTranslated.Controls.Add(this.richTextBoxTranslated);
+            this.tabPageTranslated.Location = new System.Drawing.Point(4, 22);
+            this.tabPageTranslated.Name = "tabPageTranslated";
+            this.tabPageTranslated.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageTranslated.Size = new System.Drawing.Size(487, 62);
+            this.tabPageTranslated.TabIndex = 1;
+            this.tabPageTranslated.Text = "Translated";
+            this.tabPageTranslated.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxTranslated
+            // 
+            this.richTextBoxTranslated.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxTranslated.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBoxTranslated.Location = new System.Drawing.Point(3, 3);
+            this.richTextBoxTranslated.Name = "richTextBoxTranslated";
+            this.richTextBoxTranslated.Size = new System.Drawing.Size(481, 56);
+            this.richTextBoxTranslated.TabIndex = 1;
+            this.richTextBoxTranslated.Text = "";
+            this.richTextBoxTranslated.Leave += new System.EventHandler(this.richTextBoxTranslated_Leave);
             // 
             // columnMethod
             // 
@@ -126,70 +193,14 @@
             this.columnComment.HeaderText = "Comment";
             this.columnComment.Name = "columnComment";
             // 
-            // listBoxModules
+            // columnChanged
             // 
-            this.listBoxModules.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxModules.FormattingEnabled = true;
-            this.listBoxModules.Location = new System.Drawing.Point(3, 3);
-            this.listBoxModules.Name = "listBoxModules";
-            tableLayoutPanel1.SetRowSpan(this.listBoxModules, 4);
-            this.listBoxModules.Size = new System.Drawing.Size(119, 341);
-            this.listBoxModules.TabIndex = 6;
-            this.listBoxModules.SelectedIndexChanged += new System.EventHandler(this.listBoxModules_SelectedIndexChanged);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPageSource);
-            this.tabControl1.Controls.Add(this.tabPageTranslated);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(128, 243);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(495, 101);
-            this.tabControl1.TabIndex = 7;
-            // 
-            // tabPageSource
-            // 
-            this.tabPageSource.Controls.Add(this.richTextBoxSource);
-            this.tabPageSource.Location = new System.Drawing.Point(4, 22);
-            this.tabPageSource.Name = "tabPageSource";
-            this.tabPageSource.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSource.Size = new System.Drawing.Size(422, 113);
-            this.tabPageSource.TabIndex = 0;
-            this.tabPageSource.Text = "Source";
-            this.tabPageSource.UseVisualStyleBackColor = true;
-            // 
-            // richTextBoxSource
-            // 
-            this.richTextBoxSource.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBoxSource.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxSource.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxSource.Name = "richTextBoxSource";
-            this.richTextBoxSource.Size = new System.Drawing.Size(416, 107);
-            this.richTextBoxSource.TabIndex = 0;
-            this.richTextBoxSource.Text = "";
-            // 
-            // tabPageTranslated
-            // 
-            this.tabPageTranslated.Controls.Add(this.richTextBoxTranslated);
-            this.tabPageTranslated.Location = new System.Drawing.Point(4, 22);
-            this.tabPageTranslated.Name = "tabPageTranslated";
-            this.tabPageTranslated.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTranslated.Size = new System.Drawing.Size(487, 75);
-            this.tabPageTranslated.TabIndex = 1;
-            this.tabPageTranslated.Text = "Translated";
-            this.tabPageTranslated.UseVisualStyleBackColor = true;
-            // 
-            // richTextBoxTranslated
-            // 
-            this.richTextBoxTranslated.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBoxTranslated.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxTranslated.Location = new System.Drawing.Point(3, 3);
-            this.richTextBoxTranslated.Name = "richTextBoxTranslated";
-            this.richTextBoxTranslated.Size = new System.Drawing.Size(481, 69);
-            this.richTextBoxTranslated.TabIndex = 1;
-            this.richTextBoxTranslated.Text = "";
-            this.richTextBoxTranslated.Leave += new System.EventHandler(this.richTextBoxTranslated_Leave);
+            this.columnChanged.DataPropertyName = "Changed";
+            this.columnChanged.HeaderText = "Changed";
+            this.columnChanged.Name = "columnChanged";
+            this.columnChanged.ReadOnly = true;
+            this.columnChanged.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.columnChanged.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // ControlTranslate
             // 
@@ -221,5 +232,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnTranslated;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnComment;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn columnChanged;
     }
 }
