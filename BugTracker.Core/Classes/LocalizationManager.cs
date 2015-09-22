@@ -78,14 +78,6 @@ namespace BugTracker.Core.Classes
             return unit;
         }
 
-        public void Save()
-        {
-            foreach (var value in this.mTranslations.Values)
-            {
-                value.SaveChanges();
-            }
-        }
-
         public CultureInfo ActiveUICulture
         {
             get
@@ -152,6 +144,14 @@ namespace BugTracker.Core.Classes
                 {
                     directory.Delete(true);
                 }
+            }
+        }
+
+        public void Flush()
+        {
+            foreach (var value in this.mTranslations.Values)
+            {
+                value.SaveChanges();
             }
         }
 

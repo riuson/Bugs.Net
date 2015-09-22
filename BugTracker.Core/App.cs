@@ -37,7 +37,7 @@ namespace BugTracker.Core
 
         public void Dispose()
         {
-            LocalizationManager.Instance.Save();
+            LocalizationManager.Instance.Flush();
             this.mWindow.Close();
             this.mWindow.Dispose();
             this.mContainer.Dispose();

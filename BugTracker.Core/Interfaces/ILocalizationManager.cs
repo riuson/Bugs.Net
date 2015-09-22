@@ -15,5 +15,6 @@ namespace BugTracker.Core.Interfaces
         IEnumerable<TranslationUnit> GetTranslationUnits(CultureInfo culture, string assemblyName);
         void AddCulture(CultureInfo cultureNew, CultureInfo cultureSource);
         void RemoveCulture(CultureInfo culture);
+        void Flush();
     }
 }

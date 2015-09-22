@@ -39,7 +39,7 @@ namespace BugTracker.Translator.Classes
         public void Edit(CultureInfo culture)
         {
             ControlTranslate controlTranslate = new ControlTranslate(this.mApp, culture);
-            //controlTranslate.Confirmed += this.controlSelectNewLanguages_Confirmed;
+            controlTranslate.Disposed += this.controlSelectNewLanguages_Disposed;
             this.mApp.Controls.Show(controlTranslate);
         }
 
@@ -108,6 +108,11 @@ namespace BugTracker.Translator.Classes
             }
 
             this.mApp.Localization.AddCulture(culture, cultureSource);
+        }
+
+        private void controlSelectNewLanguages_Disposed(object sender, EventArgs e)
+        {
+            this.mApp.Localization.Flush();
         }
     }
 }
