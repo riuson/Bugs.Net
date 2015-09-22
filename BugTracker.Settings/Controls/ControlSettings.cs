@@ -1,6 +1,7 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Controls;
 using BugTracker.Core.Interfaces;
+using BugTracker.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace BugTracker.Settings.Controls
 
         public ControlSettings(IApplication app)
         {
-            this.Text = "Settings".Trim();
+            this.Text = "Settings".Tr();
 
             this.mApp = app;
             this.mMenu = MenuPanelFabric.CreateMenuPanel();

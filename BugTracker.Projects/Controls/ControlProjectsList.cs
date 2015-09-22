@@ -26,6 +26,7 @@ namespace BugTracker.Projects.Controls
             this.buttonAdd.Text = this.buttonAdd.Text.Tr();
             this.buttonEdit.Text = this.buttonEdit.Text.Tr();
             this.buttonRemove.Text = this.buttonRemove.Text.Tr();
+            this.buttonTickets.Text = this.buttonTickets.Text.Tr();
             this.columnName.HeaderText = this.columnName.HeaderText.Tr();
             this.mApp = app;
             this.mLoggedMember = loggedMember;
