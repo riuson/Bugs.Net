@@ -72,6 +72,7 @@ namespace BugTracker.Core.Classes
             if (unit == null)
             {
                 unit = new TranslationUnit(id, methodName, source, source, comment);
+                unit.Changed = true;
                 data.AddTranslation(unit);
             }
 
