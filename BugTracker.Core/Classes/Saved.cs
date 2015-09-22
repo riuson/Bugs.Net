@@ -80,11 +80,17 @@ namespace BugTracker.Core.Classes
                     }
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException exc)
             {
+                System.Diagnostics.Debug.WriteLine("Exception occured");
+                System.Diagnostics.Debug.WriteLine(exc.Message);
+                System.Diagnostics.Debug.WriteLine(exc.StackTrace);
             }
-            catch (XmlException)
+            catch (XmlException exc)
             {
+                System.Diagnostics.Debug.WriteLine("Exception occured");
+                System.Diagnostics.Debug.WriteLine(exc.Message);
+                System.Diagnostics.Debug.WriteLine(exc.StackTrace);
             }
 
             if (obj == null)
