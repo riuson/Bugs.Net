@@ -85,7 +85,6 @@ namespace BugTracker.Translator.Controls
             if (this.mSelectedUnit != null)
             {
                 this.mSelectedUnit.Translated = this.richTextBoxTranslated.Text;
-                this.mApp.Localization.SetTranslationUnits(this.mCulture, this.mSelectedModule, this.mSelectedUnit);
             }
         }
     }

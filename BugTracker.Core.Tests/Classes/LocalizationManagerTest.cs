@@ -26,7 +26,7 @@ namespace BugTracker.Core.Tests.Classes
 
             Assert.That(str, Is.EqualTo("Test"));
 
-            LocalizationManager.Instance.SetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test", "Тест");
+            LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test").Translated = "Тест";
 
             str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test").Translated;
             Assert.That(str, Is.EqualTo("Тест"));

@@ -73,20 +73,10 @@ namespace BugTracker.Core.Classes
             if (unit == null)
             {
                 unit = new TranslationUnit(id, methodName, source, source, comment);
-                data.SetTranslation(unit);
+                data.AddTranslation(unit);
             }
 
             return unit;
-        }
-
-        public void SetTranslation(CultureInfo culture, string assemblyName, string methodName, string source, string translated, string comment = "")
-        {
-            TranslationData data = this.GetData(culture, assemblyName);
-
-            string id = this.GetHash(methodName + source);
-
-            TranslationUnit unit = new TranslationUnit(id, methodName, source, translated, comment);
-            data.SetTranslation(unit);
         }
 
         public void Save()
@@ -134,12 +124,6 @@ namespace BugTracker.Core.Classes
         {
             TranslationData data = this.GetData(culture, assemblyName);
             return data.Units;
-        }
-
-        public void SetTranslationUnits(CultureInfo culture, string assemblyName, TranslationUnit unit)
-        {
-            TranslationData data = this.GetData(culture, assemblyName);
-            data.SetTranslation(unit);
         }
 
         public void AddCulture(CultureInfo cultureNew, CultureInfo cultureSource = null)

@@ -49,14 +49,11 @@ namespace BugTracker.Core.Classes
             }
         }
 
-        private bool mChanged;
-
         public TranslationData()
         {
             this.mFilename = String.Empty;
             this.mCulture = null;
             this.mUnits = new List<TranslationUnit>();
-            this.mChanged = false;
         }
 
         public TranslationData(string filename, CultureInfo culture) :
@@ -77,25 +74,17 @@ namespace BugTracker.Core.Classes
             return null;
         }
 
-        public void SetTranslation(TranslationUnit unit)
+        public void AddTranslation(TranslationUnit unit)
         {
-            if (this.mUnits.Any(u => u.Id == unit.Id))
-            {
-                TranslationUnit existing = this.mUnits.First(u => u.Id == unit.Id);
-                this.mUnits.Remove(existing);
-                this.mUnits.Add(unit);
-                this.mChanged = true;
-            }
-            else
+            if (!this.mUnits.Any(u => u.Id == unit.Id))
             {
                 this.mUnits.Add(unit);
-                this.mChanged = true;
             }
         }
 
         public void SaveChanges()
         {
-            if (this.mChanged)
+            if (this.mUnits.Any(unit => unit.Changed))
             {
                 using (Stream stream = File.Open(this.mFilename, FileMode.Create))
                 {
@@ -115,7 +104,11 @@ namespace BugTracker.Core.Classes
                     }
 
                     stream.Close();
-                    this.mChanged = false;
+
+                    foreach (var unit in this.mUnits)
+                    {
+                        unit.Changed = false;
+                    }
                 }
             }
         }
@@ -132,6 +125,12 @@ namespace BugTracker.Core.Classes
                     object o = serialzer.ReadObject(reader);
                     TranslationData result = o as TranslationData;
                     result.mFilename = filename;
+
+                    foreach (var unit in result.Units)
+                    {
+                        unit.Changed = false;
+                    }
+
                     return result;
                 }
             }
@@ -141,6 +140,9 @@ namespace BugTracker.Core.Classes
     [DataContract(Name = "Message")]
     public class TranslationUnit
     {
+        private bool mChanged;
+        private string mTranslated;
+
         [DataMember()]
         public string Id { get; set; }
         [DataMember()]
@@ -148,9 +150,35 @@ namespace BugTracker.Core.Classes
         [DataMember()]
         public string Source { get; set; }
         [DataMember()]
-        public string Translated { get; set; }
+        public string Translated
+        {
+            get
+            {
+                return this.mTranslated;
+            }
+            set
+            {
+                if (this.mTranslated != value)
+                {
+                    this.mTranslated = value;
+                    this.mChanged = true;
+                }
+            }
+        }
         [DataMember()]
         public string Comment { get; set; }
+
+        public bool Changed
+        {
+            get
+            {
+                return this.mChanged;
+            }
+            set
+            {
+                this.mChanged = value;
+            }
+        }
 
         public TranslationUnit(string id, string method, string source, string translated, string comment)
         {
@@ -159,6 +187,7 @@ namespace BugTracker.Core.Classes
             this.Source = source;
             this.Translated = translated;
             this.Comment = comment;
+            this.mChanged = false;
         }
     }
 }
