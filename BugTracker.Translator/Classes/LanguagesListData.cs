@@ -19,8 +19,13 @@ namespace BugTracker.Translator.Classes
         {
             this.mApp = app;
 
-            this.mCultures = app.Localization.FoundCultures;
             this.Data = new BindingSource();
+            this.UpdateList();
+        }
+
+        private void UpdateList()
+        {
+            this.mCultures = this.mApp.Localization.FoundCultures;
             this.Data.DataSource = this.mCultures;
         }
 
@@ -40,7 +45,8 @@ namespace BugTracker.Translator.Classes
 
         public void Remove(CultureInfo culture)
         {
-            throw new NotImplementedException();
+            this.mApp.Localization.RemoveCulture(culture);
+            this.UpdateList();
         }
 
         private void controlSelectNewLanguages_Confirmed(object sender, EventArgs e)
@@ -56,6 +62,7 @@ namespace BugTracker.Translator.Classes
                 {
                     this.CreateNewCultureFiles(cultureNew);
                 }
+                this.UpdateList();
 
                 this.mApp.Controls.Hide(control);
             }

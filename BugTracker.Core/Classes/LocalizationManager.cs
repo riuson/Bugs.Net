@@ -142,6 +142,19 @@ namespace BugTracker.Core.Classes
             }
         }
 
+        public void RemoveCulture(CultureInfo culture)
+        {
+            if (this.FoundCultures.Contains(culture))
+            {
+                DirectoryInfo directory = new DirectoryInfo(Path.Combine(this.LanguagesDir, culture.Name));
+
+                if (directory.Exists)
+                {
+                    directory.Delete(true);
+                }
+            }
+        }
+
         /// <summary>
         /// Get translation data by assembly name and culture
         /// </summary>
