@@ -24,6 +24,9 @@ namespace BugTracker.Core
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            System.Threading.Thread.CurrentThread.CurrentCulture = LocalizationManager.Instance.ActiveUICulture;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = LocalizationManager.Instance.ActiveUICulture;
+
             this.mMessages = new MessageCenter();
             this.mPlugins = new Plugins(this);
 

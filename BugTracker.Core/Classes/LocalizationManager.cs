@@ -38,7 +38,6 @@ namespace BugTracker.Core.Classes
             this.mTranslations = new Dictionary<string, TranslationData>();
 
             this.mActiveCulture = new CultureInfo(Saved<LocalizationOptions>.Instance.CultureName);
-            Thread.CurrentThread.CurrentUICulture = this.mActiveCulture;
         }
 
         /// <summary>
