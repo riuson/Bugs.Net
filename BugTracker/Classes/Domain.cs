@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Classes
 {
-    internal class Domain<T> : IDisposable where T : MarshalByRefObject
+    internal class Domain<T> : IDisposable where T : MarshalByRefObject, IDisposable
     {
         private AppDomain mDomain;
 
@@ -29,6 +29,7 @@ namespace BugTracker.Classes
         {
             if (this.mDomain != null)
             {
+                this.Object.Dispose();
                 AppDomain.Unload(this.mDomain);
                 this.mDomain = null;
             }

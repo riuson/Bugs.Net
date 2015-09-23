@@ -24,6 +24,9 @@ namespace BugTracker.Core
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            System.Threading.Thread.CurrentThread.CurrentCulture = LocalizationManager.Instance.ActiveUICulture;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = LocalizationManager.Instance.ActiveUICulture;
+
             this.mMessages = new MessageCenter();
             this.mPlugins = new Plugins(this);
 
@@ -34,6 +37,7 @@ namespace BugTracker.Core
 
         public void Dispose()
         {
+            LocalizationManager.Instance.Flush();
             this.mWindow.Close();
             this.mWindow.Dispose();
             this.mContainer.Dispose();
@@ -72,5 +76,7 @@ namespace BugTracker.Core
         public IMessageCenter Messages { get { return this.mMessages; } }
 
         public IWin32Window OwnerWindow { get { return this.mWindow; } }
+
+        public ILocalizationManager Localization { get { return LocalizationManager.Instance; } }
     }
 }

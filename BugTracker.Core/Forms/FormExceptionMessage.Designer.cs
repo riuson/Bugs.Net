@@ -86,7 +86,7 @@
             this.Padding = new System.Windows.Forms.Padding(5);
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Exception handled";
+            this.Text = "FormExceptionMessage";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

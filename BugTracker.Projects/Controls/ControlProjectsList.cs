@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using BugTracker.Core.Interfaces;
 using BugTracker.Projects.Classes;
 using BugTracker.DB.Entities;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Projects.Controls
 {
@@ -21,7 +22,12 @@ namespace BugTracker.Projects.Controls
         public ControlProjectsList(IApplication app, Member loggedMember)
         {
             InitializeComponent();
-            this.Text = "Projects list";
+            this.Text = "Projects list".Tr();
+            this.buttonAdd.Text = this.buttonAdd.Text.Tr();
+            this.buttonEdit.Text = this.buttonEdit.Text.Tr();
+            this.buttonRemove.Text = this.buttonRemove.Text.Tr();
+            this.buttonTickets.Text = this.buttonTickets.Text.Tr();
+            this.columnName.HeaderText = this.columnName.HeaderText.Tr();
             this.mApp = app;
             this.mLoggedMember = loggedMember;
 

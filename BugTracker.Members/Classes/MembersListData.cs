@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Members.Classes
 {
@@ -104,9 +105,9 @@ namespace BugTracker.Members.Classes
                 if (MessageBox.Show(
                     this.mApp.OwnerWindow,
                     String.Format(
-                        "Do you really want remove Member '{0} {1}, {2}'?",
+                        "Do you really want remove Member '{0} {1}, {2}'?".Tr(),
                         item.FirstName, item.LastName, item.EMail),
-                    "Remove Member",
+                    "Remove Member".Tr(),
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try

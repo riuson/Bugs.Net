@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,10 +59,14 @@
     <Compile Include="Classes\ControlContainer.cs" />
     <Compile Include="Classes\ControlManager.cs" />
     <Compile Include="Classes\Exceptions.cs" />
+    <Compile Include="Classes\LocalizationManager.cs" />
+    <Compile Include="Classes\LocalizationOptions.cs" />
+    <Compile Include="Classes\TranslationData.cs" />
     <Compile Include="Extensions\RichTextBoxExt.cs" />
     <Compile Include="Controls\MenuListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Extensions\TransExt.cs" />
     <Compile Include="Forms\FormExceptionMessage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +74,7 @@
       <DependentUpon>FormExceptionMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\ICommandLinkBackend.cs" />
+    <Compile Include="Interfaces\ILocalizationManager.cs" />
     <Compile Include="Interfaces\IMenuPanel.cs" />
     <Compile Include="Classes\InputBox.cs" />
     <Compile Include="Classes\MenuPanelFabric.cs" />

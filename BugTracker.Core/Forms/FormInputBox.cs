@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Core.Forms
 {
@@ -24,6 +25,8 @@ namespace BugTracker.Core.Forms
             this.labelPrompt.Text = prompt;
 
             this.buttonOk.Enabled = this.textBox.Text != String.Empty;
+            this.buttonOk.Text = this.buttonOk.Text.Tr();
+            this.buttonCancel.Text = this.buttonCancel.Text.Tr();
         }
 
         public string Result

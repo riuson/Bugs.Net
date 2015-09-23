@@ -30,18 +30,14 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Button buttonCancel;
-            System.Windows.Forms.Button buttonMembersList;
+            this.labelMember = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.comboBoxMember = new System.Windows.Forms.ComboBox();
             this.maskedTextBoxPassword = new System.Windows.Forms.MaskedTextBox();
+            this.buttonMembersList = new System.Windows.Forms.Button();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
-            buttonCancel = new System.Windows.Forms.Button();
-            buttonMembersList = new System.Windows.Forms.Button();
             tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,13 +49,13 @@
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            tableLayoutPanel1.Controls.Add(label1, 1, 3);
-            tableLayoutPanel1.Controls.Add(label2, 1, 4);
+            tableLayoutPanel1.Controls.Add(this.labelMember, 1, 3);
+            tableLayoutPanel1.Controls.Add(this.labelPassword, 1, 4);
             tableLayoutPanel1.Controls.Add(this.buttonOk, 4, 0);
-            tableLayoutPanel1.Controls.Add(buttonCancel, 4, 1);
+            tableLayoutPanel1.Controls.Add(this.buttonCancel, 4, 1);
             tableLayoutPanel1.Controls.Add(this.comboBoxMember, 2, 3);
             tableLayoutPanel1.Controls.Add(this.maskedTextBoxPassword, 2, 4);
-            tableLayoutPanel1.Controls.Add(buttonMembersList, 4, 2);
+            tableLayoutPanel1.Controls.Add(this.buttonMembersList, 4, 2);
             tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -73,27 +69,27 @@
             tableLayoutPanel1.Size = new System.Drawing.Size(829, 405);
             tableLayoutPanel1.TabIndex = 1;
             // 
-            // label1
+            // labelMember
             // 
-            label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(216, 94);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(48, 13);
-            label1.TabIndex = 0;
-            label1.Text = "Member:";
+            this.labelMember.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelMember.AutoSize = true;
+            this.labelMember.Location = new System.Drawing.Point(216, 94);
+            this.labelMember.Name = "labelMember";
+            this.labelMember.Size = new System.Drawing.Size(48, 13);
+            this.labelMember.TabIndex = 0;
+            this.labelMember.Text = "Member:";
             // 
-            // label2
+            // labelPassword
             // 
-            label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Enabled = false;
-            label2.Location = new System.Drawing.Point(208, 120);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(56, 13);
-            label2.TabIndex = 0;
-            label2.Text = "Password:";
-            label2.Visible = false;
+            this.labelPassword.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.Enabled = false;
+            this.labelPassword.Location = new System.Drawing.Point(208, 120);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(56, 13);
+            this.labelPassword.TabIndex = 0;
+            this.labelPassword.Text = "Password:";
+            this.labelPassword.Visible = false;
             // 
             // buttonOk
             // 
@@ -107,13 +103,13 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new System.Drawing.Point(750, 32);
-            buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new System.Drawing.Size(75, 23);
-            buttonCancel.TabIndex = 4;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Location = new System.Drawing.Point(750, 32);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 4;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // comboBoxMember
             // 
@@ -137,13 +133,13 @@
             // 
             // buttonMembersList
             // 
-            buttonMembersList.Location = new System.Drawing.Point(750, 61);
-            buttonMembersList.Name = "buttonMembersList";
-            buttonMembersList.Size = new System.Drawing.Size(75, 23);
-            buttonMembersList.TabIndex = 4;
-            buttonMembersList.Text = "Members...";
-            buttonMembersList.UseVisualStyleBackColor = true;
-            buttonMembersList.Click += new System.EventHandler(this.buttonMembersList_Click);
+            this.buttonMembersList.Location = new System.Drawing.Point(750, 61);
+            this.buttonMembersList.Name = "buttonMembersList";
+            this.buttonMembersList.Size = new System.Drawing.Size(75, 23);
+            this.buttonMembersList.TabIndex = 4;
+            this.buttonMembersList.Text = "Members...";
+            this.buttonMembersList.UseVisualStyleBackColor = true;
+            this.buttonMembersList.Click += new System.EventHandler(this.buttonMembersList_Click);
             // 
             // ControlLogin
             // 
@@ -163,5 +159,9 @@
         private System.Windows.Forms.ComboBox comboBoxMember;
         private System.Windows.Forms.MaskedTextBox maskedTextBoxPassword;
         private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Label labelMember;
+        private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Button buttonMembersList;
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Projects.Classes
 {
@@ -28,7 +29,7 @@ namespace BugTracker.Projects.Classes
             {
                 case "startpage":
                     {
-                        IButton menuItemProjects = MenuPanelFabric.CreateMenuItem("Projects", "Manage projects", BugTracker.Projects.Properties.Resources.icon_files_o_2c3699_48);
+                        IButton menuItemProjects = MenuPanelFabric.CreateMenuItem("Projects".Tr(), "Manage projects".Tr(), BugTracker.Projects.Properties.Resources.icon_files_o_2c3699_48);
                         menuItemProjects.Click += this.ShowProjectsList;
                         return new IButton[] { menuItemProjects };
                     }
@@ -44,7 +45,7 @@ namespace BugTracker.Projects.Classes
 
             if (!loginRequestEventArgs.Handled)
             {
-                MessageBox.Show(this.mApp.OwnerWindow, "Login handler not installed!", "Login required", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(this.mApp.OwnerWindow, "Login handler not installed!".Tr(), "Login required".Tr(), MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 

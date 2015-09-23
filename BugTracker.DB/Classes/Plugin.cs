@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.DB.Classes
 {
@@ -26,7 +27,7 @@ namespace BugTracker.DB.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Database", "Configure database", BugTracker.DB.Properties.Resources.icon_database_1d257b_48);
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Database".Tr(), "Configure database".Tr(), BugTracker.DB.Properties.Resources.icon_database_1d257b_48);
                         menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);

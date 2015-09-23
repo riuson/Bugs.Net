@@ -28,24 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Button buttonCancel;
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.labelPrompt = new System.Windows.Forms.Label();
             this.textBox = new System.Windows.Forms.TextBox();
             this.buttonOk = new System.Windows.Forms.Button();
-            buttonCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
-            buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            buttonCancel.Location = new System.Drawing.Point(222, 42);
-            buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new System.Drawing.Size(75, 23);
-            buttonCancel.TabIndex = 3;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(222, 42);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 3;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -58,7 +57,7 @@
             this.tableLayoutPanel1.Controls.Add(this.labelPrompt, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonOk, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(buttonCancel, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.buttonCancel, 2, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 18);
             this.tableLayoutPanel1.MinimumSize = new System.Drawing.Size(300, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -106,7 +105,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.CancelButton = buttonCancel;
+            this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(385, 131);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MaximizeBox = false;
@@ -129,5 +128,6 @@
         private System.Windows.Forms.Label labelPrompt;
         private System.Windows.Forms.TextBox textBox;
         private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

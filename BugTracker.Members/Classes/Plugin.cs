@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Members.Classes
 {
@@ -29,7 +30,7 @@ namespace BugTracker.Members.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemMembers = MenuPanelFabric.CreateMenuItem("Members", "Manage member's list", BugTracker.Members.Properties.Resources.icon_users_07572d_48);
+                        IButton menuItemMembers = MenuPanelFabric.CreateMenuItem("Members".Tr(), "Manage member's list".Tr(), BugTracker.Members.Properties.Resources.icon_users_07572d_48);
                         menuItemMembers.Click += delegate(object sender, EventArgs ea)
                         {
                             this.mApp.Messages.Send(this, new EntityShowEventArgs<Member>());

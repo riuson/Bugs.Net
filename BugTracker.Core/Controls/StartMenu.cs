@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.Core.Interfaces;
+using BugTracker.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace BugTracker.Core.Controls
 
         public StartMenu(IApplication app)
         {
-            this.Text = "Start";
+            this.Text = "Start".Tr();
             this.mApp = app;
             this.mMenu = MenuPanelFabric.CreateMenuPanel();
             this.Controls.Add(this.mMenu.AsControl);

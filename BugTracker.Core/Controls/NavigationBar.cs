@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Core.Controls
 {
@@ -47,7 +48,7 @@ namespace BugTracker.Core.Controls
                 labelBack.AutoSize = true;
                 labelBack.Click += this.label_Click;
                 labelBack.Tag = 1;
-                labelBack.Text = "Back";
+                labelBack.Text = "Back".Tr();
                 this.Controls.Add(labelBack);
             }
         }

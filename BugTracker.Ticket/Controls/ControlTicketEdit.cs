@@ -15,6 +15,7 @@ using BugTracker.TicketEditor.Classes;
 using BugTracker.TicketEditor.Events;
 using BugTracker.Core.Classes;
 using BugTracker.DB.Dao;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.TicketEditor.Controls
 {
@@ -38,12 +39,23 @@ namespace BugTracker.TicketEditor.Controls
         public ControlTicketEdit(IApplication app, Member loggedMember)
         {
             InitializeComponent();
-            this.Text = "Add ticket";
+            this.Text = "Add ticket".Tr();
+            this.buttonOk.Text = this.buttonOk.Text.Tr();
+            this.buttonCancel.Text = this.buttonCancel.Text.Tr();
+            this.labelTitle.Text = this.labelTitle.Text.Tr();
+            this.labelMemberTitle.Text = this.labelMemberTitle.Text.Tr();
+            this.labelCreatedTitle.Text = this.labelCreatedTitle.Text.Tr();
+            this.labelTypeTitle.Text = this.labelTypeTitle.Text.Tr();
+            this.labelPriorityTitle.Text = this.labelPriorityTitle.Text.Tr();
+            this.labelStatusTitle.Text = this.labelStatusTitle.Text.Tr();
+            this.labelSolutionTitle.Text = this.labelSolutionTitle.Text.Tr();
+            this.tabPageAttachments.Text = this.tabPageAttachments.Text.Tr();
+            this.tabPageChangelog.Text = this.tabPageChangelog.Text.Tr();
             this.mApp = app;
             this.LoggedMember = loggedMember;
             this.Ticket = null;
 
-            this.labelLoggedMember.Text = String.Format("{0}", this.LoggedMember.FullName);
+            this.labelMember.Text = String.Format("{0}", this.LoggedMember.FullName);
             this.labelCreated.Text = String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now);
 
             this.mProblemTypeBox = new VocabularyBox<ProblemType>(this.mApp);
@@ -87,7 +99,7 @@ namespace BugTracker.TicketEditor.Controls
         public ControlTicketEdit(IApplication app, Member loggedMember, Ticket ticket)
             : this(app, loggedMember)
         {
-            this.Text = "Edit ticket";
+            this.Text = "Edit ticket".Tr();
 
             using (ISession session = SessionManager.Instance.OpenSession(false))
             {
@@ -154,7 +166,7 @@ namespace BugTracker.TicketEditor.Controls
                     if (this.Ticket.Title != this.textBoxTitle.Text)
                     {
                         changedFieldsDescription.AppendFormat(
-                            "Title changed from '{0}' to '{1}'\n",
+                            "Title changed from '{0}' to '{1}'\n".Tr(),
                             this.Ticket.Title,
                             this.textBoxTitle.Text);
                         this.Ticket.Title = this.textBoxTitle.Text;
@@ -163,7 +175,7 @@ namespace BugTracker.TicketEditor.Controls
                     if (this.Ticket.Type != this.mProblemTypeBox.SelectedValue)
                     {
                         changedFieldsDescription.AppendFormat(
-                            "Type changed from '{0}' to '{1}'\n",
+                            "Type changed from '{0}' to '{1}'\n".Tr(),
                             this.Ticket.Type.Value,
                             this.mProblemTypeBox.SelectedValue.Value);
                         this.Ticket.Type = this.mProblemTypeBox.SelectedValue;
@@ -172,7 +184,7 @@ namespace BugTracker.TicketEditor.Controls
                     if (this.Ticket.Priority != this.mPriorityBox.SelectedValue)
                     {
                         changedFieldsDescription.AppendFormat(
-                            "Priority changed from '{0}' to '{1}'\n",
+                            "Priority changed from '{0}' to '{1}'\n".Tr(),
                             this.Ticket.Priority.Value,
                             this.mPriorityBox.SelectedValue.Value);
                         this.Ticket.Priority = this.mPriorityBox.SelectedValue;
@@ -181,7 +193,7 @@ namespace BugTracker.TicketEditor.Controls
                     if (this.Ticket.Status != this.mStatusBox.SelectedValue)
                     {
                         changedFieldsDescription.AppendFormat(
-                            "Status changed from '{0}' to '{1}'\n",
+                            "Status changed from '{0}' to '{1}'\n".Tr(),
                             this.Ticket.Status.Value,
                             this.mStatusBox.SelectedValue.Value);
                         this.Ticket.Status = this.mStatusBox.SelectedValue;
@@ -190,7 +202,7 @@ namespace BugTracker.TicketEditor.Controls
                     if (this.Ticket.Solution != this.mSolutionBox.SelectedValue)
                     {
                         changedFieldsDescription.AppendFormat(
-                            "Solution changed from '{0}' to '{1}'\n",
+                            "Solution changed from '{0}' to '{1}'\n".Tr(),
                             this.Ticket.Solution.Value,
                             this.mSolutionBox.SelectedValue.Value);
                         this.Ticket.Solution = this.mSolutionBox.SelectedValue;
@@ -201,7 +213,7 @@ namespace BugTracker.TicketEditor.Controls
                         foreach (Attachment attachment in this.mTicketAttachmentsDisplay.RemovedAttachments)
                         {
                             changedFieldsDescription.AppendFormat(
-                                "Removed attachment '{0}' with comment '{1}'\n",
+                                "Removed attachment '{0}' with comment '{1}'\n".Tr(),
                                 attachment.Filename,
                                 attachment.Comment);
                         }
@@ -213,7 +225,7 @@ namespace BugTracker.TicketEditor.Controls
                     foreach (Attachment attachment in this.mTicketAttachmentsDisplay.AddedAttachments)
                     {
                         changedFieldsDescription.AppendFormat(
-                            "Added attachment '{0}' with comment '{1}'\n",
+                            "Added attachment '{0}' with comment '{1}'\n".Tr(),
                             attachment.Filename,
                             attachment.Comment);
                     }

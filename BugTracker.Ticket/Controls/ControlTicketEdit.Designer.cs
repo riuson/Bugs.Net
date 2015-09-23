@@ -28,113 +28,105 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Button buttonCancel;
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Label label3;
-            System.Windows.Forms.Label label4;
-            System.Windows.Forms.Label label5;
-            System.Windows.Forms.Label label6;
-            System.Windows.Forms.Label label7;
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.labelTitle = new System.Windows.Forms.Label();
+            this.labelMemberTitle = new System.Windows.Forms.Label();
+            this.labelCreatedTitle = new System.Windows.Forms.Label();
+            this.labelTypeTitle = new System.Windows.Forms.Label();
+            this.labelPriorityTitle = new System.Windows.Forms.Label();
+            this.labelStatusTitle = new System.Windows.Forms.Label();
+            this.labelSolutionTitle = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
-            this.labelLoggedMember = new System.Windows.Forms.Label();
+            this.labelMember = new System.Windows.Forms.Label();
             this.labelCreated = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageChangelog = new System.Windows.Forms.TabPage();
             this.tabPageAttachments = new System.Windows.Forms.TabPage();
-            buttonCancel = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
-            label4 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
-            label6 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new System.Drawing.Point(727, 32);
-            buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new System.Drawing.Size(75, 23);
-            buttonCancel.TabIndex = 4;
-            buttonCancel.Text = "Cancel";
-            buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Location = new System.Drawing.Point(727, 32);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 4;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // label1
+            // labelTitle
             // 
-            label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(21, 8);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(30, 13);
-            label1.TabIndex = 0;
-            label1.Text = "Title:";
+            this.labelTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelTitle.AutoSize = true;
+            this.labelTitle.Location = new System.Drawing.Point(21, 8);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Size = new System.Drawing.Size(30, 13);
+            this.labelTitle.TabIndex = 0;
+            this.labelTitle.Text = "Title:";
             // 
-            // label2
+            // labelMemberTitle
             // 
-            label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(3, 37);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(48, 13);
-            label2.TabIndex = 0;
-            label2.Text = "Member:";
+            this.labelMemberTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelMemberTitle.AutoSize = true;
+            this.labelMemberTitle.Location = new System.Drawing.Point(3, 37);
+            this.labelMemberTitle.Name = "labelMemberTitle";
+            this.labelMemberTitle.Size = new System.Drawing.Size(48, 13);
+            this.labelMemberTitle.TabIndex = 0;
+            this.labelMemberTitle.Text = "Member:";
             // 
-            // label3
+            // labelCreatedTitle
             // 
-            label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(4, 58);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(47, 13);
-            label3.TabIndex = 0;
-            label3.Text = "Created:";
+            this.labelCreatedTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelCreatedTitle.AutoSize = true;
+            this.labelCreatedTitle.Location = new System.Drawing.Point(4, 58);
+            this.labelCreatedTitle.Name = "labelCreatedTitle";
+            this.labelCreatedTitle.Size = new System.Drawing.Size(47, 13);
+            this.labelCreatedTitle.TabIndex = 0;
+            this.labelCreatedTitle.Text = "Created:";
             // 
-            // label4
+            // labelTypeTitle
             // 
-            label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(17, 71);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(34, 13);
-            label4.TabIndex = 0;
-            label4.Text = "Type:";
+            this.labelTypeTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelTypeTitle.AutoSize = true;
+            this.labelTypeTitle.Location = new System.Drawing.Point(17, 71);
+            this.labelTypeTitle.Name = "labelTypeTitle";
+            this.labelTypeTitle.Size = new System.Drawing.Size(34, 13);
+            this.labelTypeTitle.TabIndex = 0;
+            this.labelTypeTitle.Text = "Type:";
             // 
-            // label5
+            // labelPriorityTitle
             // 
-            label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(10, 84);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(41, 13);
-            label5.TabIndex = 0;
-            label5.Text = "Priority:";
+            this.labelPriorityTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelPriorityTitle.AutoSize = true;
+            this.labelPriorityTitle.Location = new System.Drawing.Point(10, 84);
+            this.labelPriorityTitle.Name = "labelPriorityTitle";
+            this.labelPriorityTitle.Size = new System.Drawing.Size(41, 13);
+            this.labelPriorityTitle.TabIndex = 0;
+            this.labelPriorityTitle.Text = "Priority:";
             // 
-            // label6
+            // labelStatusTitle
             // 
-            label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(11, 97);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(40, 13);
-            label6.TabIndex = 0;
-            label6.Text = "Status:";
+            this.labelStatusTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelStatusTitle.AutoSize = true;
+            this.labelStatusTitle.Location = new System.Drawing.Point(11, 97);
+            this.labelStatusTitle.Name = "labelStatusTitle";
+            this.labelStatusTitle.Size = new System.Drawing.Size(40, 13);
+            this.labelStatusTitle.TabIndex = 0;
+            this.labelStatusTitle.Text = "Status:";
             // 
-            // label7
+            // labelSolutionTitle
             // 
-            label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(3, 110);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(48, 13);
-            label7.TabIndex = 0;
-            label7.Text = "Solution:";
+            this.labelSolutionTitle.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelSolutionTitle.AutoSize = true;
+            this.labelSolutionTitle.Location = new System.Drawing.Point(3, 110);
+            this.labelSolutionTitle.Name = "labelSolutionTitle";
+            this.labelSolutionTitle.Size = new System.Drawing.Size(48, 13);
+            this.labelSolutionTitle.TabIndex = 0;
+            this.labelSolutionTitle.Text = "Solution:";
             // 
             // buttonOk
             // 
@@ -146,15 +138,15 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
-            // labelLoggedMember
+            // labelMember
             // 
-            this.labelLoggedMember.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelLoggedMember.AutoSize = true;
-            this.labelLoggedMember.Location = new System.Drawing.Point(57, 37);
-            this.labelLoggedMember.Name = "labelLoggedMember";
-            this.labelLoggedMember.Size = new System.Drawing.Size(161, 13);
-            this.labelLoggedMember.TabIndex = 0;
-            this.labelLoggedMember.Text = "Member";
+            this.labelMember.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelMember.AutoSize = true;
+            this.labelMember.Location = new System.Drawing.Point(57, 37);
+            this.labelMember.Name = "labelMember";
+            this.labelMember.Size = new System.Drawing.Size(161, 13);
+            this.labelMember.TabIndex = 0;
+            this.labelMember.Text = "Member";
             // 
             // labelCreated
             // 
@@ -174,16 +166,16 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.buttonOk, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(buttonCancel, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(label4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(label5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(label6, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.buttonCancel, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelTitle, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.labelMemberTitle, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelCreatedTitle, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelTypeTitle, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.labelPriorityTitle, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.labelStatusTitle, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.textBoxTitle, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(label7, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.labelLoggedMember, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelSolutionTitle, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.labelMember, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelCreated, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.tabControl1, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -261,12 +253,20 @@
 
         private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label labelLoggedMember;
+        private System.Windows.Forms.Label labelMember;
         private System.Windows.Forms.Label labelCreated;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageChangelog;
         private System.Windows.Forms.TabPage tabPageAttachments;
         private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Label labelTitle;
+        private System.Windows.Forms.Label labelMemberTitle;
+        private System.Windows.Forms.Label labelCreatedTitle;
+        private System.Windows.Forms.Label labelTypeTitle;
+        private System.Windows.Forms.Label labelPriorityTitle;
+        private System.Windows.Forms.Label labelStatusTitle;
+        private System.Windows.Forms.Label labelSolutionTitle;
 
     }
 }

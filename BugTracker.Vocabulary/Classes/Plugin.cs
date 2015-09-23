@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Vocabulary.Classes
 {
@@ -46,8 +47,8 @@ namespace BugTracker.Vocabulary.Classes
                         foreach (var type in this.mVocabularyTypes)
                         {
                             IButton menuItemTypeList = MenuPanelFabric.CreateMenuItem(
-                                String.Format("{0} list", type.Name),
-                                "Vocabulary editor",
+                                String.Format("{0} list".Tr(), type.Name),
+                                "Vocabulary editor".Tr(),
                                 BugTracker.Vocabulary.Properties.Resources.icon_list_ul_a41e35_48);
                             menuItemTypeList.Click += delegate(object sender, EventArgs ea)
                             {

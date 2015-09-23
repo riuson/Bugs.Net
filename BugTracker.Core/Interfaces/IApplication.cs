@@ -13,6 +13,7 @@ namespace BugTracker.Core.Interfaces
         IControlManager Controls { get; }
         IMessageCenter Messages { get; }
         IWin32Window OwnerWindow { get; }
+        ILocalizationManager Localization { get; }
 
         void Exit();
     }

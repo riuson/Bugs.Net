@@ -38,7 +38,7 @@ namespace BugTracker.TicketEditor.Controls
                 this.mTextBox.AppendText(change.Author.FullName, Color.Navy);
 
                 this.mTextBox.AppendText(
-                    " at ",
+                    " at ".Tr(),
                     Color.Silver);
 
                 this.mTextBox.AppendText(
@@ -62,7 +62,7 @@ namespace BugTracker.TicketEditor.Controls
 
         private void PreparePrompt()
         {
-            this.mTextBox.AppendText("Add new comment here:", Color.Red);
+            this.mTextBox.AppendText("Add new comment here:".Tr(), Color.Red);
 
             this.mTextBox.AppendText(Environment.NewLine);
 

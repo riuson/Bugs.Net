@@ -9,6 +9,7 @@ using BugTracker.Core.Interfaces;
 using BugTracker.DB.Entities;
 using BugTracker.Tickets.Classes;
 using BugTracker.DB.Classes;
+using BugTracker.Core.Extensions;
 
 namespace BugTracker.Tickets.Controls
 {
@@ -27,7 +28,10 @@ namespace BugTracker.Tickets.Controls
         public ControlTicketsList(IApplication app, Member loggedMember, Project project)
         {
             InitializeComponent();
-            this.Text = "Tickets list";
+            this.Text = "Tickets list".Tr();
+            this.buttonAdd.Text = this.buttonAdd.Text.Tr();
+            this.buttonEdit.Text = this.buttonEdit.Text.Tr();
+            this.buttonRemove.Text = this.buttonRemove.Text.Tr();
             this.mApp = app;
             this.mLoggedMember = loggedMember;
             this.mProject = project;
@@ -50,7 +54,7 @@ namespace BugTracker.Tickets.Controls
             // 
             this.mColumnTitle = new DataGridViewTextBoxColumn();
             this.mColumnTitle.DataPropertyName = "Title";
-            this.mColumnTitle.HeaderText = "Title";
+            this.mColumnTitle.HeaderText = "Title".Tr();
             this.mColumnTitle.Name = "columnTitle";
             this.mColumnTitle.ReadOnly = true;
             // 
@@ -58,7 +62,7 @@ namespace BugTracker.Tickets.Controls
             // 
             this.mColumnAuthor = DataGridViewColumnFabric.CreateSubColumn(BugTracker.DB.Classes.DataGridViewColumnFabric.ColumnType.SubColumn);
             this.mColumnAuthor.DataPropertyName = "Author.FullName";
-            this.mColumnAuthor.HeaderText = "Author";
+            this.mColumnAuthor.HeaderText = "Author".Tr();
             this.mColumnAuthor.Name = "columnAuthor";
             this.mColumnAuthor.ReadOnly = true;
             // 
@@ -66,7 +70,7 @@ namespace BugTracker.Tickets.Controls
             // 
             this.mColumnCreated = new DataGridViewTextBoxColumn();
             this.mColumnCreated.DataPropertyName = "Created";
-            this.mColumnCreated.HeaderText = "Created";
+            this.mColumnCreated.HeaderText = "Created".Tr();
             this.mColumnCreated.Name = "columnCreated";
             this.mColumnCreated.ReadOnly = true;
             // 
@@ -74,7 +78,7 @@ namespace BugTracker.Tickets.Controls
             // 
             this.mColumnStatus = DataGridViewColumnFabric.CreateSubColumn(BugTracker.DB.Classes.DataGridViewColumnFabric.ColumnType.SubColumn);
             this.mColumnStatus.DataPropertyName = "Status.Value";
-            this.mColumnStatus.HeaderText = "Status";
+            this.mColumnStatus.HeaderText = "Status".Tr();
             this.mColumnStatus.Name = "columnStatus";
             this.mColumnStatus.ReadOnly = true;
 
