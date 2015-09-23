@@ -33,10 +33,11 @@ namespace BugTracker.Translator.Controls
             this.mApp = app;
 
             this.mBS = new BindingSource();
-            this.mBS.DataSource = CultureInfo.GetCultures(CultureTypes.AllCultures);
 
             this.dgvList.AutoGenerateColumns = false;
             this.dgvList.DataSource = this.mBS;
+
+            this.UpdateList();
         }
 
         public IEnumerable<CultureInfo> SelectedCultures
@@ -63,6 +64,28 @@ namespace BugTracker.Translator.Controls
             if (this.Rejected != null)
             {
                 this.Rejected(this, EventArgs.Empty);
+            }
+        }
+
+        private void textBoxFilter_TextChanged(object sender, EventArgs e)
+        {
+            this.UpdateList(this.textBoxFilter.Text);
+        }
+
+        private void UpdateList(string filter = "")
+        {
+            if (filter == String.Empty)
+            {
+                this.mBS.DataSource = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            }
+            else
+            {
+                this.mBS.DataSource = CultureInfo.GetCultures(CultureTypes.AllCultures)
+                    .Where(
+                        culture =>
+                            culture.Name.ToLower().Contains(filter.ToLower()) ||
+                            culture.DisplayName.ToLower().Contains(filter.ToLower()) ||
+                            culture.NativeName.ToLower().Contains(filter.ToLower()));
             }
         }
     }
