@@ -21,7 +21,7 @@ namespace BugTracker.Core.Forms
         public MainWindow(IApplication app)
         {
             InitializeComponent();
-            this.Text = "Bugs.Net".Tr();
+            this.Text = "Bugs.Net";
 
             this.mApp = app;
             this.mControls = new ControlManager();
