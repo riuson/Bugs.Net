@@ -49,6 +49,7 @@ namespace BugTracker.Members.Controls
         private void BeforeDisposing()
         {
             this.SaveSettings();
+            this.mData.Dispose();
         }
 
         public Member SelectedMember { get; private set; }
