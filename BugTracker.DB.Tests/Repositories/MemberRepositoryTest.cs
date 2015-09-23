@@ -127,10 +127,15 @@ namespace BugTracker.DB.Tests.Repositories
                 IRepository<Member> repository = new Repository<Member>(session);
                 var y = repository.GetById(id);
                 repository.Delete(y);
-                long after = repository.RowCount();
-                Assert.That(after, Is.EqualTo(before));
 
                 session.Transaction.Commit();
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Member> repository = new Repository<Member>(session);
+                long after = repository.RowCount();
+                Assert.That(after, Is.EqualTo(before));
             }
         }
     }

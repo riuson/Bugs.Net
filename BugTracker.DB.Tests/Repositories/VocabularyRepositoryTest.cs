@@ -121,10 +121,16 @@ namespace BugTracker.DB.Tests.Repositories
                 IRepository<T> repository = new Repository<T>(session);
                 T x = repository.GetById(id);
                 repository.Delete(x);
-                long after = repository.RowCount();
-                Assert.That(after, Is.EqualTo(before));
 
                 session.Transaction.Commit();
+
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<T> repository = new Repository<T>(session);
+                long after = repository.RowCount();
+                Assert.That(after, Is.EqualTo(before));
             }
         }
     }

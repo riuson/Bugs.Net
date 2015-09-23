@@ -188,10 +188,6 @@ namespace BugTracker.DB.Tests.Repositories
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
-                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
-                IRepository<Member> memberRepository = new Repository<Member>(session);
-                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
-                IRepository<Change> changeRepository = new Repository<Change>(session);
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
 
                 Ticket ticket = ticketRepository.GetById(ticketId);
@@ -200,6 +196,17 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(ticket.Attachments.Count, Is.EqualTo(attachmentsCount));
 
                 ticketRepository.Delete(ticket);
+
+                session.Transaction.Commit();
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
+                IRepository<Change> changeRepository = new Repository<Change>(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
 
                 long membersAfter = memberRepository.RowCount();
                 long blobsAfter = blobRepository.RowCount();
@@ -212,8 +219,6 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(changesAfter, Is.EqualTo(changesBefore));
                 Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore));
-
-                session.Transaction.Commit();
             }
         }
 
