@@ -158,8 +158,6 @@ namespace BugTracker.DB.Tests.Repositories
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
-                IRepository<Member> memberRepository = new Repository<Member>(session);
-                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
                 IRepository<Project> projectRepository = new Repository<Project>(session);
 
                 Project project = projectRepository.GetById(id);
@@ -168,6 +166,15 @@ namespace BugTracker.DB.Tests.Repositories
 
                 projectRepository.Delete(project);
 
+                session.Transaction.Commit();
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+                IRepository<Project> projectRepository = new Repository<Project>(session);
+
                 long membersAfter = memberRepository.RowCount();
                 long ticketsAfter = ticketRepository.RowCount();
                 long projectsAfter = projectRepository.RowCount();
@@ -175,8 +182,6 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
                 Assert.That(ticketsAfter, Is.EqualTo(ticketsBefore));
                 Assert.That(projectsAfter, Is.EqualTo(projectsBefore));
-
-                session.Transaction.Commit();
             }
         }
 

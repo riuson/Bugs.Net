@@ -72,15 +72,7 @@
     <Compile Include="Entities\MemberTest.cs" />
     <Compile Include="Entities\TicketTest.cs" />
     <Compile Include="Entities\VocabularyTest.cs" />
-    <Compile Include="Mapping\AttachmentMapTest.cs" />
-    <Compile Include="Mapping\BlobContentMapTest.cs" />
-    <Compile Include="Mapping\ChangeMapTest.cs" />
-    <Compile Include="Mapping\PriorityMapTest.cs" />
-    <Compile Include="Mapping\ProblemTypeMapTest.cs" />
-    <Compile Include="Mapping\SolutionMapTest.cs" />
-    <Compile Include="Mapping\StatusMapTest.cs" />
-    <Compile Include="Mapping\ProjectMapTest.cs" />
-    <Compile Include="Mapping\TicketMapTest.cs" />
+    <Compile Include="Mapping\GenericMapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AttachmentRepositoryTest.cs" />
     <Compile Include="Repositories\BlobContentRepositoryTest.cs" />

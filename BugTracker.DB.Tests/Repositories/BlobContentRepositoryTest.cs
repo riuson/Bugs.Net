@@ -25,7 +25,8 @@ namespace BugTracker.DB.Tests.Repositories
         }
 
         [Test]
-        public virtual void CanSave()
+        public virtual void CanSave(
+            [Values(1, 10, 100, 10000, 1000000)] int size)
         {
             long before = 0;
 
@@ -33,7 +34,7 @@ namespace BugTracker.DB.Tests.Repositories
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
-                x.Content = this.GetRandomArray();
+                x.Content = this.GetRandomArray(size);
                 before = repository.RowCount();
                 repository.Save(x);
 
@@ -50,10 +51,11 @@ namespace BugTracker.DB.Tests.Repositories
         }
 
         [Test]
-        public virtual void CanGet()
+        public virtual void CanGet(
+            [Values(1, 10, 100, 10000, 1000000)] int size)
         {
             long id = 0;
-            byte[] buffer1 = this.GetRandomArray();
+            byte[] buffer1 = this.GetRandomArray(size);
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
@@ -77,10 +79,11 @@ namespace BugTracker.DB.Tests.Repositories
         }
 
         [Test]
-        public virtual void CanUpdate()
+        public virtual void CanUpdate(
+            [Values(1, 10, 100, 10000, 1000000)] int size)
         {
             long id = 0;
-            byte[] buffer1 = this.GetRandomArray();
+            byte[] buffer1 = this.GetRandomArray(size);
 
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
@@ -97,7 +100,7 @@ namespace BugTracker.DB.Tests.Repositories
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var y = repository.GetById(id);
-                buffer1 = this.GetRandomArray();
+                buffer1 = this.GetRandomArray(size);
                 y.Content = buffer1;
                 repository.SaveOrUpdate(y);
 
@@ -114,7 +117,8 @@ namespace BugTracker.DB.Tests.Repositories
         }
 
         [Test]
-        public virtual void CanDelete()
+        public virtual void CanDelete(
+            [Values(1, 10, 100, 10000, 1000000)] int size)
         {
             long before = 0;
             long id = 0;
@@ -123,7 +127,7 @@ namespace BugTracker.DB.Tests.Repositories
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
                 var x = new BlobContent();
-                x.Content = this.GetRandomArray();
+                x.Content = this.GetRandomArray(size);
                 before = repository.RowCount();
                 repository.Save(x);
                 id = x.Id;
@@ -134,19 +138,24 @@ namespace BugTracker.DB.Tests.Repositories
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<BlobContent> repository = new Repository<BlobContent>(session);
-                long after = repository.RowCount();
                 var y = repository.GetById(id);
                 repository.Delete(y);
-                after = repository.RowCount();
+
+                session.Transaction.Commit();
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<BlobContent> repository = new Repository<BlobContent>(session);
+                long after = repository.RowCount();
                 Assert.That(after, Is.EqualTo(before));
 
                 session.Transaction.Commit();
             }
         }
 
-        private byte[] GetRandomArray()
+        private byte[] GetRandomArray(int size)
         {
-            int size = this.mRandom.Next(100);
             byte[] buffer = new byte[size];
             this.mRandom.NextBytes(buffer);
             return buffer;

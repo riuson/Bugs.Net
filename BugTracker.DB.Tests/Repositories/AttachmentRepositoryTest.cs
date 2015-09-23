@@ -201,11 +201,18 @@ namespace BugTracker.DB.Tests.Repositories
             using (ISession session = SessionManager.Instance.OpenSession(true))
             {
                 IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
-                IRepository<Member> memberRepository = new Repository<Member>(session);
-                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 Attachment attachment = attachmentRepository.GetById(id);
                 attachmentRepository.Delete(attachment);
+
+                session.Transaction.Commit();
+            }
+
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Attachment> attachmentRepository = new Repository<Attachment>(session);
+                IRepository<Member> memberRepository = new Repository<Member>(session);
+                IRepository<BlobContent> blobRepository = new Repository<BlobContent>(session);
 
                 long membersAfter = memberRepository.RowCount();
                 long blobsAfter = blobRepository.RowCount();
@@ -214,8 +221,6 @@ namespace BugTracker.DB.Tests.Repositories
                 Assert.That(membersAfter, Is.EqualTo(membersBefore + 1));
                 Assert.That(blobsAfter, Is.EqualTo(blobsBefore));
                 Assert.That(attachmentsAfter, Is.EqualTo(attachmentsBefore));
-
-                session.Transaction.Commit();
             }
         }
 
