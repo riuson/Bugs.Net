@@ -124,7 +124,7 @@ namespace BugTracker.Core.Classes
                             wr.Flush();
 
                             // If serialized successfully, try write to file
-                            using (FileStream fs = SettingsFile.OpenWrite())
+                            using (FileStream fs = SettingsFile.Open(FileMode.Create))
                             {
                                 ms.WriteTo(fs);
                                 fs.Flush();
