@@ -1,17 +1,19 @@
 ﻿using BugTracker.Core.Classes;
+using BugTracker.Core.Extensions;
 using BugTracker.Core.Interfaces;
 using BugTracker.DB;
+using BugTracker.DB.Dao;
 using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
+using BugTracker.DB.Extensions;
 using BugTracker.DB.Interfaces;
+using BugTracker.Tickets.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Windows.Forms;
-using BugTracker.Tickets.Classes;
-using BugTracker.DB.Events;
-using BugTracker.DB.Dao;
-using BugTracker.Core.Extensions;
 
 namespace BugTracker.Tickets.Classes
 {
@@ -110,6 +112,49 @@ namespace BugTracker.Tickets.Classes
             {
                 this.UpdateList();
             }
+        }
+
+        internal void ApplyFilter(string p, SortOrder sortOrder)
+        {
+            using (ISession session = SessionManager.Instance.OpenSession(false))
+            {
+                IRepository<Project> projectRepository = new Repository<Project>(session);
+                IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
+
+                this.mProject = projectRepository.GetById(this.mProject.Id);
+                IQueryable<Ticket> tickets = ticketRepository.Query()
+                    .Where(item => item.Project == this.mProject)
+                    .OrderBy("Title", sortOrder)
+                    .FetchField(related => related.Author)
+                    .FetchField(related => related.Status);
+
+                this.mInternalData = tickets.ToList();
+                this.Data.DataSource = this.mInternalData;
+            }
+        }
+    }
+
+    internal static class IQuerableExt
+    {
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, SortOrder order)
+        {
+            if (String.IsNullOrEmpty(propertyName) || order == SortOrder.None)
+            {
+                return source;
+            }
+
+            ParameterExpression parameter = Expression.Parameter(source.ElementType, String.Empty);
+
+            MemberExpression property = Expression.Property(parameter, propertyName);
+            LambdaExpression lambda = Expression.Lambda(property, parameter);
+
+            string methodName = order == SortOrder.Ascending ? "OrderBy" : "OrderByDescending";
+
+            Expression methodCallExpression = Expression.Call(typeof(Queryable), methodName,
+                                                new Type[] { source.ElementType, property.Type },
+                                                source.Expression, Expression.Quote(lambda));
+
+            return source.Provider.CreateQuery<T>(methodCallExpression);
         }
     }
 }

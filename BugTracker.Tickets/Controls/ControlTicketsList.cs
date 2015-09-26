@@ -25,6 +25,9 @@ namespace BugTracker.Tickets.Controls
         private DataGridViewTextBoxColumn mColumnCreated;
         private DataGridViewColumn mColumnStatus;
 
+        private DataGridViewColumn mSortColumn;
+        private SortOrder mSortOrder;
+
         public ControlTicketsList(IApplication app, Member loggedMember, Project project)
         {
             InitializeComponent();
@@ -38,8 +41,12 @@ namespace BugTracker.Tickets.Controls
 
             this.mTicketsList = new TicketsListData(this.mApp, this.mLoggedMember, this.mProject);
 
+            this.mSortColumn = null;
+            this.mSortOrder = SortOrder.None;
+
             this.dgvList.AutoGenerateColumns = false;
             this.CreateColumns();
+            this.dgvList.ColumnHeaderMouseClick += this.dgvList_ColumnHeaderMouseClick;
             this.dgvList.DataSource = this.mTicketsList.Data;
 
             this.UpdateButtons();
@@ -57,6 +64,7 @@ namespace BugTracker.Tickets.Controls
             this.mColumnTitle.HeaderText = "Title".Tr();
             this.mColumnTitle.Name = "columnTitle";
             this.mColumnTitle.ReadOnly = true;
+            this.mColumnTitle.SortMode = DataGridViewColumnSortMode.Programmatic;
             // 
             // columnAuthor
             // 
@@ -65,6 +73,7 @@ namespace BugTracker.Tickets.Controls
             this.mColumnAuthor.HeaderText = "Author".Tr();
             this.mColumnAuthor.Name = "columnAuthor";
             this.mColumnAuthor.ReadOnly = true;
+            this.mColumnAuthor.SortMode = DataGridViewColumnSortMode.Programmatic;
             // 
             // columnCreated
             // 
@@ -73,6 +82,7 @@ namespace BugTracker.Tickets.Controls
             this.mColumnCreated.HeaderText = "Created".Tr();
             this.mColumnCreated.Name = "columnCreated";
             this.mColumnCreated.ReadOnly = true;
+            this.mColumnCreated.SortMode = DataGridViewColumnSortMode.Programmatic;
             // 
             // columnStatus
             // 
@@ -81,6 +91,7 @@ namespace BugTracker.Tickets.Controls
             this.mColumnStatus.HeaderText = "Status".Tr();
             this.mColumnStatus.Name = "columnStatus";
             this.mColumnStatus.ReadOnly = true;
+            this.mColumnStatus.SortMode = DataGridViewColumnSortMode.Programmatic;
 
             this.dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.mColumnTitle,
@@ -150,6 +161,47 @@ namespace BugTracker.Tickets.Controls
                 this.UpdateButtons();
                 this.mTicketsList.UpdateList();
             }
+        }
+
+        private void dgvList_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (this.mSortColumn == this.dgvList.Columns[e.ColumnIndex])
+            {
+                switch (this.mSortOrder)
+                {
+                    case SortOrder.Ascending:
+                        this.mSortOrder = SortOrder.Descending;
+                        break;
+                    case SortOrder.Descending:
+                        this.mSortOrder = SortOrder.None;
+                        break;
+                    case SortOrder.None:
+                        this.mSortOrder = SortOrder.Ascending;
+                        break;
+                    default:
+                        break;
+                }
+
+                this.mSortColumn.HeaderCell.SortGlyphDirection = this.mSortOrder;
+            }
+            else
+            {
+                if (this.mSortColumn != null)
+                {
+                    this.mSortColumn.HeaderCell.SortGlyphDirection = SortOrder.None; ;
+                }
+
+                this.mSortColumn = this.dgvList.Columns[e.ColumnIndex];
+                this.mSortOrder = SortOrder.Ascending;
+                this.mSortColumn.HeaderCell.SortGlyphDirection = this.mSortOrder;
+            }
+
+            this.ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            this.mTicketsList.ApplyFilter(this.mSortColumn.DataPropertyName, this.mSortOrder);
         }
     }
 }
