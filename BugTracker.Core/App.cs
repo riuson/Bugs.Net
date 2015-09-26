@@ -43,6 +43,11 @@ namespace BugTracker.Core
             this.mContainer.Dispose();
         }
 
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
+
         public void Run()
         {
             try
