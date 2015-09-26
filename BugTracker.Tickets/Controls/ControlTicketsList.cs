@@ -25,6 +25,10 @@ namespace BugTracker.Tickets.Controls
         private DataGridViewTextBoxColumn mColumnCreated;
         private DataGridViewColumn mColumnStatus;
 
+        private DataGridViewColumn mSortColumn;
+        private SortOrder mSortOrder;
+        private string mTitleFilter;
+
         public ControlTicketsList(IApplication app, Member loggedMember, Project project)
         {
             InitializeComponent();
@@ -40,11 +44,15 @@ namespace BugTracker.Tickets.Controls
 
             this.dgvList.AutoGenerateColumns = false;
             this.CreateColumns();
+            this.dgvList.ColumnHeaderMouseClick += this.dgvList_ColumnHeaderMouseClick;
             this.dgvList.DataSource = this.mTicketsList.Data;
 
-            this.UpdateButtons();
-
             this.VisibleChanged += this.ControlTicketsList_VisibleChanged;
+
+            this.mSortColumn = this.mColumnTitle;
+            this.mSortOrder = SortOrder.Ascending;
+            this.mTitleFilter = String.Empty;
+            this.ApplyFilter();
         }
 
         private void CreateColumns()
@@ -150,6 +158,62 @@ namespace BugTracker.Tickets.Controls
                 this.UpdateButtons();
                 this.mTicketsList.UpdateList();
             }
+        }
+
+        private void dgvList_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (this.mSortColumn == this.dgvList.Columns[e.ColumnIndex])
+            {
+                switch (this.mSortOrder)
+                {
+                    case SortOrder.Ascending:
+                        this.mSortOrder = SortOrder.Descending;
+                        break;
+                    case SortOrder.Descending:
+                        this.mSortOrder = SortOrder.None;
+                        break;
+                    case SortOrder.None:
+                        this.mSortOrder = SortOrder.Ascending;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                if (this.mSortColumn != null)
+                {
+                    this.mSortColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
+                }
+
+                this.mSortColumn = this.dgvList.Columns[e.ColumnIndex];
+                this.mSortOrder = SortOrder.Ascending;
+            }
+
+            this.ApplyFilter();
+        }
+
+        private void UpdateColumns()
+        {
+            // Update sorting glyphs
+            foreach (DataGridViewColumn column in this.dgvList.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.Programmatic;
+                column.HeaderCell.SortGlyphDirection = (column == this.mSortColumn ? this.mSortOrder : SortOrder.None);
+            }
+        }
+
+        private void textBoxTitleFilter_TextChanged(object sender, EventArgs e)
+        {
+            this.mTitleFilter = this.textBoxTitleFilter.Text;
+            this.ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            this.mTicketsList.ApplyFilter(this.mSortColumn.DataPropertyName, this.mSortOrder, this.mTitleFilter);
+            this.UpdateColumns();
+            this.UpdateButtons();
         }
     }
 }
