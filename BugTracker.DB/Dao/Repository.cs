@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using NHibernate.Linq;
 
 namespace BugTracker.DB.Dao
 {
@@ -29,6 +31,11 @@ namespace BugTracker.DB.Dao
         public virtual ICollection<T> List()
         {
             return this.Session.CreateCriteria(typeof(T)).List<T>();
+        }
+
+        public virtual IQueryable<T> Query()
+        {
+            return this.Session.Query<T>();
         }
 
         public virtual void Save(T entity)

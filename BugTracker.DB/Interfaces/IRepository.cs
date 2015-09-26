@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace BugTracker.DB.Interfaces
@@ -24,6 +25,11 @@ namespace BugTracker.DB.Interfaces
         /// </summary>
         /// <returns>Collecion of entities</returns>
         ICollection<T> List();
+        /// <summary>
+        /// Get Linq interface
+        /// </summary>
+        /// <returns>Interface for Linq</returns>
+        IQueryable<T> Query();
         /// <summary>
         /// Save entity in repository
         /// </summary>
