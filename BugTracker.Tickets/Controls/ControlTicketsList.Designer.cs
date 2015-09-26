@@ -34,6 +34,7 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonEdit = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
+            this.textBoxTitleFilter = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -45,11 +46,11 @@
             this.dgvList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvList.Location = new System.Drawing.Point(3, 3);
+            this.dgvList.Location = new System.Drawing.Point(3, 32);
             this.dgvList.Name = "dgvList";
             this.dgvList.ReadOnly = true;
-            this.tableLayoutPanel1.SetRowSpan(this.dgvList, 4);
-            this.dgvList.Size = new System.Drawing.Size(455, 284);
+            this.tableLayoutPanel1.SetRowSpan(this.dgvList, 3);
+            this.dgvList.Size = new System.Drawing.Size(455, 255);
             this.dgvList.TabIndex = 0;
             this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
             this.dgvList.DoubleClick += new System.EventHandler(this.dgvList_DoubleClick);
@@ -59,10 +60,11 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.dgvList, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dgvList, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonAdd, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonEdit, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonRemove, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxTitleFilter, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -104,6 +106,15 @@
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
+            // textBoxTitleFilter
+            // 
+            this.textBoxTitleFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTitleFilter.Location = new System.Drawing.Point(3, 4);
+            this.textBoxTitleFilter.Name = "textBoxTitleFilter";
+            this.textBoxTitleFilter.Size = new System.Drawing.Size(455, 20);
+            this.textBoxTitleFilter.TabIndex = 2;
+            this.textBoxTitleFilter.TextChanged += new System.EventHandler(this.textBoxTitleFilter_TextChanged);
+            // 
             // ControlTicketsList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -113,6 +124,7 @@
             this.Size = new System.Drawing.Size(542, 290);
             ((System.ComponentModel.ISupportInitialize)(this.dgvList)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -124,5 +136,6 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonEdit;
         private System.Windows.Forms.Button buttonRemove;
+        private System.Windows.Forms.TextBox textBoxTitleFilter;
     }
 }

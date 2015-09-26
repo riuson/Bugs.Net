@@ -27,6 +27,7 @@ namespace BugTracker.Tickets.Controls
 
         private DataGridViewColumn mSortColumn;
         private SortOrder mSortOrder;
+        private string mTitleFilter;
 
         public ControlTicketsList(IApplication app, Member loggedMember, Project project)
         {
@@ -41,17 +42,17 @@ namespace BugTracker.Tickets.Controls
 
             this.mTicketsList = new TicketsListData(this.mApp, this.mLoggedMember, this.mProject);
 
-            this.mSortColumn = null;
-            this.mSortOrder = SortOrder.None;
-
             this.dgvList.AutoGenerateColumns = false;
             this.CreateColumns();
             this.dgvList.ColumnHeaderMouseClick += this.dgvList_ColumnHeaderMouseClick;
             this.dgvList.DataSource = this.mTicketsList.Data;
 
-            this.UpdateButtons();
-
             this.VisibleChanged += this.ControlTicketsList_VisibleChanged;
+
+            this.mSortColumn = this.mColumnTitle;
+            this.mSortOrder = SortOrder.Ascending;
+            this.mTitleFilter = String.Empty;
+            this.ApplyFilter();
         }
 
         private void CreateColumns()
@@ -64,7 +65,6 @@ namespace BugTracker.Tickets.Controls
             this.mColumnTitle.HeaderText = "Title".Tr();
             this.mColumnTitle.Name = "columnTitle";
             this.mColumnTitle.ReadOnly = true;
-            this.mColumnTitle.SortMode = DataGridViewColumnSortMode.Programmatic;
             // 
             // columnAuthor
             // 
@@ -73,7 +73,6 @@ namespace BugTracker.Tickets.Controls
             this.mColumnAuthor.HeaderText = "Author".Tr();
             this.mColumnAuthor.Name = "columnAuthor";
             this.mColumnAuthor.ReadOnly = true;
-            this.mColumnAuthor.SortMode = DataGridViewColumnSortMode.Programmatic;
             // 
             // columnCreated
             // 
@@ -82,7 +81,6 @@ namespace BugTracker.Tickets.Controls
             this.mColumnCreated.HeaderText = "Created".Tr();
             this.mColumnCreated.Name = "columnCreated";
             this.mColumnCreated.ReadOnly = true;
-            this.mColumnCreated.SortMode = DataGridViewColumnSortMode.Programmatic;
             // 
             // columnStatus
             // 
@@ -91,7 +89,6 @@ namespace BugTracker.Tickets.Controls
             this.mColumnStatus.HeaderText = "Status".Tr();
             this.mColumnStatus.Name = "columnStatus";
             this.mColumnStatus.ReadOnly = true;
-            this.mColumnStatus.SortMode = DataGridViewColumnSortMode.Programmatic;
 
             this.dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.mColumnTitle,
@@ -194,7 +191,10 @@ namespace BugTracker.Tickets.Controls
             }
 
             this.ApplyFilter();
+        }
 
+        private void UpdateColumns()
+        {
             // Update sorting glyphs
             foreach (DataGridViewColumn column in this.dgvList.Columns)
             {
@@ -203,9 +203,17 @@ namespace BugTracker.Tickets.Controls
             }
         }
 
+        private void textBoxTitleFilter_TextChanged(object sender, EventArgs e)
+        {
+            this.mTitleFilter = this.textBoxTitleFilter.Text;
+            this.ApplyFilter();
+        }
+
         private void ApplyFilter()
         {
-            this.mTicketsList.ApplyFilter(this.mSortColumn.DataPropertyName, this.mSortOrder);
+            this.mTicketsList.ApplyFilter(this.mSortColumn.DataPropertyName, this.mSortOrder, this.mTitleFilter);
+            this.UpdateColumns();
+            this.UpdateButtons();
         }
     }
 }
