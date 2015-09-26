@@ -16,5 +16,42 @@ namespace BugTracker.DB.Extensions
             INhFetchRequest<T, TRelated> result = query.Fetch<T, TRelated>(relatedObjectSelector);
             return query.Fetch(relatedObjectSelector);
         }
+
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, bool ascending)
+        {
+            if (String.IsNullOrEmpty(propertyName))
+            {
+                return source;
+            }
+
+            ParameterExpression parameter = Expression.Parameter(source.ElementType, String.Empty);
+
+            MemberExpression property = null;
+
+            // Access to object.Field.Field2.Field3 ...
+            string[] propertyNames = propertyName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var pn in propertyNames)
+            {
+                if (property == null)
+                {
+                    property = Expression.Property(parameter, pn);
+                }
+                else
+                {
+                    property = Expression.Property(property, pn);
+                }
+            }
+
+            LambdaExpression lambda = Expression.Lambda(property, parameter);
+
+            string methodName = ascending ? "OrderBy" : "OrderByDescending";
+
+            Expression methodCallExpression = Expression.Call(typeof(Queryable), methodName,
+                                                new Type[] { source.ElementType, property.Type },
+                                                source.Expression, Expression.Quote(lambda));
+
+            return source.Provider.CreateQuery<T>(methodCallExpression);
+        }
     }
 }
