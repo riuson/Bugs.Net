@@ -181,22 +181,26 @@ namespace BugTracker.Tickets.Controls
                     default:
                         break;
                 }
-
-                this.mSortColumn.HeaderCell.SortGlyphDirection = this.mSortOrder;
             }
             else
             {
                 if (this.mSortColumn != null)
                 {
-                    this.mSortColumn.HeaderCell.SortGlyphDirection = SortOrder.None; ;
+                    this.mSortColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
                 }
 
                 this.mSortColumn = this.dgvList.Columns[e.ColumnIndex];
                 this.mSortOrder = SortOrder.Ascending;
-                this.mSortColumn.HeaderCell.SortGlyphDirection = this.mSortOrder;
             }
 
             this.ApplyFilter();
+
+            // Update sorting glyphs
+            foreach (DataGridViewColumn column in this.dgvList.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.Programmatic;
+                column.HeaderCell.SortGlyphDirection = (column == this.mSortColumn ? this.mSortOrder : SortOrder.None);
+            }
         }
 
         private void ApplyFilter()
