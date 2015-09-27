@@ -79,7 +79,7 @@
     <Compile Include="Repositories\ChangeRepositoryTest.cs" />
     <Compile Include="Repositories\MemberRepositoryTest.cs" />
     <Compile Include="Repositories\ProjectRepositoryTest.cs" />
-    <Compile Include="Repositories\RepositoryFilteringTest.cs" />
+    <Compile Include="Repositories\RepositoryQueryTest.cs" />
     <Compile Include="Repositories\TicketRepositoryTest.cs" />
     <Compile Include="Repositories\VocabularyRepositoryTest.cs" />
   </ItemGroup>
