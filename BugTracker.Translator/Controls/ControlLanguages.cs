@@ -44,9 +44,9 @@ namespace BugTracker.Translator.Controls
         {
             get
             {
-                IEnumerable<DataGridViewRow> rows = this.dgvList.SelectedRows.Cast<DataGridViewRow>();
-                rows = rows.Where<DataGridViewRow>(row => row.Index >= 0 && row.DataBoundItem is CultureInfo);
-                IEnumerable<CultureInfo> cultures = rows.Select<DataGridViewRow, CultureInfo>(row => row.DataBoundItem as CultureInfo);
+                var cultures = from DataGridViewRow row in this.dgvList.SelectedRows
+                               where row.Index >= 0 && row.DataBoundItem is CultureInfo
+                               select row.DataBoundItem as CultureInfo;
                 return cultures;
             }
         }
@@ -80,12 +80,14 @@ namespace BugTracker.Translator.Controls
             }
             else
             {
-                this.mBS.DataSource = CultureInfo.GetCultures(CultureTypes.AllCultures)
-                    .Where(
-                        culture =>
-                            culture.Name.ToLower().Contains(filter.ToLower()) ||
-                            culture.DisplayName.ToLower().Contains(filter.ToLower()) ||
-                            culture.NativeName.ToLower().Contains(filter.ToLower()));
+                this.mBS.DataSource = from culture in CultureInfo.GetCultures(CultureTypes.AllCultures)
+                                      let n = culture.Name.ToLower()
+                                      let dn = culture.DisplayName.ToLower()
+                                      let nn = culture.NativeName.ToLower()
+                                      where n.Contains(filter.ToLower()) ||
+                                            dn.Contains(filter.ToLower()) ||
+                                            nn.Contains(filter.ToLower())
+                                      select culture;
             }
         }
     }

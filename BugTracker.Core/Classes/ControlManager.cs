@@ -117,10 +117,8 @@ namespace BugTracker.Core.Classes
         {
             get
             {
-                IEnumerable<String> list = this.mControls.Select<Control, string>(delegate(Control ctrl)
-                {
-                    return ctrl.Text;
-                });
+                var list = from ctrl in this.mControls
+                           select ctrl.Text;
 
                 return list;
             }

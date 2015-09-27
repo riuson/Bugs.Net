@@ -54,13 +54,15 @@ namespace BugTracker.Tickets.Classes
                 IRepository<Ticket> ticketRepository = new Repository<Ticket>(session);
 
                 this.mProject = projectRepository.GetById(this.mProject.Id);
-                IQueryable<Ticket> tickets = ticketRepository.Query()
-                    .Where(item => item.Project == this.mProject);
+                var tickets = from ticket in ticketRepository.Query()
+                              where ticket.Project == this.mProject
+                              select ticket;
 
                 if (!String.IsNullOrEmpty(this.mFilterTitle))
                 {
-                    tickets = tickets
-                        .Where(item => item.Title.Contains(this.mFilterTitle));
+                    tickets = from ticket in tickets
+                              where ticket.Title.Contains(this.mFilterTitle)
+                              select ticket;
                 }
 
                 tickets = tickets

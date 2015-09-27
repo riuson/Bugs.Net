@@ -23,8 +23,10 @@ namespace BugTracker.Core.Tests.Controls
             {
                 get
                 {
-                    IEnumerable<string> result = this.Controls.Cast<Label>()
-                        .Select<Label, String>(label => label.Text);
+                    var result = from Control ctrl in this.Controls
+                                 let label = ctrl as Label
+                                 where label != null
+                                 select label.Text;
                     return result;
                 }
             }
@@ -32,24 +34,20 @@ namespace BugTracker.Core.Tests.Controls
             {
                 get
                 {
-                    if (this.Controls.Count > 0)
-                    {
-                        return this.Controls.Cast<Label>().Last();
-                    }
-
-                    return null;
+                    var result = (from Control ctrl in this.Controls
+                                  where ctrl is Label
+                                  select ctrl as Label).LastOrDefault();
+                    return result;
                 }
             }
             public IEnumerable<Label> Links
             {
                 get
                 {
-                    if (this.Controls.Count > 0)
-                    {
-                        return this.Controls.Cast<Label>();
-                    }
-
-                    return null;
+                    var result = from Control ctrl in this.Controls
+                                 where ctrl is Label
+                                 select ctrl as Label;
+                    return result;
                 }
             }
         }
@@ -104,6 +102,8 @@ namespace BugTracker.Core.Tests.Controls
             navbar.UpdateTitles(titles);
 
             IEnumerable<Label> links = navbar.Links;
+
+            Assert.That(links.Count(), Is.EqualTo(titles.Count() + 1));
 
             steps = 2;
             navbar.ClickOnLabel(links.ElementAt(0));

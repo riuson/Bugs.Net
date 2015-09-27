@@ -81,12 +81,12 @@ namespace BugTracker.Translator.Classes
             else
             {
                 // If culture with same parent exists
-                if (this.mCultures.Any(existing => existing.Parent == culture.Parent))
-                {
-                    // Get it
-                    cultureSource = this.mCultures.First(existing => existing.Parent == culture.Parent);
-                }
-                else
+                cultureSource = (from c in this.mCultures
+                                 where c.Parent == culture.Parent
+                                 select c).FirstOrDefault();
+
+                // If not exists
+                if (cultureSource == null)
                 {
                     CultureInfo cultureEn = new CultureInfo("en");
                     CultureInfo cultureEnUs = new CultureInfo("en-US");

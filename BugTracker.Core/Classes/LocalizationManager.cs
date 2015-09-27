@@ -99,7 +99,8 @@ namespace BugTracker.Core.Classes
             {
                 DirectoryInfo directory = new DirectoryInfo(this.LanguagesDir);
                 DirectoryInfo[] subdirs = directory.GetDirectories();
-                IEnumerable<CultureInfo> cultures = subdirs.Select<DirectoryInfo, CultureInfo>(dir => new CultureInfo(dir.Name));
+                var cultures = from subdir in subdirs
+                               select new CultureInfo(subdir.Name);
                 return cultures;
             }
         }
@@ -108,7 +109,8 @@ namespace BugTracker.Core.Classes
         {
             DirectoryInfo directory = new DirectoryInfo(Path.Combine(this.LanguagesDir, culture.Name));
             FileInfo[] files = directory.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
-            IEnumerable<string> modules = files.Select<FileInfo, string>(file => Path.GetFileNameWithoutExtension(file.Name));
+            var modules = from file in files
+                          select Path.GetFileNameWithoutExtension(file.Name);
             return modules;
         }
 

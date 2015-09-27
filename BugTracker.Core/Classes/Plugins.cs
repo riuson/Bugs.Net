@@ -36,7 +36,7 @@ namespace BugTracker.Core.Classes
         {
             List<IPlugin> result = new List<IPlugin>();
 
-            string[] files = this.GetLibraries();
+            var files = this.GetLibraries();
 
             foreach (var filename in files)
             {
@@ -76,23 +76,18 @@ namespace BugTracker.Core.Classes
             return path;
         }
 
-        private string[] GetLibraries()
+        private IEnumerable<String> GetLibraries()
         {
-            // List of dll files
-            IEnumerable<string> files = new List<string>(Directory.GetFiles(this.GetExeDirectory(), "*.dll", SearchOption.AllDirectories));
+            // List of files
+            var files = Directory.GetFiles(this.GetExeDirectory(), "*.dll", SearchOption.AllDirectories);
 
-            // Remove x86 and x64 directories
-            files = files.Where<string>(delegate(string filename)
-            {
-                string dir = Path.GetDirectoryName(filename);
+            // Remove x86/x64
+            var result = from file in files
+                         let dir = Path.GetDirectoryName(file)
+                         where !dir.EndsWith("x86") && !dir.EndsWith("x64")
+                         select file;
 
-                if (dir.ToLower().EndsWith("x86") | dir.ToLower().EndsWith("x64"))
-                    return false;
-
-                return true;
-            });
-
-            return files.ToArray<string>();
+            return result;
         }
     }
 }

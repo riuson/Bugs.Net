@@ -60,25 +60,16 @@ namespace BugTracker.Classes
         private string GetPrivateBinDirectories()
         {
             // List of files
-            IEnumerable<string> dirs = new List<string>(Directory.GetFiles(this.GetExeDirectory(), "*.*", SearchOption.AllDirectories));
+            var files = Directory.GetFiles(this.GetExeDirectory(), "*.*", SearchOption.AllDirectories);
 
             // Get directory names
-            dirs = dirs.Select<string, string>(delegate(string filename)
-            {
-                return Path.GetDirectoryName(filename);
-            });
+            var dirs = from file in files
+                       let dir = Path.GetDirectoryName(file)
+                       where !dir.EndsWith("x86") && !dir.EndsWith("x64")
+                       select dir;
 
             // Remove duplicates
-            dirs = dirs.Distinct<string>();
-
-            // Remove x86 and x64 directories
-            dirs = dirs.Where<string>(delegate(string dir)
-            {
-                if (dir.ToLower().EndsWith("x86") | dir.ToLower().EndsWith("x64"))
-                    return false;
-
-                return true;
-            });
+            dirs = dirs.Distinct();
 
             // Join to string
             string result = string.Join(";", dirs);

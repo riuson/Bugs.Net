@@ -65,18 +65,20 @@ namespace BugTracker.Core.Classes
 
         public TranslationUnit GetTranslation(string id)
         {
-            if (this.mUnits.Any(u => u.Id == id))
-            {
-                TranslationUnit result = this.mUnits.First(unit => unit.Id == id);
-                return result;
-            }
+            var result = (from unit in this.mUnits
+                          where unit.Id == id
+                          select unit).SingleOrDefault();
 
-            return null;
+            return result;
         }
 
         public void AddTranslation(TranslationUnit unit)
         {
-            if (!this.mUnits.Any(u => u.Id == unit.Id))
+            var count = (from u in this.mUnits
+                         where u.Id == unit.Id
+                         select u).Count();
+
+            if (count == 0)
             {
                 this.mUnits.Add(unit);
             }
@@ -84,7 +86,11 @@ namespace BugTracker.Core.Classes
 
         public void SaveChanges()
         {
-            if (this.mUnits.Any(unit => unit.Changed))
+            var count = (from u in this.mUnits
+                         where u.Changed == true
+                         select u).Count();
+
+            if (count > 0)
             {
                 using (Stream stream = File.Open(this.mFilename, FileMode.Create))
                 {
