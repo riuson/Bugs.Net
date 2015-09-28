@@ -86,6 +86,10 @@
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\DataGridViewColumnFabric.cs" />
     <Compile Include="Enitities\Entity.cs" />
+    <Compile Include="Migrations\IMigrationPart.cs" />
+    <Compile Include="Migrations\Migrator.cs" />
+    <Compile Include="Migrations\Version001\MigrationPart.cs" />
+    <Compile Include="Migrations\Version002\MigrationPart.cs" />
     <Compile Include="Settings\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="DataAccess\SessionManager\SessionOptions.cs" />
