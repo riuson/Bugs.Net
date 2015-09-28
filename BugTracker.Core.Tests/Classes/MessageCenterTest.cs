@@ -1,5 +1,5 @@
 ﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Interfaces;
+using BugTracker.Core.Messages;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

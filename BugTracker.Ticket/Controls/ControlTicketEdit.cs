@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using BugTracker.DB.Entities;
 using BugTracker.TicketEditor.Controls;
-using BugTracker.Core.Interfaces;
 using BugTracker.DB.Interfaces;
 using BugTracker.DB;
 using BugTracker.TicketEditor.Classes;
@@ -16,6 +15,7 @@ using BugTracker.TicketEditor.Events;
 using BugTracker.Core.Classes;
 using BugTracker.DB.Dao;
 using BugTracker.Core.Extensions;
+using BugTracker.Core;
 
 namespace BugTracker.TicketEditor.Controls
 {

@@ -1,5 +1,4 @@
 ﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Interfaces;
 using BugTracker.DB;
 using BugTracker.DB.Dao;
 using BugTracker.DB.Entities;
@@ -11,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BugTracker.Core.Extensions;
+using BugTracker.Core;
+using BugTracker.Core.Dialogs;
 
 namespace BugTracker.Projects.Classes
 {

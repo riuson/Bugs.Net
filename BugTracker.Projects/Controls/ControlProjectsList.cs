@@ -1,15 +1,15 @@
-﻿using System;
+﻿using BugTracker.Core;
+using BugTracker.Core.Extensions;
+using BugTracker.DB.Entities;
+using BugTracker.Projects.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BugTracker.Core.Interfaces;
-using BugTracker.Projects.Classes;
-using BugTracker.DB.Entities;
-using BugTracker.Core.Extensions;
 
 namespace BugTracker.Projects.Controls
 {

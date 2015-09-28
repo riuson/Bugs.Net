@@ -1,7 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using BugTracker.Classes;
 using BugTracker.Core;
-using BugTracker.Classes;
+using BugTracker.Core.Main;
+using System;
+using System.Windows.Forms;
 
 namespace BugTracker
 {

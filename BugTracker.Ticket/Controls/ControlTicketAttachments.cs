@@ -1,4 +1,5 @@
-﻿using BugTracker.Core.Interfaces;
+﻿using BugTracker.Core;
+using BugTracker.Core.Extensions;
 using BugTracker.DB;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Interfaces;
@@ -12,7 +13,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using BugTracker.Core.Extensions;
 
 namespace BugTracker.TicketEditor.Controls
 {
