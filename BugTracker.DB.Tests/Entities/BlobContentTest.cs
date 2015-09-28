@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
+﻿using BugTracker.DB.Entities;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.DB.Entities.Tests
+namespace BugTracker.DB.Tests.Entities
 {
     [TestFixture]
     internal class BlobContentTest

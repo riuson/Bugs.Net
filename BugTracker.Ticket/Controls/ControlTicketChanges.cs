@@ -1,14 +1,13 @@
-﻿using BugTracker.DB;
+﻿using BugTracker.Core.Extensions;
+using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
-using BugTracker.DB.Interfaces;
+using BugTracker.TicketEditor.Classes;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BugTracker.TicketEditor.Classes;
-using System.Drawing;
-using BugTracker.Core.Extensions;
 
 namespace BugTracker.TicketEditor.Controls
 {

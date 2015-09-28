@@ -2,11 +2,9 @@
 using BugTracker.Core.Classes;
 using BugTracker.Core.Extensions;
 using BugTracker.Core.Messages;
-using BugTracker.DB;
-using BugTracker.DB.Dao;
+using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
-using BugTracker.DB.Interfaces;
 using BugTracker.Members.Classes;
 using System;
 using System.Collections.Generic;

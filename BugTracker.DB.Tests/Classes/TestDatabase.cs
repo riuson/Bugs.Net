@@ -1,4 +1,4 @@
-﻿using BugTracker.DB.Classes;
+﻿using BugTracker.DB.DataAccess;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,28 +6,29 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.DB.Tests
+/// <summary>
+/// Global setup/teardown methods for all tests in asssembly
+/// </summary>
+[SetUpFixture]
+internal class TestDatabase
 {
-    [SetUpFixture]
-    internal class TestDatabase
+    [SetUp]
+    public void Create()
     {
-        [SetUp]
-        public void Create()
+        File.Delete("test.db");
+        // Configure database singleton for temp database file
+        // before any tests
+        SessionManager.Instance.Configure(new SessionOptions("test.db")
         {
-            // Configure database singleton for temp database file
-            // before any tests
-            SessionManager.Instance.Configure(new SessionOptions("test.db")
-            {
-                ShowLogs = true
-            });
-            Assert.That(SessionManager.Instance.IsConfigured, Is.True);
-        }
+            ShowLogs = true
+        });
+        Assert.That(SessionManager.Instance.IsConfigured, Is.True);
+    }
 
-        [TearDown]
-        public void Remove()
-        {
-            // Remove temp database file after all tests completed
-            File.Delete("test.db");
-        }
+    [TearDown]
+    public void Remove()
+    {
+        // Remove temp database file after all tests completed
+        //File.Delete("test.db");
     }
 }

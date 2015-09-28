@@ -1,7 +1,5 @@
-﻿using BugTracker.DB;
-using BugTracker.DB.Dao;
+﻿using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
-using BugTracker.DB.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

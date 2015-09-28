@@ -1,6 +1,4 @@
-﻿using BugTracker.DB.Classes;
-using BugTracker.DB.Interfaces;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
