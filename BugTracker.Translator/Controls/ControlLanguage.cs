@@ -1,5 +1,5 @@
-﻿using BugTracker.Core.Extensions;
-using BugTracker.Core.Interfaces;
+﻿using BugTracker.Core;
+using BugTracker.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

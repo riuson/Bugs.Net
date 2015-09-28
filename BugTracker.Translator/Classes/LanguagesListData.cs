@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Interfaces;
+﻿using BugTracker.Core;
 using BugTracker.Translator.Controls;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,6 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Controls;
-using BugTracker.Core.Interfaces;
+﻿using BugTracker.Core;
 using BugTracker.Core.Extensions;
+using BugTracker.Core.Menus;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,20 +1,19 @@
-﻿using System;
+﻿using BugTracker.Core;
+using BugTracker.Core.Classes;
+using BugTracker.Core.Extensions;
+using BugTracker.Core.Messages;
+using BugTracker.DB.DataAccess;
+using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
+using BugTracker.Members.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BugTracker.DB.Entities;
-using BugTracker.Core.Interfaces;
-using BugTracker.DB.Interfaces;
-using BugTracker.DB;
-using BugTracker.DB.Dao;
-using BugTracker.Members.Classes;
-using BugTracker.DB.Events;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
 
 namespace BugTracker.Members.Controls
 {

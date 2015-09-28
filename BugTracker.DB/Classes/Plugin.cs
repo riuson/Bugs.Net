@@ -1,13 +1,16 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Interfaces;
-using BugTracker.DB.Controls;
+﻿using BugTracker.Core;
+using BugTracker.Core.Classes;
+using BugTracker.Core.Extensions;
+using BugTracker.Core.Menus;
+using BugTracker.Core.Plugins;
+using BugTracker.DB.DataAccess;
+using BugTracker.DB.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BugTracker.Core.Extensions;
 
 namespace BugTracker.DB.Classes
 {

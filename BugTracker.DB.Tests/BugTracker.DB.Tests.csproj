@@ -60,28 +60,27 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
-    <Compile Include="Classes\EntityTest.cs" />
+    <Compile Include="Entities\EntityTest.cs" />
     <Compile Include="Classes\TestDatabase.cs" />
-    <Compile Include="Classes\TransactionTest.cs" />
-    <Compile Include="Dao\SchemaTest.cs" />
+    <Compile Include="DataAccess\TransactionTest.cs" />
+    <Compile Include="DataAccess\SchemaTest.cs" />
     <Compile Include="Entities\AttachmentTest.cs" />
     <Compile Include="Entities\BlobContentTest.cs" />
     <Compile Include="Entities\ChangeTest.cs" />
-    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityList.cs" />
     <Compile Include="Entities\MemberTest.cs" />
     <Compile Include="Entities\TicketTest.cs" />
     <Compile Include="Entities\VocabularyTest.cs" />
     <Compile Include="Mapping\GenericMapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\AttachmentRepositoryTest.cs" />
-    <Compile Include="Repositories\BlobContentRepositoryTest.cs" />
-    <Compile Include="Repositories\ChangeRepositoryTest.cs" />
-    <Compile Include="Repositories\MemberRepositoryTest.cs" />
-    <Compile Include="Repositories\ProjectRepositoryTest.cs" />
-    <Compile Include="Repositories\RepositoryQueryTest.cs" />
-    <Compile Include="Repositories\TicketRepositoryTest.cs" />
-    <Compile Include="Repositories\VocabularyRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repository\AttachmentRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repository\BlobContentRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repository\ChangeRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repository\MemberRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repository\ProjectRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repository\RepositoryQueryTest.cs" />
+    <Compile Include="DataAccess\Repository\TicketRepositoryTest.cs" />
+    <Compile Include="DataAccess\Repository\VocabularyRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugTracker.DB\BugTracker.DB.csproj">

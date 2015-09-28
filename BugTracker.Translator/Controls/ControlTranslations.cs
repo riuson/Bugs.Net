@@ -1,15 +1,15 @@
-﻿using System;
+﻿using BugTracker.Core;
+using BugTracker.Core.Extensions;
+using BugTracker.Translator.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BugTracker.Core.Interfaces;
-using BugTracker.Core.Extensions;
-using BugTracker.Translator.Classes;
-using System.Globalization;
 
 namespace BugTracker.Translator.Controls
 {

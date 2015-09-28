@@ -1,4 +1,5 @@
 ﻿using BugTracker.Core.Classes;
+using BugTracker.Core.Localization;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

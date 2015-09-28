@@ -1,4 +1,7 @@
-﻿using BugTracker.Core.Interfaces;
+﻿using BugTracker.Core;
+using BugTracker.Core.Menus;
+using BugTracker.Core.Messages;
+using BugTracker.Core.Plugins;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.Tickets.Controls;

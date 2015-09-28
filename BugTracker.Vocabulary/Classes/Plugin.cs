@@ -1,8 +1,11 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Interfaces;
+﻿using BugTracker.Core;
+using BugTracker.Core.Classes;
+using BugTracker.Core.Extensions;
+using BugTracker.Core.Menus;
+using BugTracker.Core.Messages;
+using BugTracker.Core.Plugins;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
-using BugTracker.DB.Interfaces;
 using BugTracker.Vocabulary.Controls;
 using System;
 using System.Collections.Generic;
@@ -11,7 +14,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BugTracker.Core.Extensions;
 
 namespace BugTracker.Vocabulary.Classes
 {

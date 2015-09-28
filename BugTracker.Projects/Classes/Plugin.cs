@@ -1,5 +1,4 @@
 ﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Interfaces;
 using BugTracker.DB.Entities;
 using BugTracker.Members.Events;
 using BugTracker.Projects.Controls;
@@ -10,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BugTracker.Core.Extensions;
+using BugTracker.Core.Plugins;
+using BugTracker.Core;
+using BugTracker.Core.Menus;
+using BugTracker.Core.Messages;
 
 namespace BugTracker.Projects.Classes
 {

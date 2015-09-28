@@ -1,4 +1,5 @@
 ﻿using BugTracker.Core.Controls;
+using BugTracker.Core.Menus;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
