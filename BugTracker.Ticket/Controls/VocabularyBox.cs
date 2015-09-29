@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.TicketEditor.Controls
 {
-    public partial class VocabularyBox<T> : UserControl where T : class, new()
+    public partial class VocabularyBox<T> : UserControl where T : Entity<long>, new()
     {
         private ICollection<T> mEntityList;
         private BindingSource mBS;

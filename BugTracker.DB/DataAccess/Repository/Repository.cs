@@ -1,4 +1,5 @@
-﻿using NHibernate.Linq;
+﻿using BugTracker.DB.Entities;
+using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace BugTracker.DB.DataAccess
 {
-    public class Repository<T> : IRepository<T> where T : class, new()
+    public class Repository<T> : IRepository<T> where T : Entity<long>, new()
     {
         protected NHibernate.ISession Session { get; set; }
 
@@ -54,6 +55,7 @@ namespace BugTracker.DB.DataAccess
                 throw new InvalidOperationException("Write operations must use transaction");
             }
 
+            entity.Updated = DateTime.Now;
             this.Session.SaveOrUpdate(entity);
         }
 

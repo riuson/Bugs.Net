@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Vocabulary.Classes
 {
-    internal class VocabularyListData<T> : IDisposable where T : class, new()
+    internal class VocabularyListData<T> : IDisposable where T : Entity<long>, new()
     {
         private IApplication mApp;
         private ICollection<T> mInternalData;

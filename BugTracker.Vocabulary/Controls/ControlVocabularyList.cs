@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BugTracker.Vocabulary.Controls
 {
-    public partial class ControlVocabularyList<T> : UserControl where T : class, new()
+    public partial class ControlVocabularyList<T> : UserControl where T : Entity<long>, new()
     {
         private IApplication mApp;
         private VocabularyListData<T> mVocabularyList;
