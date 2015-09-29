@@ -34,12 +34,6 @@ namespace BugTracker.DB.DataAccess
             configuration.AddAssembly(typeof(Priority).Assembly);
             configuration.AddDeserializedMapping(CreateMapping(), null);
 
-            if (options.DoSchemaUpdate)
-            {
-                var schemaUpdate = new SchemaUpdate(configuration);
-                schemaUpdate.Execute(Console.WriteLine, true);
-            }
-
             return configuration;
         }
 

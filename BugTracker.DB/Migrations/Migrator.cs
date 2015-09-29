@@ -51,6 +51,7 @@ namespace BugTracker.DB.Migrations
                     {
                         log("Run migration to version: " + part.Version);
                         part.Upgrade(connection, log);
+                        this.SetCurrentVersion(connection, part.Version);
                     }
 
                     connection.Close();
@@ -109,6 +110,52 @@ namespace BugTracker.DB.Migrations
                 int version = Convert.ToInt32(commandGetVersion.ExecuteScalar());
                 return version;
             }
+        }
+
+        private bool SetCurrentVersion(SQLiteConnection connection, int version)
+        {
+            // Check for any table exists
+            using (SQLiteCommand commandTablesCount = new SQLiteCommand("select count(*) from sqlite_master where type='table';", connection))
+            {
+                int tablesCount = Convert.ToInt32(commandTablesCount.ExecuteScalar());
+
+                // If no table exists, database is empty, version 0
+                if (tablesCount == 0)
+                {
+                    return false;
+                }
+            }
+
+            // Check for info table exists
+            using (SQLiteCommand commandTableInfo = new SQLiteCommand("select count(*) from sqlite_master where type = 'table' and name = 'BugTrackerInfo';", connection))
+            {
+                int tablesCount = Convert.ToInt32(commandTableInfo.ExecuteScalar());
+
+                // If no info table exists, version 1
+                if (tablesCount == 0)
+                {
+                    return false;
+                }
+            }
+
+            // Set version from table
+            using (SQLiteCommand commandSetVersion = new SQLiteCommand("insert into BugTrackerInfo (Name, Value, Updated) values (@name, @value, @updated);", connection))
+            {
+                SQLiteParameter parameter = commandSetVersion.Parameters.Add("@name", System.Data.DbType.String);
+                parameter.Value = "Version";
+
+                parameter = commandSetVersion.Parameters.Add("@value", System.Data.DbType.String);
+                parameter.Value = version.ToString();
+
+                parameter = commandSetVersion.Parameters.Add("@updated", System.Data.DbType.DateTime);
+                parameter.Value = DateTime.Now;
+
+                int affectedRows = commandSetVersion.ExecuteNonQuery();
+
+                System.Diagnostics.Debug.Assert(affectedRows == 1);
+            }
+
+            return true;
         }
 
         private int GetLatestVersion(IEnumerable<IMigrationPart> parts)

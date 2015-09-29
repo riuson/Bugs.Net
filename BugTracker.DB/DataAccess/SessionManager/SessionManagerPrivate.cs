@@ -38,8 +38,11 @@ namespace BugTracker.DB.DataAccess
         {
             try
             {
-                Migrations.Migrator migrator = new Migrations.Migrator();
-                migrator.Process(sessionOptions);
+                if (sessionOptions.DoSchemaUpdate)
+                {
+                    Migrations.Migrator migrator = new Migrations.Migrator();
+                    migrator.Process(sessionOptions);
+                }
 
                 this.SessionFactory = this.BuildSessionFactory(sessionOptions);
                 this.mDatabaseFile = sessionOptions.Filename;
