@@ -14,12 +14,63 @@ namespace BugTracker.DB.Migrations.Version002
         {
             this.mPrepareCommands = new string[]
             {
+                @"alter table Attachment
+                    add column Updated DATETIME;",
+
+                @"alter table BlobContent
+                    add column Created DATETIME;",
+
+                @"alter table BlobContent
+                    add column Updated DATETIME;",
+
+                @"alter table Change
+                    add column Updated DATETIME;",
+
+                @"alter table Member
+                    add column Created DATETIME;",
+
+                @"alter table Member
+                    add column Updated DATETIME;",
+
+                @"alter table Priority
+                    add column Created DATETIME;",
+
+                @"alter table Priority
+                    add column Updated DATETIME;",
+
+                @"alter table ProblemType
+                    add column Created DATETIME;",
+
+                @"alter table ProblemType
+                    add column Updated DATETIME;",
+
+                @"alter table Project
+                    add column Created DATETIME;",
+
+                @"alter table Project
+                    add column Updated DATETIME;",
+
+                @"alter table Solution
+                    add column Created DATETIME;",
+
+                @"alter table Solution
+                    add column Updated DATETIME;",
+
+                @"alter table Status
+                    add column Created DATETIME;",
+
+                @"alter table Status
+                    add column Updated DATETIME;",
+
+                @"alter table Ticket
+                    add column Updated DATETIME;",
+
                 @"create table BugTrackerInfo (
                     Id  integer primary key autoincrement,
                     Name TEXT,
                     Value TEXT,
-                    Created DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    Updated DATETIME DEFAULT CURRENT_TIMESTAMP);"
+                    Created DATETIME,
+                    Updated DATETIME);"
             };
         }
 

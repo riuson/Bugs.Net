@@ -8,6 +8,14 @@ namespace BugTracker.DB.Entities
     public abstract class Entity<T>
     {
         public virtual T Id { get; protected set; }
+        public virtual DateTime Created { get; set; }
+        public virtual DateTime Updated { get; set; }
+
+        public Entity()
+        {
+            this.Created = DateTime.Now;
+            this.Updated = DateTime.Now;
+        }
 
         public override bool Equals(object obj)
         {

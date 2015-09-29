@@ -16,6 +16,8 @@ namespace BugTracker.DB.Mapping
             Property(x => x.FirstName);
             Property(x => x.LastName);
             Property(x => x.EMail);
+            Property(x => x.Created);
+            Property(x => x.Updated);
         }
     }
 }

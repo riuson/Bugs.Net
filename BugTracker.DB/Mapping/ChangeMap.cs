@@ -14,6 +14,7 @@ namespace BugTracker.DB.Mapping
         {
             Id(x => x.Id, m => m.Generator(Generators.Identity));
             Property(x => x.Created);
+            Property(x => x.Updated);
             ManyToOne(x => x.Author, m =>
             {
                 m.Column(typeof(Member).Name + "_Id");
