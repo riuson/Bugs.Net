@@ -49,9 +49,20 @@ namespace BugTracker.DB.Migrations
 
                     foreach (var part in parts)
                     {
-                        log("Run migration to version: " + part.Version);
-                        part.Upgrade(connection, log);
-                        this.SetCurrentVersion(connection, part.Version);
+                        SQLiteTransaction transaction = connection.BeginTransaction();
+
+                        try
+                        {
+                            log("Run migration to version: " + part.Version);
+                            part.Upgrade(connection, log);
+                            this.SetCurrentVersion(connection, part.Version);
+                            transaction.Commit();
+                        }
+                        catch (Exception exc)
+                        {
+                            transaction.Rollback();
+                            throw exc;
+                        }
                     }
 
                     connection.Close();
