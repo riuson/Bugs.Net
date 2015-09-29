@@ -86,6 +86,8 @@
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\DataGridViewColumnFabric.cs" />
     <Compile Include="Enitities\Entity.cs" />
+    <Compile Include="Enitities\Info.cs" />
+    <Compile Include="Mapping\InfoMap.cs" />
     <Compile Include="Migrations\IMigrationPart.cs" />
     <Compile Include="Migrations\Migrator.cs" />
     <Compile Include="Migrations\Version001\MigrationPart.cs" />

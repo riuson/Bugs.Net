@@ -50,7 +50,8 @@ namespace BugTracker.DB.DataAccess
                 typeof(ChangeMap),
                 typeof(AttachmentMap),
                 typeof(TicketMap),
-                typeof(ProjectMap)
+                typeof(ProjectMap),
+                typeof(InfoMap)
             });
             return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }
