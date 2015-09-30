@@ -1,6 +1,8 @@
-﻿using System;
+﻿using BugTracker.DB.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,12 +15,9 @@ namespace BugTracker.DB.Migrations
         {
         }
 
-        public void Process(BugTracker.DB.DataAccess.SessionOptions options, MigrationLog log = null)
+        public void Process(BugTracker.DB.DataAccess.SessionOptions options)
         {
-            if (log == null)
-            {
-                log = this.LogDebug;
-            }
+            ConfigurationLogDelegate log = options.Log;
 
             if (String.IsNullOrEmpty(options.Filename))
             {
@@ -26,12 +25,19 @@ namespace BugTracker.DB.Migrations
                 return;
             }
 
-            var parts = this.CollectMigrations();
-
-            string connectionString = String.Format("Data Source=\"{0}\";Version=3;", options.Filename);
-
             try
             {
+                var parts = this.CollectMigrations();
+                string connectionString = String.Format("Data Source=\"{0}\";Version=3;", options.Filename);
+
+                FileInfo file = new FileInfo(options.Filename);
+                DirectoryInfo directory = file.Directory;
+
+                if (!directory.Exists)
+                {
+                    directory.Create();
+                }
+
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                 {
                     connection.Open();
@@ -176,12 +182,5 @@ namespace BugTracker.DB.Migrations
 
             return result;
         }
-
-        private void LogDebug(string message)
-        {
-            System.Diagnostics.Debug.WriteLine(message);
-        }
     }
-
-    internal delegate void MigrationLog(string message);
 }

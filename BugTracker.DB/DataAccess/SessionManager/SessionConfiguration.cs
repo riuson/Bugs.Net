@@ -29,9 +29,9 @@ namespace BugTracker.DB.DataAccess
                 db.ConnectionString = connectioinString;
                 db.ConnectionStringName = "bugtracker.database";
                 db.Dialect<SQLiteDialect>();
-                db.LogSqlInConsole = options.ShowLogs;
-                db.LogFormattedSql = options.ShowLogs;
-                db.AutoCommentSql = options.ShowLogs;
+                db.LogSqlInConsole = options.Log != null;
+                db.LogFormattedSql = options.Log != null;
+                db.AutoCommentSql = options.Log != null;
             });
             configuration.AddAssembly(typeof(Priority).Assembly);
             configuration.AddDeserializedMapping(CreateMapping(), null);

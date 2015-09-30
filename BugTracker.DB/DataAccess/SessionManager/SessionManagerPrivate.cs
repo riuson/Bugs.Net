@@ -36,6 +36,11 @@ namespace BugTracker.DB.DataAccess
 
         public bool Configure(SessionOptions sessionOptions)
         {
+            if (sessionOptions.Log == null)
+            {
+                sessionOptions.Log = this.LogDebug;
+            }
+
             try
             {
                 if (sessionOptions.DoSchemaUpdate)
@@ -61,6 +66,11 @@ namespace BugTracker.DB.DataAccess
         {
             this.Configuration = SessionConfiguration.CreateConfiguration(sessionOptions);
             return this.Configuration.BuildSessionFactory();
+        }
+
+        private void LogDebug(string message)
+        {
+            System.Diagnostics.Debug.WriteLine(message);
         }
 
         #region ISessionManager

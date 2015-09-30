@@ -2,6 +2,7 @@
 using BugTracker.Core.Classes;
 using BugTracker.Core.Extensions;
 using BugTracker.DB.Classes;
+using BugTracker.DB.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,7 @@ namespace BugTracker.DB.Settings
         {
             InitializeComponent();
             this.Text = "Database settings".Tr();
+            this.buttonCheckConnection.Text = this.buttonCheckConnection.Text.Tr();
             this.mApp = app;
 
             this.LoadSettings();
@@ -29,7 +31,6 @@ namespace BugTracker.DB.Settings
 
         private void BeforeDisposing()
         {
-            this.SaveSettings();
         }
 
         private void LoadSettings()
@@ -91,6 +92,34 @@ namespace BugTracker.DB.Settings
                     this.textBoxFilename.Text = dialog.FileName;
                 }
             }
+        }
+
+        private void buttonCheckConnection_Click(object sender, EventArgs e)
+        {
+            this.richTextBoxLog.Clear();
+            this.Log("Check file: ".Tr() + this.textBoxFilename.Text);
+
+            bool result = SessionManager.Instance.Configure(new SessionOptions(this.textBoxFilename.Text)
+                {
+                    Log = this.Log
+                });
+
+            if (result)
+            {
+                this.Log("Success.".Tr());
+                this.SaveSettings();
+                this.Log("Configuration saved.".Tr());
+            }
+            else
+            {
+                this.Log("Failed.".Tr());
+            }
+        }
+
+        private void Log(string message)
+        {
+            this.richTextBoxLog.AppendText(message);
+            this.richTextBoxLog.AppendText(Environment.NewLine);
         }
     }
 }

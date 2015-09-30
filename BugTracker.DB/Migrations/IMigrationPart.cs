@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BugTracker.DB.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace BugTracker.DB.Migrations
     internal interface IMigrationPart
     {
         int Version { get; }
-        void Upgrade(SQLiteConnection connection, MigrationLog log);
+        void Upgrade(SQLiteConnection connection, ConfigurationLogDelegate log);
     }
 }

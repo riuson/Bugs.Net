@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BugTracker.DB.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -94,12 +95,12 @@ create table Project (
             get { return 1; }
         }
 
-        public void Upgrade(SQLiteConnection connection, MigrationLog log)
+        public void Upgrade(SQLiteConnection connection, ConfigurationLogDelegate log)
         {
             this.Process(connection, log);
         }
 
-        private void Process(SQLiteConnection connection, MigrationLog log)
+        private void Process(SQLiteConnection connection, ConfigurationLogDelegate log)
         {
             foreach (var commandText in this.GetCommands())
             {
