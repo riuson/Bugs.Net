@@ -6,10 +6,12 @@ using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Driver;
 using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace BugTracker.DB.DataAccess
@@ -39,20 +41,15 @@ namespace BugTracker.DB.DataAccess
 
         public static HbmMapping CreateMapping()
         {
+            var maps = from type in Assembly.GetExecutingAssembly().GetTypes()
+                       where type.BaseType != null
+                       where type.BaseType.IsGenericType
+                       where type.BaseType.GetGenericTypeDefinition() == typeof(ClassMapping<>)
+                       orderby type.Name ascending
+                       select type;
+
             var mapper = new ModelMapper();
-            mapper.AddMappings(new List<System.Type> {
-                typeof(PriorityMap),
-                typeof(ProblemTypeMap),
-                typeof(SolutionMap),
-                typeof(StatusMap),
-                typeof(BlobContentMap),
-                typeof(MemberMap),
-                typeof(ChangeMap),
-                typeof(AttachmentMap),
-                typeof(TicketMap),
-                typeof(ProjectMap),
-                typeof(InfoMap)
-            });
+            mapper.AddMappings(maps);
             return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }
     }
