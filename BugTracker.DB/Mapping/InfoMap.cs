@@ -14,7 +14,11 @@ namespace BugTracker.DB.Mapping
         {
             Table("BugTrackerInfo");
             Id(x => x.Id, m => m.Generator(Generators.Identity));
-            Property(x => x.Name);
+            Property(x => x.Name,
+                m =>
+                {
+                    m.Unique(true);
+                });
             Property(x => x.Value);
             Property(x => x.Created);
             Property(x => x.Updated);

@@ -22,6 +22,7 @@ namespace BugTracker.DB.Tests.DataAccess.Repositories
             {
                 IRepository<Info> repository = new Repository<Info>(session);
                 var x = new Info();
+                x.Name = "cansave";
                 before = repository.RowCount();
                 repository.Save(x);
 
@@ -37,6 +38,38 @@ namespace BugTracker.DB.Tests.DataAccess.Repositories
         }
 
         [Test]
+        public virtual void CanSaveOnlyUnique()
+        {
+            long before = 0;
+
+            using (ISession session = SessionManager.Instance.OpenSession(true))
+            {
+                IRepository<Info> repository = new Repository<Info>(session);
+                var x = new Info();
+                x.Name = "cansaveunique";
+                before = repository.RowCount();
+                repository.Save(x);
+
+                session.Transaction.Commit();
+            }
+
+            Assert.That(delegate()
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession(true))
+                    {
+                        IRepository<Info> repository = new Repository<Info>(session);
+                        var x = new Info();
+                        x.Name = "cansaveunique";
+                        before = repository.RowCount();
+                        repository.Save(x);
+
+                        session.Transaction.Commit();
+                    }
+                },
+                Throws.Exception);
+        }
+
+        [Test]
         public virtual void CanGet()
         {
             long id = 0;
@@ -45,6 +78,7 @@ namespace BugTracker.DB.Tests.DataAccess.Repositories
             {
                 IRepository<Info> repository = new Repository<Info>(session);
                 var x = new Info();
+                x.Name = "canget";
                 repository.Save(x);
                 id = x.Id;
 
@@ -69,7 +103,7 @@ namespace BugTracker.DB.Tests.DataAccess.Repositories
                 IRepository<Info> repository = new Repository<Info>(session);
                 var x = new Info()
                 {
-                    Name = "VersionTest",
+                    Name = "canupdate1",
                     Value = "111"
                 };
 
@@ -83,7 +117,7 @@ namespace BugTracker.DB.Tests.DataAccess.Repositories
             {
                 IRepository<Info> repository = new Repository<Info>(session);
                 var y = repository.GetById(id);
-                y.Name = "VVV";
+                y.Name = "canupdate2";
                 y.Value = "222";
 
                 repository.SaveOrUpdate(y);
@@ -95,7 +129,7 @@ namespace BugTracker.DB.Tests.DataAccess.Repositories
             {
                 IRepository<Info> repository = new Repository<Info>(session);
                 var y = repository.GetById(id);
-                Assert.That(y.Name, Is.EqualTo("VVV"));
+                Assert.That(y.Name, Is.EqualTo("canupdate2"));
                 Assert.That(y.Value, Is.EqualTo("222"));
             }
         }
@@ -110,6 +144,7 @@ namespace BugTracker.DB.Tests.DataAccess.Repositories
             {
                 IRepository<Info> repository = new Repository<Info>(session);
                 var x = new Info();
+                x.Name = "candelete";
                 before = repository.RowCount();
                 repository.Save(x);
                 id = x.Id;

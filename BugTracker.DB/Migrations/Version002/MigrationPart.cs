@@ -126,7 +126,7 @@ create table Project (
 
 create table BugTrackerInfo (
    Id  integer primary key autoincrement,
-   Name TEXT,
+   Name TEXT unique,
    Value TEXT,
    Created DATETIME DEFAULT CURRENT_TIMESTAMP,
    Updated DATETIME DEFAULT CURRENT_TIMESTAMP);
