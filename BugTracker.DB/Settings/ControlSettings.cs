@@ -106,6 +106,34 @@ namespace BugTracker.DB.Settings
 
             if (result)
             {
+                var types = SessionConfiguration.GetEntityTypes();
+
+                try
+                {
+                    using (ISession session = SessionManager.Instance.OpenSession(false))
+                    {
+                        foreach (var type in types)
+                        {
+                            Type generic = typeof(Repository<>);
+                            Type[] typeArgs = { type };
+                            Type constructed = generic.MakeGenericType(typeArgs);
+                            dynamic repository = Activator.CreateInstance(constructed, session);
+                            int rows = Convert.ToInt32(repository.RowCount());
+
+                            this.Log(String.Format("Table {0}: {1} row(s)".Tr(), type.Name, rows));
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                    this.Log("Check row count failed.".Tr());
+                    this.Log(exc.Message);
+                    result = false;
+                }
+            }
+
+            if (result)
+            {
                 this.Log("Success.".Tr());
                 this.SaveSettings();
                 this.Log("Configuration saved.".Tr());

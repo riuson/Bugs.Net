@@ -39,6 +39,20 @@ namespace BugTracker.DB.DataAccess
             return configuration;
         }
 
+        public static IEnumerable<Type> GetEntityTypes()
+        {
+            Type entitybaseType = typeof(Entity<long>);
+
+            var types = from type in Assembly.GetExecutingAssembly().GetTypes()
+                        where type != entitybaseType && entitybaseType.IsAssignableFrom(type)
+                        orderby type.Name ascending
+                        select type;
+
+            var a = types.ToArray();
+
+            return types;
+        }
+
         public static HbmMapping CreateMapping()
         {
             var maps = from type in Assembly.GetExecutingAssembly().GetTypes()
