@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.DB.Classes;
+using BugTracker.DB.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,6 +54,11 @@ namespace BugTracker.DB.DataAccess
 
         public ISession OpenSession(bool beginTransaction)
         {
+            if (!this.IsConfigured)
+            {
+                this.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+            }
+
             return this.mSessionManagerPrivate.OpenSession(beginTransaction);
         }
 
