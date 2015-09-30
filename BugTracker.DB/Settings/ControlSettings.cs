@@ -110,6 +110,8 @@ namespace BugTracker.DB.Settings
 
                 try
                 {
+                    this.Log(Environment.NewLine);
+
                     using (ISession session = SessionManager.Instance.OpenSession(false))
                     {
                         foreach (var type in types)
@@ -126,11 +128,14 @@ namespace BugTracker.DB.Settings
                 }
                 catch (Exception exc)
                 {
+                    this.Log(Environment.NewLine);
                     this.Log("Check row count failed.".Tr());
                     this.Log(exc.Message);
                     result = false;
                 }
             }
+
+            this.Log(Environment.NewLine);
 
             if (result)
             {

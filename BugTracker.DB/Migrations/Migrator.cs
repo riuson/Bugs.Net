@@ -58,6 +58,8 @@ namespace BugTracker.DB.Migrations
                     {
                         SQLiteTransaction transaction = connection.BeginTransaction();
 
+                        log(Environment.NewLine);
+
                         try
                         {
                             log("Run migration to version: ".Tr() + part.Version);
@@ -77,6 +79,7 @@ namespace BugTracker.DB.Migrations
             }
             catch (Exception exc)
             {
+                log(Environment.NewLine);
                 log("Exception occured".Tr());
                 log(exc.Message);
                 log(exc.StackTrace);
