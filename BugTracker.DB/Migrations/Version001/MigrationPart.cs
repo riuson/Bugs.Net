@@ -12,35 +12,38 @@ namespace BugTracker.DB.Migrations.Version001
 
         public MigrationPart()
         {
-            this.mPrepareCommands = new string[]
-            {
-@"create table Priority (
-    Id  integer primary key autoincrement,
-    Value TEXT);",
+        }
 
-@"create table ProblemType (
+        private IEnumerable<String> GetPrepareCommands()
+        {
+            var result = @"
+create table Priority (
     Id  integer primary key autoincrement,
-    Value TEXT);",
+    Value TEXT);
 
-@"create table Solution (
+create table ProblemType (
     Id  integer primary key autoincrement,
-    Value TEXT);",
+    Value TEXT);
 
-@"create table Status (
+create table Solution (
     Id  integer primary key autoincrement,
-    Value TEXT);",
+    Value TEXT);
 
-@"create table BlobContent (
+create table Status (
     Id  integer primary key autoincrement,
-    Content BLOB);",
+    Value TEXT);
 
-@"create table Member (
+create table BlobContent (
+    Id  integer primary key autoincrement,
+    Content BLOB);
+
+create table Member (
     Id  integer primary key autoincrement,
     FirstName TEXT,
     LastName TEXT,
-    EMail TEXT);",
+    EMail TEXT);
 
-@"create table Change (
+create table Change (
     Id  integer primary key autoincrement,
     Member_Id BIGINT not null,
     Created DATETIME,
@@ -48,9 +51,9 @@ namespace BugTracker.DB.Migrations.Version001
     Ticket_Id BIGINT,
     constraint FK67E23B1EFE153ED4 foreign key (Member_Id) references Member,
     constraint FK67E23B1ECB006E9C foreign key (BlobContent_Id) references BlobContent,
-    constraint FK67E23B1E3A716DD6 foreign key (Ticket_Id) references Ticket);",
+    constraint FK67E23B1E3A716DD6 foreign key (Ticket_Id) references Ticket);
 
-@"create table Attachment (
+create table Attachment (
     Id  integer primary key autoincrement,
     Filename TEXT,
     Created DATETIME,
@@ -60,9 +63,9 @@ namespace BugTracker.DB.Migrations.Version001
     Ticket_Id BIGINT,
     constraint FKA6AC5DDDFE153ED4 foreign key (Member_Id) references Member,
     constraint FKA6AC5DDDCB006E9C foreign key (BlobContent_Id) references BlobContent,
-    constraint FKA6AC5DDD3A716DD6 foreign key (Ticket_Id) references Ticket);",
+    constraint FKA6AC5DDD3A716DD6 foreign key (Ticket_Id) references Ticket);
 
-@"create table Ticket (
+create table Ticket (
     Id  integer primary key autoincrement,
     Project_Id BIGINT,
     Title TEXT,
@@ -77,12 +80,13 @@ namespace BugTracker.DB.Migrations.Version001
     constraint FKE14EC536EC9FD9F0 foreign key (Status_Id) references Status,
     constraint FKE14EC5368A1BCDC8 foreign key (ProblemType_Id) references ProblemType,
     constraint FKE14EC536380AADDC foreign key (Priority_Id) references Priority,
-    constraint FKE14EC5364D19BABC foreign key (Solution_Id) references Solution);",
+    constraint FKE14EC5364D19BABC foreign key (Solution_Id) references Solution);
 
-@"create table Project (
+create table Project (
     Id  integer primary key autoincrement,
-    Name TEXT);"
-            };
+    Name TEXT);
+            ".Split(new string[] { "\r\r", "\n\n", "\r\n\r\n", "\n\r\n\r" }, StringSplitOptions.RemoveEmptyEntries);
+            return result.Select(cmd => cmd.Trim());
         }
 
         public int Version
@@ -106,7 +110,7 @@ namespace BugTracker.DB.Migrations.Version001
 
         private bool Prepare(SQLiteConnection connection, MigrationLog log)
         {
-            foreach (var commandText in this.mPrepareCommands)
+            foreach (var commandText in this.GetPrepareCommands())
             {
                 using (SQLiteCommand command = new SQLiteCommand(commandText, connection))
                 {
