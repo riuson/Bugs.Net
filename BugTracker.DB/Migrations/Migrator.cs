@@ -1,4 +1,5 @@
-﻿using BugTracker.DB.DataAccess;
+﻿using BugTracker.Core.Extensions;
+using BugTracker.DB.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -21,7 +22,7 @@ namespace BugTracker.DB.Migrations
 
             if (String.IsNullOrEmpty(options.Filename))
             {
-                log("Filename not specified");
+                log("Filename not specified".Tr());
                 return;
             }
 
@@ -45,8 +46,8 @@ namespace BugTracker.DB.Migrations
                     int currentVersion = this.GetCurrentVersion(connection);
                     int latestVersion = this.GetLatestVersion(parts);
 
-                    log("Current version: " + currentVersion);
-                    log("Latest version: " + latestVersion);
+                    log("Current version: ".Tr() + currentVersion);
+                    log("Latest version: ".Tr() + latestVersion);
 
                     parts = from part in parts
                             where part.Version > currentVersion
@@ -59,7 +60,7 @@ namespace BugTracker.DB.Migrations
 
                         try
                         {
-                            log("Run migration to version: " + part.Version);
+                            log("Run migration to version: ".Tr() + part.Version);
                             part.Upgrade(connection, log);
                             this.SetCurrentVersion(connection, part.Version);
                             transaction.Commit();
@@ -76,7 +77,7 @@ namespace BugTracker.DB.Migrations
             }
             catch (Exception exc)
             {
-                log("Exception occured");
+                log("Exception occured".Tr());
                 log(exc.Message);
                 log(exc.StackTrace);
             }
