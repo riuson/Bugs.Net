@@ -9,6 +9,6 @@ namespace BugTracker.DB.Migrations
     internal interface IMigrationPart
     {
         int Version { get; }
-        bool Upgrade(SQLiteConnection connection, MigrationLog log);
+        void Upgrade(SQLiteConnection connection, MigrationLog log);
     }
 }

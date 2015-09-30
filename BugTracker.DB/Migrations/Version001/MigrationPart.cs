@@ -14,7 +14,7 @@ namespace BugTracker.DB.Migrations.Version001
         {
         }
 
-        private IEnumerable<String> GetPrepareCommands()
+        private IEnumerable<String> GetCommands()
         {
             var result = @"
 create table Priority (
@@ -94,36 +94,20 @@ create table Project (
             get { return 1; }
         }
 
-        public bool Upgrade(SQLiteConnection connection, MigrationLog log)
+        public void Upgrade(SQLiteConnection connection, MigrationLog log)
         {
-            bool result = true;
-
-            result &= this.Prepare(connection, log);
-
-            if (result)
-            {
-                result &= this.Complete(connection, log);
-            }
-
-            return result;
+            this.Process(connection, log);
         }
 
-        private bool Prepare(SQLiteConnection connection, MigrationLog log)
+        private void Process(SQLiteConnection connection, MigrationLog log)
         {
-            foreach (var commandText in this.GetPrepareCommands())
+            foreach (var commandText in this.GetCommands())
             {
                 using (SQLiteCommand command = new SQLiteCommand(commandText, connection))
                 {
                     command.ExecuteNonQuery();
                 }
             }
-
-            return true;
-        }
-
-        private bool Complete(SQLiteConnection connection, MigrationLog log)
-        {
-            return true;
         }
     }
 }
