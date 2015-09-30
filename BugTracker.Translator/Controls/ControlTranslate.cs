@@ -73,8 +73,7 @@ namespace BugTracker.Translator.Controls
                     this.mSelectedUnit = unit;
 
                     this.richTextBoxSource.Text = unit.Source;
-                    this.richTextBoxSource.Select(0, this.richTextBoxSource.Text.Length);
-                    this.richTextBoxSource.SelectionProtected = true;
+                    this.richTextBoxSource.ProtectContent();
 
                     this.richTextBoxTranslated.Text = unit.Translated;
                 }

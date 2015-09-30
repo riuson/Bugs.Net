@@ -142,6 +142,8 @@ namespace BugTracker.DB.Settings
             {
                 this.Log("Failed.".Tr());
             }
+
+            this.richTextBoxLog.ProtectContent();
         }
 
         private void Log(string message)

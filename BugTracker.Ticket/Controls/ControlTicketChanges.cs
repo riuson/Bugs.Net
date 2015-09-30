@@ -65,8 +65,7 @@ namespace BugTracker.TicketEditor.Controls
 
             this.mTextBox.AppendText(Environment.NewLine);
 
-            this.mTextBox.Select(0, this.mTextBox.Text.Length);
-            this.mTextBox.SelectionProtected = true;
+            this.mTextBox.ProtectContent();
 
             this.mTextBox.Focus();
             this.mTextBox.SelectionStart = this.mTextBox.Text.Length;
