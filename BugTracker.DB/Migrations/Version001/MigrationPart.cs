@@ -104,10 +104,26 @@ create table Project (
         {
             foreach (var commandText in this.GetCommands())
             {
+                this.LogCommand(log, commandText);
+
                 using (SQLiteCommand command = new SQLiteCommand(commandText, connection))
                 {
                     command.ExecuteNonQuery();
                 }
+            }
+        }
+
+        private void LogCommand(ConfigurationLogDelegate log, string command)
+        {
+            string[] strs = command.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (strs.Length == 1)
+            {
+                log("Execute: " + strs[0]);
+            }
+            else
+            {
+                log("Execute: " + strs[0] + "...");
             }
         }
     }
