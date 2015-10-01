@@ -99,7 +99,8 @@ namespace BugTracker.DB.Migrations
         {
             throw new Exception(
                 String.Format(
-                    "To avoid damaging the data, the application will not work with a newer database (v.{0}) than is supported (v.{1}) by the application.".Tr(),
+                    @"To avoid damaging the data, the application will not work with a database version (v.{0}) other than that supported (v.{1}) by the application.
+Migration from newer to previous version is not supported.".Tr(),
                     currentVersion,
                     latestVersion));
         }
