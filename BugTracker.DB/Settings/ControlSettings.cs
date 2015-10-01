@@ -101,7 +101,8 @@ namespace BugTracker.DB.Settings
 
             bool result = SessionManager.Instance.Configure(new SessionOptions(this.textBoxFilename.Text)
                 {
-                    Log = this.Log
+                    Log = this.Log,
+                    DoSchemaUpdate = true
                 });
 
             if (result)

@@ -44,10 +44,16 @@ namespace BugTracker.DB.DataAccess
 
             try
             {
+                Migrations.Migrator migrator = new Migrations.Migrator(sessionOptions);
+
                 if (sessionOptions.DoSchemaUpdate)
                 {
-                    Migrations.Migrator migrator = new Migrations.Migrator();
-                    migrator.Process(sessionOptions);
+                    migrator.Process();
+                }
+
+                if (migrator.CurrentVersion != migrator.LatestVersion)
+                {
+                    migrator.ThrowExceptionAboutVersion(migrator.CurrentVersion, migrator.LatestVersion);
                 }
 
                 this.SessionFactory = this.BuildSessionFactory(sessionOptions);

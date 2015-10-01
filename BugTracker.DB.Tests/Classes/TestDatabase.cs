@@ -20,7 +20,8 @@ internal class TestDatabase
         // before any tests
         SessionManager.Instance.Configure(new SessionOptions("test.db")
         {
-            Log = this.Log
+            Log = this.Log,
+            DoSchemaUpdate = true
         });
         Assert.That(SessionManager.Instance.IsConfigured, Is.True);
     }

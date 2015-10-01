@@ -12,15 +12,18 @@ namespace BugTracker.DB.Migrations
 {
     internal class Migrator
     {
-        public Migrator()
+        private SessionOptions mOptions;
+
+        public Migrator(SessionOptions options)
         {
+            this.mOptions = options;
         }
 
-        public void Process(BugTracker.DB.DataAccess.SessionOptions options)
+        public void Process()
         {
-            ConfigurationLogDelegate log = options.Log;
+            ConfigurationLogDelegate log = this.mOptions.Log;
 
-            if (String.IsNullOrEmpty(options.Filename))
+            if (String.IsNullOrEmpty(this.mOptions.Filename))
             {
                 log("Filename not specified".Tr());
                 return;
@@ -29,9 +32,9 @@ namespace BugTracker.DB.Migrations
             try
             {
                 var parts = this.CollectMigrations();
-                string connectionString = String.Format("Data Source=\"{0}\";Version=3;", options.Filename);
+                string connectionString = this.GetConnectionString(this.mOptions.Filename);
 
-                FileInfo file = new FileInfo(options.Filename);
+                FileInfo file = new FileInfo(this.mOptions.Filename);
                 DirectoryInfo directory = file.Directory;
 
                 if (!directory.Exists)
@@ -51,11 +54,7 @@ namespace BugTracker.DB.Migrations
 
                     if (currentVersion > latestVersion)
                     {
-                        throw new Exception(
-                            String.Format(
-                                "To avoid damaging the data, the application will not work with a newer database (v.{0}) than is supported (v.{1}) by the application.".Tr(),
-                                currentVersion,
-                                latestVersion));
+                        this.ThrowExceptionAboutVersion(currentVersion, latestVersion);
                     }
 
                     parts = from part in parts
@@ -94,6 +93,15 @@ namespace BugTracker.DB.Migrations
                 log(exc.StackTrace);
                 throw exc;
             }
+        }
+
+        public void ThrowExceptionAboutVersion(int currentVersion, int latestVersion)
+        {
+            throw new Exception(
+                String.Format(
+                    "To avoid damaging the data, the application will not work with a newer database (v.{0}) than is supported (v.{1}) by the application.".Tr(),
+                    currentVersion,
+                    latestVersion));
         }
 
         private IEnumerable<IMigrationPart> CollectMigrations()
@@ -197,6 +205,37 @@ namespace BugTracker.DB.Migrations
                           select part.Version).Max();
 
             return result;
+        }
+
+        private string GetConnectionString(string filename)
+        {
+            return String.Format("Data Source=\"{0}\";Version=3;", this.mOptions.Filename);
+        }
+
+        public int LatestVersion
+        {
+            get
+            {
+                var parts = this.CollectMigrations();
+                return this.GetLatestVersion(parts);
+            }
+        }
+
+        public int CurrentVersion
+        {
+            get
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(this.GetConnectionString(this.mOptions.Filename)))
+                {
+                    connection.Open();
+
+                    int currentVersion = this.GetCurrentVersion(connection);
+
+                    connection.Close();
+
+                    return currentVersion;
+                }
+            }
         }
     }
 }

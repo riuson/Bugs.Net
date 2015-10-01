@@ -15,7 +15,7 @@ namespace BugTracker.DB.DataAccess
         {
             this.Filename = filename;
             this.Log = null;
-            this.DoSchemaUpdate = true;
+            this.DoSchemaUpdate = false;
         }
     }
 }
