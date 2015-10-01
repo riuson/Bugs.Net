@@ -88,6 +88,13 @@
     <Compile Include="DataAccess\SessionManager\ConfigurationLogDelegate.cs" />
     <Compile Include="Enitities\Entity.cs" />
     <Compile Include="Enitities\Info.cs" />
+    <Compile Include="Errors\ControlError.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Errors\ControlError.Designer.cs">
+      <DependentUpon>ControlError.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ConfigurationRequiredEventArgs.cs" />
     <Compile Include="Mapping\InfoMap.cs" />
     <Compile Include="Migrations\IMigrationPart.cs" />
     <Compile Include="Migrations\Migrator.cs" />
@@ -152,6 +159,9 @@
     <None Include="..\sgKey.snk" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Errors\ControlError.resx">
+      <DependentUpon>ControlError.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\ControlSettings.resx">
       <DependentUpon>ControlSettings.cs</DependentUpon>
     </EmbeddedResource>

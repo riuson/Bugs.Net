@@ -4,6 +4,7 @@ using BugTracker.Core.Extensions;
 using BugTracker.Core.Menus;
 using BugTracker.Core.Messages;
 using BugTracker.Core.Plugins;
+using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.Vocabulary.Controls;
@@ -92,6 +93,12 @@ namespace BugTracker.Vocabulary.Classes
 
         private void ShowList(object sender, MessageEventArgs e)
         {
+            if (!SessionManager.Instance.IsConfigured)
+            {
+                this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
+                return;
+            }
+
             foreach (var type in this.mVocabularyTypes)
             {
                 Type genericMessageType = typeof(EntityShowEventArgs<>);

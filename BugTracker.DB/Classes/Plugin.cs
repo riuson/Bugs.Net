@@ -4,6 +4,8 @@ using BugTracker.Core.Extensions;
 using BugTracker.Core.Menus;
 using BugTracker.Core.Plugins;
 using BugTracker.DB.DataAccess;
+using BugTracker.DB.Errors;
+using BugTracker.DB.Events;
 using BugTracker.DB.Settings;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace BugTracker.DB.Classes
         {
             this.mApp = app;
             //SessionManager.Instance.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+            this.mApp.Messages.Subscribe(typeof(ConfigurationRequiredEventArgs), this.ConfigurationRequired);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -42,6 +45,12 @@ namespace BugTracker.DB.Classes
                 default:
                     return new IButton[] { };
             }
+        }
+
+        private void ConfigurationRequired(object sender, Core.Messages.MessageEventArgs e)
+        {
+            ControlError controlError = new ControlError(this.mApp);
+            this.mApp.Controls.Show(controlError);
         }
     }
 }

@@ -1,5 +1,12 @@
-﻿using BugTracker.Core.Classes;
+﻿using BugTracker.Core;
+using BugTracker.Core.Classes;
+using BugTracker.Core.Extensions;
+using BugTracker.Core.Menus;
+using BugTracker.Core.Messages;
+using BugTracker.Core.Plugins;
+using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
+using BugTracker.DB.Events;
 using BugTracker.Members.Events;
 using BugTracker.Projects.Controls;
 using System;
@@ -8,11 +15,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Plugins;
-using BugTracker.Core;
-using BugTracker.Core.Menus;
-using BugTracker.Core.Messages;
 
 namespace BugTracker.Projects.Classes
 {
@@ -43,6 +45,12 @@ namespace BugTracker.Projects.Classes
 
         private void ShowProjectsList(object sender, EventArgs ea)
         {
+            if (!SessionManager.Instance.IsConfigured)
+            {
+                this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
+                return;
+            }
+
             LoginRequestEventArgs loginRequestEventArgs = new LoginRequestEventArgs();
             this.mApp.Messages.Send(this, loginRequestEventArgs);
 
