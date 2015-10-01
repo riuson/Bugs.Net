@@ -9,8 +9,6 @@ namespace BugTracker.DB.Migrations.Version002
 {
     internal class MigrationPart : IMigrationPart
     {
-        private IEnumerable<String> mPrepareCommands;
-
         public MigrationPart()
         {
         }
