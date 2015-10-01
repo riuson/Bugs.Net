@@ -160,7 +160,9 @@ namespace BugTracker.DB.Migrations
             }
 
             // Set version from table
-            using (SQLiteCommand commandSetVersion = new SQLiteCommand("insert into BugTrackerInfo (Name, Value, Updated) values (@name, @value, @updated);", connection))
+            using (SQLiteCommand commandSetVersion = new SQLiteCommand(
+                @"update BugTrackerInfo set Name = @name, Value = @value, Updated = @updated where Name = @name;
+                  insert or ignore into BugTrackerInfo (Name, Value, Updated) values (@name, @value, @updated);", connection))
             {
                 SQLiteParameter parameter = commandSetVersion.Parameters.Add("@name", System.Data.DbType.String);
                 parameter.Value = "Version";
