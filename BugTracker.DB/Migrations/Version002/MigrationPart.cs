@@ -15,7 +15,7 @@ namespace BugTracker.DB.Migrations.Version002
 
         private IEnumerable<String> GetCommands()
         {
-            var result = @"
+            var commands = @"
 alter table Priority rename to Priority_;
 
 alter table ProblemType rename to ProblemType_;
@@ -185,8 +185,14 @@ drop table Attachment_;
 drop table Ticket_;
 
 drop table Project_;
-            ".Split(new string[] { "\r\r", "\n\n", "\r\n\r\n", "\n\r\n\r" }, StringSplitOptions.RemoveEmptyEntries);
-            return result.Select(cmd => cmd.Trim());
+            ";
+
+            var result = from line in commands.Split(new string[] { "\r\r", "\n\n", "\r\n\r\n", "\n\r\n\r" }, StringSplitOptions.RemoveEmptyEntries)
+                         let command = line.Trim()
+                         where !String.IsNullOrEmpty(command)
+                         select command;
+
+            return result;
         }
 
         public int Version
