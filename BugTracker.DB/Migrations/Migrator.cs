@@ -49,6 +49,15 @@ namespace BugTracker.DB.Migrations
                     log("Current version: ".Tr() + currentVersion);
                     log("Latest version: ".Tr() + latestVersion);
 
+                    if (currentVersion > latestVersion)
+                    {
+                        throw new Exception(
+                            String.Format(
+                                "To avoid damaging the data, the application will not work with a newer database (v.{0}) than is supported (v.{1}) by the application.".Tr(),
+                                currentVersion,
+                                latestVersion));
+                    }
+
                     parts = from part in parts
                             where part.Version > currentVersion
                             orderby part.Version ascending
@@ -83,6 +92,7 @@ namespace BugTracker.DB.Migrations
                 log("Exception occured".Tr());
                 log(exc.Message);
                 log(exc.StackTrace);
+                throw exc;
             }
         }
 
