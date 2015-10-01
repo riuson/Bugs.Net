@@ -93,7 +93,7 @@ namespace BugTracker.Vocabulary.Classes
 
         private void ShowList(object sender, MessageEventArgs e)
         {
-            if (!SessionManager.Instance.IsConfigured)
+            if (!SessionManager.Instance.TestConfiguration())
             {
                 this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
                 return;

@@ -2,6 +2,7 @@
 using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Mapping;
+using BugTracker.DB.Settings;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
@@ -79,6 +80,11 @@ namespace BugTracker.DB.DataAccess
         {
             if (!this.IsConfigured)
             {
+                this.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+            }
+
+            if (!this.IsConfigured)
+            {
                 throw new Exception("Session factory not configured", this.mConfigurationException);
             }
 
@@ -88,6 +94,17 @@ namespace BugTracker.DB.DataAccess
         }
 
         public bool IsConfigured { get; private set; }
+
+        public bool TestConfiguration()
+        {
+            if (this.IsConfigured)
+            {
+                return true;
+            }
+
+            this.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+            return this.IsConfigured;
+        }
 
         #endregion
     }

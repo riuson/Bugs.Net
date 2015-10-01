@@ -45,7 +45,7 @@ namespace BugTracker.Projects.Classes
 
         private void ShowProjectsList(object sender, EventArgs ea)
         {
-            if (!SessionManager.Instance.IsConfigured)
+            if (!SessionManager.Instance.TestConfiguration())
             {
                 this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
                 return;

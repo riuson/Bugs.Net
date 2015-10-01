@@ -24,5 +24,10 @@ namespace BugTracker.DB.DataAccess
         /// Is session manager successfully configured
         /// </summary>
         bool IsConfigured { get; }
+        /// <summary>
+        /// Force configuration test
+        /// </summary>
+        /// <returns>Is session manager successfully configured</returns>
+        bool TestConfiguration();
     }
 }

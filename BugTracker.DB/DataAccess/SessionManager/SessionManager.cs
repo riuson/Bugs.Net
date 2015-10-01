@@ -54,17 +54,17 @@ namespace BugTracker.DB.DataAccess
 
         public ISession OpenSession(bool beginTransaction)
         {
-            if (!this.IsConfigured)
-            {
-                this.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
-            }
-
             return this.mSessionManagerPrivate.OpenSession(beginTransaction);
         }
 
         public bool IsConfigured
         {
             get { return this.mSessionManagerPrivate.IsConfigured; }
+        }
+
+        public bool TestConfiguration()
+        {
+            return this.mSessionManagerPrivate.TestConfiguration();
         }
 
         private SessionManagerPrivate mSessionManagerPrivate;

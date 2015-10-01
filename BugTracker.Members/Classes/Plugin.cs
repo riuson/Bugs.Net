@@ -49,7 +49,7 @@ namespace BugTracker.Members.Classes
 
         private void ShowMembersList(object sender, MessageEventArgs ea)
         {
-            if (!SessionManager.Instance.IsConfigured)
+            if (!SessionManager.Instance.TestConfiguration())
             {
                 this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
                 return;
@@ -65,7 +65,7 @@ namespace BugTracker.Members.Classes
 
         private void LoginRequired(object sender, MessageEventArgs e)
         {
-            if (!SessionManager.Instance.IsConfigured)
+            if (!SessionManager.Instance.TestConfiguration())
             {
                 this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
                 return;
