@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\Backup.cs" />
     <Compile Include="Classes\DataGridViewColumnFabric.cs" />
     <Compile Include="DataAccess\SessionManager\ConfigurationLogDelegate.cs" />
     <Compile Include="Enitities\Entity.cs" />

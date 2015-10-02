@@ -44,6 +44,9 @@ namespace BugTracker.DB.DataAccess
 
             try
             {
+                Backup backup = new Backup();
+                backup.Process(sessionOptions.Filename);
+
                 Migrations.Migrator migrator = new Migrations.Migrator(sessionOptions);
 
                 if (sessionOptions.DoSchemaUpdate)
