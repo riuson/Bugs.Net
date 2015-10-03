@@ -219,24 +219,8 @@ namespace BugTracker.Core.Localization
                     Directory.CreateDirectory(dirname);
                 }
 
-                if (File.Exists(filename))
-                {
-                    try
-                    {
-                        data = TranslationData.LoadFrom(filename);
-                        this.mTranslations.Add(filename, data);
-                    }
-                    catch (Exception exc)
-                    {
-                        data = new TranslationData(filename, culture);
-                        this.mTranslations.Add(filename, data);
-                    }
-                }
-                else
-                {
-                    data = new TranslationData(filename, culture);
-                    this.mTranslations.Add(filename, data);
-                }
+                data = new TranslationData(filename, culture);
+                this.mTranslations.Add(filename, data);
             }
 
             return data;
