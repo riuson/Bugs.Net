@@ -72,10 +72,10 @@ namespace BugTracker.Translator.Controls
                     TranslationUnit unit = dgvr.DataBoundItem as TranslationUnit;
                     this.mSelectedUnit = unit;
 
-                    this.richTextBoxSource.Text = unit.Source;
+                    this.richTextBoxSource.Text = unit.SourceString;
                     this.richTextBoxSource.ProtectContent();
 
-                    this.richTextBoxTranslated.Text = unit.Translated;
+                    this.richTextBoxTranslated.Text = unit.TranslatedString;
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace BugTracker.Translator.Controls
         {
             if (this.mSelectedUnit != null)
             {
-                this.mSelectedUnit.Translated = this.richTextBoxTranslated.Text;
+                this.mSelectedUnit.TranslatedString = this.richTextBoxTranslated.Text;
             }
         }
     }

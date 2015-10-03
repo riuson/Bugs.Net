@@ -149,14 +149,16 @@ namespace BugTracker.Core.Localization
         private bool mChanged;
         private string mTranslated;
 
-        [DataMember()]
+        [DataMember(Name = "Id")]
         public string Id { get; set; }
-        [DataMember()]
+        [DataMember(Name = "Method")]
         public string Method { get; set; }
-        [DataMember()]
-        public string Source { get; set; }
-        [DataMember()]
-        public string Translated
+        [DataMember(Name = "LineNumber")]
+        public int SourceLineNumber { get; set; }
+        [DataMember(Name = "SourceString")]
+        public string SourceString { get; set; }
+        [DataMember(Name = "TranslatedString")]
+        public string TranslatedString
         {
             get
             {
@@ -171,7 +173,7 @@ namespace BugTracker.Core.Localization
                 }
             }
         }
-        [DataMember()]
+        [DataMember(Name = "Comment")]
         public string Comment { get; set; }
 
         public bool Changed
@@ -186,12 +188,28 @@ namespace BugTracker.Core.Localization
             }
         }
 
-        public TranslationUnit(string id, string method, string source, string translated, string comment)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Id of the translation unit. Computed as Hash of SourceFilename + MemberName</param>
+        /// <param name="method">Method name (Member name)</param>
+        /// <param name="sourceLineNumber">Line number in source file</param>
+        /// <param name="sourceString">Original string</param>
+        /// <param name="translatedString">Translated string</param>
+        /// <param name="comment">Optional comment for translator</param>
+        public TranslationUnit(
+            string id,
+            string method,
+            int sourceLineNumber,
+            string sourceString,
+            string translatedString,
+            string comment)
         {
             this.Id = id;
             this.Method = method;
-            this.Source = source;
-            this.Translated = translated;
+            this.SourceLineNumber = sourceLineNumber;
+            this.SourceString = sourceString;
+            this.TranslatedString = translatedString;
             this.Comment = comment;
             this.mChanged = false;
         }

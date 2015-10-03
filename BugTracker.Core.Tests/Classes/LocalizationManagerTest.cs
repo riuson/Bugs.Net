@@ -23,19 +23,23 @@ namespace BugTracker.Core.Tests.Classes
             CultureInfo cultureRu = new CultureInfo("ru");
 
             string assemblyFilename = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
-            string str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test").Translated;
+            string sourceFilePath = @"C:\Temp\File.cs";
+            int sourceLineNumber = 31415926;
+            string memberName = "CanTranslate";
+
+            string str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, sourceFilePath, sourceLineNumber, memberName, "Test").TranslatedString;
 
             Assert.That(str, Is.EqualTo("Test"));
 
-            LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test").Translated = "Тест";
+            LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, sourceFilePath, sourceLineNumber, memberName, "Test").TranslatedString = "Тест";
 
-            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test").Translated;
+            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, sourceFilePath, sourceLineNumber, memberName, "Test").TranslatedString;
             Assert.That(str, Is.EqualTo("Тест"));
 
-            str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, "CanTranslate", "Test").Translated;
+            str = LocalizationManager.Instance.GetTranslation(cultureEn, assemblyFilename, sourceFilePath, sourceLineNumber, memberName, "Test").TranslatedString;
             Assert.That(str, Is.EqualTo("Test"));
 
-            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, "CanTranslate", "Test").Translated;
+            str = LocalizationManager.Instance.GetTranslation(cultureRu, assemblyFilename, sourceFilePath, sourceLineNumber, memberName, "Test").TranslatedString;
             Assert.That(str, Is.EqualTo("Тест"));
 
             //LocalizationManager.Instance.Save();

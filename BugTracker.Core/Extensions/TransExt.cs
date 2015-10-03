@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -16,43 +17,44 @@ namespace BugTracker.Core.Extensions
 {
     public static class TransExt
     {
-        public static string Tr(this string value)
+        public static string Tr(this string value,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
         {
             Assembly assembly = Assembly.GetCallingAssembly();
 
-            StackTrace stackTrace = new StackTrace();
-            MethodBase method = stackTrace.GetFrame(1).GetMethod();
-
             string assemblyFilename = Path.GetFileNameWithoutExtension(assembly.CodeBase);
-            string methodName = CleanString(method.ReflectedType.Name+ "_" + method.Name);
 
-            return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value).Translated;
+            return LocalizationManager.Instance.GetTranslation(
+                LocalizationManager.Instance.ActiveUICulture,
+                assemblyFilename,
+                sourceFilePath,
+                sourceLineNumber,
+                memberName,
+                value
+                ).TranslatedString;
         }
 
-        public static string Tr(this string value, string comment)
+        public static string Tr(this string value, string comment,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
         {
             Assembly assembly = Assembly.GetCallingAssembly();
 
-            StackTrace stackTrace = new StackTrace();
-            MethodBase method = stackTrace.GetFrame(1).GetMethod();
-
             string assemblyFilename = Path.GetFileNameWithoutExtension(assembly.CodeBase);
-            string methodName = CleanString(method.ReflectedType.Name + "_" + method.Name);
 
-            return LocalizationManager.Instance.GetTranslation(LocalizationManager.Instance.ActiveUICulture, assemblyFilename, methodName, value, comment).Translated;
-        }
 
-        private static string CleanString(string value)
-        {
-            Regex reg = new Regex("[\\W]");
-            string result = reg.Replace(value, "_");
-
-            while (result.Contains("__"))
-            {
-                result = result.Replace("__", "_");
-            }
-
-            return result;
+            return LocalizationManager.Instance.GetTranslation(
+                LocalizationManager.Instance.ActiveUICulture,
+                assemblyFilename,
+                sourceFilePath,
+                sourceLineNumber,
+                memberName,
+                value,
+                comment
+                ).TranslatedString;
         }
     }
 }
