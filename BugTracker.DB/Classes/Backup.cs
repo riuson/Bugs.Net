@@ -108,7 +108,7 @@ namespace BugTracker.DB.Classes
         public IEnumerable<FileInfo> GetFilesToRemove(IEnumerable<FileInfo> archiveFiles)
         {
             var databaseFilenameOnly = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
-            var spanToRemove = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMaxDays);
+            var spanToRemove = this.TimeSpanToRemove;
 
             // Collect archive files
             var files = from item in archiveFiles
@@ -129,7 +129,7 @@ namespace BugTracker.DB.Classes
         public IEnumerable<FileInfo> GetFilesNew(IEnumerable<FileInfo> archiveFiles)
         {
             var databaseFilenameOnly = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
-            var spanToObsolete = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMinDays);
+            var spanToObsolete = this.TimeSpanToObsolete;
 
             // Collect archive files
             var files = from item in archiveFiles
@@ -145,6 +145,22 @@ namespace BugTracker.DB.Classes
                          select item.File;
 
             return result;
+        }
+
+        public TimeSpan TimeSpanToRemove
+        {
+            get
+            {
+                return TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMaxDays);
+            }
+        }
+
+        public TimeSpan TimeSpanToObsolete
+        {
+            get
+            {
+                return TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMinDays);
+            }
         }
     }
 }

@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\BackupTest.cs" />
     <Compile Include="DataAccess\Repository\InfoRepositoryTest.cs" />
     <Compile Include="Entities\EntityTest.cs" />
     <Compile Include="Classes\TestDatabase.cs" />
