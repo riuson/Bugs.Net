@@ -19,7 +19,6 @@ namespace BugTracker.DB.DataAccess
 {
     internal class SessionManagerPrivate : ISessionManager
     {
-        protected string mDatabaseFile;
         protected Exception mConfigurationException;
 
         protected Configuration Configuration { get; private set; }
@@ -27,7 +26,6 @@ namespace BugTracker.DB.DataAccess
 
         public SessionManagerPrivate()
         {
-            this.Configure(new SessionOptions(this.mDatabaseFile));
         }
 
         public SessionManagerPrivate(SessionOptions sessionOptions)
@@ -37,6 +35,11 @@ namespace BugTracker.DB.DataAccess
 
         public bool Configure(SessionOptions sessionOptions)
         {
+            if (String.IsNullOrEmpty(sessionOptions.Filename))
+            {
+                return false;
+            }
+
             if (sessionOptions.Log == null)
             {
                 sessionOptions.Log = this.LogDebug;
@@ -60,7 +63,6 @@ namespace BugTracker.DB.DataAccess
                 }
 
                 this.SessionFactory = this.BuildSessionFactory(sessionOptions);
-                this.mDatabaseFile = sessionOptions.Filename;
                 this.IsConfigured = true;
             }
             catch (Exception exc)
