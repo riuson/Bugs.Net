@@ -35,7 +35,7 @@ namespace BugTracker.DB.Settings
 
         private void LoadSettings()
         {
-            this.textBoxFilename.Text = Saved<Options>.Instance.FileName;
+            this.textBoxFilename.Text = Saved<Options>.Instance.DatabaseFileName;
         }
 
         private void SaveSettings()
@@ -47,7 +47,7 @@ namespace BugTracker.DB.Settings
 
                 if (File.Exists(filename))
                 {
-                    Saved<Options>.Instance.FileName = filename;
+                    Saved<Options>.Instance.DatabaseFileName = filename;
                     Saved<Options>.Save();
                 }
                 else
@@ -64,7 +64,7 @@ namespace BugTracker.DB.Settings
 
                     File.Delete(filename);
 
-                    Saved<Options>.Instance.FileName = filename;
+                    Saved<Options>.Instance.DatabaseFileName = filename;
                     Saved<Options>.Save();
                 }
             }
@@ -81,7 +81,7 @@ namespace BugTracker.DB.Settings
                 dialog.CheckFileExists = false;
                 dialog.CheckPathExists = true;
                 dialog.DefaultExt = "sqlite";
-                dialog.FileName = Saved<Options>.Instance.FileName;
+                dialog.FileName = Saved<Options>.Instance.DatabaseFileName;
                 dialog.Filter = "SQLite files (*.sqlite)|*.sqlite|All files (*.*)|*.*".Tr();
                 dialog.InitialDirectory = Path.GetDirectoryName(dialog.FileName);
                 dialog.Multiselect = false;

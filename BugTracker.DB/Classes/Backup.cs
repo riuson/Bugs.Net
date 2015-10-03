@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BugTracker.Core.Classes;
+using BugTracker.DB.Settings;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -18,8 +20,8 @@ namespace BugTracker.DB.Classes
             }
 
             // Settings
-            TimeSpan spanToRemove = TimeSpan.FromDays(60);
-            TimeSpan spanToObsolete = TimeSpan.FromDays(7);
+            TimeSpan spanToRemove = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMaxDays);
+            TimeSpan spanToObsolete = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMinDays);
 
             FileInfo databaseFile = new FileInfo(value);
             DirectoryInfo backupToDirectory = BugTracker.Core.Classes.Saved<BugTracker.DB.Settings.Options>.SettinsDirectory;

@@ -63,6 +63,16 @@ namespace BugTracker.DB.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_archive_48_0_1d257b_none {
+            get {
+                object obj = ResourceManager.GetObject("icon_archive_48_0_1d257b_none", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_database_1d257b_48 {
             get {
                 object obj = ResourceManager.GetObject("icon_database_1d257b_48", resourceCulture);

@@ -89,7 +89,7 @@ namespace BugTracker.DB.DataAccess
         {
             if (!this.IsConfigured)
             {
-                this.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+                this.Configure(new SessionOptions(Saved<Options>.Instance.DatabaseFileName));
             }
 
             if (!this.IsConfigured)
@@ -111,7 +111,7 @@ namespace BugTracker.DB.DataAccess
                 return true;
             }
 
-            this.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+            this.Configure(new SessionOptions(Saved<Options>.Instance.DatabaseFileName));
             return this.IsConfigured;
         }
 
