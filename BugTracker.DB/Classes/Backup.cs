@@ -59,13 +59,16 @@ namespace BugTracker.DB.Classes
 
         private void MakeArchive(FileInfo databaseFile, FileInfo backupFile)
         {
-            using (FileStream originalFileStream = databaseFile.OpenRead())
+            if (databaseFile.Exists)
             {
-                using (FileStream compressedFileStream = backupFile.OpenWrite())
+                using (FileStream originalFileStream = databaseFile.OpenRead())
                 {
-                    using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                    using (FileStream compressedFileStream = backupFile.OpenWrite())
                     {
-                        originalFileStream.CopyTo(compressionStream);
+                        using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
+                        {
+                            originalFileStream.CopyTo(compressionStream);
+                        }
                     }
                 }
             }
