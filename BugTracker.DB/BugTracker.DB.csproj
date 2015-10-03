@@ -84,8 +84,29 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\Backup.cs" />
     <Compile Include="Classes\DataGridViewColumnFabric.cs" />
+    <Compile Include="DataAccess\SessionManager\ConfigurationLogDelegate.cs" />
     <Compile Include="Enitities\Entity.cs" />
+    <Compile Include="Enitities\Info.cs" />
+    <Compile Include="Errors\ControlError.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Errors\ControlError.Designer.cs">
+      <DependentUpon>ControlError.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ConfigurationRequiredEventArgs.cs" />
+    <Compile Include="Mapping\InfoMap.cs" />
+    <Compile Include="Migrations\IMigrationPart.cs" />
+    <Compile Include="Migrations\Migrator.cs" />
+    <Compile Include="Migrations\Version001\MigrationPart.cs" />
+    <Compile Include="Migrations\Version002\MigrationPart.cs" />
+    <Compile Include="Settings\ControlBackup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings\ControlBackup.Designer.cs">
+      <DependentUpon>ControlBackup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="DataAccess\SessionManager\SessionOptions.cs" />
@@ -145,6 +166,12 @@
     <None Include="..\sgKey.snk" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Errors\ControlError.resx">
+      <DependentUpon>ControlError.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\ControlBackup.resx">
+      <DependentUpon>ControlBackup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\ControlSettings.resx">
       <DependentUpon>ControlSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,7 +190,12 @@
   <ItemGroup>
     <None Include="Resources\database_1d257b_48.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\fa-archive_48_0_007dff_none.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fa-archive_48_0_1d257b_none.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.98.1\build\net40\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.98.1\build\net40\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

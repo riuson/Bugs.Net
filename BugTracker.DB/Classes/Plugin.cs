@@ -4,6 +4,8 @@ using BugTracker.Core.Extensions;
 using BugTracker.Core.Menus;
 using BugTracker.Core.Plugins;
 using BugTracker.DB.DataAccess;
+using BugTracker.DB.Errors;
+using BugTracker.DB.Events;
 using BugTracker.DB.Settings;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,8 @@ namespace BugTracker.DB.Classes
         public void Initialize(IApplication app)
         {
             this.mApp = app;
-            SessionManager.Instance.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+            //SessionManager.Instance.Configure(new SessionOptions(Saved<Options>.Instance.FileName));
+            this.mApp.Messages.Subscribe(typeof(ConfigurationRequiredEventArgs), this.ConfigurationRequired);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -30,18 +33,37 @@ namespace BugTracker.DB.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Database".Tr(), "Configure database".Tr(), BugTracker.DB.Properties.Resources.icon_database_1d257b_48);
-                        menuItemSettings.Click += delegate(object sender, EventArgs ea)
+                        IButton menuItemDBSettings = MenuPanelFabric.CreateMenuItem(
+                            "Database".Tr(),
+                            "Configure database".Tr(),
+                            BugTracker.DB.Properties.Resources.icon_database_1d257b_48);
+                        menuItemDBSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);
                             this.mApp.Controls.Show(controlSettings);
                         };
 
-                        return new IButton[] { menuItemSettings };
+                        IButton menuItemBackupSettings = MenuPanelFabric.CreateMenuItem(
+                            "Backup".Tr(),
+                            "Configure database backup".Tr(),
+                            BugTracker.DB.Properties.Resources.icon_archive_48_0_1d257b_none);
+                        menuItemBackupSettings.Click += delegate(object sender, EventArgs ea)
+                        {
+                            ControlBackup controlBackup = new ControlBackup(this.mApp);
+                            this.mApp.Controls.Show(controlBackup);
+                        };
+
+                        return new IButton[] { menuItemDBSettings, menuItemBackupSettings };
                     }
                 default:
                     return new IButton[] { };
             }
+        }
+
+        private void ConfigurationRequired(object sender, Core.Messages.MessageEventArgs e)
+        {
+            ControlError controlError = new ControlError(this.mApp);
+            this.mApp.Controls.Show(controlError);
         }
     }
 }

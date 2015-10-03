@@ -2,6 +2,7 @@
 using BugTracker.DB.Classes;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Mapping;
+using BugTracker.DB.Settings;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
@@ -18,7 +19,6 @@ namespace BugTracker.DB.DataAccess
 {
     internal class SessionManagerPrivate : ISessionManager
     {
-        protected string mDatabaseFile;
         protected Exception mConfigurationException;
 
         protected Configuration Configuration { get; private set; }
@@ -26,7 +26,6 @@ namespace BugTracker.DB.DataAccess
 
         public SessionManagerPrivate()
         {
-            this.Configure(new SessionOptions(this.mDatabaseFile));
         }
 
         public SessionManagerPrivate(SessionOptions sessionOptions)
@@ -36,10 +35,34 @@ namespace BugTracker.DB.DataAccess
 
         public bool Configure(SessionOptions sessionOptions)
         {
+            if (String.IsNullOrEmpty(sessionOptions.Filename))
+            {
+                return false;
+            }
+
+            if (sessionOptions.Log == null)
+            {
+                sessionOptions.Log = this.LogDebug;
+            }
+
             try
             {
+                Backup backup = new Backup(sessionOptions.Filename);
+                backup.Process(sessionOptions.Filename);
+
+                Migrations.Migrator migrator = new Migrations.Migrator(sessionOptions);
+
+                if (sessionOptions.DoSchemaUpdate)
+                {
+                    migrator.Process();
+                }
+
+                if (migrator.CurrentVersion != migrator.LatestVersion)
+                {
+                    migrator.ThrowExceptionAboutVersion(migrator.CurrentVersion, migrator.LatestVersion);
+                }
+
                 this.SessionFactory = this.BuildSessionFactory(sessionOptions);
-                this.mDatabaseFile = sessionOptions.Filename;
                 this.IsConfigured = true;
             }
             catch (Exception exc)
@@ -57,10 +80,20 @@ namespace BugTracker.DB.DataAccess
             return this.Configuration.BuildSessionFactory();
         }
 
+        private void LogDebug(string message)
+        {
+            System.Diagnostics.Debug.WriteLine(message);
+        }
+
         #region ISessionManager
 
         public BugTracker.DB.DataAccess.ISession OpenSession(bool beginTransaction)
         {
+            if (!this.IsConfigured)
+            {
+                this.Configure(new SessionOptions(Saved<Options>.Instance.DatabaseFileName));
+            }
+
             if (!this.IsConfigured)
             {
                 throw new Exception("Session factory not configured", this.mConfigurationException);
@@ -72,6 +105,17 @@ namespace BugTracker.DB.DataAccess
         }
 
         public bool IsConfigured { get; private set; }
+
+        public bool TestConfiguration()
+        {
+            if (this.IsConfigured)
+            {
+                return true;
+            }
+
+            this.Configure(new SessionOptions(Saved<Options>.Instance.DatabaseFileName));
+            return this.IsConfigured;
+        }
 
         #endregion
     }

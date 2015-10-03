@@ -4,6 +4,7 @@ using BugTracker.Core.Extensions;
 using BugTracker.Core.Menus;
 using BugTracker.Core.Messages;
 using BugTracker.Core.Plugins;
+using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using BugTracker.Members.Controls;
@@ -48,6 +49,12 @@ namespace BugTracker.Members.Classes
 
         private void ShowMembersList(object sender, MessageEventArgs ea)
         {
+            if (!SessionManager.Instance.TestConfiguration())
+            {
+                this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
+                return;
+            }
+
             ControlMembersList controlMembers = new ControlMembersList(this.mApp);
             controlMembers.Disposed += delegate(object s, EventArgs e)
             {
@@ -58,6 +65,12 @@ namespace BugTracker.Members.Classes
 
         private void LoginRequired(object sender, MessageEventArgs e)
         {
+            if (!SessionManager.Instance.TestConfiguration())
+            {
+                this.mApp.Messages.Send(this, new ConfigurationRequiredEventArgs());
+                return;
+            }
+
             e.Handled = true;
 
             ControlLogin loginControl = new ControlLogin(this.mApp);

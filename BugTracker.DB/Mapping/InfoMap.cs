@@ -8,11 +8,17 @@ using System.Text;
 
 namespace BugTracker.DB.Mapping
 {
-    internal class SolutionMap : ClassMapping<Solution>
+    internal class InfoMap : ClassMapping<Info>
     {
-        public SolutionMap()
+        public InfoMap()
         {
+            Table("BugTrackerInfo");
             Id(x => x.Id, m => m.Generator(Generators.Identity));
+            Property(x => x.Name,
+                m =>
+                {
+                    m.Unique(true);
+                });
             Property(x => x.Value);
             Property(x => x.Created);
             Property(x => x.Updated);

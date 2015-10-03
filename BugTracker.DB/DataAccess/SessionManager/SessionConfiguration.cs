@@ -6,10 +6,12 @@ using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Driver;
 using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace BugTracker.DB.DataAccess
@@ -27,37 +29,41 @@ namespace BugTracker.DB.DataAccess
                 db.ConnectionString = connectioinString;
                 db.ConnectionStringName = "bugtracker.database";
                 db.Dialect<SQLiteDialect>();
-                db.LogSqlInConsole = options.ShowLogs;
-                db.LogFormattedSql = options.ShowLogs;
-                db.AutoCommentSql = options.ShowLogs;
+                db.LogSqlInConsole = options.Log != null;
+                db.LogFormattedSql = options.Log != null;
+                db.AutoCommentSql = options.Log != null;
             });
             configuration.AddAssembly(typeof(Priority).Assembly);
             configuration.AddDeserializedMapping(CreateMapping(), null);
 
-            if (options.DoSchemaUpdate)
-            {
-                var schemaUpdate = new SchemaUpdate(configuration);
-                schemaUpdate.Execute(Console.WriteLine, true);
-            }
-
             return configuration;
+        }
+
+        public static IEnumerable<Type> GetEntityTypes()
+        {
+            Type entitybaseType = typeof(Entity<long>);
+
+            var types = from type in Assembly.GetExecutingAssembly().GetTypes()
+                        where type != entitybaseType && entitybaseType.IsAssignableFrom(type)
+                        orderby type.Name ascending
+                        select type;
+
+            var a = types.ToArray();
+
+            return types;
         }
 
         public static HbmMapping CreateMapping()
         {
+            var maps = from type in Assembly.GetExecutingAssembly().GetTypes()
+                       where type.BaseType != null
+                       where type.BaseType.IsGenericType
+                       where type.BaseType.GetGenericTypeDefinition() == typeof(ClassMapping<>)
+                       orderby type.Name ascending
+                       select type;
+
             var mapper = new ModelMapper();
-            mapper.AddMappings(new List<System.Type> {
-                typeof(PriorityMap),
-                typeof(ProblemTypeMap),
-                typeof(SolutionMap),
-                typeof(StatusMap),
-                typeof(BlobContentMap),
-                typeof(MemberMap),
-                typeof(ChangeMap),
-                typeof(AttachmentMap),
-                typeof(TicketMap),
-                typeof(ProjectMap)
-            });
+            mapper.AddMappings(maps);
             return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }
     }

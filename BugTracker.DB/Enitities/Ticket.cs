@@ -10,7 +10,6 @@ namespace BugTracker.DB.Entities
         public virtual Project Project { get; set; }
         public virtual string Title { get; set; }
         public virtual Member Author { get; set; }
-        public virtual DateTime Created { get; set; }
         public virtual Status Status { get; set; }
         public virtual ProblemType Type { get; set; }
         public virtual Priority Priority { get; set; }

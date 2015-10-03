@@ -18,7 +18,7 @@ namespace BugTracker.Core.Classes
         private static T mInstance;
         private static object mLocker = new object();
 
-        private static DirectoryInfo SettinsDirectory
+        public static DirectoryInfo SettinsDirectory
         {
             get
             {

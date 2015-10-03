@@ -25,7 +25,7 @@ namespace BugTracker.DB.Tests.DataAcces
 
             Configuration configuration = SessionConfiguration.CreateConfiguration(new SessionOptions(filename)
             {
-                ShowLogs = true
+                Log = this.Log
             });
             var schemaUpdate = new SchemaUpdate(configuration);
             schemaUpdate.Execute(Console.WriteLine, true);
@@ -34,6 +34,11 @@ namespace BugTracker.DB.Tests.DataAcces
             {
                 File.Delete(filename);
             }
+        }
+
+        private void Log(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }

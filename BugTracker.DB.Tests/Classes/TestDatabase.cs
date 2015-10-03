@@ -20,7 +20,8 @@ internal class TestDatabase
         // before any tests
         SessionManager.Instance.Configure(new SessionOptions("test.db")
         {
-            ShowLogs = true
+            Log = this.Log,
+            DoSchemaUpdate = true
         });
         Assert.That(SessionManager.Instance.IsConfigured, Is.True);
     }
@@ -30,5 +31,10 @@ internal class TestDatabase
     {
         // Remove temp database file after all tests completed
         //File.Delete("test.db");
+    }
+
+    private void Log(string message)
+    {
+        Console.WriteLine(message);
     }
 }

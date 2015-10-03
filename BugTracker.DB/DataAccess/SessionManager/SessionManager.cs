@@ -1,5 +1,6 @@
 ﻿using BugTracker.Core.Classes;
 using BugTracker.DB.Classes;
+using BugTracker.DB.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -59,6 +60,11 @@ namespace BugTracker.DB.DataAccess
         public bool IsConfigured
         {
             get { return this.mSessionManagerPrivate.IsConfigured; }
+        }
+
+        public bool TestConfiguration()
+        {
+            return this.mSessionManagerPrivate.TestConfiguration();
         }
 
         private SessionManagerPrivate mSessionManagerPrivate;

@@ -20,5 +20,11 @@ namespace BugTracker.Core.Extensions
                 box.DeselectAll();
             }
         }
+
+        public static void ProtectContent(this RichTextBox box)
+        {
+            box.Select(0, box.Text.Length);
+            box.SelectionProtected = true;
+        }
     }
 }
