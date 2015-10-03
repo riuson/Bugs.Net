@@ -56,6 +56,7 @@ namespace BugTracker.DB.Settings
                 Saved<Options>.Instance.BackupToDirectory = backupDirectory;
                 Saved<Options>.Instance.BackupKeepMinDays = backupMinDays;
                 Saved<Options>.Instance.BackupKeepMaxDays = backupMaxDays;
+                Saved<Options>.Save();
             }
             catch (Exception exc)
             {
@@ -88,18 +89,19 @@ namespace BugTracker.DB.Settings
             {
                 this.SaveSettings();
 
-                Backup backup = new Backup();
+                Backup backup = new Backup(Saved<Options>.Instance.DatabaseFileName);
+
+                this.Log("Files before:".Tr());
+                this.ShowFiles(backup);
+
+                this.Log(String.Empty);
+                this.Log("Processing...".Tr());
+                this.Log(String.Empty);
+
                 backup.Process(Saved<Options>.Instance.DatabaseFileName);
 
-                var files = from item in Directory.GetFiles(Saved<Options>.Instance.BackupToDirectory)
-                            where Path.GetExtension(item) == ".gz"
-                            select item;
-
-                foreach (var item in files)
-                {
-                    this.richTextBoxLog.AppendText(item);
-                    this.richTextBoxLog.AppendText(Environment.NewLine);
-                }
+                this.Log("Files after:".Tr());
+                this.ShowFiles(backup);
             }
             catch (Exception exc)
             {
@@ -115,6 +117,34 @@ namespace BugTracker.DB.Settings
         {
             this.richTextBoxLog.AppendText(message);
             this.richTextBoxLog.AppendText(Environment.NewLine);
+        }
+
+        private void ShowFiles(Backup backup)
+        {
+            var files = backup.GetAllArchiveFiles();
+            this.Log("All archives:".Tr());
+
+            foreach (var item in files)
+            {
+                this.richTextBoxLog.AppendText(item.FullName);
+                this.richTextBoxLog.AppendText(Environment.NewLine);
+            }
+
+            this.Log("Removing:".Tr());
+
+            foreach (var item in backup.GetFilesToRemove(files))
+            {
+                this.richTextBoxLog.AppendText(item.FullName);
+                this.richTextBoxLog.AppendText(Environment.NewLine);
+            }
+
+            this.Log("New:".Tr());
+
+            foreach (var item in backup.GetFilesNew(files))
+            {
+                this.richTextBoxLog.AppendText(item.FullName);
+                this.richTextBoxLog.AppendText(Environment.NewLine);
+            }
         }
     }
 }

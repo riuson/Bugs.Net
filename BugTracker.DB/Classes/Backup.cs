@@ -12,6 +12,13 @@ namespace BugTracker.DB.Classes
 {
     internal class Backup
     {
+        private FileInfo mDatabaseFile;
+
+        public Backup(string filename)
+        {
+            this.mDatabaseFile = new FileInfo(filename);
+        }
+
         public void Process(string value)
         {
             if (String.IsNullOrEmpty(value))
@@ -19,38 +26,20 @@ namespace BugTracker.DB.Classes
                 return;
             }
 
-            // Settings
-            TimeSpan spanToRemove = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMaxDays);
-            TimeSpan spanToObsolete = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMinDays);
-
             FileInfo databaseFile = new FileInfo(value);
             DirectoryInfo backupToDirectory = BugTracker.Core.Classes.Saved<BugTracker.DB.Settings.Options>.SettinsDirectory;
             var databaseFilename = Path.GetFileNameWithoutExtension(databaseFile.FullName);
-            var regDate = new Regex(@"\d{8}\-\d{6}");
 
             // Collect archive files
-            var files = from item in backupToDirectory.GetFiles("*.gz")
-                        let filename = Path.GetFileNameWithoutExtension(item.FullName)
-                        where filename.Contains(databaseFilename + "-")
-                        let stringDate = filename.Replace(databaseFilename + "-", String.Empty)
-                        where regDate.IsMatch(stringDate)
-                        let datetime = this.ParseDateTime(stringDate)
-                        select new { File = item, Time = datetime };
+            var files = this.GetAllArchiveFiles();
 
             // Obsolete archives
-            DateTime timeToRemove = DateTime.Now.Subtract(spanToRemove);
-            var filesToRemove = from item in files
-                                where item.Time < timeToRemove
-                                select item.File;
-
+            var filesToRemove = this.GetFilesToRemove(files);
             // Latest archives. If >= 1, do not backup
-            DateTime timeToObsolete = DateTime.Now.Subtract(spanToObsolete);
-            var filesNotObsolete = from item in files
-                              where item.Time > timeToObsolete
-                              select item.File;
+            var filesNew = this.GetFilesNew(files);
 
             // If no one latest archive, or all existing archives are obsolete
-            if (filesNotObsolete.Count() == 0 ||
+            if (filesNew.Count() == 0 ||
                 filesToRemove.Count() == files.Count())
             {
                 FileInfo backupFile = new FileInfo(
@@ -92,6 +81,67 @@ namespace BugTracker.DB.Classes
             }
 
             return DateTime.MinValue;
+        }
+
+        public IEnumerable<FileInfo> GetAllArchiveFiles()
+        {
+            DirectoryInfo backupToDirectory = BugTracker.Core.Classes.Saved<BugTracker.DB.Settings.Options>.SettinsDirectory;
+
+            var databaseFilenameOnly = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
+            var regDate = new Regex(@"\d{8}\-\d{6}");
+
+            // Collect archive files
+            var files = from item in backupToDirectory.GetFiles("*.gz")
+                        let filename = Path.GetFileNameWithoutExtension(item.FullName)
+                        where filename.Contains(databaseFilenameOnly + "-")
+                        let stringDate = filename.Replace(databaseFilenameOnly + "-", String.Empty)
+                        where regDate.IsMatch(stringDate)
+                        orderby stringDate
+                        select item;
+
+            return files;
+        }
+
+        public IEnumerable<FileInfo> GetFilesToRemove(IEnumerable<FileInfo> archiveFiles)
+        {
+            var databaseFilenameOnly = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
+            var spanToRemove = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMaxDays);
+
+            // Collect archive files
+            var files = from item in archiveFiles
+                        let filename = Path.GetFileNameWithoutExtension(item.FullName)
+                        let stringDate = filename.Replace(databaseFilenameOnly + "-", String.Empty)
+                        let datetime = this.ParseDateTime(stringDate)
+                        select new { File = item, Time = datetime };
+
+            // Obsolete archives
+            var timeToRemove = DateTime.Now.Subtract(spanToRemove);
+            var result = from item in files
+                         where item.Time < timeToRemove
+                         select item.File;
+
+            return result;
+        }
+
+        public IEnumerable<FileInfo> GetFilesNew(IEnumerable<FileInfo> archiveFiles)
+        {
+            var databaseFilenameOnly = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
+            var spanToObsolete = TimeSpan.FromDays(Saved<Options>.Instance.BackupKeepMinDays);
+
+            // Collect archive files
+            var files = from item in archiveFiles
+                        let filename = Path.GetFileNameWithoutExtension(item.FullName)
+                        let stringDate = filename.Replace(databaseFilenameOnly + "-", String.Empty)
+                        let datetime = this.ParseDateTime(stringDate)
+                        select new { File = item, Time = datetime };
+
+            // New archives
+            var timeToObsolete = DateTime.Now.Subtract(spanToObsolete);
+            var result = from item in files
+                         where item.Time > timeToObsolete
+                         select item.File;
+
+            return result;
         }
     }
 }
