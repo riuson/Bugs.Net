@@ -30,9 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Label label3;
+            this.labelDaysRepeat = new System.Windows.Forms.Label();
+            this.labelDaysRemove = new System.Windows.Forms.Label();
+            this.labelDirectory = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.buttonCheckBackup = new System.Windows.Forms.Button();
             this.richTextBoxLog = new System.Windows.Forms.RichTextBox();
@@ -40,43 +40,40 @@
             this.numericUpDownRemove = new System.Windows.Forms.NumericUpDown();
             this.textBoxBackupDirectory = new System.Windows.Forms.TextBox();
             this.buttonBrowseBackupDirectory = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRepeat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRemove)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // labelDaysRepeat
             // 
-            label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(3, 35);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(139, 13);
-            label1.TabIndex = 0;
-            label1.Text = "Days before repeat backup:";
+            this.labelDaysRepeat.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelDaysRepeat.AutoSize = true;
+            this.labelDaysRepeat.Location = new System.Drawing.Point(3, 35);
+            this.labelDaysRepeat.Name = "labelDaysRepeat";
+            this.labelDaysRepeat.Size = new System.Drawing.Size(139, 13);
+            this.labelDaysRepeat.TabIndex = 0;
+            this.labelDaysRepeat.Text = "Days before repeat backup:";
             // 
-            // label2
+            // labelDaysRemove
             // 
-            label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(3, 61);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(144, 13);
-            label2.TabIndex = 0;
-            label2.Text = "Days before remove backup:";
+            this.labelDaysRemove.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelDaysRemove.AutoSize = true;
+            this.labelDaysRemove.Location = new System.Drawing.Point(3, 61);
+            this.labelDaysRemove.Name = "labelDaysRemove";
+            this.labelDaysRemove.Size = new System.Drawing.Size(144, 13);
+            this.labelDaysRemove.TabIndex = 0;
+            this.labelDaysRemove.Text = "Days before remove backup:";
             // 
-            // label3
+            // labelDirectory
             // 
-            label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(3, 8);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(111, 13);
-            label3.TabIndex = 0;
-            label3.Text = "Directory for backups:";
+            this.labelDirectory.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.labelDirectory.AutoSize = true;
+            this.labelDirectory.Location = new System.Drawing.Point(3, 8);
+            this.labelDirectory.Name = "labelDirectory";
+            this.labelDirectory.Size = new System.Drawing.Size(111, 13);
+            this.labelDirectory.TabIndex = 0;
+            this.labelDirectory.Text = "Directory for backups:";
             // 
             // tableLayoutPanel1
             // 
@@ -84,13 +81,13 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(label1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelDaysRepeat, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.buttonCheckBackup, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.richTextBoxLog, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(label2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelDaysRemove, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.numericUpDownRepeat, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.numericUpDownRemove, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(label3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.labelDirectory, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBoxBackupDirectory, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonBrowseBackupDirectory, 2, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -190,5 +187,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDownRemove;
         private System.Windows.Forms.TextBox textBoxBackupDirectory;
         private System.Windows.Forms.Button buttonBrowseBackupDirectory;
+        private System.Windows.Forms.Label labelDaysRepeat;
+        private System.Windows.Forms.Label labelDaysRemove;
+        private System.Windows.Forms.Label labelDirectory;
     }
 }

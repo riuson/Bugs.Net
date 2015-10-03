@@ -24,6 +24,9 @@ namespace BugTracker.DB.Settings
             InitializeComponent();
             this.Text = "Backup settings".Tr();
             this.buttonCheckBackup.Text = this.buttonCheckBackup.Text.Tr();
+            this.labelDirectory.Text = this.labelDirectory.Text.Tr();
+            this.labelDaysRepeat.Text = this.labelDaysRepeat.Text.Tr();
+            this.labelDaysRemove.Text = this.labelDaysRemove.Text.Tr();
             this.mApp = app;
 
             this.LoadSettings();
@@ -68,7 +71,7 @@ namespace BugTracker.DB.Settings
         {
             using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                dialog.Description = "Selct directory to save backups".Tr();
+                dialog.Description = "Select directory to save backups".Tr();
                 dialog.RootFolder = Environment.SpecialFolder.DesktopDirectory;
                 dialog.SelectedPath = this.textBoxBackupDirectory.Text;
                 dialog.ShowNewFolderButton = true;
