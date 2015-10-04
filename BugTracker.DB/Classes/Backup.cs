@@ -27,7 +27,6 @@ namespace BugTracker.DB.Classes
             }
 
             FileInfo databaseFile = new FileInfo(value);
-            DirectoryInfo backupToDirectory = BugTracker.Core.Classes.Saved<BugTracker.DB.Settings.Options>.SettinsDirectory;
             var databaseFilename = Path.GetFileNameWithoutExtension(databaseFile.FullName);
 
             // Collect archive files
@@ -44,7 +43,7 @@ namespace BugTracker.DB.Classes
             {
                 FileInfo backupFile = new FileInfo(
                     Path.Combine(
-                        backupToDirectory.FullName,
+                        this.BackpDirectory.FullName,
                         String.Format("{0}-{1:yyyyMMdd-HHmmss}.gz", databaseFilename, DateTime.Now)));
 
                 this.MakeArchive(databaseFile, backupFile);
@@ -86,15 +85,22 @@ namespace BugTracker.DB.Classes
             return DateTime.MinValue;
         }
 
+        private DirectoryInfo BackpDirectory
+        {
+            get
+            {
+                return new DirectoryInfo(BugTracker.Core.Classes.Saved<BugTracker.DB.Settings.Options>.Instance.BackupToDirectory);
+            }
+        }
+
         public IEnumerable<FileInfo> GetAllArchiveFiles()
         {
-            DirectoryInfo backupToDirectory = BugTracker.Core.Classes.Saved<BugTracker.DB.Settings.Options>.SettinsDirectory;
 
             var databaseFilenameOnly = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
             var regDate = new Regex(@"\d{8}\-\d{6}");
 
             // Collect archive files
-            var files = from item in backupToDirectory.GetFiles("*.gz")
+            var files = from item in this.BackpDirectory.GetFiles("*.gz")
                         let filename = Path.GetFileNameWithoutExtension(item.FullName)
                         where filename.Contains(databaseFilenameOnly + "-")
                         let stringDate = filename.Replace(databaseFilenameOnly + "-", String.Empty)
