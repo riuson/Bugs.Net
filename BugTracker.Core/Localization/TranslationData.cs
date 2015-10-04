@@ -6,26 +6,16 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace BugTracker.Core.Localization
 {
-    [DataContract(Name = "Translation")]
     internal class TranslationData
     {
         private string mFilename { get; set; }
 
         private CultureInfo mCulture;
 
-        [OnDeserialized]
-        private void OnSerializingMethod(StreamingContext context)
-        {
-            if (this.mUnits == null)
-            {
-                this.mUnits = new List<TranslationUnit>();
-            }
-        }
-
-        [DataMember(Name = "Culture")]
         private string XCulture
         {
             get
@@ -38,7 +28,6 @@ namespace BugTracker.Core.Localization
             }
         }
 
-        [DataMember(Name = "Messages")]
         private List<TranslationUnit> mUnits;
 
         public IEnumerable<TranslationUnit> Units
@@ -61,6 +50,58 @@ namespace BugTracker.Core.Localization
         {
             this.mFilename = filename;
             this.mCulture = culture;
+
+            FileInfo file = new FileInfo(filename);
+
+            if (file.Exists)
+            {
+                try
+                {
+                    using (FileStream fs = file.OpenRead())
+                    {
+                        using (XmlReader reader = XmlReader.Create(fs))
+                        {
+                            var xDocument = XDocument.Load(reader);
+                            var xRoot = xDocument.Root;// Element("Translation");
+                            var xCulture = xRoot.Element("Culture");
+                            var xMessages = xRoot.Element("Messages");
+                            var xMessagesList = xMessages.Elements("Message");
+                            var a = xMessagesList.ToArray();
+
+                            foreach (var xMessage in xMessagesList)
+                            {
+                                string id = (string)xMessage.Element("Id");
+                                string method = (string)xMessage.Element("Method");
+                                string lineNumber = (string)xMessage.Element("LineNumber");
+                                string sourceString = (string)xMessage.Element("SourceString");
+                                string translatedString = (string)xMessage.Element("TranslatedString");
+                                string comment = (string)xMessage.Element("Comment");
+
+                                if (!String.IsNullOrEmpty(id))
+                                {
+                                    TranslationUnit unit = new TranslationUnit(
+                                        id,
+                                        method,
+                                        String.IsNullOrEmpty(lineNumber) ? 0 : Convert.ToInt32(lineNumber),
+                                        sourceString,
+                                        translatedString,
+                                        comment);
+                                    unit.Changed = false;
+
+                                    this.AddTranslation(unit);
+                                }
+                            }
+
+                            reader.Close();
+                        }
+
+                        fs.Close();
+                    }
+                }
+                catch (Exception exc)
+                {
+                }
+            }
         }
 
         public TranslationUnit GetTranslation(string id)
@@ -92,24 +133,57 @@ namespace BugTracker.Core.Localization
 
             if (count > 0)
             {
-                using (Stream stream = File.Open(this.mFilename, FileMode.Create))
+                using (FileStream fs = File.Open(this.mFilename, FileMode.Create))
                 {
-                    //XmlSerializer formatter = new XmlSerializer(typeof(TranslationData));
-                    //formatter.Serialize(stream, this);
-
                     XmlWriterSettings settings = new XmlWriterSettings();
                     settings.Indent = true;
                     settings.IndentChars = " ";
                     settings.Encoding = Encoding.UTF8;
                     settings.NewLineChars = Environment.NewLine;
 
-                    using (XmlWriter writer = XmlDictionaryWriter.Create(stream, settings))
+                    using (XmlWriter writer = XmlDictionaryWriter.Create(fs, settings))
                     {
-                        var serialzer = new DataContractSerializer(typeof(TranslationData));
-                        serialzer.WriteObject(writer, this);
+                        XDocument document = new XDocument(
+                            new XDeclaration("1.0", "UTF-8", null),
+                            new XElement("Translation",
+                                new XElement("Culture")
+                                {
+                                    Value = this.mCulture.Name
+                                },
+                                new XElement("Messages",
+                                    from item in this.mUnits
+                                    select new XElement("Message",
+                                        new XElement("Id")
+                                        {
+                                            Value = item.Id
+                                        },
+                                        new XElement("Method")
+                                        {
+                                            Value = item.Method
+                                        },
+                                        new XElement("LineNumber")
+                                        {
+                                            Value = Convert.ToString(item.SourceLineNumber)
+                                        },
+                                        new XElement("SourceString")
+                                        {
+                                            Value = item.SourceString
+                                        },
+                                        new XElement("TranslatedString")
+                                        {
+                                            Value = item.TranslatedString
+                                        },
+                                        new XElement("Comment")
+                                        {
+                                            Value = item.Comment
+                                        }
+                                    ))));
+
+                        document.Save(writer);
+                        writer.Close();
                     }
 
-                    stream.Close();
+                    fs.Close();
 
                     foreach (var unit in this.mUnits)
                     {
@@ -118,45 +192,18 @@ namespace BugTracker.Core.Localization
                 }
             }
         }
-
-        public static TranslationData LoadFrom(string filename)
-        {
-            using (Stream stream = File.Open(filename, FileMode.Open))
-            {
-                XmlReaderSettings settings = new XmlReaderSettings();
-
-                using (XmlReader reader = XmlDictionaryReader.Create(stream, settings))
-                {
-                    var serialzer = new DataContractSerializer(typeof(TranslationData));
-                    object o = serialzer.ReadObject(reader);
-                    TranslationData result = o as TranslationData;
-                    result.mFilename = filename;
-
-                    foreach (var unit in result.Units)
-                    {
-                        unit.Changed = false;
-                    }
-
-                    return result;
-                }
-            }
-        }
     }
 
-    [DataContract(Name = "Message")]
     public class TranslationUnit
     {
         private bool mChanged;
         private string mTranslated;
 
-        [DataMember()]
         public string Id { get; set; }
-        [DataMember()]
         public string Method { get; set; }
-        [DataMember()]
-        public string Source { get; set; }
-        [DataMember()]
-        public string Translated
+        public int SourceLineNumber { get; set; }
+        public string SourceString { get; set; }
+        public string TranslatedString
         {
             get
             {
@@ -171,7 +218,6 @@ namespace BugTracker.Core.Localization
                 }
             }
         }
-        [DataMember()]
         public string Comment { get; set; }
 
         public bool Changed
@@ -186,12 +232,28 @@ namespace BugTracker.Core.Localization
             }
         }
 
-        public TranslationUnit(string id, string method, string source, string translated, string comment)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id">Id of the translation unit. Computed as Hash of SourceFilename + MemberName</param>
+        /// <param name="method">Method name (Member name)</param>
+        /// <param name="sourceLineNumber">Line number in source file</param>
+        /// <param name="sourceString">Original string</param>
+        /// <param name="translatedString">Translated string</param>
+        /// <param name="comment">Optional comment for translator</param>
+        public TranslationUnit(
+            string id,
+            string method,
+            int sourceLineNumber,
+            string sourceString,
+            string translatedString,
+            string comment)
         {
             this.Id = id;
             this.Method = method;
-            this.Source = source;
-            this.Translated = translated;
+            this.SourceLineNumber = sourceLineNumber;
+            this.SourceString = sourceString;
+            this.TranslatedString = translatedString;
             this.Comment = comment;
             this.mChanged = false;
         }

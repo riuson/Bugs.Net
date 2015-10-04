@@ -61,19 +61,51 @@ namespace BugTracker.Core.Localization
         }
         private CultureInfo mActiveCulture;
 
-        public TranslationUnit GetTranslation(CultureInfo culture, string assemblyName, string methodName, string source, string comment = "")
+        public TranslationUnit GetTranslation(
+            CultureInfo culture,
+            string assemblyName,
+            string sourceFilePath,
+            int sourceLineNumber,
+            string memberName,
+            string sourceString,
+            string comment = "")
         {
             TranslationData data = this.GetData(culture, assemblyName);
 
-            string id = this.GetHash(methodName + source);
+            string methodId = CleanString(
+                String.Format("{0}-{1}",
+                    Path.GetFileNameWithoutExtension(sourceFilePath),
+                    memberName));
+
+            string id = this.GetHash(methodId + sourceString);
 
             TranslationUnit unit = data.GetTranslation(id);
 
             if (unit == null)
             {
-                unit = new TranslationUnit(id, methodName, source, source, comment);
+                unit = new TranslationUnit(
+                    id,
+                    memberName,
+                    sourceLineNumber,
+                    sourceString,
+                    sourceString,
+                    comment);
                 unit.Changed = true;
                 data.AddTranslation(unit);
+            }
+            else
+            {
+                if (unit.SourceLineNumber != sourceLineNumber)
+                {
+                    unit.SourceLineNumber = sourceLineNumber;
+                    unit.Changed = true;
+                }
+
+                if (unit.Method != methodId)
+                {
+                    unit.Method = methodId;
+                    unit.Changed = true;
+                }
             }
 
             return unit;
@@ -187,24 +219,8 @@ namespace BugTracker.Core.Localization
                     Directory.CreateDirectory(dirname);
                 }
 
-                if (File.Exists(filename))
-                {
-                    try
-                    {
-                        data = TranslationData.LoadFrom(filename);
-                        this.mTranslations.Add(filename, data);
-                    }
-                    catch (Exception exc)
-                    {
-                        data = new TranslationData(filename, culture);
-                        this.mTranslations.Add(filename, data);
-                    }
-                }
-                else
-                {
-                    data = new TranslationData(filename, culture);
-                    this.mTranslations.Add(filename, data);
-                }
+                data = new TranslationData(filename, culture);
+                this.mTranslations.Add(filename, data);
             }
 
             return data;
@@ -213,6 +229,19 @@ namespace BugTracker.Core.Localization
         private string GetHash(string value)
         {
             return value.GetHashCode().ToString();
+        }
+
+        private static string CleanString(string value)
+        {
+            Regex reg = new Regex("[\\W]");
+            string result = reg.Replace(value, "_");
+
+            while (result.Contains("__"))
+            {
+                result = result.Replace("__", "_");
+            }
+
+            return result;
         }
     }
 }

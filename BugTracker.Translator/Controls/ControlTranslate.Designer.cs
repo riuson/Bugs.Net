@@ -37,6 +37,7 @@
             this.tabPageTranslated = new System.Windows.Forms.TabPage();
             this.richTextBoxTranslated = new System.Windows.Forms.RichTextBox();
             this.columnMethod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnLineNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnTranslated = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -80,6 +81,7 @@
             this.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.columnMethod,
+            this.columnLineNumber,
             this.columnId,
             this.columnSource,
             this.columnTranslated,
@@ -90,7 +92,7 @@
             this.dgvList.Name = "dgvList";
             tableLayoutPanel1.SetRowSpan(this.dgvList, 3);
             this.dgvList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvList.Size = new System.Drawing.Size(495, 251);
+            this.dgvList.Size = new System.Drawing.Size(495, 252);
             this.dgvList.TabIndex = 5;
             this.dgvList.SelectionChanged += new System.EventHandler(this.dgvList_SelectionChanged);
             // 
@@ -110,10 +112,10 @@
             this.tabControl1.Controls.Add(this.tabPageSource);
             this.tabControl1.Controls.Add(this.tabPageTranslated);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(128, 260);
+            this.tabControl1.Location = new System.Drawing.Point(128, 261);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(495, 84);
+            this.tabControl1.Size = new System.Drawing.Size(495, 83);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPageSource
@@ -122,7 +124,7 @@
             this.tabPageSource.Location = new System.Drawing.Point(4, 22);
             this.tabPageSource.Name = "tabPageSource";
             this.tabPageSource.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSource.Size = new System.Drawing.Size(487, 58);
+            this.tabPageSource.Size = new System.Drawing.Size(487, 57);
             this.tabPageSource.TabIndex = 0;
             this.tabPageSource.Text = "Source";
             this.tabPageSource.UseVisualStyleBackColor = true;
@@ -133,7 +135,7 @@
             this.richTextBoxSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxSource.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxSource.Name = "richTextBoxSource";
-            this.richTextBoxSource.Size = new System.Drawing.Size(481, 52);
+            this.richTextBoxSource.Size = new System.Drawing.Size(481, 51);
             this.richTextBoxSource.TabIndex = 0;
             this.richTextBoxSource.Text = "";
             // 
@@ -143,7 +145,7 @@
             this.tabPageTranslated.Location = new System.Drawing.Point(4, 22);
             this.tabPageTranslated.Name = "tabPageTranslated";
             this.tabPageTranslated.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTranslated.Size = new System.Drawing.Size(487, 62);
+            this.tabPageTranslated.Size = new System.Drawing.Size(487, 58);
             this.tabPageTranslated.TabIndex = 1;
             this.tabPageTranslated.Text = "Translated";
             this.tabPageTranslated.UseVisualStyleBackColor = true;
@@ -154,7 +156,7 @@
             this.richTextBoxTranslated.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxTranslated.Location = new System.Drawing.Point(3, 3);
             this.richTextBoxTranslated.Name = "richTextBoxTranslated";
-            this.richTextBoxTranslated.Size = new System.Drawing.Size(481, 56);
+            this.richTextBoxTranslated.Size = new System.Drawing.Size(481, 52);
             this.richTextBoxTranslated.TabIndex = 1;
             this.richTextBoxTranslated.Text = "";
             this.richTextBoxTranslated.Leave += new System.EventHandler(this.richTextBoxTranslated_Leave);
@@ -166,6 +168,13 @@
             this.columnMethod.Name = "columnMethod";
             this.columnMethod.ReadOnly = true;
             // 
+            // columnLineNumber
+            // 
+            this.columnLineNumber.DataPropertyName = "SourceLineNumber";
+            this.columnLineNumber.HeaderText = "Line";
+            this.columnLineNumber.Name = "columnLineNumber";
+            this.columnLineNumber.ReadOnly = true;
+            // 
             // columnId
             // 
             this.columnId.DataPropertyName = "Id";
@@ -175,14 +184,14 @@
             // 
             // columnSource
             // 
-            this.columnSource.DataPropertyName = "Source";
+            this.columnSource.DataPropertyName = "SourceString";
             this.columnSource.HeaderText = "Source";
             this.columnSource.Name = "columnSource";
             this.columnSource.ReadOnly = true;
             // 
             // columnTranslated
             // 
-            this.columnTranslated.DataPropertyName = "Translated";
+            this.columnTranslated.DataPropertyName = "TranslatedString";
             this.columnTranslated.HeaderText = "Translated";
             this.columnTranslated.Name = "columnTranslated";
             this.columnTranslated.ReadOnly = true;
@@ -228,6 +237,7 @@
         private System.Windows.Forms.RichTextBox richTextBoxSource;
         private System.Windows.Forms.RichTextBox richTextBoxTranslated;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnMethod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnLineNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnId;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnTranslated;

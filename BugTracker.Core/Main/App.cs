@@ -19,6 +19,7 @@ namespace BugTracker.Core.Main
         private MainWindow mWindow;
         private Plugins.Plugins mPlugins;
         private MessageCenter mMessages;
+        private static LookupBugWorkaround mLookupBugWorkAround = new LookupBugWorkaround();
 
         public App()
         {
