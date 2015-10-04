@@ -166,6 +166,10 @@ insert into Ticket (Id, Project_Id, Title, Member_Id, Status_Id, ProblemType_Id,
    select Id, Project_Id, Title, Member_Id, Status_Id, ProblemType_Id, Priority_Id, Solution_Id, Created
    from Ticket_;
 
+insert into Project (Id, Name)
+   select Id, Name
+   from Project_;
+
 drop table Priority_;
 
 drop table ProblemType_;
