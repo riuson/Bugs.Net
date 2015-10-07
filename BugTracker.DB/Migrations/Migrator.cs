@@ -15,6 +15,9 @@ namespace BugTracker.DB.Migrations
     {
         private SessionOptions mOptions;
 
+        public event EventHandler BeforeMigrate;
+        public event EventHandler AfterMigrate;
+
         public Migrator(SessionOptions options)
         {
             this.mOptions = options;
@@ -64,6 +67,11 @@ namespace BugTracker.DB.Migrations
                 }
                 else if (currentVersion < latestVersion)
                 {
+                    if (this.BeforeMigrate != null)
+                    {
+                        this.BeforeMigrate(this, EventArgs.Empty);
+                    }
+
                     using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                     {
                         connection.Open();
@@ -93,6 +101,11 @@ namespace BugTracker.DB.Migrations
                         }
 
                         connection.Close();
+                    }
+
+                    if (this.AfterMigrate != null)
+                    {
+                        this.AfterMigrate(this, EventArgs.Empty);
                     }
                 }
                 else

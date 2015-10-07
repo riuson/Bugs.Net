@@ -51,6 +51,10 @@ namespace BugTracker.DB.DataAccess
                 backup.Process();
 
                 Migrations.Migrator migrator = new Migrations.Migrator(sessionOptions);
+                migrator.BeforeMigrate += (sender, e) =>
+                {
+                    backup.Process(true);
+                };
 
                 if (sessionOptions.DoSchemaUpdate)
                 {
