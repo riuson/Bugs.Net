@@ -8,10 +8,10 @@ namespace BugTracker.DB.DataAccess
     internal class Session : BugTracker.DB.DataAccess.ISession
     {
         private Transaction mTransaction;
+        private NHibernate.ITransaction NHTransaction { get; set; }
+        private bool IsTransactionUsed { get { return this.NHTransaction != null; } }
 
         public NHibernate.ISession NHSession { get; private set; }
-        public NHibernate.ITransaction NHTransaction { get; private set; }
-        public bool IsUseTransaction { get { return this.NHTransaction != null; } }
         public BugTracker.DB.DataAccess.ITransaction Transaction { get { return this.mTransaction; } }
 
         public Session(NHibernate.ISession session, bool beginTransaction)
@@ -21,7 +21,7 @@ namespace BugTracker.DB.DataAccess
             if (beginTransaction)
             {
                 this.NHTransaction = this.NHSession.BeginTransaction();
-                this.mTransaction = new Transaction();
+                this.mTransaction = new Transaction(this.NHTransaction);
             }
             else
             {
@@ -32,15 +32,11 @@ namespace BugTracker.DB.DataAccess
 
         public void Dispose()
         {
-            if (this.IsUseTransaction)
+            if (this.IsTransactionUsed)
             {
                 try
                 {
-                    if (this.mTransaction.State == DataAccess.Transaction.TransactionState.Confirmed)
-                    {
-                        this.NHTransaction.Commit();
-                    }
-                    else
+                    if (!this.NHTransaction.WasCommitted && !this.NHTransaction.WasRolledBack)
                     {
                         this.NHTransaction.Rollback();
                     }
@@ -48,7 +44,7 @@ namespace BugTracker.DB.DataAccess
                 catch (Exception exc)
                 {
                     System.Diagnostics.Debug.WriteLine(String.Format(
-                        "Exception occured on transaction commit:{0}{1}{0}{2}{0}{3}",
+                        "Exception occured on session close with transaction : {0}{1}{0}{2}{0}{3}",
                         Environment.NewLine,
                         exc.Source,
                         exc.Message,

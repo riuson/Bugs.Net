@@ -7,28 +7,21 @@ namespace BugTracker.DB.DataAccess
 {
     internal class Transaction : ITransaction
     {
-        public enum TransactionState
-        {
-            None,
-            Confirmed,
-            Cancelled
-        }
+        private NHibernate.ITransaction mTransaction;
 
-        public TransactionState State { get; private set; }
-
-        public Transaction()
+        public Transaction(NHibernate.ITransaction transaction)
         {
-            this.State = Transaction.TransactionState.None;
+            this.mTransaction = transaction;
         }
 
         public void Commit()
         {
-            this.State = Transaction.TransactionState.Confirmed;
+            this.mTransaction.Commit();
         }
 
         public void Rollback()
         {
-            this.State = Transaction.TransactionState.Cancelled;
+            this.mTransaction.Rollback();
         }
     }
 }
