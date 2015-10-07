@@ -19,15 +19,14 @@ namespace BugTracker.DB.Classes
             this.mDatabaseFile = new FileInfo(filename);
         }
 
-        public void Process(string value)
+        public void Process(bool force = false)
         {
-            if (String.IsNullOrEmpty(value))
+            if (!this.mDatabaseFile.Exists)
             {
                 return;
             }
 
-            FileInfo databaseFile = new FileInfo(value);
-            var databaseFilename = Path.GetFileNameWithoutExtension(databaseFile.FullName);
+            var databaseFilename = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
 
             // Collect archive files
             var files = this.GetAllArchiveFiles();
@@ -39,14 +38,15 @@ namespace BugTracker.DB.Classes
 
             // If no one latest archive, or all existing archives are obsolete
             if (filesNew.Count() == 0 ||
-                filesToRemove.Count() == files.Count())
+                filesToRemove.Count() == files.Count() ||
+                force)
             {
                 FileInfo backupFile = new FileInfo(
                     Path.Combine(
                         this.BackpDirectory.FullName,
                         String.Format("{0}-{1:yyyyMMdd-HHmmss}.gz", databaseFilename, DateTime.Now)));
 
-                this.MakeArchive(databaseFile, backupFile);
+                this.MakeArchive(this.mDatabaseFile, backupFile);
             }
 
             // Remove obsolete
