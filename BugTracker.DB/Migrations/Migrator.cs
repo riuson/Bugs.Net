@@ -1,4 +1,5 @@
 ﻿using BugTracker.Core.Extensions;
+using BugTracker.DB.Classes;
 using BugTracker.DB.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -42,47 +43,61 @@ namespace BugTracker.DB.Migrations
                     directory.Create();
                 }
 
+                int currentVersion = 0;
+                int latestVersion = 0;
+
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                 {
                     connection.Open();
 
-                    int currentVersion = this.GetCurrentVersion(connection);
-                    int latestVersion = this.GetLatestVersion(parts);
-
-                    log("Current version: ".Tr() + currentVersion);
-                    log("Latest version: ".Tr() + latestVersion);
-
-                    if (currentVersion > latestVersion)
-                    {
-                        this.ThrowExceptionAboutVersion(currentVersion, latestVersion);
-                    }
-
-                    parts = from part in parts
-                            where part.Version > currentVersion
-                            orderby part.Version ascending
-                            select part;
-
-                    foreach (var part in parts)
-                    {
-                        SQLiteTransaction transaction = connection.BeginTransaction();
-
-                        log(Environment.NewLine);
-
-                        try
-                        {
-                            log("Run migration to version: ".Tr() + part.Version);
-                            part.Upgrade(connection, log);
-                            this.SetCurrentVersion(connection, part.Version);
-                            transaction.Commit();
-                        }
-                        catch (Exception exc)
-                        {
-                            transaction.Rollback();
-                            throw exc;
-                        }
-                    }
-
+                    currentVersion = this.GetCurrentVersion(connection);
+                    latestVersion = this.GetLatestVersion(parts);
                     connection.Close();
+                }
+
+                log("Current version: ".Tr() + currentVersion);
+                log("Latest version: ".Tr() + latestVersion);
+
+                if (currentVersion > latestVersion)
+                {
+                    this.ThrowExceptionAboutVersion(currentVersion, latestVersion);
+                }
+                else if (currentVersion < latestVersion)
+                {
+                    using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                    {
+                        connection.Open();
+                        parts = from part in parts
+                                where part.Version > currentVersion
+                                orderby part.Version ascending
+                                select part;
+
+                        foreach (var part in parts)
+                        {
+                            SQLiteTransaction transaction = connection.BeginTransaction();
+
+                            log(Environment.NewLine);
+
+                            try
+                            {
+                                log("Run migration to version: ".Tr() + part.Version);
+                                part.Upgrade(connection, log);
+                                this.SetCurrentVersion(connection, part.Version);
+                                transaction.Commit();
+                            }
+                            catch (Exception exc)
+                            {
+                                transaction.Rollback();
+                                throw exc;
+                            }
+                        }
+
+                        connection.Close();
+                    }
+                }
+                else
+                {
+                    log("Nothing to do".Tr());
                 }
             }
             catch (Exception exc)
