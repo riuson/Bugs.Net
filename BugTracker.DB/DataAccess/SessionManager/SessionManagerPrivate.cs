@@ -48,12 +48,15 @@ namespace BugTracker.DB.DataAccess
             try
             {
                 Backup backup = new Backup(sessionOptions.Filename);
-                backup.Process();
+                bool archived = backup.Process();
 
                 Migrations.Migrator migrator = new Migrations.Migrator(sessionOptions);
                 migrator.BeforeMigrate += (sender, e) =>
                 {
-                    backup.Process(true);
+                    if (!archived)
+                    {
+                        archived = backup.Process(true);
+                    }
                 };
 
                 if (sessionOptions.DoSchemaUpdate)

@@ -19,11 +19,18 @@ namespace BugTracker.DB.Classes
             this.mDatabaseFile = new FileInfo(filename);
         }
 
-        public void Process(bool force = false)
+        /// <summary>
+        /// Run backup procedure
+        /// </summary>
+        /// <param name="force">Make archive anyway</param>
+        /// <returns>True if file was archived</returns>
+        public bool Process(bool force = false)
         {
+            bool result = false;
+
             if (!this.mDatabaseFile.Exists)
             {
-                return;
+                return result;
             }
 
             var databaseFilename = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
@@ -46,7 +53,7 @@ namespace BugTracker.DB.Classes
                         this.BackpDirectory.FullName,
                         String.Format("{0}-{1:yyyyMMdd-HHmmss}.gz", databaseFilename, DateTime.Now)));
 
-                this.MakeArchive(this.mDatabaseFile, backupFile);
+                result = this.MakeArchive(this.mDatabaseFile, backupFile);
             }
 
             // Remove obsolete
@@ -54,10 +61,14 @@ namespace BugTracker.DB.Classes
             {
                 file.Delete();
             }
+
+            return result;
         }
 
-        private void MakeArchive(FileInfo databaseFile, FileInfo backupFile)
+        private bool MakeArchive(FileInfo databaseFile, FileInfo backupFile)
         {
+            bool result = false;
+
             if (databaseFile.Exists)
             {
                 using (FileStream originalFileStream = databaseFile.OpenRead())
@@ -67,10 +78,13 @@ namespace BugTracker.DB.Classes
                         using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                         {
                             originalFileStream.CopyTo(compressionStream);
+                            result = true;
                         }
                     }
                 }
             }
+
+            return result;
         }
 
         private DateTime ParseDateTime(string value)
