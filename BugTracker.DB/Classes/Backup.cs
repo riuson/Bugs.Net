@@ -19,15 +19,21 @@ namespace BugTracker.DB.Classes
             this.mDatabaseFile = new FileInfo(filename);
         }
 
-        public void Process(string value)
+        /// <summary>
+        /// Run backup procedure
+        /// </summary>
+        /// <param name="force">Make archive anyway</param>
+        /// <returns>True if file was archived</returns>
+        public bool Process(bool force = false)
         {
-            if (String.IsNullOrEmpty(value))
+            bool result = false;
+
+            if (!this.mDatabaseFile.Exists)
             {
-                return;
+                return result;
             }
 
-            FileInfo databaseFile = new FileInfo(value);
-            var databaseFilename = Path.GetFileNameWithoutExtension(databaseFile.FullName);
+            var databaseFilename = Path.GetFileNameWithoutExtension(this.mDatabaseFile.FullName);
 
             // Collect archive files
             var files = this.GetAllArchiveFiles();
@@ -39,14 +45,15 @@ namespace BugTracker.DB.Classes
 
             // If no one latest archive, or all existing archives are obsolete
             if (filesNew.Count() == 0 ||
-                filesToRemove.Count() == files.Count())
+                filesToRemove.Count() == files.Count() ||
+                force)
             {
                 FileInfo backupFile = new FileInfo(
                     Path.Combine(
                         this.BackpDirectory.FullName,
                         String.Format("{0}-{1:yyyyMMdd-HHmmss}.gz", databaseFilename, DateTime.Now)));
 
-                this.MakeArchive(databaseFile, backupFile);
+                result = this.MakeArchive(this.mDatabaseFile, backupFile);
             }
 
             // Remove obsolete
@@ -54,10 +61,14 @@ namespace BugTracker.DB.Classes
             {
                 file.Delete();
             }
+
+            return result;
         }
 
-        private void MakeArchive(FileInfo databaseFile, FileInfo backupFile)
+        private bool MakeArchive(FileInfo databaseFile, FileInfo backupFile)
         {
+            bool result = false;
+
             if (databaseFile.Exists)
             {
                 using (FileStream originalFileStream = databaseFile.OpenRead())
@@ -67,10 +78,13 @@ namespace BugTracker.DB.Classes
                         using (GZipStream compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                         {
                             originalFileStream.CopyTo(compressionStream);
+                            result = true;
                         }
                     }
                 }
             }
+
+            return result;
         }
 
         private DateTime ParseDateTime(string value)

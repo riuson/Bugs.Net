@@ -101,7 +101,7 @@ namespace BugTracker.DB.Settings
                 this.Log("Processing...".Tr());
                 this.Log(String.Empty);
 
-                backup.Process(Saved<Options>.Instance.DatabaseFileName);
+                backup.Process();
 
                 this.Log("Files after:".Tr());
                 this.ShowFiles(backup);
