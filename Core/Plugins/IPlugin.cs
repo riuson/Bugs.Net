@@ -11,5 +11,7 @@ namespace AppCore.Plugins
     {
         void Initialize(IApplication app);
         IButton[] GetCommandLinks(string tag);
+        void Start();
+        void Shutdown();
     }
 }

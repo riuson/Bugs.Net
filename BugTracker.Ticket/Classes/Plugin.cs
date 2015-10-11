@@ -30,6 +30,14 @@ namespace BugTracker.TicketEditor.Classes
             return new IButton[] { };
         }
 
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
+
         private void AddTicketList(object sender, MessageEventArgs e)
         {
             EntityAddEventArgs<Ticket> ea = e as EntityAddEventArgs<Ticket>;

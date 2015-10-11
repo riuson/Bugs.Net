@@ -37,6 +37,8 @@ namespace AppCore.Main
             this.mWindow = new MainWindow(this);
             this.mWindow.FormClosed += this.mWindow_FormClosed;
             this.mWindow.Show();
+
+            this.mPlugins.Start();
         }
 
         public void Dispose()
@@ -44,6 +46,11 @@ namespace AppCore.Main
             LocalizationManager.Instance.Flush();
             this.mWindow.Close();
             this.mWindow.Dispose();
+            this.mWindow = null;
+
+            this.mPlugins.Dispose();
+            this.mPlugins = null;
+
             this.mContainer.Dispose();
         }
 

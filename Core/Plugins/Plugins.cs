@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace AppCore.Plugins
 {
-    internal class Plugins : IPlugins
+    internal class Plugins : IPlugins, IDisposable
     {
         private List<IPlugin> mPlugins;
         private IApplication mApp;
@@ -18,6 +18,11 @@ namespace AppCore.Plugins
         {
             this.mApp = app;
             this.mPlugins = this.ScanPlugins(this.mApp);
+        }
+
+        public void Dispose()
+        {
+            this.ShutdownAll(this.mPlugins);
         }
 
         public IButton[] CollectCommandLinks(string tag)
@@ -30,6 +35,11 @@ namespace AppCore.Plugins
             }
 
             return list.ToArray();
+        }
+
+        public void Start()
+        {
+            this.StartAll(this.mPlugins);
         }
 
         private List<IPlugin> ScanPlugins(IApplication app)
@@ -65,6 +75,22 @@ namespace AppCore.Plugins
             }
 
             return result;
+        }
+
+        private void StartAll(IEnumerable<IPlugin> plugins)
+        {
+            foreach (var plugin in plugins)
+            {
+                plugin.Start();
+            }
+        }
+
+        private void ShutdownAll(IEnumerable<IPlugin> plugins)
+        {
+            foreach (var plugin in plugins)
+            {
+                plugin.Shutdown();
+            }
         }
 
         private string GetExeDirectory()
