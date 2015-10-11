@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("BugTracker.Translator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Translator")]
+[assembly: AssemblyDescription("Strings translation tool")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
