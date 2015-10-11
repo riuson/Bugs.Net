@@ -1,5 +1,5 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Messages;
+﻿using AppCore;
+using AppCore.Messages;
 using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;

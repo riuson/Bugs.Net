@@ -1,4 +1,8 @@
-﻿using BugTracker.Core.Classes;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Dialogs;
+using AppCore.Extensions;
+using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
 using System;
@@ -6,10 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BugTracker.Core.Extensions;
-using BugTracker.Core;
-using BugTracker.Core.Dialogs;
-using BugTracker.DB.DataAccess;
 
 namespace BugTracker.Projects.Classes
 {

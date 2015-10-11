@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Classes;
+﻿using AppCore.Classes;
 using BugTracker.DB.Settings;
 using System;
 using System.Collections.Generic;
@@ -103,7 +103,7 @@ namespace BugTracker.DB.Classes
         {
             get
             {
-                return new DirectoryInfo(BugTracker.Core.Classes.Saved<BugTracker.DB.Settings.Options>.Instance.BackupToDirectory);
+                return new DirectoryInfo(AppCore.Classes.Saved<BugTracker.DB.Settings.Options>.Instance.BackupToDirectory);
             }
         }
 

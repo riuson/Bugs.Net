@@ -1,8 +1,8 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Dialogs;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Messages;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Dialogs;
+using AppCore.Extensions;
+using AppCore.Messages;
 using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;
@@ -136,7 +136,7 @@ namespace BugTracker.Vocabulary.Classes
                     }
                     catch(Exception exc)
                     {
-                        BugTracker.Core.Exceptions.Handler.Handle(exc);
+                        AppCore.Exceptions.Handler.Handle(exc);
                     }
 
                     ea.Handled = true;

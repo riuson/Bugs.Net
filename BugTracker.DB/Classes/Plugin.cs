@@ -1,8 +1,8 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Menus;
-using BugTracker.Core.Plugins;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Extensions;
+using AppCore.Menus;
+using AppCore.Plugins;
 using BugTracker.DB.DataAccess;
 using BugTracker.DB.Errors;
 using BugTracker.DB.Events;
@@ -60,7 +60,15 @@ namespace BugTracker.DB.Classes
             }
         }
 
-        private void ConfigurationRequired(object sender, Core.Messages.MessageEventArgs e)
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
+
+        private void ConfigurationRequired(object sender, AppCore.Messages.MessageEventArgs e)
         {
             ControlError controlError = new ControlError(this.mApp);
             this.mApp.Controls.Show(controlError);

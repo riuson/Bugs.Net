@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\_Debug\Plugins\</OutputPath>
+    <OutputPath>..\_Debug\BugTracker\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\_Release\Plugins\</OutputPath>
+    <OutputPath>..\_Release\BugTracker\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -66,9 +66,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BugTracker.Core\BugTracker.Core.csproj">
+    <ProjectReference Include="..\Core\Core.csproj">
       <Project>{88b80997-3b6a-4d74-b0af-50a397f69d99}</Project>
-      <Name>BugTracker.Core</Name>
+      <Name>Core</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\BugTracker.DB\BugTracker.DB.csproj">

@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Classes;
+﻿using AppCore.Classes;
 using BugTracker.DB.Classes;
 using BugTracker.DB.Settings;
 using System;
