@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("BugTracker")]
+[assembly: AssemblyTitle("Starter")]
 [assembly: AssemblyDescription("Application loader")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyTrademark("")]

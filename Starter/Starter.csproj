@@ -7,8 +7,8 @@
     <ProjectGuid>{21E190FD-79FE-4A5F-8051-288288C93E27}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BugTracker</RootNamespace>
-    <AssemblyName>BugTracker</AssemblyName>
+    <RootNamespace>Starter</RootNamespace>
+    <AssemblyName>Starter</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
