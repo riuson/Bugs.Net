@@ -1,5 +1,5 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Localization;
+﻿using AppCore.Classes;
+using AppCore.Localization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
 
-namespace BugTracker.Core.Extensions
+namespace AppCore.Extensions
 {
     public static class TransExt
     {

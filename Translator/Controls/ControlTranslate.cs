@@ -1,7 +1,7 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Localization;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Extensions;
+using AppCore.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Translator.Controls
+namespace Translator.Controls
 {
     public partial class ControlTranslate : UserControl
     {

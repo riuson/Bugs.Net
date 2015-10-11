@@ -1,10 +1,8 @@
-﻿using BugTracker.Classes;
-using BugTracker.Core;
-using BugTracker.Core.Main;
+﻿using AppCore.Main;
 using System;
 using System.Windows.Forms;
 
-namespace BugTracker
+namespace AppStarter
 {
     static class Program
     {

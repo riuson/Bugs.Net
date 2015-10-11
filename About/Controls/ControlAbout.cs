@@ -1,5 +1,5 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Extensions;
+﻿using AppCore;
+using AppCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BugTracker.About.Controls
+namespace About.Controls
 {
     internal partial class ControlAbout : UserControl
     {

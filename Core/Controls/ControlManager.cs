@@ -1,11 +1,11 @@
-﻿using BugTracker.Core.Extensions;
+﻿using AppCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Controls
+namespace AppCore.Controls
 {
     internal class ControlManager : IControlManager
     {

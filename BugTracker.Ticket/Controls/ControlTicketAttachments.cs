@@ -1,5 +1,5 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Extensions;
+﻿using AppCore;
+using AppCore.Extensions;
 using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.TicketEditor.Events;

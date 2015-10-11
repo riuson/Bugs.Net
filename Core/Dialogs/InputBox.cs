@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Dialogs
+namespace AppCore.Dialogs
 {
     public static class InputBox
     {

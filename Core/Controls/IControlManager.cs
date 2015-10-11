@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Controls
+namespace AppCore.Controls
 {
     public interface IControlManager
     {

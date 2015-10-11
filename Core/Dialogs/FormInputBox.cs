@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Extensions;
+﻿using AppCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Dialogs
+namespace AppCore.Dialogs
 {
     internal partial class FormInputBox : Form
     {

@@ -1,5 +1,5 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Controls;
+﻿using AppCore.Classes;
+using AppCore.Controls;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Tests.Classes
+namespace AppCore.Tests.Classes
 {
     [TestFixture]
     internal class ControlManagerTest

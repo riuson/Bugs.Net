@@ -1,9 +1,9 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Controls;
-using BugTracker.Core.Localization;
-using BugTracker.Core.Main;
-using BugTracker.Core.Messages;
-using BugTracker.Core.Plugins;
+﻿using AppCore.Classes;
+using AppCore.Controls;
+using AppCore.Localization;
+using AppCore.Main;
+using AppCore.Messages;
+using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Main
+namespace AppCore.Main
 {
     public class App : MarshalByRefObject, IDisposable, IApplication
     {

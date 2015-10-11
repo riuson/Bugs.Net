@@ -1,12 +1,12 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
+﻿using AppCore.Classes;
+using AppCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Menus
+namespace AppCore.Menus
 {
     internal class StartMenu : UserControl
     {

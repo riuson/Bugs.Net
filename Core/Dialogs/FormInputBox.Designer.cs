@@ -1,4 +1,4 @@
-﻿namespace BugTracker.Core.Dialogs
+﻿namespace AppCore.Dialogs
 {
     partial class FormInputBox
     {

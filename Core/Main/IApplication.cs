@@ -1,15 +1,15 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Controls;
-using BugTracker.Core.Localization;
-using BugTracker.Core.Messages;
-using BugTracker.Core.Plugins;
+﻿using AppCore.Classes;
+using AppCore.Controls;
+using AppCore.Localization;
+using AppCore.Messages;
+using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core
+namespace AppCore
 {
     public interface IApplication
     {

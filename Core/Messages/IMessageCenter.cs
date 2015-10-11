@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.Core.Messages
+namespace AppCore.Messages
 {
     public interface IMessageCenter
     {

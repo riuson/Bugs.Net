@@ -1,4 +1,4 @@
-﻿namespace BugTracker.About.Controls
+﻿namespace About.Controls
 {
     partial class ControlAbout
     {

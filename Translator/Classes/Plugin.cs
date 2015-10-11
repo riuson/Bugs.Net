@@ -1,17 +1,17 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Menus;
-using BugTracker.Core.Plugins;
-using BugTracker.Translator.Controls;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Extensions;
+using AppCore.Menus;
+using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Translator.Controls;
 
-namespace BugTracker.Translator.Classes
+namespace Translator.Classes
 {
     internal class Plugin : IPlugin
     {
@@ -31,7 +31,7 @@ namespace BugTracker.Translator.Classes
                         IButton menuItemSelectLanguage = MenuPanelFabric.CreateMenuItem(
                             "Language".Tr(),
                             "Select interface language".Tr(),
-                            BugTracker.Translator.Properties.Resources.icon_language_008000_48);
+                            Translator.Properties.Resources.icon_language_008000_48);
                         menuItemSelectLanguage.Click += delegate(object sender, EventArgs ea)
                         {
                             this.ShowLanguageSelector();
@@ -40,7 +40,7 @@ namespace BugTracker.Translator.Classes
                         IButton menuItemTranslation = MenuPanelFabric.CreateMenuItem(
                             "Translation".Tr(),
                             "Create and translate language files".Tr(),
-                            BugTracker.Translator.Properties.Resources.icon_language_ff0000_48);
+                            Translator.Properties.Resources.icon_language_ff0000_48);
                         menuItemTranslation.Click += delegate(object sender, EventArgs ea)
                         {
                             this.ShowLanguageEditor();

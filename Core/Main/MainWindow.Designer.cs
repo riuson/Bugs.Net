@@ -1,6 +1,6 @@
-﻿using BugTracker.Core.Menus;
+﻿using AppCore.Menus;
 
-namespace BugTracker.Core.Main
+namespace AppCore.Main
 {
     partial class MainWindow
     {

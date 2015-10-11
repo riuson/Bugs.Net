@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.Core.Plugins
+namespace AppCore.Plugins
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public class AssemblyPluginTypeAttribute : Attribute

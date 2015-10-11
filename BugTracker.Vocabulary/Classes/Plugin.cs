@@ -1,9 +1,9 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Menus;
-using BugTracker.Core.Messages;
-using BugTracker.Core.Plugins;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Extensions;
+using AppCore.Menus;
+using AppCore.Messages;
+using AppCore.Plugins;
 using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.DB.Events;

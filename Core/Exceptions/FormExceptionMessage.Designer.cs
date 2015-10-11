@@ -1,4 +1,4 @@
-﻿namespace BugTracker.Core.Exceptions
+﻿namespace AppCore.Exceptions
 {
     partial class FormExceptionMessage
     {

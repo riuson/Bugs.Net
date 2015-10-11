@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Menus
+namespace AppCore.Menus
 {
     internal interface ICommandLinkBackend : IDisposable
     {

@@ -1,11 +1,11 @@
-﻿using BugTracker.Core.Classes;
+﻿using AppCore.Classes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.Core.Localization
+namespace AppCore.Localization
 {
     public interface ILocalizationManager
     {

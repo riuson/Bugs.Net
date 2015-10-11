@@ -1,5 +1,5 @@
-﻿using BugTracker.Core.Controls;
-using BugTracker.Core.Menus;
+﻿using AppCore.Controls;
+using AppCore.Menus;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Tests.Controls
+namespace AppCore.Tests.Controls
 {
     [TestFixture]
     internal class NavigationBarTest

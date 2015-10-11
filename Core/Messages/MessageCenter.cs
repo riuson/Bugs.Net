@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BugTracker.Core.Messages
+namespace AppCore.Messages
 {
     internal class MessageCenter : IMessageCenter
     {

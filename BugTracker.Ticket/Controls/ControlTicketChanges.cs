@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Extensions;
+﻿using AppCore.Extensions;
 using BugTracker.DB.DataAccess;
 using BugTracker.DB.Entities;
 using BugTracker.TicketEditor.Classes;

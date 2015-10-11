@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.Core.Classes
+namespace AppCore.Classes
 {
     internal class LookupBugWorkaround
     {

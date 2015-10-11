@@ -7,7 +7,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Classes
+namespace AppStarter
 {
     internal class Domain<T> : IDisposable where T : MarshalByRefObject, IDisposable
     {

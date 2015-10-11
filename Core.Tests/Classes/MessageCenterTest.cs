@@ -1,5 +1,5 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Messages;
+﻿using AppCore.Classes;
+using AppCore.Messages;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BugTracker.Core.Tests.Classes
+namespace AppCore.Tests.Classes
 {
     [TestFixture]
     internal class MessageCenterTest

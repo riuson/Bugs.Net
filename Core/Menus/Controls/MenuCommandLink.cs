@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Classes;
+﻿using AppCore.Classes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Menus
+namespace AppCore.Menus
 {
     internal class MenuCommandLink : FlowLayoutPanel, IMenuPanel
     {

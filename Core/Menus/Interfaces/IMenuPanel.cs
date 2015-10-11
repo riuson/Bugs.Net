@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Menus
+namespace AppCore.Menus
 {
     public interface IMenuPanel
     {

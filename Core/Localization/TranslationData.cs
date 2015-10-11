@@ -8,7 +8,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace BugTracker.Core.Localization
+namespace AppCore.Localization
 {
     internal class TranslationData
     {

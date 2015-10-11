@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Menus;
+﻿using AppCore.Menus;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Plugins
+namespace AppCore.Plugins
 {
     internal class Plugins : IPlugins
     {

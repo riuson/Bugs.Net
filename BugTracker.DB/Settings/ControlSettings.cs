@@ -1,6 +1,6 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Extensions;
 using BugTracker.DB.Classes;
 using BugTracker.DB.DataAccess;
 using System;
@@ -70,7 +70,7 @@ namespace BugTracker.DB.Settings
             }
             catch (Exception exc)
             {
-                BugTracker.Core.Exceptions.Handler.Handle(exc);
+                AppCore.Exceptions.Handler.Handle(exc);
             }
         }
 

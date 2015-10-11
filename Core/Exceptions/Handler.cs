@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Exceptions
+namespace AppCore.Exceptions
 {
     public static class Handler
     {

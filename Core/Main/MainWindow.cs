@@ -1,7 +1,7 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Controls;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Menus;
+﻿using AppCore.Classes;
+using AppCore.Controls;
+using AppCore.Extensions;
+using AppCore.Menus;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace BugTracker.Core.Main
+namespace AppCore.Main
 {
     internal partial class MainWindow : Form
     {

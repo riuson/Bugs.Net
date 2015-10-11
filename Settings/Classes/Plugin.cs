@@ -1,9 +1,9 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Classes;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Menus;
-using BugTracker.Core.Plugins;
-using BugTracker.Settings.Controls;
+﻿using AppCore;
+using AppCore.Classes;
+using AppCore.Extensions;
+using AppCore.Menus;
+using AppCore.Plugins;
+using AppSettings.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BugTracker.Settings
+namespace AppSettings
 {
     internal class Plugin : IPlugin
     {
@@ -28,7 +28,7 @@ namespace BugTracker.Settings
             {
                 case "startpage":
                     {
-                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings".Tr(), "Application options".Tr(), BugTracker.Settings.Properties.Resources.icon_gears_920000_48);
+                        IButton menuItemSettings = MenuPanelFabric.CreateMenuItem("Settings".Tr(), "Application options".Tr(), AppSettings.Properties.Resources.icon_gears_920000_48);
                         menuItemSettings.Click += delegate(object sender, EventArgs ea)
                         {
                             ControlSettings controlSettings = new ControlSettings(this.mApp);

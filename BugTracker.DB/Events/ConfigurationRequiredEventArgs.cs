@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Messages;
+﻿using AppCore.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;

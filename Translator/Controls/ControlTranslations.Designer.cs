@@ -1,4 +1,4 @@
-﻿namespace BugTracker.Translator.Controls
+﻿namespace Translator.Controls
 {
     partial class ControlTranslations
     {

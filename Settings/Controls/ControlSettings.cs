@@ -1,12 +1,12 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Extensions;
-using BugTracker.Core.Menus;
+﻿using AppCore;
+using AppCore.Extensions;
+using AppCore.Menus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BugTracker.Settings.Controls
+namespace AppSettings.Controls
 {
     internal class ControlSettings : System.Windows.Forms.UserControl
     {

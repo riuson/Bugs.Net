@@ -1,5 +1,5 @@
-﻿using BugTracker.Core.Classes;
-using BugTracker.Core.Localization;
+﻿using AppCore.Classes;
+using AppCore.Localization;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BugTracker.Core.Tests.Classes
+namespace AppCore.Tests.Classes
 {
     [TestFixture]
     internal class LocalizationManagerTest

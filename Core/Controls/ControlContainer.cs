@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BugTracker.Core.Controls
+namespace AppCore.Controls
 {
     internal class ControlContainer : IContainer
     {

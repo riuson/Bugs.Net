@@ -1,4 +1,4 @@
-﻿using BugTracker.Core.Classes;
+﻿using AppCore.Classes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace BugTracker.Core.Localization
+namespace AppCore.Localization
 {
     internal class LocalizationManager : ILocalizationManager
     {

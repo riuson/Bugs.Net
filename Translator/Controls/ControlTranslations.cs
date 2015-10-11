@@ -1,6 +1,5 @@
-﻿using BugTracker.Core;
-using BugTracker.Core.Extensions;
-using BugTracker.Translator.Classes;
+﻿using AppCore;
+using AppCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,8 +9,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Translator.Classes;
 
-namespace BugTracker.Translator.Controls
+namespace Translator.Controls
 {
     public partial class ControlTranslations : UserControl
     {

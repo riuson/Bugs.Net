@@ -1,13 +1,13 @@
-﻿using BugTracker.Core;
-using BugTracker.Translator.Controls;
+﻿using AppCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Translator.Controls;
 
-namespace BugTracker.Translator.Classes
+namespace Translator.Classes
 {
     internal class LanguagesListData
     {
