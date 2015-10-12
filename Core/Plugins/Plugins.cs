@@ -105,15 +105,14 @@ namespace AppCore.Plugins
         private IEnumerable<String> GetLibraries()
         {
             // List of files
-            var files = Directory.GetFiles(this.GetExeDirectory(), "*.dll", SearchOption.AllDirectories);
+            var files = from file in Directory.EnumerateFiles(this.GetExeDirectory(), "*.*", SearchOption.AllDirectories)
+                        let dir = Path.GetDirectoryName(file)
+                        where !dir.EndsWith("x86") && !dir.EndsWith("x64") // Remove x86/x64
+                        let extension = Path.GetExtension(file).ToLower()
+                        where extension == ".dll" || extension == ".exe"
+                        select file;
 
-            // Remove x86/x64
-            var result = from file in files
-                         let dir = Path.GetDirectoryName(file)
-                         where !dir.EndsWith("x86") && !dir.EndsWith("x64")
-                         select file;
-
-            return result;
+            return files;
         }
     }
 }
