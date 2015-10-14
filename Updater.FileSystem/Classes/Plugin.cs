@@ -2,6 +2,7 @@
 using AppCore.Classes;
 using AppCore.Extensions;
 using AppCore.Menus;
+using AppCore.Messages;
 using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Updater.Events;
 using Updater.FileSystem.Setup;
 
 namespace Updater.FileSystem.Classes
@@ -20,6 +22,7 @@ namespace Updater.FileSystem.Classes
         public void Initialize(IApplication app)
         {
             this.mApp = app;
+            this.mApp.Messages.Subscribe(typeof(UpdateStartEventArgs), this.UpdateStart);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -48,6 +51,10 @@ namespace Updater.FileSystem.Classes
         }
 
         public void Shutdown()
+        {
+        }
+
+        private void UpdateStart(object sender, MessageEventArgs ea)
         {
         }
     }

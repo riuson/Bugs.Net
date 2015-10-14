@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Updater.Events;
 using Updater.Setup;
 
 namespace Updater.Classes
@@ -44,6 +45,10 @@ namespace Updater.Classes
 
         public void Start()
         {
+            if (Saved<Options>.Instance.CheckUpdatesOnStart)
+            {
+                this.mApp.Messages.Send(this, new UpdateStartEventArgs());
+            }
         }
 
         public void Shutdown()
