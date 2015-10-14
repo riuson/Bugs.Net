@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="FormUpdater.cs">
       <SubType>Form</SubType>
@@ -62,6 +63,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup\ControlSetup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setup\ControlSetup.Designer.cs">
+      <DependentUpon>ControlSetup.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -72,6 +79,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Setup\ControlSetup.resx">
+      <DependentUpon>ControlSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

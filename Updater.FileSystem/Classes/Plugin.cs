@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Updater.FileSystem.Setup;
 
 namespace Updater.FileSystem.Classes
 {
@@ -25,14 +26,14 @@ namespace Updater.FileSystem.Classes
         {
             switch (tag)
             {
-                case "updater":
+                case "update_sources":
                     {
                         IButton menuItemUpdate = MenuPanelFabric.CreateMenuItem("File system".Tr(), "Setup update from file system".Tr(),
                             Updater.FileSystem.Properties.Resources.icon_fa_files_o_48_0_005719_none);
                         menuItemUpdate.Click += delegate(object sender, EventArgs ea)
                         {
-                            //ControlAbout controlAbout = new ControlAbout(this.mApp);
-                            //this.mApp.Controls.Show(controlAbout);
+                            ControlSetup controlSetup = new ControlSetup(this.mApp);
+                            this.mApp.Controls.Show(controlSetup);
                         };
 
                         return new IButton[] { menuItemUpdate };

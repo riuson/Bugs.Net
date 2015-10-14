@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Updater.Setup;
 
 namespace Updater.Classes
 {
@@ -27,11 +28,11 @@ namespace Updater.Classes
             {
                 case "settings":
                     {
-                        IButton menuItemUpdate = MenuPanelFabric.CreateMenuItem("Update".Tr(), "Update application".Tr(), Updater.Properties.Resources.icon_fa_refresh_48_0_005719_none);
+                        IButton menuItemUpdate = MenuPanelFabric.CreateMenuItem("Updates".Tr(), "Updater settings".Tr(), Updater.Properties.Resources.icon_fa_refresh_48_0_005719_none);
                         menuItemUpdate.Click += delegate(object sender, EventArgs ea)
                         {
-                            //ControlAbout controlAbout = new ControlAbout(this.mApp);
-                            //this.mApp.Controls.Show(controlAbout);
+                            ControlSetup controlSetup = new ControlSetup(this.mApp);
+                            this.mApp.Controls.Show(controlSetup);
                         };
 
                         return new IButton[] { menuItemUpdate };
