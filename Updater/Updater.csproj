@@ -53,8 +53,10 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Classes\DownloadResult.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="Events\UpdateReceivedEventArgs.cs" />
     <Compile Include="Events\UpdateStartEventArgs.cs" />
     <Compile Include="FormUpdater.cs">
       <SubType>Form</SubType>

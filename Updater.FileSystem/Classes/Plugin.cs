@@ -18,11 +18,13 @@ namespace Updater.FileSystem.Classes
     internal class Plugin : IPlugin
     {
         private IApplication mApp;
+        private FileUpdater mUpdater;
 
         public void Initialize(IApplication app)
         {
             this.mApp = app;
             this.mApp.Messages.Subscribe(typeof(UpdateStartEventArgs), this.UpdateStart);
+            this.mUpdater = new FileUpdater(app);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -52,10 +54,12 @@ namespace Updater.FileSystem.Classes
 
         public void Shutdown()
         {
+            this.mUpdater.Stop();
         }
 
         private void UpdateStart(object sender, MessageEventArgs ea)
         {
+            this.mUpdater.Start();
         }
     }
 }

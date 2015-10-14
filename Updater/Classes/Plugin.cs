@@ -2,6 +2,7 @@
 using AppCore.Classes;
 using AppCore.Extensions;
 using AppCore.Menus;
+using AppCore.Messages;
 using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace Updater.Classes
         public void Initialize(IApplication app)
         {
             this.mApp = app;
+            this.mApp.Messages.Subscribe(typeof(UpdateReceivedEventArgs), this.UpdateReceived);
         }
 
         public IButton[] GetCommandLinks(string tag)
@@ -52,6 +54,10 @@ namespace Updater.Classes
         }
 
         public void Shutdown()
+        {
+        }
+
+        private void UpdateReceived(object sender, MessageEventArgs e)
         {
         }
     }
