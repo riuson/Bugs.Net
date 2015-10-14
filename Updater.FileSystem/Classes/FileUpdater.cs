@@ -1,10 +1,16 @@
 ﻿using AppCore;
+using AppCore.Classes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Updater.Classes;
 using Updater.Events;
 
 namespace Updater.FileSystem.Classes
@@ -73,22 +79,70 @@ namespace Updater.FileSystem.Classes
             token.ThrowIfCancellationRequested();
 
             Thread.Sleep(2000);
+
+            HistoryParser history = (from filename in Directory.GetFiles(Saved<Options>.Instance.SourceDirectory, "*.xml", SearchOption.AllDirectories)
+                                     let parser = new HistoryParser(filename)
+                                     where parser.IsValid
+                                     select parser).FirstOrDefault();
+
+            if (history != null)
             {
                 if (token.IsCancellationRequested)
                 {
                     token.ThrowIfCancellationRequested();
                 }
+
+                object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
+                DateTime currentCommitDate = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate;
+
+                if (history.LatestCommitDate > currentCommitDate)
+                {
+                    try
+                    {
+                        FileInfo sourceFile = new FileInfo(history.LatestFilePath);
+
+                        if (!sourceFile.Exists)
+                        {
+                            sourceFile = new FileInfo(Path.Combine(Saved<Options>.Instance.SourceDirectory, history.LatestFilePath));
+                        }
+
+                        if (sourceFile.Exists)
+                        {
+                            string tempPath = Path.GetTempFileName();
+                            FileInfo tempFile = sourceFile.CopyTo(tempPath, true);
+
+                            using (var md5 = MD5.Create())
+                            {
+                                using (var stream = tempFile.OpenRead())
+                                {
+                                    byte[] tempHash = md5.ComputeHash(stream);
+
+                                    if (tempHash.SequenceEqual(history.LatestFileHash))
+                                    {
+                                        return new Updater.Classes.DownloadResult(history, tempFile);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch // (Exception exc)
+                    {
+                    }
+                }
             }
 
-            return new Updater.Classes.DownloadResult();
+            return null;
         }
 
         private void ProcessCompleted(Task<Updater.Classes.DownloadResult> task)
         {
             Updater.Classes.DownloadResult result = task.Result;
 
-            UpdateReceivedEventArgs ea = new UpdateReceivedEventArgs(result);
-            this.mApp.Messages.Send(this, ea);
+            if (result != null)
+            {
+                UpdateReceivedEventArgs ea = new UpdateReceivedEventArgs(result);
+                this.mApp.Messages.Send(this, ea);
+            }
 
             if (!task.IsCanceled)
             {

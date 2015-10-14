@@ -54,6 +54,7 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\DownloadResult.cs" />
+    <Compile Include="Classes\HistoryParser.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
     <Compile Include="Events\UpdateReceivedEventArgs.cs" />
@@ -108,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\fa-refresh_48_0_005719_none.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\HistoryExample.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

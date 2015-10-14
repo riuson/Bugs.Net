@@ -59,6 +59,12 @@ namespace Updater.Classes
 
         private void UpdateReceived(object sender, MessageEventArgs e)
         {
+            UpdateReceivedEventArgs ea = e as UpdateReceivedEventArgs;
+
+            if (ea != null)
+            {
+                ea.Result.TempFile.Delete();
+            }
         }
     }
 }
