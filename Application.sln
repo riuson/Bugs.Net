@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater.FileSystem", "Updater.FileSystem\Updater.FileSystem.csproj", "{0C9E7026-0E61-429C-A021-218D6356E1F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater.Tests", "Updater.Tests\Updater.Tests.csproj", "{D7A0981E-67CB-4344-A94F-E2574ECBE7F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +116,10 @@ Global
 		{0C9E7026-0E61-429C-A021-218D6356E1F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C9E7026-0E61-429C-A021-218D6356E1F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C9E7026-0E61-429C-A021-218D6356E1F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A0981E-67CB-4344-A94F-E2574ECBE7F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A0981E-67CB-4344-A94F-E2574ECBE7F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A0981E-67CB-4344-A94F-E2574ECBE7F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A0981E-67CB-4344-A94F-E2574ECBE7F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,5 +140,6 @@ Global
 		{EE431A77-74E9-447F-AA98-CD5BABD0AE07} = {8CDB10BA-5EC7-4347-8945-2939C3D78455}
 		{E182997F-4D6B-435E-8DFA-DF9BA93AD8CB} = {522BA24B-6244-4309-9AB6-1131BBA22D35}
 		{0C9E7026-0E61-429C-A021-218D6356E1F5} = {522BA24B-6244-4309-9AB6-1131BBA22D35}
+		{D7A0981E-67CB-4344-A94F-E2574ECBE7F4} = {522BA24B-6244-4309-9AB6-1131BBA22D35}
 	EndGlobalSection
 EndGlobal
