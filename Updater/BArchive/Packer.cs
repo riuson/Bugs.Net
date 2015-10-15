@@ -144,7 +144,17 @@ namespace Updater.BArchive
                     new XElement("data",
                         new XElement("header",
                             new XElement("format", "barchive"),
-                            new XElement("version", "1")
+                            new XElement("version", "1"),
+                            new XElement("hash",
+                                new XElement("algorithm", "MD5"),
+                                new XElement("format", "hex")
+                            ),
+                            new XElement("offset",
+                                new XElement("format", "decimal")
+                            ),
+                            new XElement("length",
+                                new XElement("format", "decimal")
+                            )
                         ),
                         new XElement("content",
                             from item in this.mRecords
