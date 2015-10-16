@@ -77,6 +77,10 @@
     <Compile Include="Setup\ControlSetup.Designer.cs">
       <DependentUpon>ControlSetup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tarx\DirectoryRecord.cs" />
+    <Compile Include="Tarx\FileRecord.cs" />
+    <Compile Include="Tarx\PackerPostponed.cs" />
+    <Compile Include="Tarx\Record.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -117,6 +121,7 @@
   <ItemGroup>
     <Content Include="Resources\HistoryExample.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
