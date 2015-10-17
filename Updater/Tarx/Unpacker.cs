@@ -17,8 +17,6 @@ namespace Updater.Tarx
 
         public XDocument XHeader { get; private set; }
 
-        public delegate void Log(string message);
-
         public Unpacker(Stream streamIn, Log log = null)
         {
             this.mStreamIn = streamIn;

@@ -77,9 +77,13 @@
     <Compile Include="Setup\ControlSetup.Designer.cs">
       <DependentUpon>ControlSetup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tarx\PackerHelper.cs" />
     <Compile Include="Tarx\DirectoryRecord.cs" />
     <Compile Include="Tarx\FileRecord.cs" />
+    <Compile Include="Tarx\IPacker.cs" />
     <Compile Include="Tarx\IUnpacker.cs" />
+    <Compile Include="Tarx\LogDelegate.cs" />
+    <Compile Include="Tarx\Packer.cs" />
     <Compile Include="Tarx\PackerLinear.cs" />
     <Compile Include="Tarx\PackerPostponed.cs" />
     <Compile Include="Tarx\Record.cs" />

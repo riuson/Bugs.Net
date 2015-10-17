@@ -24,7 +24,7 @@ namespace Updater.Tests.Tarx
 
             using (FileStream fs = new FileStream(temp, FileMode.Create, FileAccess.ReadWrite))
             {
-                using (PackerPostponed packer = new PackerPostponed(fs, this.Log))
+                using (Packer packer = new Packer(fs, true, this.Log))
                 {
                     packer.BaseDirectory = path;
                     packer.AddDirectory(path);
@@ -44,7 +44,7 @@ namespace Updater.Tests.Tarx
 
             using (FileStream fs = new FileStream(temp, FileMode.Create, FileAccess.ReadWrite))
             {
-                using (PackerLinear packer = new PackerLinear(fs, this.Log))
+                using (Packer packer = new Packer(fs, false, this.Log))
                 {
                     packer.BaseDirectory = path;
                     packer.AddDirectory(path);
