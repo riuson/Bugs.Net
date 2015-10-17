@@ -79,8 +79,11 @@
     </Compile>
     <Compile Include="Tarx\DirectoryRecord.cs" />
     <Compile Include="Tarx\FileRecord.cs" />
+    <Compile Include="Tarx\IUnpacker.cs" />
     <Compile Include="Tarx\PackerPostponed.cs" />
     <Compile Include="Tarx\Record.cs" />
+    <Compile Include="Tarx\Unpacker.cs" />
+    <Compile Include="Tarx\UnpackerPostponed.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
