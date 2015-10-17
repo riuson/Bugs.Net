@@ -32,6 +32,26 @@ namespace Updater.Tests.Tarx
             }
         }
 
+        [Test]
+        public void CanPackLinear()
+        {
+            string path = this.GetThisDirectory();
+            path = Path.GetDirectoryName(path);
+            this.Log("Source path: " + path);
+
+            string temp = Path.Combine(Path.GetTempPath(), "packer.tarx");
+            this.Log("Output file: " + temp);
+
+            using (FileStream fs = new FileStream(temp, FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (PackerLinear packer = new PackerLinear(fs, this.Log))
+                {
+                    packer.BaseDirectory = path;
+                    packer.AddDirectory(path);
+                }
+            }
+        }
+
         private string GetThisDirectory()
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;

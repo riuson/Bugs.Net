@@ -10,17 +10,20 @@ using System.Xml.Linq;
 
 namespace Updater.Tarx
 {
-    public class PackerPostponed : IDisposable
+    public class PackerLinear : IDisposable
     {
         private Stream mStreamOut;
-        private List<Record> mRecords;
+        private long mStartPosition;
         private Log mLog;
+        private bool mHeaderWritten;
 
         public delegate void Log(string message);
 
-        public PackerPostponed(Stream streamOut, Log log = null)
+        public PackerLinear(Stream streamOut, Log log = null)
         {
             this.mStreamOut = streamOut;
+            this.mStartPosition = this.mStreamOut.Position;
+            this.mHeaderWritten = false;
 
             if (log != null)
             {
@@ -33,12 +36,10 @@ namespace Updater.Tarx
                 };
             }
 
-            this.mRecords = new List<Record>();
         }
 
         public void Dispose()
         {
-            this.WriteAll();
         }
 
         public string BaseDirectory { get; set; }
@@ -50,6 +51,8 @@ namespace Updater.Tarx
 
         public void AddFile(FileInfo file)
         {
+            this.WriteHeader();
+
             if (file.Exists)
             {
                 long offset = this.mStreamOut.Position;
@@ -63,14 +66,15 @@ namespace Updater.Tarx
                     }
                 }
 
-                this.mRecords.Add(new FileRecord()
+                FileRecord record = new FileRecord()
                 {
                     FullPath = file.FullName,
                     RelativePath = file.FullName.Replace(this.BaseDirectory, String.Empty),
                     Length = file.Length,
                     Offset = offset,
                     Hash = this.BytesToHexString(hash)
-                });
+                };
+                this.WriteFile(file, record);
 
                 this.mLog(file.FullName);
             }
@@ -83,6 +87,8 @@ namespace Updater.Tarx
 
         public void AddDirectory(DirectoryInfo directory)
         {
+            this.WriteHeader();
+
             var files = from item in directory.GetFiles("*", SearchOption.AllDirectories)
                         where item.FullName.StartsWith(this.BaseDirectory)
                         orderby item.FullName
@@ -95,11 +101,12 @@ namespace Updater.Tarx
 
             foreach (var item in dirs)
             {
-                this.mRecords.Add(new DirectoryRecord()
+                DirectoryRecord record = new DirectoryRecord()
                     {
                         FullPath = item.FullName,
                         RelativePath = item.FullName.Replace(this.BaseDirectory, String.Empty)
-                    });
+                    };
+                this.WriteDirectory(item, record);
                 this.mLog(item.FullName);
             }
 
@@ -123,74 +130,68 @@ namespace Updater.Tarx
             return String.Join(String.Empty, result.ToArray());
         }
 
-        private void WriteAll()
+        private void WriteHeader()
         {
-            this.mStreamOut.Flush();
+            if (!this.mHeaderWritten)
+            {
+                this.mHeaderWritten = true;
+                // Write header
+                XDocument xHeader = this.CreateHeaderDocument();
+                this.WriteDocument(xHeader);
+            }
+        }
 
-            long documentOffset = this.mStreamOut.Position;
-            byte[] zeroes = new byte[512];
-
-            // Header document
-
-            // Get header length
-            XDocument xHeader = this.CreateHeaderDocument();
-
-            XElement xContent = new XElement("content",
-                from item in this.mRecords
-                orderby item.Order
-                select item.CreateElement()
+        private void WriteDirectory(DirectoryInfo file, DirectoryRecord record)
+        {
+            XElement xDirectory = record.CreateElement();
+            XDocument document = new XDocument(
+                new XDeclaration("1.0", "UTF-8", null),
+                new XElement("data",
+                    new XElement("content",
+                        xDirectory
+                    )
+                )
             );
 
-            xHeader.Root.Add(xContent);
+            // Add user data here
 
-            long headerLength = this.GetDocumentSize(xHeader);
+            // Write document
+            this.WriteDocument(document);
+        }
 
-            // Create actual header
-            long offset = headerLength;
-
-            this.mRecords.ForEach(item =>
-            {
-                if (item is FileRecord)
-                {
-                    (item as FileRecord).Offset = offset;
-                    offset += (item as FileRecord).Length;
-                    offset = this.RoundUpTo512(offset);
-                }
-            });
-
-            xHeader = this.CreateHeaderDocument();
-            xContent = new XElement("content",
-                from item in this.mRecords
-                orderby item.Order
-                select item.CreateElement()
+        private void WriteFile(FileInfo file, FileRecord record)
+        {
+            XElement xFile = record.CreateElement();
+            XDocument document = new XDocument(
+                new XDeclaration("1.0", "UTF-8", null),
+                new XElement("data",
+                    new XElement("content",
+                        xFile
+                    )
+                )
             );
-            xHeader.Root.Add(xContent);
 
-            // Write header
-            this.WriteDocument(xHeader);
+            // Add user data here
 
-            // Copy files
-            this.mRecords.ForEach(item =>
+            // Update data
+            long length = this.GetDocumentSize(document);
+            xFile.Element("offset").Value = String.Format(CultureInfo.InvariantCulture, "0x{0:X16}", this.mStreamOut.Position + length);
+
+            // Write document
+            this.WriteDocument(document);
+            // Write file
+            using (FileStream fs = file.OpenRead())
             {
-                FileRecord filerecord = item as FileRecord;
+                fs.CopyTo(this.mStreamOut);
 
-                if (filerecord != null)
+                byte[] zeroes = new byte[512];
+                int mod = (int)(this.mStreamOut.Position % 512);
+
+                if (mod != 0)
                 {
-                    FileInfo file = new FileInfo(filerecord.FullPath);
-
-                    using (FileStream fs = file.OpenRead())
-                    {
-                        fs.CopyTo(this.mStreamOut);
-
-                        int mod = (int)(this.mStreamOut.Position % 512);
-
-                        if (mod != 0)
-                        {
-                            this.mStreamOut.Write(zeroes, 0, 512 - mod);
-                        }
-                    }
+                    this.mStreamOut.Write(zeroes, 0, 512 - mod);
                 }
-            });
+            }
         }
 
         private XDocument CreateHeaderDocument()
@@ -201,19 +202,9 @@ namespace Updater.Tarx
                     new XElement("header",
                         new XElement("format", "tarx"),
                         new XElement("version", "1"),
-                        new XElement("mode", "postponed"),
+                        new XElement("mode", "linear"),
                         new XElement("created", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss zzz")),
-                        new XElement("updated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss zzz")),
-                        new XElement("items",
-                            new XElement("count", String.Format(CultureInfo.InvariantCulture, "0x{0:X16}", this.mRecords.Count)),
-                            new XElement("totalSize",
-                                String.Format(CultureInfo.InvariantCulture, "0x{0:X16}",
-                                    this.mRecords
-                                        .Where(item => item is FileRecord)
-                                        .Select(item => item)
-                                        .Sum(item => (item as FileRecord).Length))
-                            )
-                        )
+                        new XElement("updated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss zzz"))
                     )
                 )
             );
@@ -243,7 +234,7 @@ namespace Updater.Tarx
                 }
 
                 // Round up to 512 bytes
-                long length = this.RoundUpTo512(ms.Length);
+                long length = this.RoundUpTo(ms.Length, 512);
 
                 ms.Close();
 
@@ -282,9 +273,9 @@ namespace Updater.Tarx
             }
         }
 
-        private long RoundUpTo512(long value)
+        private long RoundUpTo(long value, long mod)
         {
-            long result = value + ((value % 512 == 0) ? (0) : (512 - value % 512));
+            long result = value + ((value % mod == 0) ? (0) : (mod - value % mod));
             return result;
         }
     }
