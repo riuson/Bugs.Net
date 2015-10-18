@@ -54,7 +54,6 @@
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="BArchive\PackerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tarx\UnpackerTest.cs" />
     <Compile Include="Tarx\PackerTest.cs" />
   </ItemGroup>
   <ItemGroup>

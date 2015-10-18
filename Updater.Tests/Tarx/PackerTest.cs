@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
 using Updater.Tarx;
 
 namespace Updater.Tests.Tarx
@@ -15,41 +16,45 @@ namespace Updater.Tests.Tarx
         [Test]
         public void CanPackPostponed()
         {
-            string path = this.GetThisDirectory();
-            path = Path.GetDirectoryName(path);
-            this.Log("Source path: " + path);
-
-            string temp = Path.Combine(Path.GetTempPath(), "packer.tarx");
-            this.Log("Output file: " + temp);
-
-            using (FileStream fs = new FileStream(temp, FileMode.Create, FileAccess.ReadWrite))
-            {
-                using (Packer packer = new Packer(fs, true, this.Log))
-                {
-                    packer.BaseDirectory = path;
-                    packer.AddDirectory(path);
-                }
-            }
+            this.Pack(
+                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx")),
+                true);
         }
 
         [Test]
         public void CanPackLinear()
         {
-            string path = this.GetThisDirectory();
-            path = Path.GetDirectoryName(path);
-            this.Log("Source path: " + path);
+            this.Pack(
+                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx")),
+                false);
+        }
 
-            string temp = Path.Combine(Path.GetTempPath(), "packer.tarx");
-            this.Log("Output file: " + temp);
+        [Test]
+        public void CanUnpackPostponed()
+        {
+            this.Pack(
+                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx")),
+                true);
 
-            using (FileStream fs = new FileStream(temp, FileMode.Create, FileAccess.ReadWrite))
-            {
-                using (Packer packer = new Packer(fs, false, this.Log))
-                {
-                    packer.BaseDirectory = path;
-                    packer.AddDirectory(path);
-                }
-            }
+            this.Unpack(
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx")),
+                new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.postpone")));
+        }
+
+        [Test]
+        public void CanUnpackLinear()
+        {
+            this.Pack(
+                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx")),
+                true);
+
+            this.Unpack(
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx")),
+                new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.linear")));
         }
 
         private string GetThisDirectory()
@@ -64,6 +69,40 @@ namespace Updater.Tests.Tarx
         private void Log(string message)
         {
             Console.WriteLine(message);
+        }
+
+        public void Pack(DirectoryInfo sourceDirectory, FileInfo targetFile, bool postpone)
+        {
+            this.Log(String.Format("From {0} to {1}", sourceDirectory, targetFile));
+
+            using (FileStream fs = new FileStream(targetFile.FullName, FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (Packer packer = new Packer(fs, postpone, this.Log))
+                {
+                    packer.BaseDirectory = sourceDirectory.FullName;
+                    packer.AddDirectory(sourceDirectory);
+                }
+            }
+        }
+
+        public void Unpack(FileInfo sourceFile, DirectoryInfo targetDirectory)
+        {
+            this.Log(String.Format("From {0} to {1}", sourceFile, targetDirectory));
+
+            using (FileStream fs = new FileStream(sourceFile.FullName, FileMode.Open, FileAccess.Read))
+            {
+                using (Unpacker unpacker = new Unpacker(fs, this.Log))
+                {
+                    XDocument xHeader = unpacker.XHeader;
+
+                    this.Log("Extracting:");
+                    unpacker.UnpackTo(targetDirectory, item =>
+                        {
+                            Console.WriteLine(item.ToString());
+                            return true;
+                        });
+                }
+            }
         }
     }
 }
