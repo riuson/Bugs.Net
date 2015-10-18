@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Updater.Tarx
 {
-    internal class UnpackerPostponed : IUnpacker
+    internal class UnpackerLinear : IUnpacker
     {
         private Stream mStreamIn;
         private XDocument mHeaderDocument;
@@ -16,12 +16,11 @@ namespace Updater.Tarx
 
         public XDocument XContent { get; private set; }
 
-        public UnpackerPostponed(Stream streamIn, XDocument header, Log log)
+        public UnpackerLinear(Stream streamIn, XDocument header, Log log)
         {
             this.mStreamIn = streamIn;
             this.mHeaderDocument = header;
             this.mLog = log;
-            this.CollectContentInfo();
         }
 
         public void Dispose()
@@ -30,38 +29,62 @@ namespace Updater.Tarx
 
         public bool CollectContentInfo()
         {
+            XElement collectedContent = new XElement("content");
             this.XContent = new XDocument(
                 new XDeclaration("1.0", "UTF-8", null),
-                new XElement("data")
+                new XElement("data",
+                    collectedContent
+                )
             );
 
-            this.XContent.Root.Add(this.mHeaderDocument.Descendants("content").First());
+            this.mLog("Collecting content info...");
+
+            while (this.mStreamIn.CanRead)
+            {
+                XDocument document = PackerHelper.ReadNextDocument(this.mStreamIn);
+
+                if (document.Root == null)
+                {
+                    break;
+                }
+
+                var contentElements = document.Root.Element("content").Elements();
+
+                collectedContent.Add(contentElements);
+
+                XElement xFile = contentElements.Where(element => element.Name == "file").LastOrDefault();
+
+                if (xFile != null)
+                {
+                    long offset = Int64.Parse(xFile.Element("offset").Value.Remove(0, 2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    long length = Int64.Parse(xFile.Element("length").Value.Remove(0, 2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                    string path = xFile.Element("path").Value;
+                    long offsetFromCurrent = PackerHelper.RoundUpTo(length, 512);
+                    //this.mLog(String.Format("Offset: {0:X16}, Length: {1:X16}, Path: {2}", offset, length, path));
+                    this.mStreamIn.Seek(offsetFromCurrent, SeekOrigin.Current);
+                }
+                //this.XContent.Root.Add(this.mHeaderDocument.Descendants("content").First());
+            }
+            this.mLog(this.XContent.ToString());
 
             return true;
         }
 
         public bool UnpackTo(DirectoryInfo directory, Func<XElement, Boolean> xitemCallback)
         {
-            if (xitemCallback == null)
+            while (true)
             {
-                xitemCallback = (item) =>
-                    {
-                        return true;
-                    };
-            }
+                XDocument document = PackerHelper.ReadNextDocument(this.mStreamIn);
 
-            var xDirs = from item in this.XContent.Root.Element("content").Elements("directory")
-                        let dirPath = item.Element("path").Value
-                        orderby dirPath
-                        select item;
+                if (document.Root == null)
+                {
+                    break;
+                }
 
-            var xFiles = from item in this.XContent.Root.Element("content").Elements("file")
-                         let filePath = item.Element("path").Value
-                         let offset = Int64.Parse(item.Element("offset").Value.Remove(0, 2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture)
-                         orderby offset, filePath
-                         select item;
+                var contentElements = document.Root.Element("content").Elements();
+                XElement xElement = contentElements.LastOrDefault();
 
-            Func<XElement, string> fillPath = (xItem) =>
+                Func<XElement, string> fillPath = (xItem) =>
                 {
                     string fullPath = PackerHelper.CombinePath(directory.FullName, xItem.Element("path").Value);
                     XElement xFullPath = xItem.Element("fullpath");
@@ -77,23 +100,27 @@ namespace Updater.Tarx
                     return fullPath;
                 };
 
-            foreach (var item in xDirs)
-            {
-                fillPath(item);
+                fillPath(xElement);
 
-                if (xitemCallback(item))
+                if (xitemCallback(xElement))
                 {
-                    this.ProcessDir(item);
-                }
-            }
-
-            foreach (var item in xFiles)
-            {
-                fillPath(item);
-
-                if (xitemCallback(item))
-                {
-                    this.ProcessFile(item);
+                    switch (xElement.Name.LocalName)
+                    {
+                        case "directory":
+                            {
+                                this.ProcessDir(xElement);
+                                break;
+                            }
+                        case "file":
+                            {
+                                this.ProcessFile(xElement);
+                                break;
+                            }
+                        default:
+                            {
+                                break;
+                            }
+                    }
                 }
             }
 

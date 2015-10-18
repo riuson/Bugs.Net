@@ -88,6 +88,7 @@
     <Compile Include="Tarx\PackerPostponed.cs" />
     <Compile Include="Tarx\Record.cs" />
     <Compile Include="Tarx\Unpacker.cs" />
+    <Compile Include="Tarx\UnpackerLinear.cs" />
     <Compile Include="Tarx\UnpackerPostponed.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

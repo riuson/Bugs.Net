@@ -32,9 +32,9 @@ namespace Updater.Tests.Tarx
                     //this.Log("Header:");
                     //this.Log(xHeader.ToString());
 
-                    if (unpacker.CollectContentInfo())
+                    //if (unpacker.CollectContentInfo())
                     {
-                        XDocument xContent = unpacker.XContent;
+                        //XDocument xContent = unpacker.XContent;
                         //this.Log("Content:");
                         //this.Log(xContent.ToString());
 

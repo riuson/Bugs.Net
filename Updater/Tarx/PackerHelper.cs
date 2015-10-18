@@ -121,5 +121,69 @@ namespace Updater.Tarx
             }
 
         }
+
+        public static XDocument ReadNextDocument(Stream stream)
+        {
+            try
+            {
+                List<byte> buffer = new List<byte>();
+
+                {
+                    // Do not use 'using' to leave base stream opened
+                    BinaryReader reader = new BinaryReader(stream);
+                    // Read bytes until 0x00 - zeroes after document
+                    while (true)
+                    {
+                        byte[] bytes = reader.ReadBytes(512);
+
+                        if (bytes.Length < 512)
+                        {
+                            throw new Exception();
+                        }
+
+                        buffer.AddRange(bytes);
+
+                        if (bytes[511] == 0x00)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                // Remove zeroes from end
+                buffer = buffer.TakeWhile(item => item != 0x00).ToList();
+
+                // Convert byte array to XDocument
+                using (MemoryStream ms = new MemoryStream(buffer.ToArray()))
+                {
+                    using (XmlReader reader = XmlReader.Create(ms))
+                    {
+                        var xDocument = XDocument.Load(reader);
+                        return xDocument;
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                return new XDocument(
+                    new XDeclaration("1.0", "UTF-8", null)
+                );
+            }
+        }
+
+        /// <summary>
+        /// Combine paths without leading path separator
+        /// </summary>
+        /// <param name="paths">Source paths</param>
+        /// <returns>Combined path</returns>
+        public static string CombinePath(params string[] paths)
+        {
+            var p = from item in paths
+                    let needFix = item.StartsWith(Convert.ToString(Path.DirectorySeparatorChar))
+                    let pathFixed = needFix ? item.Trim(Path.DirectorySeparatorChar) : item
+                    select pathFixed;
+
+            return Path.Combine(p.ToArray());
+        }
     }
 }

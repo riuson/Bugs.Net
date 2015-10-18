@@ -34,7 +34,21 @@ namespace Updater.Tarx
             }
 
             this.XHeader = this.GetHeader();
-            this.mUnpackerPrivate = new UnpackerPostponed(this.mStreamIn, this.XHeader);
+            string mode = this.XHeader.Root.Element("header").Element("mode").Value;
+
+            switch (mode)
+            {
+                case "linear":
+                    {
+                        this.mUnpackerPrivate = new UnpackerLinear(this.mStreamIn, this.XHeader, log);
+                        break;
+                    }
+                case "postponed":
+                    {
+                        this.mUnpackerPrivate = new UnpackerPostponed(this.mStreamIn, this.XHeader, log);
+                        break;
+                    }
+            }
         }
 
         public void Dispose()
@@ -44,42 +58,8 @@ namespace Updater.Tarx
 
         private XDocument GetHeader()
         {
-            XDocument xHeader = this.ReadXDocument();
+            XDocument xHeader = PackerHelper.ReadNextDocument(this.mStreamIn);
             return xHeader;
-        }
-
-        private XDocument ReadXDocument()
-        {
-            List<byte> buffer = new List<byte>();
-
-            {
-                // Do not use 'using' to leave base stream opened
-                BinaryReader reader = new BinaryReader(this.mStreamIn);
-                // Read bytes until 0x00 - zeroes after document
-                while (true)
-                {
-                    byte[] bytes = reader.ReadBytes(512);
-                    buffer.AddRange(bytes);
-
-                    if (bytes[511] == 0x00)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            // Remove zeroes from end
-            buffer = buffer.TakeWhile(item => item != 0x00).ToList();
-
-            // Convert byte array to XDocument
-            using (MemoryStream ms = new MemoryStream(buffer.ToArray()))
-            {
-                using (XmlReader reader = XmlReader.Create(ms))
-                {
-                    var xDocument = XDocument.Load(reader);
-                    return xDocument;
-                }
-            }
         }
 
         public bool CollectContentInfo()
@@ -97,6 +77,14 @@ namespace Updater.Tarx
 
         public bool UnpackTo(DirectoryInfo directory, Func<XElement, Boolean> xitemCallback)
         {
+            if (xitemCallback == null)
+            {
+                xitemCallback = (item) =>
+                {
+                    return true;
+                };
+            }
+
             return this.mUnpackerPrivate.UnpackTo(directory, xitemCallback);
         }
     }
