@@ -29,7 +29,7 @@ namespace Updater.Tarx
         public bool CollectContentInfo()
         {
             this.XContent = new XDocument(
-                new XDeclaration("1.0", "UTF-9", null),
+                new XDeclaration("1.0", "UTF-8", null),
                 new XElement("data")
             );
 
