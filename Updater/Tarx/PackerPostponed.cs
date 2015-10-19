@@ -50,10 +50,6 @@ namespace Updater.Tarx
 
         private void WriteAll()
         {
-            this.mStreamOut.Flush();
-
-            long documentOffset = this.mStreamOut.Position;
-
             // Header document
 
             // Get header length
@@ -88,7 +84,7 @@ namespace Updater.Tarx
             // Create actual header
             long offset = headerLength;
 
-            foreach(var item in orderedRecords)
+            foreach (var item in orderedRecords)
             {
                 if (item is FileRecord)
                 {
@@ -108,16 +104,16 @@ namespace Updater.Tarx
             PackerHelper.WriteDocument(xHeader, 512, this.mStreamOut);
 
             // Copy files
-            this.mRecords.ForEach(item =>
+            foreach (var item in orderedRecords)
             {
                 FileRecord filerecord = item as FileRecord;
 
                 if (filerecord != null)
                 {
                     FileInfo file = new FileInfo(filerecord.FullPath);
-                    PackerHelper.FileToStream(file, this.mStreamOut, 512);
+                    PackerHelper.FileToStream(file, this.mStreamOut, filerecord.Offset, 512);
                 }
-            });
+            };
         }
     }
 }

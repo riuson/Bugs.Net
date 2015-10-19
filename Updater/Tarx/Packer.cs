@@ -57,7 +57,6 @@ namespace Updater.Tarx
         {
             if (file.Exists)
             {
-                long offset = this.mStreamOut.Position;
                 byte[] hash = null;
 
                 using (FileStream fs = file.OpenRead())
@@ -73,7 +72,7 @@ namespace Updater.Tarx
                     FullPath = file.FullName,
                     RelativePath = file.FullName.Replace(this.BaseDirectory, String.Empty),
                     Length = file.Length,
-                    Offset = offset,
+                    Offset = 0,
                     Hash = PackerHelper.BytesToHexString(hash)
                 };
 

@@ -105,13 +105,13 @@ namespace Updater.Tarx
             }
         }
 
-        public static void FileToStream(FileInfo file, Stream stream, int mod)
+        public static void FileToStream(FileInfo file, Stream stream, long positionBefore, int mod)
         {
             using (FileStream fs = file.OpenRead())
             {
                 fs.CopyTo(stream);
 
-                int a = (int)(stream.Position % mod);
+                int a = (int)((positionBefore + file.Length) % mod);
 
                 if (a != 0)
                 {

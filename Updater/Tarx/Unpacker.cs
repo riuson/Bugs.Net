@@ -11,7 +11,6 @@ namespace Updater.Tarx
     public class Unpacker : IDisposable
     {
         private Stream mStreamIn;
-        private long mStartPosition;
         private Log mLog;
         private IUnpacker mUnpackerPrivate;
 
@@ -20,7 +19,6 @@ namespace Updater.Tarx
         public Unpacker(Stream streamIn, Log log = null)
         {
             this.mStreamIn = streamIn;
-            this.mStartPosition = this.mStreamIn.Position;
 
             if (log != null)
             {

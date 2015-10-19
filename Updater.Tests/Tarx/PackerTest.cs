@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -70,6 +71,62 @@ namespace Updater.Tests.Tarx
             this.CompareDirectories(sourceDirectory, targetDirectory);
         }
 
+        [Test]
+        public void CanPackPostponedGzip()
+        {
+            this.PackGzip(
+                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx.gz")),
+                true);
+        }
+
+        [Test]
+        public void CanPackLinearGzip()
+        {
+            this.PackGzip(
+                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
+                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx.gz")),
+                false);
+        }
+
+        [Test]
+        public void CanUnpackPostponedGzip()
+        {
+            DirectoryInfo sourceDirectory = new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory()));
+            DirectoryInfo targetDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.postpone.gzip"));
+            FileInfo packedFile = new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx.gz"));
+
+            this.PackGzip(
+                sourceDirectory,
+                packedFile,
+                true);
+
+            this.UnpackGzip(
+                packedFile,
+                targetDirectory);
+
+            this.CompareDirectories(sourceDirectory, targetDirectory);
+        }
+
+        [Test]
+        public void CanUnpackLinearGzip()
+        {
+            DirectoryInfo sourceDirectory = new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory()));
+            DirectoryInfo targetDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.linear.gzip"));
+            FileInfo packedFile = new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx.gz"));
+
+            this.PackGzip(
+                sourceDirectory,
+                packedFile,
+                false);
+
+            this.UnpackGzip(
+                packedFile,
+                targetDirectory);
+
+            this.CompareDirectories(sourceDirectory, targetDirectory);
+        }
+
         private string GetThisDirectory()
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
@@ -98,6 +155,23 @@ namespace Updater.Tests.Tarx
             }
         }
 
+        private void PackGzip(DirectoryInfo sourceDirectory, FileInfo targetFile, bool postpone)
+        {
+            this.Log(String.Format("From {0} to {1}", sourceDirectory, targetFile));
+
+            using (FileStream fs = new FileStream(targetFile.FullName, FileMode.Create, FileAccess.ReadWrite))
+            {
+                using (GZipStream gs = new GZipStream(fs, CompressionMode.Compress))
+                {
+                    using (Packer packer = new Packer(gs, postpone, this.Log))
+                    {
+                        packer.BaseDirectory = sourceDirectory.FullName;
+                        packer.AddDirectory(sourceDirectory);
+                    }
+                }
+            }
+        }
+
         private void Unpack(FileInfo sourceFile, DirectoryInfo targetDirectory)
         {
             this.Log(String.Format("From {0} to {1}", sourceFile, targetDirectory));
@@ -115,6 +189,30 @@ namespace Updater.Tests.Tarx
                             Console.WriteLine(item.Element("path").Value);
                             return true;
                         });
+                }
+            }
+        }
+
+        private void UnpackGzip(FileInfo sourceFile, DirectoryInfo targetDirectory)
+        {
+            this.Log(String.Format("From {0} to {1}", sourceFile, targetDirectory));
+            targetDirectory.Delete(true);
+
+            using (FileStream fs = new FileStream(sourceFile.FullName, FileMode.Open, FileAccess.Read))
+            {
+                using (GZipStream gs = new GZipStream(fs, CompressionMode.Decompress))
+                {
+                    using (Unpacker unpacker = new Unpacker(gs, this.Log))
+                    {
+                        XDocument xHeader = unpacker.XHeader;
+
+                        this.Log("Extracting...");
+                        unpacker.UnpackTo(targetDirectory, item =>
+                        {
+                            Console.WriteLine(item.Element("path").Value);
+                            return true;
+                        });
+                    }
                 }
             }
         }
