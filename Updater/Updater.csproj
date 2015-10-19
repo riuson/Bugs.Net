@@ -53,10 +53,6 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
-    <Compile Include="BArchive\DirectoryRecord.cs" />
-    <Compile Include="BArchive\FileRecord.cs" />
-    <Compile Include="BArchive\Packer.cs" />
-    <Compile Include="BArchive\Record.cs" />
     <Compile Include="Classes\DownloadResult.cs" />
     <Compile Include="Classes\HistoryParser.cs" />
     <Compile Include="Classes\Options.cs" />
