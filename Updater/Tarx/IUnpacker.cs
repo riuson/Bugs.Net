@@ -25,5 +25,9 @@ namespace Updater.Tarx
         /// <param name="xitemCallback">callback for each unpacked item. Returns true, if unpacking confirmed.</param>
         /// <returns>True if successfull</returns>
         bool UnpackTo(DirectoryInfo directory, Func<XElement, Boolean> xitemCallback);
+        /// <summary>
+        /// Action on header XElement after reading
+        /// </summary>
+        Action<XElement> HeaderAfter { get; set; }
     }
 }

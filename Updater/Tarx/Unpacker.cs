@@ -16,7 +16,7 @@ namespace Updater.Tarx
 
         public XDocument XHeader { get; private set; }
 
-        public Unpacker(Stream streamIn, Log log = null)
+        public Unpacker(Stream streamIn, Log log, Action<XElement> headerCallback)
         {
             this.mStreamIn = streamIn;
 
@@ -32,6 +32,12 @@ namespace Updater.Tarx
             }
 
             this.XHeader = this.GetHeader();
+
+            if (headerCallback != null)
+            {
+                headerCallback(this.XHeader.Root.Element("header"));
+            }
+
             string mode = this.XHeader.Root.Element("header").Element("mode").Value;
 
             switch (mode)
@@ -70,6 +76,18 @@ namespace Updater.Tarx
             get
             {
                 return this.mUnpackerPrivate.XContent;
+            }
+        }
+
+        public Action<XElement> HeaderAfter
+        {
+            get
+            {
+                return this.mUnpackerPrivate.HeaderAfter;
+            }
+            set
+            {
+                this.mUnpackerPrivate.HeaderAfter = value;
             }
         }
 

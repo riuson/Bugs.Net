@@ -16,7 +16,7 @@ namespace Updater.Tarx
         private Log mLog;
         private IPacker mPackerPrivate;
 
-        public Packer(Stream streamOut, bool postpone, Log log = null)
+        public Packer(Stream streamOut, bool postpone, Log log)
         {
             this.mStreamOut = streamOut;
 
@@ -117,6 +117,18 @@ namespace Updater.Tarx
         public XDocument XHeader
         {
             get { return this.mPackerPrivate.XHeader; }
+        }
+
+        public Action<XElement> HeaderBeforeWrite
+        {
+            get
+            {
+                return this.mPackerPrivate.HeaderBefore;
+            }
+            set
+            {
+                this.mPackerPrivate.HeaderBefore = value;
+            }
         }
 
         private XDocument CreateHeaderDocument()

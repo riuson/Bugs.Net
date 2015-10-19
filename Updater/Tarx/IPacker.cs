@@ -12,5 +12,6 @@ namespace Updater.Tarx
         XDocument XHeader { get; }
         void AddDirectory(DirectoryInfo directory, DirectoryRecord record);
         void AddFile(FileInfo file, FileRecord record);
+        Action<XElement> HeaderBefore { get; set; }
     }
 }

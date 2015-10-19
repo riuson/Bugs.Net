@@ -149,6 +149,10 @@ namespace Updater.Tests.Tarx
             {
                 using (Packer packer = new Packer(fs, postpone, this.Log))
                 {
+                    packer.HeaderBeforeWrite = (xElement) =>
+                        {
+                            xElement.Add(new XElement("test", "test value"));
+                        };
                     packer.BaseDirectory = sourceDirectory.FullName;
                     packer.AddDirectory(sourceDirectory);
                 }
@@ -177,9 +181,15 @@ namespace Updater.Tests.Tarx
             this.Log(String.Format("From {0} to {1}", sourceFile, targetDirectory));
             targetDirectory.Delete(true);
 
+            Action<XElement> checkHeaderCustomField = (xElement) =>
+                {
+                    string test = xElement.Element("test").Value;
+                    Assert.That(test, Is.EqualTo("test value"));
+                };
+
             using (FileStream fs = new FileStream(sourceFile.FullName, FileMode.Open, FileAccess.Read))
             {
-                using (Unpacker unpacker = new Unpacker(fs, this.Log))
+                using (Unpacker unpacker = new Unpacker(fs, this.Log, checkHeaderCustomField))
                 {
                     XDocument xHeader = unpacker.XHeader;
 
@@ -202,7 +212,7 @@ namespace Updater.Tests.Tarx
             {
                 using (GZipStream gs = new GZipStream(fs, CompressionMode.Decompress))
                 {
-                    using (Unpacker unpacker = new Unpacker(gs, this.Log))
+                    using (Unpacker unpacker = new Unpacker(gs, this.Log, null))
                     {
                         XDocument xHeader = unpacker.XHeader;
 

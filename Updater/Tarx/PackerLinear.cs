@@ -18,6 +18,7 @@ namespace Updater.Tarx
         private long mPosition;
 
         public XDocument XHeader { get; private set; }
+        public Action<XElement> HeaderBefore { get; set; }
 
         public PackerLinear(Stream streamOut, XDocument header, Log log = null)
         {
@@ -58,6 +59,12 @@ namespace Updater.Tarx
             if (!this.mHeaderWritten)
             {
                 this.mHeaderWritten = true;
+
+                if (this.HeaderBefore != null)
+                {
+                    this.HeaderBefore(this.XHeader.Root.Element("header"));
+                }
+
                 // Write header
                 PackerHelper.WriteDocument(this.XHeader, 512, this.mStreamOut);
                 // Update position

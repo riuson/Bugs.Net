@@ -15,6 +15,7 @@ namespace Updater.Tarx
         private Log mLog;
 
         public XDocument XContent { get; private set; }
+        public Action<XElement> HeaderAfter { get; set; }
 
         public UnpackerPostponed(Stream streamIn, XDocument header, Log log)
         {

@@ -17,6 +17,7 @@ namespace Updater.Tarx
         private Log mLog;
 
         public XDocument XHeader { get; private set; }
+        public Action<XElement> HeaderBefore { get; set; }
 
         public PackerPostponed(Stream streamOut, XDocument header, Log log = null)
         {
@@ -71,6 +72,11 @@ namespace Updater.Tarx
              );
 
             xHeader.Root.Element("header").Add(xItems);
+
+            if (this.HeaderBefore != null)
+            {
+                this.HeaderBefore(xHeader.Root.Element("header"));
+            }
 
             XElement xContent = new XElement("content",
                 from item in orderedRecords
