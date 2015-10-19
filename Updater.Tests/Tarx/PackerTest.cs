@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
 using Updater.Tarx;
@@ -34,27 +35,39 @@ namespace Updater.Tests.Tarx
         [Test]
         public void CanUnpackPostponed()
         {
+            DirectoryInfo sourceDirectory = new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory()));
+            DirectoryInfo targetDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.postpone"));
+            FileInfo packedFile = new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx"));
+
             this.Pack(
-                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
-                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx")),
+                sourceDirectory,
+                packedFile,
                 true);
 
             this.Unpack(
-                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.postpone.tarx")),
-                new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.postpone")));
+                packedFile,
+                targetDirectory);
+
+            this.CompareDirectories(sourceDirectory, targetDirectory);
         }
 
         [Test]
         public void CanUnpackLinear()
         {
+            DirectoryInfo sourceDirectory = new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory()));
+            DirectoryInfo targetDirectory = new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.linear"));
+            FileInfo packedFile = new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx"));
+
             this.Pack(
-                new DirectoryInfo(Path.GetDirectoryName(this.GetThisDirectory())),
-                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx")),
-                true);
+                sourceDirectory,
+                packedFile,
+                false);
 
             this.Unpack(
-                new FileInfo(Path.Combine(Path.GetTempPath(), "packed.linear.tarx")),
-                new DirectoryInfo(Path.Combine(Path.GetTempPath(), "unpacked.linear")));
+                packedFile,
+                targetDirectory);
+
+            this.CompareDirectories(sourceDirectory, targetDirectory);
         }
 
         private string GetThisDirectory()
@@ -71,7 +84,7 @@ namespace Updater.Tests.Tarx
             Console.WriteLine(message);
         }
 
-        public void Pack(DirectoryInfo sourceDirectory, FileInfo targetFile, bool postpone)
+        private void Pack(DirectoryInfo sourceDirectory, FileInfo targetFile, bool postpone)
         {
             this.Log(String.Format("From {0} to {1}", sourceDirectory, targetFile));
 
@@ -85,9 +98,10 @@ namespace Updater.Tests.Tarx
             }
         }
 
-        public void Unpack(FileInfo sourceFile, DirectoryInfo targetDirectory)
+        private void Unpack(FileInfo sourceFile, DirectoryInfo targetDirectory)
         {
             this.Log(String.Format("From {0} to {1}", sourceFile, targetDirectory));
+            targetDirectory.Delete(true);
 
             using (FileStream fs = new FileStream(sourceFile.FullName, FileMode.Open, FileAccess.Read))
             {
@@ -95,14 +109,64 @@ namespace Updater.Tests.Tarx
                 {
                     XDocument xHeader = unpacker.XHeader;
 
-                    this.Log("Extracting:");
+                    this.Log("Extracting...");
                     unpacker.UnpackTo(targetDirectory, item =>
                         {
-                            Console.WriteLine(item.ToString());
+                            Console.WriteLine(item.Element("path").Value);
                             return true;
                         });
                 }
             }
+        }
+
+        private void CompareDirectories(DirectoryInfo sourceDirectory, DirectoryInfo targetDirectory)
+        {
+            var sourceFiles = from item in sourceDirectory.GetFiles("*.*", SearchOption.AllDirectories)
+                              orderby item.FullName
+                              select item;
+
+            var targetFiles = from item in targetDirectory.GetFiles("*.*", SearchOption.AllDirectories)
+                              orderby item.FullName
+                              select item;
+
+            Assert.That(sourceFiles.Count(), Is.EqualTo(targetFiles.Count()));
+
+            var sourceFileNames = from item in sourceFiles
+                                  let path = item.FullName.Replace(sourceDirectory.FullName, String.Empty)
+                                  orderby path
+                                  select path;
+
+            var targetFileNames = from item in targetFiles
+                                  let path = item.FullName.Replace(targetDirectory.FullName, String.Empty)
+                                  orderby path
+                                  select path;
+
+            Assert.That(sourceFileNames, Is.EqualTo(targetFileNames));
+
+            Assert.That(sourceFiles, Is.EqualTo(targetFiles).Using<FileInfo>(this.FilesComparer));
+        }
+
+        private int FilesComparer(FileInfo file1, FileInfo file2)
+        {
+            byte[] hash1;
+            byte[] hash2;
+
+            using (var md5 = MD5.Create())
+            {
+                using (FileStream fs = file1.OpenRead())
+                {
+                    hash1 = md5.ComputeHash(fs);
+                }
+
+                using (FileStream fs = file2.OpenRead())
+                {
+                    hash2 = md5.ComputeHash(fs);
+                }
+            }
+
+            Assert.That(hash1, Is.EqualTo(hash2), String.Format("Failure on compare files {0} and {1}", file1, file2));
+
+            return 0;
         }
     }
 }
