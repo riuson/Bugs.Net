@@ -6,6 +6,7 @@ using AppCore.Messages;
 using AppCore.Plugins;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,7 +64,10 @@ namespace Updater.Classes
 
             if (ea != null)
             {
-                Updater.CommandLine.StartUpdater.Run(ea.Result.TempFile);
+                DirectoryInfo applicationDirectory = new DirectoryInfo(this.mApp.StartInfo.ExecutableDir);
+                Guid instanceId = this.mApp.StartInfo.InstanceId;
+
+                Updater.CommandLine.StartUpdater.Run(applicationDirectory, ea.Result.TempFile, instanceId);
                 ea.Result.TempFile.Delete();
             }
         }

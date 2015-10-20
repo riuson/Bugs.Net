@@ -9,6 +9,10 @@ namespace AppCore.Main
     [Serializable]
     public class AppStartInfo
     {
+        public Guid InstanceId
+        {
+            get { return new Guid("79520ea5-a9e9-4169-a490-80901cb7093e"); }
+        }
         public Semaphore InstanceSemaphore { get; private set; }
         public bool AlreadyRunned { get; private set; }
         public string[] Arguments { get; set; }
@@ -18,7 +22,7 @@ namespace AppCore.Main
         public AppStartInfo()
         {
             bool createdNew;
-            this.InstanceSemaphore = new Semaphore(0, 1, "79520ea5-a9e9-4169-a490-80901cb7093e", out createdNew);
+            this.InstanceSemaphore = new Semaphore(0, 1, this.InstanceId.ToString(), out createdNew);
             this.AlreadyRunned = !createdNew;
 
             this.Arguments = new string[] { };
