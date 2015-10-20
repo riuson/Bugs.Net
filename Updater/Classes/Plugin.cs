@@ -67,7 +67,7 @@ namespace Updater.Classes
                 DirectoryInfo applicationDirectory = new DirectoryInfo(this.mApp.StartInfo.ExecutableDir);
                 Guid instanceId = this.mApp.StartInfo.InstanceId;
 
-                Updater.CommandLine.StartUpdater.Run(applicationDirectory, ea.Result.TempFile, instanceId);
+                Updater.CommandLine.Preparer.Run(applicationDirectory, ea.Result.TempFile, instanceId);
                 ea.Result.TempFile.Delete();
             }
         }

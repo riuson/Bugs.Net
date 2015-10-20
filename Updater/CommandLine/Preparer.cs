@@ -10,27 +10,46 @@ using System.Xml.Linq;
 
 namespace Updater.CommandLine
 {
-    internal static class StartUpdater
+    internal static class Preparer
     {
-        private static string GetExecutablePath()
+        private static FileInfo GetAssemblyFile(Assembly assembly)
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            string codeBase = assembly.CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
-            return path;
+            return new FileInfo(path);
         }
 
-        private static string GetTempPath()
+        private static FileInfo[] GetRequiredFiles()
         {
-            string path = Path.Combine(Path.GetTempPath(), "Updater.exe");
-            return path;
+            FileInfo[] result = new FileInfo[]{
+                GetAssemblyFile(Assembly.GetExecutingAssembly()),
+                GetAssemblyFile(typeof(AppCore.IApplication).Assembly)
+            };
+
+            return result;
         }
 
-        private static string CopyToTemp()
+        private static string GetTempDir()
         {
-            string temp = GetTempPath();
-            File.Copy(GetExecutablePath(), temp, true);
-            return temp;
+            return Path.GetTempPath();
+        }
+
+        private static string GetTempExe()
+        {
+            string tempExe = Path.Combine(GetTempDir(), Path.GetFileName(GetRequiredFiles()[0].FullName));
+            return tempExe;
+        }
+
+        private static void CopyToTemp()
+        {
+            string temp = GetTempDir();
+            FileInfo[] files = GetRequiredFiles();
+
+            foreach (var file in files)
+            {
+                file.CopyTo(Path.Combine(temp, Path.GetFileName(file.FullName)), true);
+            }
         }
 
         private static XDocument CreateOptionsDocument(DirectoryInfo applicationDirectory, FileInfo archiveFile, Guid instanceId)
@@ -51,7 +70,7 @@ namespace Updater.CommandLine
 
         private static string SaveOptionsDocument(XDocument document)
         {
-            string path = Path.ChangeExtension(GetTempPath(), ".xml");
+            string path = Path.ChangeExtension(GetTempDir(), ".xml");
 
             using (FileStream fs = File.Open(path, FileMode.Create))
             {
@@ -72,14 +91,15 @@ namespace Updater.CommandLine
 
         public static void Run(DirectoryInfo applicationDirectory, FileInfo archiveFile, Guid instanceId)
         {
-            string tempExe = CopyToTemp();
+            CopyToTemp();
+            string tempExe = GetTempExe();
             string tempXml = SaveOptionsDocument(CreateOptionsDocument(applicationDirectory, archiveFile, instanceId));
 
-            //Process process = new Process();
-            //process.StartInfo = new ProcessStartInfo(tempExe);
-            //process.StartInfo.Arguments = tempXml;
-            //process.StartInfo.WorkingDirectory = Path.GetDirectoryName(tempExe);
-            //process.Start();
+            Process process = new Process();
+            process.StartInfo = new ProcessStartInfo(tempExe);
+            process.StartInfo.Arguments = tempXml;
+            process.StartInfo.WorkingDirectory = GetTempDir();
+            process.Start();
             //process.WaitForExit();
         }
     }
