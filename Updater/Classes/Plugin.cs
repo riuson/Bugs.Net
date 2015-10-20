@@ -63,6 +63,7 @@ namespace Updater.Classes
 
             if (ea != null)
             {
+                Updater.CommandLine.StartUpdater.Run(ea.Result.TempFile);
                 ea.Result.TempFile.Delete();
             }
         }
