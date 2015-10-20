@@ -55,6 +55,7 @@
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
     <Compile Include="Classes\LookupBugWorkaround.cs" />
+    <Compile Include="Main\AppStartInfo.cs" />
     <Compile Include="Plugins\AssemblyPluginTypeAttribute.cs" />
     <Compile Include="Menus\Classes\CommandLinkBackendEmulation.cs" />
     <Compile Include="Menus\Classes\CommandLinkBackendNative.cs" />

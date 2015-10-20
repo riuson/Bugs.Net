@@ -20,6 +20,7 @@ namespace AppCore.Main
         private Plugins.Plugins mPlugins;
         private MessageCenter mMessages;
         private static LookupBugWorkaround mLookupBugWorkAround = new LookupBugWorkaround();
+        private AppStartInfo mStartInfo;
 
         public App()
         {
@@ -59,10 +60,11 @@ namespace AppCore.Main
             return null;
         }
 
-        public void Run()
+        public void Run(AppStartInfo startInfo)
         {
             try
             {
+                this.mStartInfo = startInfo;
                 Application.Run();
             }
             catch (Exception exc)
