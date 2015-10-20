@@ -20,7 +20,6 @@ namespace AppCore.Main
         private Plugins.Plugins mPlugins;
         private MessageCenter mMessages;
         private static LookupBugWorkaround mLookupBugWorkAround = new LookupBugWorkaround();
-        private AppStartInfo mStartInfo;
         private InstanceMonitor mInstanceMonitor;
 
         public App()
@@ -73,8 +72,8 @@ namespace AppCore.Main
         {
             try
             {
-                this.mStartInfo = startInfo;
-                this.mInstanceMonitor = new InstanceMonitor(this.mStartInfo.InstanceSemaphore);
+                this.StartInfo = startInfo;
+                this.mInstanceMonitor = new InstanceMonitor(this.StartInfo.InstanceSemaphore);
                 this.mInstanceMonitor.AnotherInstanceStarted = () =>
                     {
                         if (this.mWindow != null)
@@ -104,6 +103,8 @@ namespace AppCore.Main
         {
             this.Exit();
         }
+
+        public AppStartInfo StartInfo { get; private set; }
 
         public IPlugins Plugins { get { return this.mPlugins; } }
 
