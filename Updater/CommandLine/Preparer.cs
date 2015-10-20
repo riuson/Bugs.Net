@@ -52,7 +52,11 @@ namespace Updater.CommandLine
             }
         }
 
-        private static XDocument CreateOptionsDocument(DirectoryInfo applicationDirectory, FileInfo archiveFile, Guid instanceId)
+        private static XDocument CreateOptionsDocument(
+            DirectoryInfo applicationDirectory,
+            FileInfo archiveFile,
+            FileInfo callerFile,
+            Guid instanceId)
         {
             XDocument document = new XDocument(
                 new XDeclaration("1.0", "UTF-8", null),
@@ -60,6 +64,7 @@ namespace Updater.CommandLine
                     new XElement("update",
                         new XElement("applicationDirectory", applicationDirectory.FullName),
                         new XElement("archiveFile", archiveFile.FullName),
+                        new XElement("callerFile", callerFile.FullName),
                         new XElement("instanceId", instanceId.ToString())
                     )
                 )
@@ -89,11 +94,16 @@ namespace Updater.CommandLine
             return path;
         }
 
-        public static void Run(DirectoryInfo applicationDirectory, FileInfo archiveFile, Guid instanceId)
+        public static void Run(DirectoryInfo applicationDirectory, FileInfo archiveFile, FileInfo callerFile, Guid instanceId)
         {
             CopyToTemp();
             string tempExe = GetTempExe();
-            string tempXml = SaveOptionsDocument(CreateOptionsDocument(applicationDirectory, archiveFile, instanceId));
+            string tempXml = SaveOptionsDocument(
+                CreateOptionsDocument(
+                    applicationDirectory,
+                    archiveFile,
+                    callerFile,
+                    instanceId));
 
             Process process = new Process();
             process.StartInfo = new ProcessStartInfo(tempExe);

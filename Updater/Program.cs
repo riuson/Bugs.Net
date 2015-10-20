@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Updater.CommandLine;
 
 namespace Updater
 {
@@ -18,17 +17,9 @@ namespace Updater
         {
             if (arguments.Length == 1)
             {
-                try
-                {
-                    Runner updater = new Runner(arguments);
-                    updater.Run();
-                }
-                catch(Exception exc)
-                {
-                    MessageBox.Show(
-                        exc.Message + Environment.NewLine + exc.StackTrace,
-                        "Exception occured");
-                }
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new FormUpdater(arguments));
             }
         }
     }

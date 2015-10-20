@@ -88,6 +88,9 @@
     <Compile Include="Tarx\Unpacker.cs" />
     <Compile Include="Tarx\UnpackerLinear.cs" />
     <Compile Include="Tarx\UnpackerPostponed.cs" />
+    <EmbeddedResource Include="FormUpdater.resx">
+      <DependentUpon>FormUpdater.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
