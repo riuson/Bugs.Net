@@ -24,6 +24,11 @@ namespace AppStarter
                 info.ExecutablePath = GetExecutablePath();
                 info.ExecutableDir = Path.GetDirectoryName(info.ExecutablePath);
 
+                if (info.AlreadyRunned)
+                {
+                    info.SignalToExistingInstance();
+                }
+                else
                 {
                     using (Domain<App> appInDomain = new Domain<App>())
                     {

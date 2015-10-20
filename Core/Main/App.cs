@@ -21,6 +21,7 @@ namespace AppCore.Main
         private MessageCenter mMessages;
         private static LookupBugWorkaround mLookupBugWorkAround = new LookupBugWorkaround();
         private AppStartInfo mStartInfo;
+        private InstanceMonitor mInstanceMonitor;
 
         public App()
         {
@@ -28,6 +29,8 @@ namespace AppCore.Main
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            this.mInstanceMonitor = null;
 
             System.Threading.Thread.CurrentThread.CurrentCulture = LocalizationManager.Instance.ActiveUICulture;
             System.Threading.Thread.CurrentThread.CurrentUICulture = LocalizationManager.Instance.ActiveUICulture;
@@ -44,6 +47,12 @@ namespace AppCore.Main
 
         public void Dispose()
         {
+            if (this.mInstanceMonitor != null)
+            {
+                this.mInstanceMonitor.Dispose();
+                this.mInstanceMonitor = null;
+            }
+
             LocalizationManager.Instance.Flush();
             this.mWindow.Close();
             this.mWindow.Dispose();
@@ -65,6 +74,15 @@ namespace AppCore.Main
             try
             {
                 this.mStartInfo = startInfo;
+                this.mInstanceMonitor = new InstanceMonitor(this.mStartInfo.InstanceSemaphore);
+                this.mInstanceMonitor.AnotherInstanceStarted = () =>
+                    {
+                        if (this.mWindow != null)
+                        {
+                            this.mWindow.ActivateFromThread();
+                        }
+                    };
+
                 Application.Run();
             }
             catch (Exception exc)
