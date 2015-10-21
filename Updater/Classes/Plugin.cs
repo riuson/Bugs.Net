@@ -73,7 +73,6 @@ namespace Updater.Classes
                     ea.Result.TempFile,
                     applicationFile,
                     instanceId);
-                ea.Result.TempFile.Delete();
             }
         }
     }

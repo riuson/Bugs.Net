@@ -75,7 +75,7 @@ namespace Updater.CommandLine
 
         private static string SaveOptionsDocument(XDocument document)
         {
-            string path = Path.ChangeExtension(GetTempDir(), ".xml");
+            string path = Path.Combine(GetTempDir(), "Update.xml");
 
             using (FileStream fs = File.Open(path, FileMode.Create))
             {

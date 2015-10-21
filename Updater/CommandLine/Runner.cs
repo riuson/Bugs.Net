@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using Updater.Tarx;
 
 namespace Updater.CommandLine
 {
@@ -56,9 +58,24 @@ namespace Updater.CommandLine
 
         private void RunInTask()
         {
-            if (this.WaitForCallerExit(this.mCallerFile))
+            try
             {
-                this.RemoveFiles(this.mTargetDirectory);
+                if (this.WaitForCallerExit(this.mCallerFile))
+                {
+                    if (this.RemoveFiles(this.mTargetDirectory))
+                    {
+                        this.Unpack(this.mTargetDirectory, this.mArchiveFile);
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                this.Log(
+                    Stage.Removing,
+                    String.Format("Removing failed: {0}{1}{2}",
+                        exc.Message,
+                        Environment.NewLine,
+                        exc.StackTrace));
             }
         }
 
@@ -75,7 +92,7 @@ namespace Updater.CommandLine
 
                 this.Log(
                     Stage.WaitForCallerExit,
-                    String.Format("{0}: {1}...", Stage.WaitForCallerExit, "Waiting for caller exit"));
+                    "Waiting for caller exit");
 
                 if (this.CanWrite(callerFile))
                 {
@@ -90,13 +107,13 @@ namespace Updater.CommandLine
             {
                 this.Log(
                     Stage.WaitForCallerExit,
-                    String.Format("{0}: Ok.", Stage.WaitForCallerExit));
+                    "Ok.");
             }
             else
             {
                 this.Log(
                     Stage.WaitForCallerExit,
-                    String.Format("{0}: Failed.", Stage.WaitForCallerExit));
+                    "Failed.");
             }
 
             return result;
@@ -148,7 +165,7 @@ namespace Updater.CommandLine
                     {
                         try
                         {
-                            this.Log(Stage.Removing, String.Format("Removing: {0}...", file));
+                            this.Log(Stage.Removing, String.Format("{0}...", file));
                             file.Delete();
                         }
                         catch (Exception exc)
@@ -162,7 +179,7 @@ namespace Updater.CommandLine
                         }
                     });
 
-                this.Log(Stage.Removing, "Completed...");
+                this.Log(Stage.Removing, "Completed.");
             }
             else
             {
@@ -172,15 +189,46 @@ namespace Updater.CommandLine
             return true;
         }
 
+        private void Unpack(DirectoryInfo targetDirectory, FileInfo sourceFile)
+        {
+            using (FileStream fs = new FileStream(sourceFile.FullName, FileMode.Open, FileAccess.Read))
+            {
+                using (GZipStream gs = new GZipStream(fs, CompressionMode.Decompress))
+                {
+                    using (Unpacker unpacker = new Unpacker(gs, this.UnpackerLog, null))
+                    {
+                        XDocument xHeader = unpacker.XHeader;
+
+                        this.Log(Stage.Unpacking, "Starting...");
+
+                        unpacker.UnpackTo(targetDirectory, item =>
+                        {
+                            this.Log(Stage.Unpacking, String.Format("{0}...", item.Element("path").Value));
+                            return true;
+                        });
+
+                        this.Log(Stage.Unpacking, "Completed.");
+                    }
+                }
+            }
+        }
+
         public void Dispose()
         {
         }
+
+        private void UnpackerLog(string message)
+        {
+            this.Log(Stage.Unpacking, message);
+        }
+
 
         public enum Stage
         {
             Parsing,
             WaitForCallerExit,
-            Removing
+            Removing,
+            Unpacking
         }
 
         public delegate bool RunnerLog(Stage stage, string message);
