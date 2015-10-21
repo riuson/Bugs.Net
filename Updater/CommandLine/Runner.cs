@@ -77,17 +77,10 @@ namespace Updater.CommandLine
                     Stage.WaitForCallerExit,
                     String.Format("{0}: {1}...", Stage.WaitForCallerExit, "Waiting for caller exit"));
 
-                // Try open for write
-                try
+                if (this.CanWrite(callerFile))
                 {
-                    using (FileStream fs = callerFile.Open(FileMode.Open, FileAccess.Write, FileShare.None))
-                    {
-                        result = true;
-                        break;
-                    }
-                }
-                catch// (Exception exc)
-                {
+                    result = true;
+                    break;
                 }
 
                 Thread.Sleep(500);
@@ -109,32 +102,72 @@ namespace Updater.CommandLine
             return result;
         }
 
+        private bool CanWrite(FileInfo file)
+        {
+            bool result;
+
+            // Try open for write
+            try
+            {
+                using (FileStream fs = file.Open(FileMode.Open, FileAccess.Write, FileShare.None))
+                {
+                    result = true;
+                }
+            }
+            catch (Exception exc)
+            {
+                // Cannot delete
+                //this.Log(
+                //    Stage.Removing,
+                //    String.Format("Removing failed: {0}{1}{2}",
+                //        exc.Message,
+                //        Environment.NewLine,
+                //        exc.StackTrace));
+                result = false;
+            }
+
+            return result;
+        }
+
         private bool RemoveFiles(DirectoryInfo directory)
         {
-            this.Log(Stage.Removing, String.Format("Removing *.dll and *.exe files in target directory: {0}...", directory));
+            this.Log(Stage.Removing, String.Format("Removing (*.dll, *.exe, *.pdb) files in target directory: {0}...", directory));
 
             var files = directory.GetFiles("*.*", SearchOption.AllDirectories)
-                .Where(file => file.Extension == ".dll" || file.Extension == ".exe");
+                .Where(file => file.Extension == ".dll" || file.Extension == ".exe" || file.Extension == ".pdb");
 
-            files.AsParallel().ForAll(file =>
+            bool canDeleteAll = files.AsParallel().All(file =>
                 {
-                    try
-                    {
-                        this.Log(Stage.Removing, String.Format("Removing: {0}...", file));
-                        file.Delete();
-                    }
-                    catch (Exception exc)
-                    {
-                        this.Log(
-                            Stage.Removing,
-                            String.Format("Removing failed: {0}{1}{2}",
-                                exc.Message,
-                                Environment.NewLine,
-                                exc.StackTrace));
-                    }
+                    // Check access for write (delete)
+                    return this.CanWrite(file);
                 });
 
-            this.Log(Stage.Removing, "Completed...");
+            if (canDeleteAll)
+            {
+                files.AsParallel().ForAll(file =>
+                    {
+                        try
+                        {
+                            this.Log(Stage.Removing, String.Format("Removing: {0}...", file));
+                            file.Delete();
+                        }
+                        catch (Exception exc)
+                        {
+                            this.Log(
+                                Stage.Removing,
+                                String.Format("Removing failed: {0}{1}{2}",
+                                    exc.Message,
+                                    Environment.NewLine,
+                                    exc.StackTrace));
+                        }
+                    });
+
+                this.Log(Stage.Removing, "Completed...");
+            }
+            else
+            {
+                this.Log(Stage.Removing, "Cannot get write access for all files. Removing canceled.");
+            }
 
             return true;
         }
