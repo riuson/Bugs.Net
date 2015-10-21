@@ -58,6 +58,7 @@ namespace Updater.CommandLine
         {
             if (this.WaitForCallerExit(this.mCallerFile))
             {
+                this.RemoveFiles(this.mTargetDirectory);
             }
         }
 
@@ -108,6 +109,36 @@ namespace Updater.CommandLine
             return result;
         }
 
+        private bool RemoveFiles(DirectoryInfo directory)
+        {
+            this.Log(Stage.Removing, String.Format("Removing *.dll and *.exe files in target directory: {0}...", directory));
+
+            var files = directory.GetFiles("*.*", SearchOption.AllDirectories)
+                .Where(file => file.Extension == ".dll" || file.Extension == ".exe");
+
+            files.AsParallel().ForAll(file =>
+                {
+                    try
+                    {
+                        this.Log(Stage.Removing, String.Format("Removing: {0}...", file));
+                        file.Delete();
+                    }
+                    catch (Exception exc)
+                    {
+                        this.Log(
+                            Stage.Removing,
+                            String.Format("Removing failed: {0}{1}{2}",
+                                exc.Message,
+                                Environment.NewLine,
+                                exc.StackTrace));
+                    }
+                });
+
+            this.Log(Stage.Removing, "Completed...");
+
+            return true;
+        }
+
         public void Dispose()
         {
         }
@@ -115,7 +146,8 @@ namespace Updater.CommandLine
         public enum Stage
         {
             Parsing,
-            WaitForCallerExit
+            WaitForCallerExit,
+            Removing
         }
 
         public delegate bool RunnerLog(Stage stage, string message);
