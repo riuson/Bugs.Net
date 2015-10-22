@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -75,7 +76,8 @@ namespace Updater.CommandLine
                     String.Format("Removing failed: {0}{1}{2}",
                         exc.Message,
                         Environment.NewLine,
-                        exc.StackTrace));
+                        exc.StackTrace),
+                    Color.Red);
             }
         }
 
@@ -92,7 +94,8 @@ namespace Updater.CommandLine
 
                 this.Log(
                     Stage.WaitForCallerExit,
-                    "Waiting for caller exit");
+                    "Waiting for caller exit",
+                    Color.Blue);
 
                 if (this.CanWrite(callerFile))
                 {
@@ -107,13 +110,15 @@ namespace Updater.CommandLine
             {
                 this.Log(
                     Stage.WaitForCallerExit,
-                    "Ok.");
+                    "Ok.",
+                    Color.Green);
             }
             else
             {
                 this.Log(
                     Stage.WaitForCallerExit,
-                    "Failed.");
+                    "Failed.",
+                    Color.Red);
             }
 
             return result;
@@ -148,7 +153,7 @@ namespace Updater.CommandLine
 
         private bool RemoveFiles(DirectoryInfo directory)
         {
-            this.Log(Stage.Removing, String.Format("Removing (*.dll, *.exe, *.pdb) files in target directory: {0}...", directory));
+            this.Log(Stage.Removing, String.Format("Removing (*.dll, *.exe, *.pdb) files in target directory: {0}...", directory), Color.Blue);
 
             var files = directory.GetFiles("*.*", SearchOption.AllDirectories)
                 .Where(file => file.Extension == ".dll" || file.Extension == ".exe" || file.Extension == ".pdb");
@@ -165,7 +170,7 @@ namespace Updater.CommandLine
                     {
                         try
                         {
-                            this.Log(Stage.Removing, String.Format("{0}...", file));
+                            this.Log(Stage.Removing, String.Format("{0}...", file), Color.Gray);
                             file.Delete();
                         }
                         catch (Exception exc)
@@ -175,15 +180,16 @@ namespace Updater.CommandLine
                                 String.Format("Removing failed: {0}{1}{2}",
                                     exc.Message,
                                     Environment.NewLine,
-                                    exc.StackTrace));
+                                    exc.StackTrace),
+                                Color.Red);
                         }
                     });
 
-                this.Log(Stage.Removing, "Completed.");
+                this.Log(Stage.Removing, "Completed.", Color.Green);
             }
             else
             {
-                this.Log(Stage.Removing, "Cannot get write access for all files. Removing canceled.");
+                this.Log(Stage.Removing, "Cannot get write access for all files. Removing canceled.", Color.Red);
             }
 
             return true;
@@ -199,15 +205,15 @@ namespace Updater.CommandLine
                     {
                         XDocument xHeader = unpacker.XHeader;
 
-                        this.Log(Stage.Unpacking, "Starting...");
+                        this.Log(Stage.Unpacking, "Starting...", Color.Blue);
 
                         unpacker.UnpackTo(targetDirectory, item =>
                         {
-                            this.Log(Stage.Unpacking, String.Format("{0}...", item.Element("path").Value));
+                            this.Log(Stage.Unpacking, String.Format("{0}...", item.Element("path").Value), Color.Gray);
                             return true;
                         });
 
-                        this.Log(Stage.Unpacking, "Completed.");
+                        this.Log(Stage.Unpacking, "Completed.", Color.Green);
                     }
                 }
             }
@@ -219,7 +225,7 @@ namespace Updater.CommandLine
 
         private void UnpackerLog(string message)
         {
-            this.Log(Stage.Unpacking, message);
+            this.Log(Stage.Unpacking, message, Color.Gray);
         }
 
 
@@ -231,6 +237,6 @@ namespace Updater.CommandLine
             Unpacking
         }
 
-        public delegate bool RunnerLog(Stage stage, string message);
+        public delegate bool RunnerLog(Stage stage, string message, Color color);
     }
 }

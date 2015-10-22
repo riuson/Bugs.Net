@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Updater.CommandLine;
+using AppCore.Extensions;
 
 namespace Updater
 {
@@ -35,13 +36,13 @@ namespace Updater
             }
         }
 
-        private bool Log(Updater.CommandLine.Runner.Stage stage, string message)
+        private bool Log(Updater.CommandLine.Runner.Stage stage, string message, Color color)
         {
             Task task = new Task(() => { });
             task.ContinueWith(
                 (o) =>
                 {
-                    this.richTextBoxLog.AppendText(String.Format("{0}: {1}", stage, message));
+                    this.richTextBoxLog.AppendText(String.Format("{0}: {1}", stage, message), color);
                     this.richTextBoxLog.AppendText(Environment.NewLine);
                 }, this.mContext);
             task.Start();

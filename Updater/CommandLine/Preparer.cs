@@ -24,6 +24,7 @@ namespace Updater.CommandLine
         {
             FileInfo[] result = new FileInfo[]{
                 GetAssemblyFile(Assembly.GetExecutingAssembly()),
+                // Required for resolving in reading XML with XmlReaderSettings, even if no one class of Core is not used when reading/unpacking.
                 GetAssemblyFile(typeof(AppCore.IApplication).Assembly)
             };
 
