@@ -16,27 +16,14 @@ namespace Updater
     {
         private TaskScheduler mContext;
 
-        public FormUpdater(string[] arguments)
+        public FormUpdater()
         {
             InitializeComponent();
 
             this.mContext = TaskScheduler.FromCurrentSynchronizationContext();
-
-            try
-            {
-                Runner updater = new Runner(arguments);
-                updater.Log = this.Log;
-                updater.Run();
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(
-                    exc.Message + Environment.NewLine + exc.StackTrace,
-                    "Exception occured");
-            }
         }
 
-        private bool Log(Updater.CommandLine.Runner.Stage stage, string message, Color color)
+        public bool Log(Updater.CommandLine.Stage stage, string message, Color color)
         {
             Task task = new Task(() => { });
             task.ContinueWith(

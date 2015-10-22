@@ -22,6 +22,8 @@ namespace Updater.CommandLine
         private Guid mInstanceId;
 
         public RunnerLog Log { get; set; }
+        public Action Completed { get; set; }
+        public Action Failed { get; set; }
 
         public Runner(string[] arguments)
         {
@@ -53,21 +55,57 @@ namespace Updater.CommandLine
 
         internal void Run()
         {
-            Task task = new Task(this.RunInTask);
+            Task<Boolean> task = new Task<Boolean>(this.RunInTask);
+            task.ContinueWith((t) =>
+                {
+                    Boolean result = (Boolean)t.Result;
+
+                    if (result)
+                    {
+                        if (this.Completed != null)
+                        {
+                            this.Completed();
+                        }
+                    }
+                    else
+                    {
+                        if (this.Failed != null)
+                        {
+                            this.Failed();
+                        }
+                    }
+                });
             task.Start();
         }
 
-        private void RunInTask()
+        private Boolean RunInTask()
         {
             try
             {
+                bool result = false;
+
                 if (this.WaitForCallerExit(this.mCallerFile))
                 {
                     if (this.RemoveFiles(this.mTargetDirectory))
                     {
                         this.Unpack(this.mTargetDirectory, this.mArchiveFile);
+
+                        result = true;
                     }
                 }
+
+                if (result)
+                {
+                    this.Log(Stage.Completing, "All completed successfully", Color.DarkGreen);
+                }
+                else
+                {
+                    this.Log(Stage.Completing, "Procedure failed", Color.DarkRed);
+                }
+
+                Thread.Sleep(2000);
+
+                return result;
             }
             catch (Exception exc)
             {
@@ -78,6 +116,8 @@ namespace Updater.CommandLine
                         Environment.NewLine,
                         exc.StackTrace),
                     Color.Red);
+                Thread.Sleep(2000);
+                return false;
             }
         }
 
@@ -186,13 +226,13 @@ namespace Updater.CommandLine
                     });
 
                 this.Log(Stage.Removing, "Completed.", Color.Green);
+                return true;
             }
             else
             {
                 this.Log(Stage.Removing, "Cannot get write access for all files. Removing canceled.", Color.Red);
+                return false;
             }
-
-            return true;
         }
 
         private void Unpack(DirectoryInfo targetDirectory, FileInfo sourceFile)
@@ -228,15 +268,15 @@ namespace Updater.CommandLine
             this.Log(Stage.Unpacking, message, Color.Gray);
         }
 
-
-        public enum Stage
-        {
-            Parsing,
-            WaitForCallerExit,
-            Removing,
-            Unpacking
-        }
-
         public delegate bool RunnerLog(Stage stage, string message, Color color);
+    }
+
+    public enum Stage
+    {
+        Parsing,
+        WaitForCallerExit,
+        Removing,
+        Unpacking,
+        Completing
     }
 }
