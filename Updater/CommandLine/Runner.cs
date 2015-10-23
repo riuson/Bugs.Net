@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -88,9 +89,13 @@ namespace Updater.CommandLine
                 {
                     if (this.RemoveFiles(this.mTargetDirectory))
                     {
-                        this.Unpack(this.mTargetDirectory, this.mArchiveFile);
-
-                        result = true;
+                        if (this.Unpack(this.mTargetDirectory, this.mArchiveFile))
+                        {
+                            if (this.RunCaller(this.mCallerFile))
+                            {
+                                result = true;
+                            }
+                        }
                     }
                 }
 
@@ -235,8 +240,10 @@ namespace Updater.CommandLine
             }
         }
 
-        private void Unpack(DirectoryInfo targetDirectory, FileInfo sourceFile)
+        private bool Unpack(DirectoryInfo targetDirectory, FileInfo sourceFile)
         {
+            bool result = false;
+
             using (FileStream fs = new FileStream(sourceFile.FullName, FileMode.Open, FileAccess.Read))
             {
                 using (GZipStream gs = new GZipStream(fs, CompressionMode.Decompress))
@@ -247,7 +254,7 @@ namespace Updater.CommandLine
 
                         this.Log(Stage.Unpacking, "Starting...", Color.Blue);
 
-                        unpacker.UnpackTo(targetDirectory, item =>
+                        result = unpacker.UnpackTo(targetDirectory, item =>
                         {
                             this.Log(Stage.Unpacking, String.Format("{0}...", item.Element("path").Value), Color.Gray);
                             return true;
@@ -257,6 +264,30 @@ namespace Updater.CommandLine
                     }
                 }
             }
+
+            return result;
+        }
+
+        private bool RunCaller(FileInfo callerFile)
+        {
+            this.Log(Stage.Starting, "Starting application...", Color.Blue);
+
+            if (callerFile.Exists)
+            {
+                Process process = new Process();
+                process.StartInfo = new ProcessStartInfo(callerFile.FullName);
+                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(callerFile.FullName);
+
+                if (process.Start())
+                {
+                    this.Log(Stage.Starting, "Application started.", Color.Green);
+                    return true;
+                }
+            }
+
+            this.Log(Stage.Starting, "Application not started.", Color.Red);
+
+            return false;
         }
 
         public void Dispose()
@@ -277,6 +308,7 @@ namespace Updater.CommandLine
         WaitForCallerExit,
         Removing,
         Unpacking,
+        Starting,
         Completing
     }
 }
