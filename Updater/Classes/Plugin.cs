@@ -64,15 +64,18 @@ namespace Updater.Classes
 
             if (ea != null)
             {
-                DirectoryInfo applicationDirectory = new DirectoryInfo(this.mApp.StartInfo.ExecutableDir);
-                FileInfo applicationFile = new FileInfo(this.mApp.StartInfo.ExecutablePath);
-                Guid instanceId = this.mApp.StartInfo.InstanceId;
+                if (MessageBox.Show(this.mApp.OwnerWindow, "Apply update?".Tr(), "Update received".Tr(), MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                {
+                    DirectoryInfo applicationDirectory = new DirectoryInfo(this.mApp.StartInfo.ExecutableDir);
+                    FileInfo applicationFile = new FileInfo(this.mApp.StartInfo.ExecutablePath);
+                    Guid instanceId = this.mApp.StartInfo.InstanceId;
 
-                Updater.CommandLine.Preparer.Run(
-                    applicationDirectory,
-                    ea.Result.TempFile,
-                    applicationFile,
-                    instanceId);
+                    Updater.CommandLine.Preparer.Run(
+                        applicationDirectory,
+                        ea.Result.TempFile,
+                        applicationFile,
+                        instanceId);
+                }
             }
         }
     }
