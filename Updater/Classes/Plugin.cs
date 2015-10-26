@@ -75,6 +75,8 @@ namespace Updater.Classes
                         ea.Result.TempFile,
                         applicationFile,
                         instanceId);
+
+                    this.mApp.Exit();
                 }
             }
         }
