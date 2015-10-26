@@ -87,15 +87,24 @@ namespace Updater.CommandLine
 
                 if (this.WaitForAppExit(this.mAppStarterFile))
                 {
-                    if (this.RemoveFiles(this.mTargetDirectory))
+                    if (this.CanRemoveFiles(this.mTargetDirectory))
                     {
-                        if (this.Unpack(this.mTargetDirectory, this.mArchiveFile))
+                        if (this.RemoveFiles(this.mTargetDirectory))
                         {
-                            if (this.RunAppStarter(this.mAppStarterFile))
+                            if (this.Unpack(this.mTargetDirectory, this.mArchiveFile))
                             {
-                                result = true;
+                                if (this.RunAppStarter(this.mAppStarterFile))
+                                {
+                                    result = true;
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        this.Log(Stage.Removing, "Cannot get write access for all files. Removing canceled.", Color.Red);
+                        this.RunAppStarter(this.mAppStarterFile);
+                        return false;
                     }
                 }
 
@@ -200,48 +209,53 @@ namespace Updater.CommandLine
             return result;
         }
 
-        private bool RemoveFiles(DirectoryInfo directory)
+        private IEnumerable<FileInfo> GetFilesToRemove(DirectoryInfo directory)
         {
-            this.Log(Stage.Removing, String.Format("Removing (*.dll, *.exe, *.pdb) files in target directory: {0}...", directory), Color.Blue);
-
             var files = directory.GetFiles("*.*", SearchOption.AllDirectories)
                 .Where(file => file.Extension == ".dll" || file.Extension == ".exe" || file.Extension == ".pdb");
 
-            bool canDeleteAll = files.AsParallel().All(file =>
+            return files;
+        }
+
+        private bool CanRemoveFiles(DirectoryInfo directory)
+        {
+            var files = this.GetFilesToRemove(directory);
+            bool canRemoveAll = files.AsParallel().All(file =>
+            {
+                // Check access for write (delete)
+                return this.CanWrite(file, true);
+            });
+            return canRemoveAll;
+        }
+
+        private bool RemoveFiles(DirectoryInfo directory)
+        {
+            bool result = true;
+            this.Log(Stage.Removing, String.Format("Removing (*.dll, *.exe, *.pdb) files in target directory: {0}...", directory), Color.Blue);
+
+            var files = this.GetFilesToRemove(directory);
+            files.AsParallel().ForAll(file =>
                 {
-                    // Check access for write (delete)
-                    return this.CanWrite(file, true);
+                    try
+                    {
+                        this.Log(Stage.Removing, String.Format("{0}...", file), Color.Gray);
+                        file.Delete();
+                    }
+                    catch (Exception exc)
+                    {
+                        this.Log(
+                            Stage.Removing,
+                            String.Format("Removing failed: {0}{1}{2}",
+                                exc.Message,
+                                Environment.NewLine,
+                                exc.StackTrace),
+                            Color.Red);
+                        result = false;
+                    }
                 });
 
-            if (canDeleteAll)
-            {
-                files.AsParallel().ForAll(file =>
-                    {
-                        try
-                        {
-                            this.Log(Stage.Removing, String.Format("{0}...", file), Color.Gray);
-                            file.Delete();
-                        }
-                        catch (Exception exc)
-                        {
-                            this.Log(
-                                Stage.Removing,
-                                String.Format("Removing failed: {0}{1}{2}",
-                                    exc.Message,
-                                    Environment.NewLine,
-                                    exc.StackTrace),
-                                Color.Red);
-                        }
-                    });
-
-                this.Log(Stage.Removing, "Completed.", Color.Green);
-                return true;
-            }
-            else
-            {
-                this.Log(Stage.Removing, "Cannot get write access for all files. Removing canceled.", Color.Red);
-                return false;
-            }
+            this.Log(Stage.Removing, "Completed.", Color.Green);
+            return result;
         }
 
         private bool Unpack(DirectoryInfo targetDirectory, FileInfo sourceFile)
