@@ -15,18 +15,18 @@ using Updater.Tarx;
 
 namespace Updater.CommandLine
 {
-    internal class Runner : IDisposable
+    internal class Updater : IDisposable
     {
         private DirectoryInfo mTargetDirectory;
         private FileInfo mArchiveFile;
-        private FileInfo mCallerFile;
+        private FileInfo mAppStarterFile;
         private Guid mInstanceId;
 
         public RunnerLog Log { get; set; }
         public Action Completed { get; set; }
         public Action Failed { get; set; }
 
-        public Runner(string[] arguments)
+        public Updater(string[] arguments)
         {
             string documentFile = arguments[0];
 
@@ -50,13 +50,13 @@ namespace Updater.CommandLine
                 this.mTargetDirectory = new DirectoryInfo(xUpdate.Element("applicationDirectory").Value);
                 this.mArchiveFile = new FileInfo(xUpdate.Element("archiveFile").Value);
                 this.mInstanceId = new Guid(xUpdate.Element("instanceId").Value);
-                this.mCallerFile = new FileInfo(xUpdate.Element("callerFile").Value);
+                this.mAppStarterFile = new FileInfo(xUpdate.Element("appStarterFile").Value);
             }
         }
 
-        internal void Run()
+        internal void Start()
         {
-            Task<Boolean> task = new Task<Boolean>(this.RunInTask);
+            Task<Boolean> task = new Task<Boolean>(this.ProcessInTask);
             task.ContinueWith((t) =>
                 {
                     Boolean result = (Boolean)t.Result;
@@ -79,19 +79,19 @@ namespace Updater.CommandLine
             task.Start();
         }
 
-        private Boolean RunInTask()
+        private Boolean ProcessInTask()
         {
             try
             {
                 bool result = false;
 
-                if (this.WaitForCallerExit(this.mCallerFile))
+                if (this.WaitForAppExit(this.mAppStarterFile))
                 {
                     if (this.RemoveFiles(this.mTargetDirectory))
                     {
                         if (this.Unpack(this.mTargetDirectory, this.mArchiveFile))
                         {
-                            if (this.RunCaller(this.mCallerFile))
+                            if (this.RunAppStarter(this.mAppStarterFile))
                             {
                                 result = true;
                             }
@@ -101,7 +101,7 @@ namespace Updater.CommandLine
 
                 if (result)
                 {
-                    this.Log(Stage.Completing, "All completed successfully", Color.DarkGreen);
+                    this.Log(Stage.Completing, "Procedure completed successfully", Color.DarkGreen);
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace Updater.CommandLine
             }
         }
 
-        private bool WaitForCallerExit(FileInfo callerFile)
+        private bool WaitForAppExit(FileInfo appStarterFile)
         {
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddSeconds(10);
@@ -138,11 +138,11 @@ namespace Updater.CommandLine
                 TimeSpan spanFromStart = DateTime.Now.Subtract(startTime);
 
                 this.Log(
-                    Stage.WaitForCallerExit,
-                    "Waiting for caller exit",
+                    Stage.WaitForAppExit,
+                    "Waiting for application exit...",
                     Color.Blue);
 
-                if (this.CanWrite(callerFile))
+                if (this.CanWrite(appStarterFile, false))
                 {
                     result = true;
                     break;
@@ -154,14 +154,14 @@ namespace Updater.CommandLine
             if (result)
             {
                 this.Log(
-                    Stage.WaitForCallerExit,
+                    Stage.WaitForAppExit,
                     "Ok.",
                     Color.Green);
             }
             else
             {
                 this.Log(
-                    Stage.WaitForCallerExit,
+                    Stage.WaitForAppExit,
                     "Failed.",
                     Color.Red);
             }
@@ -169,7 +169,7 @@ namespace Updater.CommandLine
             return result;
         }
 
-        private bool CanWrite(FileInfo file)
+        private bool CanWrite(FileInfo file, bool showLog)
         {
             bool result;
 
@@ -184,12 +184,16 @@ namespace Updater.CommandLine
             catch (Exception exc)
             {
                 // Cannot delete
-                //this.Log(
-                //    Stage.Removing,
-                //    String.Format("Removing failed: {0}{1}{2}",
-                //        exc.Message,
-                //        Environment.NewLine,
-                //        exc.StackTrace));
+                if (showLog)
+                {
+                    this.Log(
+                        Stage.Removing,
+                        String.Format("Access denied to {0}:{2}{1}",
+                            file,
+                            exc.Message,
+                            Environment.NewLine),
+                        Color.Red);
+                }
                 result = false;
             }
 
@@ -206,7 +210,7 @@ namespace Updater.CommandLine
             bool canDeleteAll = files.AsParallel().All(file =>
                 {
                     // Check access for write (delete)
-                    return this.CanWrite(file);
+                    return this.CanWrite(file, true);
                 });
 
             if (canDeleteAll)
@@ -268,15 +272,15 @@ namespace Updater.CommandLine
             return result;
         }
 
-        private bool RunCaller(FileInfo callerFile)
+        private bool RunAppStarter(FileInfo appStarterFile)
         {
             this.Log(Stage.Starting, "Starting application...", Color.Blue);
 
-            if (callerFile.Exists)
+            if (appStarterFile.Exists)
             {
                 Process process = new Process();
-                process.StartInfo = new ProcessStartInfo(callerFile.FullName);
-                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(callerFile.FullName);
+                process.StartInfo = new ProcessStartInfo(appStarterFile.FullName);
+                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(appStarterFile.FullName);
 
                 if (process.Start())
                 {
@@ -305,7 +309,7 @@ namespace Updater.CommandLine
     public enum Stage
     {
         Parsing,
-        WaitForCallerExit,
+        WaitForAppExit,
         Removing,
         Unpacking,
         Starting,

@@ -26,7 +26,10 @@ namespace Updater
                     FormUpdater form = new FormUpdater();
                     form.Show();
                     form.FormClosing += form_FormClosing;
-                    Runner updater = new Runner(arguments);
+
+                    CommandLine.Updater updater = new CommandLine.Updater(arguments);
+                    updater.Log = form.Log;
+
                     updater.Completed = () =>
                     {
                         Application.Exit();
@@ -34,8 +37,8 @@ namespace Updater
                     updater.Failed = () =>
                     {
                     };
-                    updater.Log = form.Log;
-                    updater.Run();
+
+                    updater.Start();
                     Application.Run();
                 }
                 catch (Exception exc)

@@ -42,6 +42,12 @@ namespace Updater.CommandLine
             return tempExe;
         }
 
+        private static string GetTempXml()
+        {
+            string tempXml = Path.Combine(GetTempDir(), "Update.xml");
+            return tempXml;
+        }
+
         private static void CopyToTemp()
         {
             string temp = GetTempDir();
@@ -56,7 +62,7 @@ namespace Updater.CommandLine
         private static XDocument CreateOptionsDocument(
             DirectoryInfo applicationDirectory,
             FileInfo archiveFile,
-            FileInfo callerFile,
+            FileInfo appStarterFile,
             Guid instanceId)
         {
             XDocument document = new XDocument(
@@ -65,7 +71,7 @@ namespace Updater.CommandLine
                     new XElement("update",
                         new XElement("applicationDirectory", applicationDirectory.FullName),
                         new XElement("archiveFile", archiveFile.FullName),
-                        new XElement("callerFile", callerFile.FullName),
+                        new XElement("appStarterFile", appStarterFile.FullName),
                         new XElement("instanceId", instanceId.ToString())
                     )
                 )
@@ -74,10 +80,8 @@ namespace Updater.CommandLine
             return document;
         }
 
-        private static string SaveOptionsDocument(XDocument document)
+        private static void SaveOptionsDocument(XDocument document, string path)
         {
-            string path = Path.Combine(GetTempDir(), "Update.xml");
-
             using (FileStream fs = File.Open(path, FileMode.Create))
             {
                 XmlWriterSettings settings = new XmlWriterSettings();
@@ -91,27 +95,28 @@ namespace Updater.CommandLine
                     document.Save(writer);
                 }
             }
-
-            return path;
         }
 
-        public static void Run(DirectoryInfo applicationDirectory, FileInfo archiveFile, FileInfo callerFile, Guid instanceId)
+        public static void Run(DirectoryInfo applicationDirectory, FileInfo archiveFile, FileInfo appStarterFile, Guid instanceId)
         {
             CopyToTemp();
+
             string tempExe = GetTempExe();
-            string tempXml = SaveOptionsDocument(
+            string tempXml = GetTempXml();
+
+            SaveOptionsDocument(
                 CreateOptionsDocument(
                     applicationDirectory,
                     archiveFile,
-                    callerFile,
-                    instanceId));
+                    appStarterFile,
+                    instanceId),
+                tempXml);
 
             Process process = new Process();
             process.StartInfo = new ProcessStartInfo(tempExe);
             process.StartInfo.Arguments = tempXml;
             process.StartInfo.WorkingDirectory = GetTempDir();
             process.Start();
-            //process.WaitForExit();
         }
     }
 }

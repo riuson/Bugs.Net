@@ -57,7 +57,7 @@
     <Compile Include="Classes\HistoryParser.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
-    <Compile Include="CommandLine\Runner.cs" />
+    <Compile Include="CommandLine\Updater.cs" />
     <Compile Include="CommandLine\Preparer.cs" />
     <Compile Include="Events\UpdateReceivedEventArgs.cs" />
     <Compile Include="Events\UpdateStartEventArgs.cs" />
