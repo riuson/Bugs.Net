@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -64,7 +65,19 @@ namespace Updater.Classes
 
             if (ea != null)
             {
-                if (MessageBox.Show(this.mApp.OwnerWindow, "Apply update?".Tr(), "Update received".Tr(), MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
+                object[] attributesRevision = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitRevisionAttribute), false);
+                DateTime currentCommitDate = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate;
+                string currentRevision = (attributesRevision[0] as AssemblyGitRevisionAttribute).RevisionHash;
+
+                string message = String.Format("Current version: {1} from {2:yyyy-MM-dd HH:mm:ss}{0}New version: {3} from {4:yyyy-MM-dd HH:mm:ss}{0}Apply update?".Tr(),
+                    Environment.NewLine,
+                    currentRevision.Substring(0, 7),
+                    currentCommitDate,
+                    ea.Result.History.LatestRevision.Substring(0, 7),
+                    ea.Result.History.LatestCommitDate);
+
+                if (MessageBox.Show(this.mApp.OwnerWindow, message, "Update received".Tr(), MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                 {
                     DirectoryInfo applicationDirectory = new DirectoryInfo(this.mApp.StartInfo.ExecutableDir);
                     FileInfo applicationFile = new FileInfo(this.mApp.StartInfo.ExecutablePath);

@@ -17,6 +17,7 @@ namespace Updater.Classes
         public string LatestFilePath { get; private set; }
         public byte[] LatestFileHash { get; private set; }
         public DateTime LatestCommitDate { get; private set; }
+        public string LatestRevision { get; private set; }
 
         private HistoryParser()
         {
@@ -24,6 +25,7 @@ namespace Updater.Classes
             this.IsValid = false;
             this.LatestFilePath = String.Empty;
             this.LatestFileHash = new byte[] { };
+            this.LatestRevision = String.Empty;
         }
 
         public HistoryParser(XDocument document)
@@ -64,6 +66,7 @@ namespace Updater.Classes
                     {
                         this.LatestFilePath = xNewestRecord.Element("downloads").Element("file").Element("path").Value;
                         this.LatestFileHash = this.HexStringToBytes(xNewestRecord.Element("downloads").Element("file").Element("hash").Value);
+                        this.LatestRevision = xNewestRecord.Element("commit").Element("hash").Value;
                         this.LatestCommitDate = DateTime.ParseExact(xNewestRecord.Element("commit").Element("date").Value, "yyyy-MM-dd HH:mm:ss zzz", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
                         return true;
                     }
