@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Classes\CompilerServiceAttributes.cs" />
     <Compile Include="Classes\InstanceMonitor.cs" />
+    <Compile Include="Extensions\CustomAttributeExtension.cs" />
     <Compile Include="Main\App.cs" />
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />

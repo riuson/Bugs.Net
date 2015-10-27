@@ -65,15 +65,13 @@ namespace Updater.Classes
 
             if (ea != null)
             {
-                object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
-                object[] attributesRevision = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitRevisionAttribute), false);
-                DateTime currentCommitDate = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate;
-                string currentRevision = (attributesRevision[0] as AssemblyGitRevisionAttribute).RevisionHash;
+                AssemblyGitCommitAuthorDateAttribute attributeAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyGitCommitAuthorDateAttribute>();
+                AssemblyGitRevisionAttribute attributeRevision = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyGitRevisionAttribute>();
 
                 string message = String.Format("Current version: {1} from {2:yyyy-MM-dd HH:mm:ss}{0}New version: {3} from {4:yyyy-MM-dd HH:mm:ss}{0}Apply update?".Tr(),
                     Environment.NewLine,
-                    currentRevision.Substring(0, 7),
-                    currentCommitDate,
+                    attributeRevision.RevisionHash.Substring(0, 7),
+                    attributeAuthorDate.CommitAuthorDate,
                     ea.Result.History.LatestRevision.Substring(0, 7),
                     ea.Result.History.LatestCommitDate);
 

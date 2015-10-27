@@ -1,5 +1,6 @@
 ﻿using AppCore;
 using AppCore.Classes;
+using AppCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -92,8 +93,8 @@ namespace Updater.FileSystem.Classes
                     token.ThrowIfCancellationRequested();
                 }
 
-                object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
-                DateTime currentCommitDate = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate;
+                AssemblyGitCommitAuthorDateAttribute attributeAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyGitCommitAuthorDateAttribute>();
+                DateTime currentCommitDate = attributeAuthorDate.CommitAuthorDate;
 
                 if (history.LatestCommitDate > currentCommitDate)
                 {

@@ -1,4 +1,5 @@
-﻿using AppCore.Menus;
+﻿using AppCore.Extensions;
+using AppCore.Menus;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -53,11 +54,11 @@ namespace AppCore.Plugins
                 try
                 {
                     Assembly assembly = Assembly.LoadFile(filename);
-                    object[] attributesPlugin = assembly.GetCustomAttributes(typeof(AssemblyPluginTypeAttribute), false);
+                    var attributesPlugin = assembly.GetCustomAttributes<AssemblyPluginTypeAttribute>();
 
                     foreach (var attributePlugin in attributesPlugin)
                     {
-                        Type pluginType = (attributePlugin as AssemblyPluginTypeAttribute).PluginType;
+                        Type pluginType = attributePlugin.PluginType;
                         Type t = pluginType.GetInterface(typeof(IPlugin).FullName);
 
                         if (t != null && !pluginType.IsAbstract)
