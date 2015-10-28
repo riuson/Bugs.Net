@@ -53,6 +53,12 @@
   <ItemGroup>
     <Compile Include="..\AssemblyInfoCommon.cs" />
     <Compile Include="..\AssemblyInfoVersion.cs" />
+    <Compile Include="Archive\ControlArchive.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Archive\ControlArchive.Designer.cs">
+      <DependentUpon>ControlArchive.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\DownloadResult.cs" />
     <Compile Include="Classes\HistoryParser.cs" />
     <Compile Include="Classes\Options.cs" />
@@ -88,6 +94,9 @@
     <Compile Include="Tarx\Unpacker.cs" />
     <Compile Include="Tarx\UnpackerLinear.cs" />
     <Compile Include="Tarx\UnpackerPostponed.cs" />
+    <EmbeddedResource Include="Archive\ControlArchive.resx">
+      <DependentUpon>ControlArchive.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormUpdater.resx">
       <DependentUpon>FormUpdater.cs</DependentUpon>
     </EmbeddedResource>
@@ -129,6 +138,7 @@
     <None Include="Resources\fa-refresh_48_0_005719_none.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\fa-archive_48_0_005719_none.png" />
     <Content Include="Resources\HistoryExample.xml" />
   </ItemGroup>
   <ItemGroup />

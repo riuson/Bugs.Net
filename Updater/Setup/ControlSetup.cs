@@ -31,7 +31,7 @@ namespace Updater.Setup
             this.panelMenu.Controls.Add(this.mMenu.AsControl);
             this.mMenu.AsControl.Dock = System.Windows.Forms.DockStyle.Fill;
 
-            this.mMenu.Add(this.mApp, "update_sources");
+            this.mMenu.Add(this.mApp, "update_settings");
 
             this.LoadSettings();
         }
