@@ -57,6 +57,8 @@
     <Compile Include="Classes\HistoryParser.cs" />
     <Compile Include="Classes\Options.cs" />
     <Compile Include="Classes\Plugin.cs" />
+    <Compile Include="CommandLine\Updater.cs" />
+    <Compile Include="CommandLine\Preparer.cs" />
     <Compile Include="Events\UpdateReceivedEventArgs.cs" />
     <Compile Include="Events\UpdateStartEventArgs.cs" />
     <Compile Include="FormUpdater.cs">
@@ -86,6 +88,9 @@
     <Compile Include="Tarx\Unpacker.cs" />
     <Compile Include="Tarx\UnpackerLinear.cs" />
     <Compile Include="Tarx\UnpackerPostponed.cs" />
+    <EmbeddedResource Include="FormUpdater.resx">
+      <DependentUpon>FormUpdater.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
