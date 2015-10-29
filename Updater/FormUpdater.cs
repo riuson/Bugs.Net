@@ -29,7 +29,7 @@ namespace Updater
             task.ContinueWith(
                 (o) =>
                 {
-                    this.richTextBoxLog.AppendText(String.Format("{0}: {1}", stage, message), color);
+                    this.richTextBoxLog.AppendText(String.Format("[{0}]:\t {1}", stage, message), color);
                     this.richTextBoxLog.AppendText(Environment.NewLine);
                 }, this.mContext);
             task.Start();
