@@ -51,6 +51,7 @@ namespace Updater.Archive
             this.columnIncluded.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             this.columnPath.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             this.mCheckedByCodeFlag = false;
+            this.textBoxFilter.Text = "pdb nunit test xml";
         }
 
         private void textBoxFilter_TextChanged(object sender, EventArgs e)
@@ -61,9 +62,14 @@ namespace Updater.Archive
             }
             else
             {
-                string filter = this.textBoxFilter.Text.ToLower();
+                string keywords = this.textBoxFilter.Text.ToLower();
+                Func<string, string, bool> filter = (value, keys) =>
+                    {
+                        string[] keys_splitted = keys.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        return (keys_splitted.Any(key => value.Contains(key)));
+                    };
                 this.mBS.DataSource = from item in this.mFiles
-                                      where item.RelativePath.ToLower().Contains(filter)
+                                      where filter(item.RelativePath.ToLower(), keywords)
                                       select item;
             }
         }
