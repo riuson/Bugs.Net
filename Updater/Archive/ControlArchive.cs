@@ -6,9 +6,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Updater.Tarx;
 
 namespace Updater.Archive
 {
@@ -18,6 +21,7 @@ namespace Updater.Archive
         private IEnumerable<FileData> mFiles;
         private BindingSource mBS;
         private bool mCheckedByCodeFlag;
+        private TaskScheduler mContext;
 
         public ControlArchive(IApplication app)
         {
@@ -38,6 +42,8 @@ namespace Updater.Archive
             this.mBS.DataSource = this.mFiles;
             this.dgvFiles.AutoGenerateColumns = false;
             this.dgvFiles.DataSource = this.mBS;
+
+            this.mContext = TaskScheduler.FromCurrentSynchronizationContext();
         }
 
         private void ControlArchive_Load(object sender, EventArgs e)
@@ -110,6 +116,64 @@ namespace Updater.Archive
 
                 this.dgvFiles.InvalidateColumn(0);
             }
+        }
+
+        private void buttonSaveArchive_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.AddExtension = true;
+                dialog.CheckFileExists = false;
+                dialog.CheckPathExists = true;
+                dialog.CreatePrompt = false;
+                dialog.DefaultExt = ".tarx.gz";
+                dialog.Filter = "Archives (*.tarx.gz)|*.tarx.gz".Tr(); ;
+                dialog.FilterIndex = 0;
+                dialog.OverwritePrompt = true;
+                dialog.Title = "Save archive as".Tr();
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filename = dialog.FileName;
+
+                    this.CreateArchive(filename);
+                }
+            }
+            //DirectoryInfo directory = 
+        }
+
+        private void CreateArchive(string filename)
+        {
+            this.buttonSaveArchive.Enabled = false;
+
+            Task task = new Task(() =>
+                {
+                    using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        using (GZipStream gs = new GZipStream(fs, CompressionMode.Compress))
+                        {
+                            using (Packer packer = new Packer(gs, true, null))
+                            {
+                                packer.BaseDirectory = this.mApp.StartInfo.ExecutableDir;
+
+                                foreach (var item in this.mFiles.Where(item => item.Included))
+                                {
+                                    packer.AddFile(item.File);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            );
+
+            task.ContinueWith((o) =>
+                {
+                    this.buttonSaveArchive.Enabled = true;
+                },
+                this.mContext);
+
+            task.Start();
         }
 
         private class FileData

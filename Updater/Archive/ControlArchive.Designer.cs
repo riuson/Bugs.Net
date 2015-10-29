@@ -49,6 +49,7 @@
             this.buttonSaveArchive.TabIndex = 0;
             this.buttonSaveArchive.Text = "Save archive...";
             this.buttonSaveArchive.UseVisualStyleBackColor = true;
+            this.buttonSaveArchive.Click += new System.EventHandler(this.buttonSaveArchive_Click);
             // 
             // tableLayoutPanel1
             // 
