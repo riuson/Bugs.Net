@@ -31,7 +31,7 @@ namespace Updater.FileSystem.Classes
         {
             switch (tag)
             {
-                case "update_sources":
+                case "update_settings":
                     {
                         IButton menuItemUpdate = MenuPanelFabric.CreateMenuItem("File system".Tr(), "Setup update from file system".Tr(),
                             Updater.FileSystem.Properties.Resources.icon_fa_files_o_48_0_005719_none);

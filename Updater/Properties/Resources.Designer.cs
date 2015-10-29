@@ -63,6 +63,16 @@ namespace Updater.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_fa_archive_48_0_005719_none {
+            get {
+                object obj = ResourceManager.GetObject("icon_fa_archive_48_0_005719_none", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_fa_refresh_48_0_005719_none {
             get {
                 object obj = ResourceManager.GetObject("icon_fa_refresh_48_0_005719_none", resourceCulture);

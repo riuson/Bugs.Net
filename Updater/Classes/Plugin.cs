@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Updater.Archive;
 using Updater.Events;
 using Updater.Setup;
 
@@ -41,6 +42,17 @@ namespace Updater.Classes
                         };
 
                         return new IButton[] { menuItemUpdate };
+                    }
+                case "update_settings":
+                    {
+                        IButton menuItemMakeArchive = MenuPanelFabric.CreateMenuItem("Make archive".Tr(), "Prepare archive for updater from current copy".Tr(), Updater.Properties.Resources.icon_fa_archive_48_0_005719_none);
+                        menuItemMakeArchive.Click += delegate(object sender, EventArgs ea)
+                        {
+                            ControlArchive controlSetup = new ControlArchive(this.mApp);
+                            this.mApp.Controls.Show(controlSetup);
+                        };
+
+                        return new IButton[] { menuItemMakeArchive };
                     }
                 default:
                     return new IButton[] { };
