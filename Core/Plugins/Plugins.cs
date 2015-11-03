@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AppCore.Plugins
@@ -49,30 +50,27 @@ namespace AppCore.Plugins
 
             var files = this.GetLibraries();
 
-            foreach (var filename in files)
+            try
             {
-                try
-                {
-                    Assembly assembly = Assembly.LoadFile(filename);
-                    var attributesPlugin = assembly.GetCustomAttributes<AssemblyPluginTypeAttribute>();
+                var plugins = from filename in files.AsParallel()
+                              let assembly = Assembly.LoadFile(filename)
+                              from attribute in assembly.GetCustomAttributes(typeof(AssemblyPluginTypeAttribute), false).AsParallel()
+                              let pluginType = (attribute as AssemblyPluginTypeAttribute).PluginType
+                              let interfaceType = pluginType.GetInterface(typeof(IPlugin).FullName)
+                              where interfaceType != null && !pluginType.IsAbstract
+                              let plugin = (IPlugin)Activator.CreateInstance(pluginType)
+                              select plugin;
 
-                    foreach (var attributePlugin in attributesPlugin)
+                result = plugins.ToList();
+
+                Parallel.ForEach(result, (plugin) =>
                     {
-                        Type pluginType = attributePlugin.PluginType;
-                        Type t = pluginType.GetInterface(typeof(IPlugin).FullName);
-
-                        if (t != null && !pluginType.IsAbstract)
-                        {
-                            IPlugin pluginInfo = (IPlugin)Activator.CreateInstance(pluginType);
-                            pluginInfo.Initialize(app);
-                            result.Add(pluginInfo);
-                        }
-                    }
-                }
-                catch (Exception exc)
-                {
-                    System.Diagnostics.Debug.WriteLine(exc.Message);
-                }
+                        plugin.Initialize(app);
+                    });
+            }
+            catch (Exception exc)
+            {
+                System.Diagnostics.Debug.WriteLine(exc.Message);
             }
 
             return result;
