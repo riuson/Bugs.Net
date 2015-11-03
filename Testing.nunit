@@ -5,11 +5,15 @@
     <assembly path="BugTracker.Core.Tests\..\_Debug\Core.Tests.dll" />
     <assembly path="BugTracker\..\_Debug\Starter.exe" />
     <assembly path="BugTracker.DB\..\_Debug\BugTracker\Database\BugTracker.DB.Tests.dll" />
+    <assembly path="Updater\..\_Debug\Update\Updater.exe" />
+    <assembly path="Updater.Tests\..\_Debug\Update\Updater.Tests.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto">
     <assembly path="BugTracker.Core\..\_Release\Core.dll" />
     <assembly path="BugTracker.Core.Tests\..\_Release\Core.Tests.dll" />
     <assembly path="BugTracker\..\_Release\Starter.exe" />
     <assembly path="BugTracker.DB\..\_Release\BugTracker\Database\BugTracker.DB.Tests.dll" />
+    <assembly path="Updater\..\_Release\Update\Updater.exe" />
+    <assembly path="Updater.Tests\..\_Release\Update\Updater.Tests.dll" />
   </Config>
 </NUnitProject>

@@ -41,5 +41,13 @@ namespace AppSettings
                     return new IButton[] { };
             }
         }
+
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
     }
 }

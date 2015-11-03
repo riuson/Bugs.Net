@@ -1,6 +1,7 @@
 ﻿using AppCore.Classes;
 using AppCore.Controls;
 using AppCore.Localization;
+using AppCore.Main;
 using AppCore.Messages;
 using AppCore.Plugins;
 using System;
@@ -13,6 +14,7 @@ namespace AppCore
 {
     public interface IApplication
     {
+        AppStartInfo StartInfo { get; }
         IPlugins Plugins { get; }
         IControlManager Controls { get; }
         IMessageCenter Messages { get; }

@@ -71,6 +71,14 @@ namespace BugTracker.Vocabulary.Classes
             }
         }
 
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
+
         private List<Type> CollectTypes()
         {
             List<Type> result = new List<Type>();

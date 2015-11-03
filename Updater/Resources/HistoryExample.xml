@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<data>
+  <history version="1">
+    <record>
+      <commit>
+        <hash>002132132015456405640e40564a564056405c4564564056d454e065</hash>
+        <date>2015-10-14 00:00:00 +0500</date>
+      </commit>
+      <description>
+        <line type="added">Added new feature</line>
+        <line type="fixed">Fixed old feature</line>
+      </description>
+      <downloads>
+        <file>
+          <title>App v.001</title>
+          <hash type="md5">ab1c215d45e54b445c5456e454a564d54564564c545e4</hash>
+          <path>version001.zip</path>
+        </file>
+      </downloads>
+    </record>
+  </history>
+</data>

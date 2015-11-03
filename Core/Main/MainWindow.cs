@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AppCore.Main
@@ -17,6 +18,7 @@ namespace AppCore.Main
     {
         private IApplication mApp;
         private ControlManager mControls;
+        private TaskScheduler mContext;
 
         public MainWindow(IApplication app)
         {
@@ -27,6 +29,7 @@ namespace AppCore.Main
             this.mControls = new ControlManager();
             this.mControls.ControlShow += this.mControls_ControlShow;
             this.mControls.ControlHide += this.mControls_ControlHide;
+            this.mContext = TaskScheduler.FromCurrentSynchronizationContext();
 
             StartMenu menu = new StartMenu(this.mApp);
             this.mControls.Show(menu);
@@ -65,6 +68,16 @@ namespace AppCore.Main
             {
                 this.mControls.Hide(count - 1);
             }
+        }
+
+        internal void ActivateFromThread()
+        {
+            Task task = new Task(() => { });
+            task.ContinueWith(o =>
+                {
+                    this.Activate();
+                }, this.mContext);
+            task.Start();
         }
     }
 }

@@ -43,6 +43,14 @@ namespace BugTracker.Projects.Classes
             }
         }
 
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
+
         private void ShowProjectsList(object sender, EventArgs ea)
         {
             if (!SessionManager.Instance.TestConfiguration())

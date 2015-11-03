@@ -1,4 +1,5 @@
-﻿using AppCore.Menus;
+﻿using AppCore.Extensions;
+using AppCore.Menus;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 
 namespace AppCore.Plugins
 {
-    internal class Plugins : IPlugins
+    internal class Plugins : IPlugins, IDisposable
     {
         private List<IPlugin> mPlugins;
         private IApplication mApp;
@@ -18,6 +19,11 @@ namespace AppCore.Plugins
         {
             this.mApp = app;
             this.mPlugins = this.ScanPlugins(this.mApp);
+        }
+
+        public void Dispose()
+        {
+            this.ShutdownAll(this.mPlugins);
         }
 
         public IButton[] CollectCommandLinks(string tag)
@@ -32,6 +38,11 @@ namespace AppCore.Plugins
             return list.ToArray();
         }
 
+        public void Start()
+        {
+            this.StartAll(this.mPlugins);
+        }
+
         private List<IPlugin> ScanPlugins(IApplication app)
         {
             List<IPlugin> result = new List<IPlugin>();
@@ -43,11 +54,11 @@ namespace AppCore.Plugins
                 try
                 {
                     Assembly assembly = Assembly.LoadFile(filename);
-                    object[] attributesPlugin = assembly.GetCustomAttributes(typeof(AssemblyPluginTypeAttribute), false);
+                    var attributesPlugin = assembly.GetCustomAttributes<AssemblyPluginTypeAttribute>();
 
                     foreach (var attributePlugin in attributesPlugin)
                     {
-                        Type pluginType = (attributePlugin as AssemblyPluginTypeAttribute).PluginType;
+                        Type pluginType = attributePlugin.PluginType;
                         Type t = pluginType.GetInterface(typeof(IPlugin).FullName);
 
                         if (t != null && !pluginType.IsAbstract)
@@ -67,6 +78,22 @@ namespace AppCore.Plugins
             return result;
         }
 
+        private void StartAll(IEnumerable<IPlugin> plugins)
+        {
+            foreach (var plugin in plugins)
+            {
+                plugin.Start();
+            }
+        }
+
+        private void ShutdownAll(IEnumerable<IPlugin> plugins)
+        {
+            foreach (var plugin in plugins)
+            {
+                plugin.Shutdown();
+            }
+        }
+
         private string GetExeDirectory()
         {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
@@ -79,15 +106,14 @@ namespace AppCore.Plugins
         private IEnumerable<String> GetLibraries()
         {
             // List of files
-            var files = Directory.GetFiles(this.GetExeDirectory(), "*.dll", SearchOption.AllDirectories);
+            var files = from file in Directory.EnumerateFiles(this.GetExeDirectory(), "*.*", SearchOption.AllDirectories)
+                        let dir = Path.GetDirectoryName(file)
+                        where !dir.EndsWith("x86") && !dir.EndsWith("x64") // Remove x86/x64
+                        let extension = Path.GetExtension(file).ToLower()
+                        where extension == ".dll" || extension == ".exe"
+                        select file;
 
-            // Remove x86/x64
-            var result = from file in files
-                         let dir = Path.GetDirectoryName(file)
-                         where !dir.EndsWith("x86") && !dir.EndsWith("x64")
-                         select file;
-
-            return result;
+            return files;
         }
     }
 }

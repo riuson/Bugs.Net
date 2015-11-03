@@ -41,5 +41,13 @@ namespace About.Classes
                     return new IButton[] { };
             }
         }
+
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
     }
 }

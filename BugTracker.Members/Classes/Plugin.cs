@@ -47,6 +47,14 @@ namespace BugTracker.Members.Classes
             }
         }
 
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
+
         private void ShowMembersList(object sender, MessageEventArgs ea)
         {
             if (!SessionManager.Instance.TestConfiguration())

@@ -53,6 +53,14 @@ namespace Translator.Classes
             }
         }
 
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
+
         private void ShowLanguageSelector()
         {
             ControlLanguage control = new ControlLanguage(this.mApp);

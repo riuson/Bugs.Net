@@ -24,12 +24,12 @@ namespace About.Controls
             this.labelDescription.Text = this.labelDescription.Text.Tr();
             this.labelSourcesTitle.Text = this.labelSourcesTitle.Text.Tr();
 
-            object[] attributesRevision = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitRevisionAttribute), false);
-            object[] attributesAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyGitCommitAuthorDateAttribute), false);
+            AssemblyGitRevisionAttribute attributeRevision = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyGitRevisionAttribute>();
+            AssemblyGitCommitAuthorDateAttribute attributeAuthorDate = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyGitCommitAuthorDateAttribute>();
 
-            string commitDate = (attributesAuthorDate[0] as AssemblyGitCommitAuthorDateAttribute).CommitAuthorDate.ToString("yyyy-MM-dd HH:mm:ss zzz");
+            string commitDate = attributeAuthorDate.CommitAuthorDate.ToString("yyyy-MM-dd HH:mm:ss zzz");
             string githubLink = "https://github.com/riuson/Bugs.Net";
-            string revisionShort = (attributesRevision[0] as AssemblyGitRevisionAttribute).RevisionHash.Substring(0, 7);
+            string revisionShort = attributeRevision.RevisionHash.Substring(0, 7);
 
             this.linkLabelSources.Text = String.Format("{0}, rev.{1} from {2}".Tr(), githubLink, revisionShort, commitDate);
             this.linkLabelSources.Links.Add(this.linkLabelSources.Text.IndexOf(githubLink), githubLink.Length, githubLink);

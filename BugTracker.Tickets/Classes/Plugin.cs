@@ -29,6 +29,14 @@ namespace BugTracker.Tickets.Classes
             return new IButton[] { };
         }
 
+        public void Start()
+        {
+        }
+
+        public void Shutdown()
+        {
+        }
+
         private void ShowTicketsList(object sender, MessageEventArgs e)
         {
             EntityShowEventArgs<Project> ea = e as EntityShowEventArgs<Project>;
