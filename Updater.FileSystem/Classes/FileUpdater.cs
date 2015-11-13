@@ -75,6 +75,11 @@ namespace Updater.FileSystem.Classes
 
         private Updater.Classes.DownloadResult Process(object obj)
         {
+            if (!Directory.Exists(Saved<Options>.Instance.SourceDirectory))
+            {
+                return null;
+            }
+
             CancellationToken token = (CancellationToken)obj;
 
             token.ThrowIfCancellationRequested();
