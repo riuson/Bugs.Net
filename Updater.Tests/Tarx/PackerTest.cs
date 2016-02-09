@@ -229,11 +229,11 @@ namespace Updater.Tests.Tarx
 
         private void CompareDirectories(DirectoryInfo sourceDirectory, DirectoryInfo targetDirectory)
         {
-            var sourceFiles = from item in sourceDirectory.GetFiles("*.*", SearchOption.AllDirectories)
+            var sourceFiles = from item in sourceDirectory.EnumerateFiles("*.*", SearchOption.AllDirectories)
                               orderby item.FullName
                               select item;
 
-            var targetFiles = from item in targetDirectory.GetFiles("*.*", SearchOption.AllDirectories)
+            var targetFiles = from item in targetDirectory.EnumerateFiles("*.*", SearchOption.AllDirectories)
                               orderby item.FullName
                               select item;
 

@@ -87,12 +87,12 @@ namespace Updater.Tarx
 
         public void AddDirectory(DirectoryInfo directory)
         {
-            var files = from item in directory.GetFiles("*", SearchOption.AllDirectories)
+            var files = from item in directory.EnumerateFiles("*", SearchOption.AllDirectories)
                         where item.FullName.StartsWith(this.BaseDirectory)
                         orderby item.FullName
                         select item;
 
-            var dirs = from item in directory.GetDirectories("*", SearchOption.AllDirectories)
+            var dirs = from item in directory.EnumerateDirectories("*", SearchOption.AllDirectories)
                        where item.FullName.StartsWith(this.BaseDirectory)
                        orderby item.FullName
                        select item;

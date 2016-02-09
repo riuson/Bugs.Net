@@ -114,7 +114,7 @@ namespace BugTracker.DB.Classes
             var regDate = new Regex(@"\d{8}\-\d{6}");
 
             // Collect archive files
-            var files = from item in this.BackpDirectory.GetFiles("*.gz")
+            var files = from item in this.BackpDirectory.EnumerateFiles("*.gz")
                         let filename = Path.GetFileNameWithoutExtension(item.FullName)
                         where filename.Contains(databaseFilenameOnly + "-")
                         let stringDate = filename.Replace(databaseFilenameOnly + "-", String.Empty)

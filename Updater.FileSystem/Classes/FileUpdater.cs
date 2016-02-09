@@ -86,7 +86,7 @@ namespace Updater.FileSystem.Classes
 
             Thread.Sleep(2000);
 
-            HistoryParser history = (from filename in Directory.GetFiles(Saved<Options>.Instance.SourceDirectory, "*.xml", SearchOption.AllDirectories)
+            HistoryParser history = (from filename in Directory.EnumerateFiles(Saved<Options>.Instance.SourceDirectory, "*.xml", SearchOption.AllDirectories)
                                      let parser = new HistoryParser(filename)
                                      where parser.IsValid
                                      select parser).FirstOrDefault();

@@ -130,7 +130,7 @@ namespace AppCore.Localization
             get
             {
                 DirectoryInfo directory = new DirectoryInfo(this.LanguagesDir);
-                DirectoryInfo[] subdirs = directory.GetDirectories();
+                IEnumerable<DirectoryInfo> subdirs = directory.EnumerateDirectories();
                 var cultures = from subdir in subdirs
                                select new CultureInfo(subdir.Name);
                 return cultures;
@@ -140,7 +140,7 @@ namespace AppCore.Localization
         public IEnumerable<string> GetModules(CultureInfo culture)
         {
             DirectoryInfo directory = new DirectoryInfo(Path.Combine(this.LanguagesDir, culture.Name));
-            FileInfo[] files = directory.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
+            IEnumerable<FileInfo> files = directory.EnumerateFiles("*.xml", SearchOption.TopDirectoryOnly);
             var modules = from file in files
                           select Path.GetFileNameWithoutExtension(file.Name);
             return modules;
@@ -160,12 +160,12 @@ namespace AppCore.Localization
             if (cultureSource != null)
             {
                 DirectoryInfo directorySource = new DirectoryInfo(Path.Combine(this.LanguagesDir, cultureSource.Name));
-                FileInfo[] files = directorySource.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
+                IEnumerable<FileInfo> files = directorySource.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
 
-                foreach (var file in files)
-                {
-                    file.CopyTo(Path.Combine(directoryNew.FullName, Path.GetFileName(file.FullName)));
-                }
+                files.AsParallel().ForAll(file =>
+                    {
+                        file.CopyTo(Path.Combine(directoryNew.FullName, Path.GetFileName(file.FullName)));
+                    });
             }
         }
 

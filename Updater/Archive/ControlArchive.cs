@@ -35,7 +35,7 @@ namespace Updater.Archive
             this.mApp = app;
 
             DirectoryInfo rootDirectory = new DirectoryInfo(this.mApp.StartInfo.ExecutableDir);
-            this.mFiles = (from item in rootDirectory.GetFiles("*.*", SearchOption.AllDirectories)
+            this.mFiles = (from item in rootDirectory.EnumerateFiles("*.*", SearchOption.AllDirectories)
                            orderby item.FullName
                            select new FileData(rootDirectory, item)).ToList();
             this.mBS = new BindingSource();

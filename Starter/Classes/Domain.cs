@@ -60,7 +60,7 @@ namespace AppStarter
         private string GetPrivateBinDirectories()
         {
             // List of files
-            var files = Directory.GetFiles(this.GetExeDirectory(), "*.*", SearchOption.AllDirectories);
+            var files = Directory.EnumerateFiles(this.GetExeDirectory(), "*.*", SearchOption.AllDirectories);
 
             // Get directory names
             var dirs = from file in files

@@ -211,7 +211,7 @@ namespace Updater.CommandLine
 
         private IEnumerable<FileInfo> GetFilesToRemove(DirectoryInfo directory)
         {
-            var files = directory.GetFiles("*.*", SearchOption.AllDirectories)
+            var files = directory.EnumerateFiles("*.*", SearchOption.AllDirectories)
                 .Where(file => file.Extension == ".dll" || file.Extension == ".exe" || file.Extension == ".pdb");
 
             return files;
