@@ -54,7 +54,7 @@ namespace AppCore.Plugins
             {
                 var plugins = from filename in files.AsParallel()
                               let assembly = Assembly.LoadFile(filename)
-                              from attribute in assembly.GetCustomAttributes(typeof(AssemblyPluginTypeAttribute), false).AsParallel()
+                              from attribute in assembly.GetCustomAttributes(typeof(AssemblyPluginTypeAttribute), false)
                               let pluginType = (attribute as AssemblyPluginTypeAttribute).PluginType
                               let interfaceType = pluginType.GetInterface(typeof(IPlugin).FullName)
                               where interfaceType != null && !pluginType.IsAbstract

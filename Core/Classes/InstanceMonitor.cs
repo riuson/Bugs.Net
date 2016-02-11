@@ -19,8 +19,7 @@ namespace AppCore.Classes
         {
             this.mSemaphore = semaphore;
             this.mToken = new CancellationTokenSource();
-            this.mMonitorTask = new Task(this.MonitorMethod, this.mToken.Token, this.mToken.Token);
-            this.mMonitorTask.Start();
+            this.mMonitorTask = Task.Factory.StartNew(this.MonitorMethod, this.mToken.Token, this.mToken.Token);
         }
 
         public void Dispose()
@@ -60,19 +59,9 @@ namespace AppCore.Classes
             while (true)
             {
                 // Sleep 1000ms
-                if (token.WaitHandle.WaitOne(1000))
-                {
-                    if (token.IsCancellationRequested)
-                    {
-                        token.ThrowIfCancellationRequested();
-                    }
-                    break;
-                }
+                token.WaitHandle.WaitOne(1000);
 
-                if (token.IsCancellationRequested)
-                {
-                    token.ThrowIfCancellationRequested();
-                }
+                token.ThrowIfCancellationRequested();
 
                 if (this.mSemaphore != null)
                 {
